@@ -300,6 +300,7 @@ setCameraFinalPosition();
 
 
 // Renderer & OrbitControls (which help us move around the scene are set)
+
 let renderer = new THREE.WebGLRenderer({
     powerPreference: 'high-performance',
     antialias: false,
@@ -308,6 +309,8 @@ let renderer = new THREE.WebGLRenderer({
 
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
+
+// #controls not used anymore so we comment them out 
 
 // let controls = new THREE.OrbitControls(camera, renderer.domElement);
 // controls.enableDamping = true;
@@ -4066,7 +4069,9 @@ let animate = function () {
 
 
     // Update Controls
-    controls.update();
+    // Commented out since we're not using #controls anymore
+
+    // controls.update();
 
     // Update stats
     stats.update();
