@@ -579,7 +579,7 @@ const animateLightning = () => {
 
 // Create and set the different Axes #helper #toDelete
 let axesHelper = new THREE.AxisHelper(1000);
-scene.add(axesHelper);
+// scene.add(axesHelper);
 
 // let mtlLoader = new THREE.TextureLoader();
 // mtlLoader.setTexturePath('/public/assets/');
