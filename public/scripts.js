@@ -3994,7 +3994,7 @@ let animate = function () {
     // If there is an average frequency, then it must not be equal to 0, therefore we make sure that the intensity of the actual spotlight is related
     // to the average frequency of the music that is playi
     if (isSongFinished === false) {
-    spotLight.intensity = averageFrequency === 0 ? 0 : averageFrequency / lightIntensityDivider;
+    spotLight.intensity = averageFrequency === 0 ? 2 : averageFrequency / lightIntensityDivider;
     } else if (isSongFinished === true) {
         spotLight.intensity = 3.8;
     }
