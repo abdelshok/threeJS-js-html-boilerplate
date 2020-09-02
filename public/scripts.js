@@ -507,7 +507,7 @@ let lightning;
 
 // Loader for the Smoke that will represent the different clouds
 let textureLoader = new THREE.TextureLoader(loadingManager);
-// textureLoader.load('/assets/smoke.png', (texture) => {
+// textureLoader.load('/public/assets/smoke.png', (texture) => {
     // texture.wrapS = THREE.RepeatWrapping;
     // texture.wrapT = THREE.RepeatWrapping;
 //     let cloudGeometry = new THREE.PlaneBufferGeometry(1500, 1500);
@@ -577,13 +577,13 @@ let axesHelper = new THREE.AxisHelper(1000);
 scene.add(axesHelper);
 
 // let mtlLoader = new THREE.TextureLoader();
-// mtlLoader.setTexturePath('/assets/');
-// mtlLoader.setPath('/assets/');
+// mtlLoader.setTexturePath('/public/assets/');
+// mtlLoader.setPath('/public/assets/');
 // mtlLoader.load('blackMarble.jpg', function (materials) {
 
 // materials.preload();
 
-let texture = textureLoader.load( '/assets/blackMarble2.jpg' );
+let texture = textureLoader.load( '/public/assets/blackMarble2.jpg' );
 // immediately use the texture for material creation
 // let material = new THREE.MeshPhongMaterial( { map: texture } );
 // material.emissive('#4d2f78');
@@ -592,7 +592,7 @@ let material = new THREE.MeshPhongMaterial({ map: texture });
 
 let objLoader = new THREE.OBJLoader(loadingManager);
 // objLoader.setMaterials(materials);
-objLoader.setPath('/assets/');
+objLoader.setPath('/public/assets/');
 objLoader.load('beetle.obj', function (object) {
 
 
@@ -640,7 +640,7 @@ objLoader.load('beetle.obj', function (object) {
 
 const createPlaneGeometry = () => {
     planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture('/assets/blueRock.jpg');
+    planeTexture = THREE.ImageUtils.loadTexture('/public/assets/blueRock.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.set(0,-50,0);
@@ -654,7 +654,7 @@ const createPlaneGeometry = () => {
 
 const createBlackPlaneGeometry = () => {
     planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture('/assets/blackRock.png');
+    planeTexture = THREE.ImageUtils.loadTexture('/public/assets/blackRock.png');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.set(0,-50,0);
@@ -666,7 +666,7 @@ const createBlackPlaneGeometry = () => {
 
 const createTurquoisePlaneGeometry = () => {
     planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture('/assets/turquoiseMarble.jpg');
+    planeTexture = THREE.ImageUtils.loadTexture('/public/assets/turquoiseMarble.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.set(0,-50,0);
@@ -676,7 +676,7 @@ const createTurquoisePlaneGeometry = () => {
 
 const createBluePlaneGeometry = () => {
     planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture('/assets/blueRock.jpg');
+    planeTexture = THREE.ImageUtils.loadTexture('/public/assets/blueRock.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.set(0,-50,0);
@@ -686,7 +686,7 @@ const createBluePlaneGeometry = () => {
 
 const createRockyTerrainGeometry = () => {
     planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture('/assets/rockyTerrain.jpg');
+    planeTexture = THREE.ImageUtils.loadTexture('/public/assets/rockyTerrain.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.set(0,-50,0);
@@ -696,7 +696,7 @@ const createRockyTerrainGeometry = () => {
 
 const createBlackRockGeometry = () => {
     planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture('/assets/blackRock.jpg');
+    planeTexture = THREE.ImageUtils.loadTexture('/public/assets/blackRock.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.set(0,-50,0);
@@ -707,7 +707,7 @@ const createBlackRockGeometry = () => {
 
 const createGreyGoldPlaneGeometry = () => {
     planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture('/assets/greyMarble5.jpg');
+    planeTexture = THREE.ImageUtils.loadTexture('/public/assets/greyMarble5.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.set(0,-50,0);
@@ -791,7 +791,7 @@ const createParticleSystem = () => {
         color: 0xFFFFFF,
         size: 1.5,
         map: THREE.ImageUtils.loadTexture(
-          "/assets/particle.png"
+          "/public/assets/particle.png"
         ),
         blending: THREE.AdditiveBlending,
         transparent: true
@@ -862,7 +862,7 @@ let changeTexture = () => {
     let material = new THREE.MeshNormalMaterial({wireframe: true});
     // let objLoader = new THREE.OBJLoader();
     // objLoader.setMaterials(materials);
-    objLoader.setPath('/assets/');
+    objLoader.setPath('/public/assets/');
     objLoader.load('beetle.obj', function (object) {
     
         object.traverse(function(node) {
@@ -895,13 +895,13 @@ let changeTexture = () => {
 
 // White Marble Texture Change
 const changeBeetleToBlackMarble = () => {
-    let texture = textureLoader.load('/assets/blackMarble2.jpg' );
+    let texture = textureLoader.load('/public/assets/blackMarble2.jpg' );
     // immediately use the texture for material creation
     let material = new THREE.MeshPhongMaterial( { map: texture } );
     
     // let objLoader = new THREE.OBJLoader();
     // objLoader.setMaterials(materials);
-    objLoader.setPath('/assets/');
+    objLoader.setPath('/public/assets/');
     objLoader.load('beetle.obj', function (object) {
     
         object.traverse(function(node) {
@@ -942,13 +942,13 @@ const changeBeetleToBlackMarble = () => {
 
 // White Marble Texture Change
 const changeBeetleToWhiteMarble = () => {
-    let texture = textureLoader.load('/assets/whiteMarble.jpg' );
+    let texture = textureLoader.load('/public/assets/whiteMarble.jpg' );
     // immediately use the texture for material creation
     let material = new THREE.MeshPhongMaterial( { map: texture } );
     
     // let objLoader = new THREE.OBJLoader();
     // objLoader.setMaterials(materials);
-    objLoader.setPath('/assets/');
+    objLoader.setPath('/public/assets/');
     objLoader.load('beetle.obj', function (object) {
     
         object.traverse(function(node) {
@@ -983,13 +983,13 @@ const changeBeetleToWhiteMarble = () => {
 
 // Grey Marble Texture Change
 const changeBeetleToGreyMarble = () => {
-    let texture = textureLoader.load( '/assets/greyMarble5.jpg' );
+    let texture = textureLoader.load( '/public/assets/greyMarble5.jpg' );
     // immediately use the texture for material creation
     let material = new THREE.MeshPhongMaterial( { map: texture } );
     
     // let objLoader = new THREE.OBJLoader();
     // objLoader.setMaterials(materials);
-    objLoader.setPath('/assets/');
+    objLoader.setPath('/public/assets/');
     objLoader.load('beetle.obj', function (object) {
     
         object.traverse(function(node) {
@@ -1026,13 +1026,13 @@ const changeBeetleToGreyMarble = () => {
 
 // Green Marble Texture Change
 const changeBeetleToGreenMarble = () => {
-    let texture = textureLoader.load( '/assets/greenMarble.jpg' );
+    let texture = textureLoader.load( '/public/assets/greenMarble.jpg' );
     // immediately use the texture for material creation
     let material = new THREE.MeshPhongMaterial( { map: texture } );
     
     // let objLoader = new THREE.OBJLoader();
     // objLoader.setMaterials(materials);
-    objLoader.setPath('/assets/');
+    objLoader.setPath('/public/assets/');
     objLoader.load('beetle.obj', function (object) {
     
         object.traverse(function(node) {
@@ -1057,15 +1057,15 @@ const changeBeetleToGreenMarble = () => {
 // Pink Marble #pinkMarble Beetle
 
 const changeBeetleToPinkMarble = () => {
-    // let texture = textureLoader.load( '/assets/brownMarble.jpg' );
-    let texture = textureLoader.load( '/assets/blueMarble3.jpg' );
+    // let texture = textureLoader.load( '/public/assets/brownMarble.jpg' );
+    let texture = textureLoader.load( '/public/assets/blueMarble3.jpg' );
     // immediately use the texture for material creation
     // let material = new THREE.MeshNormalMaterial({wireframe: true});
     let material = new THREE.MeshPhongMaterial( { map: texture } );
     
     // let objLoader = new THREE.OBJLoader();
     // objLoader.setMaterials(materials);
-    objLoader.setPath('/assets/');
+    objLoader.setPath('/public/assets/');
     objLoader.load('beetle.obj', function (object) {
     
         object.traverse(function(node) {
@@ -1103,13 +1103,13 @@ const changeBeetleToPinkMarble = () => {
 
 const changeBeetleToDarkGreenMarble = () => {
 
-    let texture = textureLoader.load( '/assets/brownMarble.jpg' );
+    let texture = textureLoader.load( '/public/assets/brownMarble.jpg' );
     // immediately use the texture for material creation
     let material = new THREE.MeshPhongMaterial( { map: texture } );
     
     // let objLoader = new THREE.OBJLoader();
     // objLoader.setMaterials(materials);
-    objLoader.setPath('/assets/');
+    objLoader.setPath('/public/assets/');
     objLoader.load('beetle.obj', function (object) {
     
         object.traverse(function(node) {
@@ -1262,7 +1262,7 @@ const onMouseDown = () => {
     //     let material = new THREE.MeshNormalMaterial({wireframe: true});
     //     let objLoader = new THREE.OBJLoader();
     //     // objLoader.setMaterials(materials);
-    //     objLoader.setPath('/assets/');
+    //     objLoader.setPath('/public/assets/');
     //     objLoader.load('beetle.obj', function (object) {
         
     //         object.traverse(function(node) {
