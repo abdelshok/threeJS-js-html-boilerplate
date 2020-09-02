@@ -309,10 +309,10 @@ let renderer = new THREE.WebGLRenderer({
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-let controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.25;
-controls.enableZoom = true;
+// let controls = new THREE.OrbitControls(camera, renderer.domElement);
+// controls.enableDamping = true;
+// controls.dampingFactor = 0.25;
+// controls.enableZoom = true;
 
 
 // Sets the stats at the top left of the page so that we can test the frame rate per second of the website as we develop it
@@ -378,17 +378,19 @@ const bloomOptions = {
 };
 
 
-const composer = new POSTPROCESSING.EffectComposer(renderer);
-composer.addPass(new POSTPROCESSING.RenderPass(scene, camera));
+// Commenting it out since we're commenting out the script from the index.html file in order to improve the loading performance of the website for Google
 
-let glitchPass = new POSTPROCESSING.GlitchEffect();
-let bloomEffect = new POSTPROCESSING.BloomEffect(bloomOptions);
+// const composer = new POSTPROCESSING.EffectComposer(renderer);
+// composer.addPass(new POSTPROCESSING.RenderPass(scene, camera));
 
-const effectPassA = new POSTPROCESSING.EffectPass(camera, bloomEffect);
-effectPassA.renderToScreen = true;
+// let glitchPass = new POSTPROCESSING.GlitchEffect();
+// let bloomEffect = new POSTPROCESSING.BloomEffect(bloomOptions);
 
-glitchPass.renderToScreen = true;
-composer.addPass(effectPassA);
+// const effectPassA = new POSTPROCESSING.EffectPass(camera, bloomEffect);
+// effectPassA.renderToScreen = true;
+
+// glitchPass.renderToScreen = true;
+// composer.addPass(effectPassA);
 
 // Post Processing currently not working
 
