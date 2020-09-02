@@ -1,0 +1,2416 @@
+<html>
+	<head>
+		<title> Samarra & Co. </title>
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<meta name="author" content="" />
+
+		<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,500&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">		
+		<link rel="stylesheet" href="https://use.typekit.net/akf2vsf.css">
+		<link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css" />
+		<link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting-cells.css" />
+		<link rel="stylesheet" href="https://use.typekit.net/akf2vsf.css">
+		<link rel="icon" href="/public/assets/samarraIcon.png">
+
+
+
+
+		<style>
+
+			html, body {
+				height: 100%;
+			}
+
+			/* #toThink #toDo: user selection on the contents within the body is actually prevented. Should you keep it? */
+			body { 
+				margin: 0; 
+				overflow: hidden;
+				overflow-x: hidden;
+				min-height: 100vh;
+				cursor: none;
+				-youbkit-touch-callout: none; 
+				-youbkit-user-select: none;   
+				-moz-user-select: none;	   
+				-ms-user-select: none;		
+				user-select: none;			
+			}
+
+		
+			body::selection {
+				background: white;
+				color: black;
+			}
+
+
+			input::selection {
+				background: white;
+				color: black;			
+			}
+
+			p::selection {
+				background: white;
+				color: black;
+			}
+
+			h1::selection {
+				background: white;
+				color: black;
+			}
+
+			h2::selection {
+				background: white;
+				color: black;
+			}
+
+			h3::selection {
+				background: white;
+				color: black;
+			}
+
+			h4::selection {
+				background: white;
+				color: black;
+			}
+
+			span::selection {
+				background: white;
+				color: black;
+			}
+
+			canvas { 
+				width: 100%; 
+				height: 100% 
+			}
+
+			.container {
+				overflow: hidden;
+			}
+
+			.samarra-text::selection {
+				background: white;
+				color: black;
+			}
+
+			.pages {
+				position: absolute;
+				width: 100vw;
+				height: 100vh;
+				background-color: transparent;
+			}
+
+			/* .page--current {
+				position: relative;
+				width: 100vw;
+				height: 100vh;
+			} */
+
+			.second--page {
+				position: absolute;
+				height: 100vh;
+				width: 100vw;
+				bottom: 0;
+				transform: translateY(102vh);
+				background-color: white;
+				z-index: 0;
+			}
+
+			.second--page.showing {
+				animation: slidePage 2s forwards;
+			}
+			
+			#overlay {
+				background-color: #ff0000;
+				width: 100px;
+				height: 100px;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+
+			#titleOne {
+				background-color: transparent;
+				position: absolute;
+				margin-top: 250px;
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index: 100;
+			}
+
+			#titleLoadingPage {
+				background-color: transparent;
+				position: absolute;
+				margin-top: 250px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				z-index: 100;
+			}
+
+			.loadingPage--loadingBar {
+				width: 100%;
+				height: 2px;
+				background-color: rgb(255,255,255,0.4);
+				transition: all 10s ease-in;
+				position: relative;
+				margin-bottom: 40vh;
+				max-width: 194px;
+			}
+
+
+			.loadingPage--whiteLoadingBar.loading {
+				width: 0%;
+				height: 2px;
+				position: absolute;
+				background-color: white;
+				animation: slideLoadingBar 10s forwards;
+			}
+
+			.loadingPage--normalText {
+				color: rgb(255, 255, 255, 0.6);
+				font-family: Montserrat, sans-serif;
+				font-size: 15px;
+				text-transform: uppercase;
+				font-weight: 500;
+				text-align: center;
+				opacity: 0;
+				visibility: block;
+				transition: opacity 1s ease-in 2s;
+				max-width: 194px;
+			}
+
+			.loadingPage--normalText.shown {
+				opacity: 1;
+			}
+
+			#titleAbout {
+				background-color: white;
+				position: absolute;
+				margin-top: 250px;
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index: 100;
+			}
+
+			.titleText {
+				font-size: 30px;
+				font-family: 'Spectral', freight-big-pro, 'Times', serif;
+				text-align: center;
+				color: #ffffff;
+				font-style: normal;
+				font-weight: 600;
+				/* letter-spacing: 2px; */
+			}
+
+			.aboutTitleText {
+				font-size: 30px;
+				font-family: 'Spectral', freight-big-pro, 'Times', serif;
+				text-align: center;
+				color: #ffffff;
+				font-style: normal;
+				font-weight: 400;
+			}
+
+
+			.loadingPageTextContainer {
+				
+			}
+
+			.titleTextTwo {
+				font-size: 30px;
+				font-family: 'Spectral', freight-big-pro, 'Times', serif;
+				text-align: center;
+				color: #ffffff;
+				font-style: normal;
+				font-weight: 600;
+				margin-bottom: 30px;
+			}
+			
+			.titleText::selection {
+				background: white;
+				color: black;
+			}
+
+			#titleSubText {
+				font-size: 26px;
+				font-family: 'Spectral', 'Times', serif;
+				text-align: center;
+				color: #ffffff;
+				font-style: normal;
+				margin-top: 10px;
+			}
+
+			#companyName {
+				font-weight: 600;
+				color: white;
+				z-index: 100;
+			}
+
+			#companyNameTwo {
+				font-weight: 600;
+				color: white;
+			}
+
+			#companyName::selection {
+				background: white;
+				color: black;
+			}
+
+			.cursor {
+				position: fixed;
+				left: 0;
+				top: 0;
+				pointer-events: none;
+			}
+
+			.cursor--small {
+				width: 5px;
+				height: 5px;
+				left: -2.5px;
+				top: -2.5px;
+				border-radius: 50%;
+				z-index: 11000;
+				background: #ffffff;
+			}
+
+			.cursor--canvas {
+				width: 100vw;
+				height: 100vh;
+				z-index: 12000;
+			}
+
+			.link {
+			}
+
+			.browser-window__link {
+				display: flex;
+				width: 40px;
+				height: auto;
+				justify-content: center;
+				align-items: center;
+				position: absolute;
+				right: 45px;
+				top: 45px;
+				/* background-color: red;
+				opacity: 0.5; */
+			}
+
+			.hamburger {
+				display: block;
+				width: 80px;
+				height: auto;
+				align-items: center;
+				z-index: 2000;
+				visibility: visible;
+				opacity: 1;
+				background-color: transparent;
+				margin-bottom: 0px;
+			}
+
+			.hamburger span {
+				display: inline-block;
+				position: relative;
+				left: 50%;
+				transform: translateX(-50%);
+				width: 100%;
+				height: 2px;
+				background: white;
+				z-index: 0;
+				display: block;
+				margin-bottom: 8px;
+			}
+
+			.hamburger.hidden {
+				/* visibility: hidden; */
+				opacity: 0;
+			}
+
+			.closeButton {
+				display: block;
+				width: 27px;
+				align-items: center;
+				background-color: transparent;
+				z-index: 2100;
+				visibility: hidden;
+				opacity: 0;
+			}
+
+			.closeButton.shown {
+				visibility: visible;
+				opacity: 1;
+			}
+
+			/* .hamburger span:nth-child(1) {
+				top: 0px;
+			}
+
+			.hamburger span:nth-child(2) {
+				top: 8px;
+			} */
+
+			.hamburger span:nth-child(3) {
+				margin-bottom: 0px;
+			}
+			
+			/* 
+			.hamburger span:nth-child(4) {
+				top: 24px;
+			} */
+
+			.hamburger span:before {
+				position: absolute;
+				content: "";
+				display: block;
+				top: 0;
+				height: 100%;
+				width: 0;
+				right: 0;
+				left: auto;
+				z-index: 1;
+				background: white;
+				transition: all 0.15s linear 0.3s;
+			}
+
+			.hamburger span:after {
+				position: absolute;
+				content: "";
+				display: block;
+				top: 0;
+				height: 100%;
+				width: 0;
+				right: 0;
+				left: auto;
+				
+				z-index: 2;
+				background: black;
+				transition: all 0.15s linear 0.3s;
+			}
+
+			.hamburger span:nth-child(2):before {
+				transition-delay: 0.15s;
+			}
+
+			.hamburger span:nth-child(3):before {
+				transition-delay: 0.3s;
+			}
+
+
+			.hamburger span:nth-child(2):after {
+				transition-delay: 0.45s;
+			}
+
+			.hamburger span:nth-child(3):after {
+				transition-delay: 0.6s;
+			}
+
+			
+			.browser-window__link:hover .hamburger span:after {
+				width: 100%;
+				left: 0;
+				right: auto;
+				z-index: 1;
+				transition: all 0.15s linear 0s;
+			}
+
+			.browser-window__link:hover .hamburger .span:before {
+				width: 100%;
+				left: 0;
+				right: auto;
+				z-index: 2;
+				transition: all 0.15s linear 0.3s;
+			}
+
+			.browser-window__link:hover .hamburger span:nth-child(2):after {
+				transition-delay: 0.15s;
+			}
+
+			.browser-window__link:hover .hamburger span:nth-child(3):after {
+				transition-delay: 0.3s;
+			}
+
+			.browser-window__link:hover .hamburger span:nth-child(2):before {
+				transition-delay: 0.45s;
+			}
+
+			.browser-window__link:hover .hamburger span:nth-child(3):before {
+				transition-delay: 0.6s;
+			}
+
+			.soundwave-container {
+				width: 45px;
+				height: auto;
+				position: absolute;
+				bottom: 45px;
+				right: 45px;
+				background: transparent;
+				z-index: 3000;
+			}
+
+			#wave {
+				height: 55px;
+				width: 52px;
+				fill: #ffffff;
+			}
+
+			.Line_1 {
+				animation: pulse 1s infinite;
+				animation-delay: 1 * 0.15s;
+			}
+
+			.Line_1.paused {
+				animation: pulse 0s infinite;
+			}
+
+			.Line_2 {
+				animation: pulse 1s infinite;
+				animation-delay: 2 * 0.15s;
+			}
+
+			.Line_2.paused {
+				animation: pulse 0s infinite;
+			}
+
+			.Line_3 {
+				animation: pulse 1s infinite;
+				animation-delay: 3 * 0.15s;
+			}
+
+			.Line_3.paused {
+				animation: pulse 0s infinite;
+			}
+			
+			.Line_4 {
+				animation: pulse 1s infinite;
+				animation-delay: 4 * 0.15s;
+			}
+			
+			.Line_4.paused {
+				animation: pulse 0s infinite;
+			}
+
+			.Line_5 {
+				animation: pulse 1s infinite;
+				animation-delay: 5 * 0.15s;
+			}
+			
+			.Line_5.paused {
+				animation: pulse 0s infinite;
+			}
+
+			.Line_6 {
+				animation: pulse 1s infinite;
+				animation-delay: 6 * 0.15s;
+			}
+
+			.Line_6.paused {
+				animation: pulse 0s infinite;
+			}
+			
+			.Line_7 {
+				animation: pulse 1s infinite;
+				animation-delay: 7 * 0.15s;
+			}
+
+			.Line_7.paused {
+				animation: pulse 0s infinite;
+			}
+			
+			.Line_8 {
+				animation: pulse 1s infinite;
+				animation-delay: 8 * 0.15s;
+			}
+
+			.Line_8.paused {
+				animation: pulse 0s infinite;
+			}
+			
+			.Line_9 {
+				animation: pulse 1s infinite;
+				animation-delay: 9 * 0.15s;
+			}
+
+			.Line_9.paused {
+				animation: pulse 0s infinite;
+			}
+			
+			@keyframes pulse {
+				0% {
+					transform: scaleY(1);
+					transform-origin: 50% 50%;
+				}
+				
+				50% {
+					transform: scaleY(.7);
+					transform-origin: 50% 50%;
+				}
+				
+				100% {
+					transform: scaleY(1);
+					transform-origin: 50% 50%;
+				}
+			}
+
+			@keyframes slidePage {
+				0% {
+					transform: translateY(100%);
+				}
+				50% {
+					transform: translateY(0%);
+				}
+				80% {
+					transform: translateY(0%);
+				}
+				100% {
+					transform: translateY(-100%);
+				}
+			}
+
+			@keyframes slideLoadingPage {
+				0% {
+					transform: translateY(0%);
+				}
+				100% {
+					transform: translateY(-100%);
+				}
+			}
+
+			@keyframes slideLoadingBar {
+				0% {
+					width: 0%;
+				}
+				100% {
+					width: 100%;
+				}
+			}
+
+			.soundwave-description {
+				position: absolute;
+				right: 50;
+				top: 20;
+				width: auto;
+				background: transparent;
+				font-size: 14px;
+				font-family: 'Montserrat', sans-serif;
+				width: auto;
+				white-space: nowrap;
+				color: white;
+				text-transform: uppercase;
+				visibility: hidden;
+				opacity: 0;
+				transition: 0.5s ease;
+			}
+
+			.plus-sign-description {
+				position: absolute;
+				left: 50;
+				top: 25;
+				width: auto;
+				background: transparent;
+				font-size: 14px;
+				font-family: 'Montserrat', sans-serif;
+				width: auto;
+				white-space: nowrap;
+				color: white;
+				text-transform: uppercase;
+				visibility: hidden;
+				opacity: 0;
+				transition: 0.5s ease;
+			}
+
+			.soundwave-description-text {
+				color: white;
+				background: transparent;
+				font-size: 8px;
+			}
+
+			/* This is a #hack --> The Plus sign is centered and takes more space than necessary, it should be as close to the edges as the other logos */
+			.plus-sign-container {
+				position: absolute;
+				left: 30px;
+				bottom: 35px;
+				background: transparent;
+				display: flex;
+				z-index: 3000;
+			}
+
+
+			#plus-sign {
+				fill: white;
+				background: transparent;
+				height: 76px;
+				visibility: visible;
+				transition: transform 0.15s ease-in;
+			}
+
+			#plus-sign:hover {
+				transform: rotate(90deg);
+			}
+
+			.content_item {
+				overflow: hidden;
+			}
+
+			.content_paragraph {
+				overflow: hidden;
+			}
+
+
+			.menuPage {
+				position: absolute;
+				opacity: 0;
+				height: 100vh;
+				width: 100vw;
+				display: flex;
+			}
+
+			.menuElements {
+				background-color: transparent;
+				display: flex;
+				position: absolute;
+				top: 20%;
+				flex-direction: row;
+				visibility: hidden;
+				left: 50%;
+				-webkit-transform: translateX(-50%);
+				transform: translateX(-50%);
+				justify-content: center;
+				align-items: center;
+				text-align: center;
+				counter-reset: menu 0;
+				height: auto;
+			}
+
+			.menuElement {
+				font-size: 45px;
+				display: inline-block;
+				font-family: sans-serif, 'Times New Roman', Times, serif;
+				color: white;
+				-webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+				-webkit-text-stroke-width: 1px;
+				-webkit-text-stroke-color: white;
+				margin-right: 30px;
+				margin-left: 30px;
+				text-transform: uppercase;
+				height: 100%;
+				position: relative;
+				z-index: 10;
+				transition: -webkit-text-fill-color 2s ease, transform 0.5s ease;
+				visibility: hidden;
+				opacity: 1;
+				background-color: transparent;
+				padding-bottom: 15px;
+				padding-top: 15px;
+		
+				/* transform: translateY(20px);
+				transition: translateY 1s ease 1.2s; */
+			}
+
+			.menuElement::before {
+				all: initial;
+				font-family: sofia-pro, sans-serif;
+				counter-increment: menu;
+				content:  counter(menu);
+				position: absolute;
+				bottom: 52%;
+				left: -15px;
+				pointer-events: none;
+				color: white;
+				font-weight: 700;
+				transition: transform 0.2s ease, opacity 0.2s ease;
+				opacity: 1;
+				visibility: inherit;
+			}
+/* 
+			.menuElement.showing {
+				transform: translateY(-20px);
+			} */
+
+			.menuElement:hover::before {
+				transform: translateY(-25px);
+				opacity: 0;
+			}
+
+			.menuElement:hover {
+				-webkit-text-fill-color: white; /* Will override color (regardless of order) */
+				color: white;
+				transform: translateY(-15px);
+			}
+
+			.language-description {
+				display: flex;
+				flex-direction: column;
+				position: absolute;
+				top: -90px;
+				left: 22px;
+				background-color: transparent;
+			}
+
+			/* .language-description.showing {
+				opacity: 1;
+			} */
+
+			#languageOne {
+				opacity: 0;
+				transition: opacity 0.3s ease 0s, transform 0.5s ease 0s;
+				font-family: 'Montserrat', sans-serif;
+				width: auto;
+				white-space: nowrap;
+				color: white;
+				text-transform: uppercase;
+				font-size: 15px;		
+			}
+
+			#languageTwo {
+				opacity: 0;
+				transition: opacity 0.3s ease 0.1s, transform 0.5s ease 0.1s;
+				font-family: 'Montserrat', sans-serif;
+				width: auto;
+				white-space: nowrap;
+				color: white;
+				text-transform: uppercase;	
+				font-size: 15px;		
+			}
+
+
+			#languageOne.showing {
+				opacity: 1;
+				transform: translateY(-14px);
+			}
+
+			#languageTwo.showing {
+				opacity: 1;
+				transform: translateY(-14px);
+			}
+
+			.company-logo {
+				position: absolute;
+				top: 40;
+				left: 50;
+				color: white;
+				display: block;
+				visibility: visible;
+				width: 180px;
+			}
+
+			#company-logo-two {
+				position: absolute;
+				left: 50%;
+				top: 35%;
+				transform: translateX(-50%);
+				opacity: 0;
+				color: black;
+				height: 298px;
+				transition: all 0.1s ease ;
+				z-index: 100;
+			}
+
+			#company-logo-loading-page {
+				position: absolute;
+				left: 50%;
+				top: 30%;
+				transform: translateX(-50%);
+				opacity: 1;
+				color: white;
+				height: 298px;
+			}
+
+			#company-logo-two.showing {
+				opacity: 1;
+				z-index: 100;
+			}
+
+			.address-information-left {
+				position: absolute;
+				height: auto;
+				width: 50%;
+				background-color: transparent;
+				left: 0;
+				top: 51%;
+				display: flex;
+				align-items: center;
+				flex-direction: column;
+				opacity: 0;
+				visibility: hidden;
+				transition: opacity 0.1s ease;
+			}
+
+			.address-information-right {
+				position: absolute;
+				height: auto;
+				width: 50%;
+				background-color: transparent;
+				right: 0;
+				top: 51%;
+				display: flex;
+				flex-direction: column;
+				opacity: 0;
+				transition: opacity 0.1s ease;
+				align-items: center;
+				visibility: hidden;
+				transition: opacity 0.1s ease;
+			}
+
+
+			.address-information-left.showing {
+				opacity: 1;
+				visibility: visible;
+			}
+
+
+			.address-information-right.showing {
+				opacity: 1;
+				visibility: visible;
+			}
+
+			.address-item {
+				position: relative;
+				display: flex;
+				flex-direction: row;
+				margin-bottom: 75px;
+				width: 100%;
+				justify-content: center;
+			}
+
+			.address-info-wrapper {}
+
+			.address-item-right {
+				position: relative;
+				display: flex;
+				flex-direction: row;
+				margin-bottom: 75px;
+				width: 100%;
+				justify-content: center;
+				background-color: transparent;
+			}
+
+			.address-item-right-two {
+				position: relative;
+				display: flex;
+				flex-direction: row;
+				margin-bottom: 0px;
+				width: 100%;
+				justify-content: center;
+				background-color: transparent;
+			}
+
+			.address-line-left {
+				width: 2px;
+				height: 105px;
+				background-color: white;
+				margin-right: 14px;
+				display: inline-block;
+				/* margin-left: 28%; */
+			}
+
+			.address-line-right {
+				width: 2px;
+				height: 105px;
+				background-color: white;
+				margin-left: 14px;
+				display: inline-block;
+			}
+
+			.address-details {
+				display: inline-block;
+				width: auto;
+				height: auto;
+			}
+
+			.address-details-right {
+				display: flex;
+				height: auto;
+				width: auto;
+				background-color: transparent;
+			}
+
+			.address-details-inside {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.address-title {
+				font-family: sofia-pro, serif;
+				font-size: 18px;
+				text-transform: uppercase;
+				color: #b8b8b8;
+				font-weight: 300;
+				visibility: visible;
+				margin-top: 0px;
+				margin-bottom: 10px;
+				min-width: 250px;
+
+			}
+
+			.address-title-right {
+				font-family: sofia-pro, serif;
+				font-size: 18px;
+				text-transform: uppercase;
+				color: #b8b8b8;
+				font-weight: 300;
+				visibility: visible;
+				margin-top: 0px;
+				margin-bottom: 10px;
+				text-align: right;
+			}
+
+			.address-street {
+				font-family: sofia-pro, serif;
+				font-size: 17px;
+				color: white;
+				font-weight: 700;
+				visibility: visible;
+				margin-top: 0px;
+				margin-bottom: 12px;
+				display: inline;
+				min-width: 250px;
+			}
+
+			.address-street-right {
+				font-family: sofia-pro, serif;
+				font-size: 17px;
+				color: white;
+				font-weight: 700;
+				visibility: visible;
+				margin-top: 0px;
+				margin-bottom: 12px;
+				display: inline;
+				min-width: 250px;
+				text-align: right;
+			}
+
+			.aboutPageTitleText {
+
+				font-size: 44px;
+				font-family: 'Spectral', freight-big-pro, 'Times', serif;
+				text-align: center;
+				font-style: normal;
+				font-weight: 600;
+				margin-bottom: 15px;
+				width: 100%;
+				display: block;
+				color: white;
+			}
+
+			.aboutPageTitleSubText {
+				font-size: 26px;
+				font-family: 'Spectral', freight-big-pro, 'Times', serif;
+				text-align: center;
+				font-style: normal;
+				font-weight: 500;
+				margin-bottom: 15px;
+				width: 100%;
+				display: block;
+				color: white;
+			}
+
+			.aboutPageTitleContainer {
+				width: 100vw;
+				height: 100vh;
+				background-color: transparent;
+				position: absolute;
+				display: flex;
+				flex-direction: column;
+				opacity: 0;
+				visibility: hidden;
+				transition: opacity 0.2s ease, visibility 0.2s ease;
+				pointer-events: none;
+			}
+
+			.aboutPageTitleContainer.showing {
+
+				opacity: 1;
+				visibility: visible;
+
+			}
+
+
+			.aboutPageLeftContainer  {
+				opacity: 0;
+				visibility: hidden;
+			}
+
+
+			/* Need to move first the element and then remove it to give a smooth transition */
+			.loading-page {
+				width: 100vw;
+				height: 100vh;
+				background-color: black;
+				visibility: visible;
+				opacity: 1;
+				z-index: 1000;
+				/* transition: opacity 1s ease-in, display 0.3s ease-in 1s; */
+				pointer-events: none;
+				position: absolute;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				z-index: 5000;
+			}
+
+			.loading-page.hiding {
+				/* transform: translateY(100%); */
+				/* display: none; */
+				/* opacity: 0; */
+				animation: slideLoadingPage 0.5s forwards;
+			}
+
+			.aboutPageTitleTextContainer {
+				position: relative;
+				margin-top: 250px;
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				height: auto;			
+					
+			}
+
+			.aboutPageDescriptionTextContainer {
+				position: relative;
+				margin-top: 6%;
+				width: 100vw;
+				display: flex;
+				flex-direction: row;
+				background-color: transparent;
+			}
+
+			.aboutPageLeftDescriptionContainer {
+				width: 50%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				background-color: transparent;
+			}
+
+			.aboutPageRightDescriptionContainer {
+				width: 50%;
+				display: flex;
+				flex-direction: column;
+				background-color: transparent;
+				align-items: center;
+			}
+
+
+			.aboutPageLeft {
+				width: 50%;
+				display: flex;
+		
+			}
+
+
+			.aboutTextContainer {
+				height: auto;
+				width: 50%;
+				margin-bottom: 30px;
+				background-color: transparent;
+			}
+
+			.aboutText {
+				font-size: 17px;
+				color: #B8B8B8;
+				font-weight: 400;
+				line-height: 1.45;
+				text-align: left;
+				font-family: 'Montserrat', 'Times', sans-serif;
+				text-align: justify;
+				background-color: transparent;
+				margin-top: 0px;
+				/* border-left: 2px solid white; */
+				padding-left: 15px;
+			}
+
+			.expertiseTitle {
+				font-size: 45px;
+				color: white;
+				font-weight: 800;
+				font-family: 'Montserrat', 'Times', sans-serif;
+				margin-bottom: 15px;
+				text-align: center;
+				text-transform: uppercase;
+				display: block;
+				background-color: transparent;
+				margin-top: 0px;
+				margin-bottom: 45px;
+				/* transform: translateY(-60px); */
+			}
+
+			.expertiseDescriptionContainer {
+				display: flex;
+				flex-direction: row;
+				width: 45%;
+				background-color: transparent;
+			}
+
+			.expertiseLine {
+				width: 1px;
+				background-color: white;
+				display: inline-block;
+				height: 50px;
+			}
+
+			.aboutDescriptionLine {
+				width: 1px;
+				margin-right: 10px;
+				display: inline-block;
+				height: 50px;
+				background-color: white;
+			}
+
+			.expertiseGroup {
+				margin-top: 0px;
+				margin-bottom: 25px;
+				background-color: transparent;
+				width: 37%;
+				height: auto;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+
+			.expertiseRow {
+				width: 80%;
+				background-color: transparent;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-around;
+				margin-bottom: 45px;
+			}
+
+			.expertiseRowTwo {
+				width: 80%;
+				background-color: transparent;
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				margin-bottom: 15px;
+			}
+
+
+			.expertiseGroupTitle {
+				color: #B8B8B8;
+				opacity: 1;
+				visibility: visible;
+				letter-spacing: 0.5px;
+				font-family: 'Montserrat', 'Times', sans-serif;
+				font-size: 16px;
+				margin-bottom: 10px;
+				text-transform: uppercase;
+				font-weight: 300;
+				margin-top: 0px;
+			}
+
+			.expertiseText {
+				margin-top: 0px;
+				margin-bottom: 5px;
+				color: white;
+				font-family: 'Montserrat', 'Times', sans-serif;
+				font-weight: 700;
+				display: block;
+				font-size: 15px;
+				background-color: transparent;
+			}
+
+
+			.contactPageContainer {
+				width: 100vw;
+				height: 100vh;
+				background-color: transparent;
+				position: absolute;
+				display: flex;
+				flex-direction: column;
+				opacity: 0;
+				visibility: hidden;
+				transition: opacity 0.2s ease, visibility 0.2s ease;
+			}
+
+
+			.contactPageContainer.showing {
+				opacity: 1;
+				visibility: visible;
+			}
+
+			.contactPageDetails {
+				display: flex;
+				flex-direction: row;
+				width: 100vw;
+				background-color: transparent;
+				min-height: 510px;
+			}
+
+
+			.contactPageLeftContainer {
+				width: 50%;
+				background-color: transparent;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				height: 100%;
+				justify-content: space-between;
+				position: relative;
+			}
+
+			.contactPageRightContainer {
+				width: 50%;
+				background-color: transparent;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				height: 100%;
+
+			}
+
+			.contactPageTitle {
+				text-align: left;
+				font-family: 'Spectral', freight-big-pro, 'Times', serif;
+				color: #ffffff;
+				font-style: normal;
+				font-weight: 600;
+				display: block;
+				font-size: 30px;
+				margin-top: 0px;
+				margin-bottom: 20px;
+				background-color: transparent;
+			}
+
+			.contactPageSubTitle {
+				text-align: left;
+				font-family: 'Montserrat', sans-serif;
+				color: #b8b8b8;
+				font-style: normal;
+				font-weight: 400;
+				display: block;
+				font-size: 16px;
+				margin-top: 0px;
+				margin-bottom: 0px;
+				background-color: transparent;
+			}
+
+			.contactPageOptionsContainer {
+				background-color: transparent;
+				display: flex;
+				flex-direction: column;
+				/* align-items: center; */
+			}
+
+			.contactPageSingleOptionContainer {
+				background-color: transparent;
+				display: flex;
+				flex-direction: row;
+				margin-top: 28px;
+				margin-bottom: 12px;
+			}
+
+			.contactPageOptionText {
+				text-align: left;
+				font-family: 'Montserrat', sans-serif;
+				color: #ffffff;
+				font-style: normal;
+				font-weight: 500;
+				display: block;
+				font-size: 16px;
+				display: inline-block;
+				min-width: 190px;
+				margin-top: 0px;
+				margin-bottom: 0px;
+				background-color: transparent;
+				border-style: none;
+				border-width: 0px;
+				outline: none;
+				padding-left: 0px;
+			}
+
+			.contactPageOptionArrow {
+				text-align: left;
+				font-family: 'Montserrat', sans-serif;
+				color: #ffffff;
+				font-style: normal;
+				font-weight: 600;
+				display: block;
+				font-size: 20px;
+				display: inline-block;
+				margin-top: 0px;
+				margin-bottom: 0px;
+			}
+
+			.arrowContainer {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: transparent;
+				padding-left: 15px;
+				padding-right: 15px;
+			}
+
+
+			.arrowContainer:hover {
+				/* transform: translateX('20px'); */
+				transition: all 0.5s ease-in;
+			}
+
+			.contactPageTitleContainer {
+				position: relative;
+				margin-top: 250px;
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				height: auto;	
+				margin-bottom: 140px;		
+					
+			}
+
+			.arrow-sign-link {
+
+			}
+
+			.contactPageAddressContainer {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				height: 100%;
+				background-color: transparent;
+			}
+
+			.contactQuestionContainer {
+				visibility: hidden;
+				opacity: 0;
+				transform: translateY(-50px);
+				transition: transform 0.5s ease-in;
+				display: flex;
+				flex-direction: column;
+				width: 100%;
+				align-items: center;
+				background-color: transparent;
+				transition: all 0.4s ease-in 0.2s;
+			}
+
+			.contactPageOptionsTwo {
+				opacity: 0;
+				transition: all 0.2s ease-in 0.4s;
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				background-color: transparent;
+				position: absolute;
+				transform: translateY(-50px);
+				z-index: 2000;
+			}
+
+			.contactPageOptionsTwo.showing {
+				opacity: 1;
+				/* transform: translateY(-50px); */
+				z-index: 2200;
+			}
+
+			.contactQuestionBackButtonContainer {
+				display: flex;
+				flex-direction: row;
+				margin-left: 150px;
+				background-color: transparent;
+				margin-bottom: 35px;
+			}
+
+			.arrowRotatedContainer {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: transparent;
+				transform: rotateX(90deg);
+			}
+
+			.contactQuestionTitle {
+				font-family: 'Spectral', freight-big-pro, 'Times', serif;
+				font-size: 30px;
+				text-align: left;
+				color: white;
+				font-weight: 600;
+				font-style: normal;
+				background-color: thistle;
+			}
+
+			.contactPageOptions {
+				visibility: visible;
+				opacity: 1;
+				transition: all 0.2s ease-in;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				height: 100%;
+				background-color: transparent;
+				position: absolute;
+				z-index: 2200;
+				/* transform: translateY(-50px); */
+			}
+
+			.contactPageOptions.hidden{
+				visibility: hidden;
+				opacity: 0;
+				/* transform: translateY(-50px); */
+				z-index: 2000;
+			}
+
+			.contactPageQuestionOptions{
+				display: flex;
+				flex-direction: column;
+				background-color: transparent;
+				margin-top: 40px;
+				justify-content: flex-end;
+				/* margin-left: 45px; */
+			}
+
+			.contactPageLeftTitleContainer {
+				display: flex;
+				flex-direction: column;
+				background-color: transparent; 
+			}
+
+			/* More complicated selectors */
+
+			#askAQuestionArrow{
+				transition: all 0.2s ease-in;
+			}
+
+			#submitFormArrow {
+				transition: all 0.2s ease-in;
+			}
+
+			#goBackArrow {
+				transition: all 0.2s ease-in;
+				transform: scaleX(-1);
+				padding-right: 0px;
+				padding-left: 0px;
+				margin-right: 25px;
+			}
+
+			#submitFormButton:hover + #submitFormArrow {
+				transform: translateX(10px);
+			} 
+
+			#submitFormButton:focus + #submitFormArrow {
+				transform: translateX(10px);
+			} 
+
+			#askAQuestion:hover + #askAQuestionArrow {
+				transform: translateX(10px);
+			} 
+
+			#askAQuestion:focus + #askAQuestionArrow {
+				transform: translateX(10px);
+			} 
+
+			#goBackStatement:hover + #goBackArrow {
+				transform: translateX(10px);
+			}
+
+			#startProjectArrow {
+				transition: all 0.2s ease-in;
+			}
+
+			#startProject:hover + #startProjectArrow {
+				transform: translateX(10px);
+			}
+
+
+			#joinTeamArrow {
+				transition: all 0.2s ease-in;
+			}
+
+			#joinTeam:hover + #joinTeamArrow {
+				transform: translateX(10px);
+			}
+
+			.voiceControlText {
+				font-size: 17px;
+				color: white;
+				font-family: 'Montserrat', sans-serif;
+				text-align: center; 
+				background-color: transparent;
+				display: inline-block;
+				font-style: normal;
+				font-weight: 500;
+			}
+
+			.disabilitiesRelatedText {
+				position: absolute;
+				top: 45px;
+				left: 50%;
+				transform: translateX(-50%);
+				padding-left: 20px;
+				padding-right: 20px;
+				background-color: transparent;
+				z-index: 2000;
+				margin-top: 0px;
+				opacity: 0;
+				transition: opacity 0.2s ease-in;
+			}
+
+			.disabilitiesRelatedText:before {
+				content: '';
+				display: block;
+				width: 60px;
+				height: 2px;
+				background: #fff;
+				position: absolute;
+				top: 50%;
+				left: -60px;
+				opacity: 0;
+				transition: opacity 0.5s ease-in;
+			}
+
+			.disabilitiesRelatedText:after {
+				content: '';
+				display: block;
+				width: 60px;
+				height: 2px;
+				background: #fff;
+				position: absolute;
+				top: 50%;
+				right: -60px;
+				opacity: 0;
+				transition: opacity 0.5s ease-in;
+			}
+
+			.disabilitiesRelatedText:hover:before {
+				opacity: 1;
+			}
+
+			.disabilitiesRelatedText:hover:after {
+				opacity: 1;
+			}
+
+			.disabilitiesRelatedText.showing {
+				opacity: 1;
+				z-index: 2002
+			}
+
+
+			.directionsVoiceControlText {
+				font-size: 17px;
+				color: white;
+				font-family: 'Montserrat', sans-serif;
+				text-align: center; 
+				background-color: transparent;
+				display: block;
+				font-style: normal;
+				font-weight: 500;
+				white-space: nowrap;
+				margin-top: 0px;
+				margin-bottom: 10px;
+			}
+
+			.directionsVoiceControl {
+				position: absolute;
+				top: 45px;
+				left: 50%;
+				transform: translateX(-50%);
+				padding-left: 20px;
+				padding-right: 20px;
+				background-color: transparent;
+				z-index: 2000;
+				margin-top: 0px;
+				opacity: 0;
+				transition: opacity 0.5s ease-in;
+				width: auto;
+			}
+
+			.directionsVoiceControl.showing {
+				opacity: 1;
+				z-index: 2002;
+			}
+
+			.formInputContainer {
+				width: 40%;
+				background-color: transparent;
+				border-bottom-style: solid;
+				border-bottom-width: 2px;
+				border-bottom-color: rgb(255,255,255,0.4);
+				font-size: 12px;
+				font-family: 'Montserrat', sans-serif;
+				padding-bottom: 5px;
+				margin-top: 25px;
+				box-sizing: border-box;
+				cursor: none;
+				display: inline-block;
+				text-align: left;
+				padding-top: 0px;
+				padding-bottom: 0px;
+				position: relative;
+			}
+
+			/* .formInputContainer:after {
+				position: absolute;
+				bottom: 25px;
+				right: 0;
+				height: 2px;
+				width: 10%;
+				background-color: rgb(255, 255, 255, 0.6);
+				display: block;
+
+			} */
+
+			.formDescriptionText {
+				font-family: Montserrat, sans-serif;
+				font-size: 12px;
+				text-align: left;
+				color: white;
+				text-transform: uppercase;
+				opacity: 1;
+				font-weight: 600;
+				background-color: transparent;
+				padding-top: 12px;
+				padding-bottom: 12px;
+				margin-top: 0px;
+				margin-bottom: 0px;
+				position: absolute;
+				z-index: 1000;
+				width: 100%;
+				/* transition: transform 0.3s ease-in, color 0.3s ease-in, opacity 0.3s ease-in; */
+			}
+
+			input:focus, textarea:focus, select:focus{
+				outline: none;
+			}
+
+			.formActualInput {
+				width: 100%;
+				background-color: transparent;
+				border-bottom-style: solid;
+				border-bottom-width: 2px;
+				border-bottom-color: rgb(255,255,255,0.6);
+				position: relative;
+				height: 38px;
+				font-family: Montserrat, sans-serif;
+				font-size: 15px;
+				color: white;
+				opacity: 1;
+				border-left-style: none;
+				border-right-style: none;
+				border-top-style: none;
+				border-left-width: 0px;
+				border-right-width: 0px;
+				border-top-width: 0px;
+				font-weight: 600;
+				/* padding-left: 5px;
+				padding-right: 5px; */
+			}
+
+			.formDescriptionText.clicked {
+				transform: translateY(-25px);
+				color: #b8b8b8;
+				opacity: 0.85;
+			}
+
+			.formContainer {
+				width: 100%;
+				background-color: transparent;
+				margin-top: 25px;
+				display: flex;
+				flex-direction: column;
+				height: auto;
+			}
+
+			#lastNameInput {
+				transition: 0.1s ease-in;
+			}
+
+			#firstNameInput {
+				transition: 0.1s ease-in;
+			}
+
+			#emailInput {
+				transition: 0.1s ease-in;
+			}
+
+			#phoneNumberInput {
+				transition: 0.1s ease-in;
+			}
+
+			#companyNameInput {
+				transition: 0.1s ease-in;
+			}
+
+			.formRow {
+				width: 100%;
+				height: auto;
+				background-color: transparent;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				margin-bottom: 20px;
+			}
+
+			.formRowNoSpace {
+				width: 100%;
+				height: auto;
+				background-color: transparent;
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				margin-bottom: 20px;
+			}
+
+			.textAreaFormRow {
+				width: 100%;
+				height: auto;
+				background-color: transparent;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				margin-bottom: 40px;
+			}
+
+			textArea {
+				width: 100%;
+				outline: none;
+				resize: vertical;
+				background-color: transparent;
+				color: white;
+				font-size: 16px;
+				margin-top: 25px;
+				padding-left: 0px;
+				padding-right: 0px;
+				max-height: 180px;
+				min-height: 71px;
+				padding-bottom: 7px;
+			}
+
+			/* Here we set the animations for the inputs that are not filled */
+
+			#lastNameActualInput {
+				text-transform: uppercase;
+			}
+
+			#firstNameActualInput {
+				text-transform: uppercase;
+			}
+
+			#companyNameActualInput {
+				text-transform: uppercase;
+			}
+
+			#emailActualInput {
+				text-transform: uppercase;
+			}
+
+			#phoneNumberActualInput {
+				text-transform: uppercase;
+			}
+
+			#lastNameActualInput.inputError {
+				color: #ff8282;
+				border-block-end-color: #ff8282;;
+			}
+
+			#firstNameActualInput.inputError {
+				color: #ff8282;
+				border-block-end-color: #ff8282;;
+			}
+
+			#companyNameActualInput.inputError {
+				color: #ff8282;
+				border-block-end-color: #ff8282;;
+			}
+
+			#emailActualInput.inputError {
+				color: #ff8282;
+				border-block-end-color: #ff8282;;
+			}
+
+			#phoneNumberActualInput.inputError {
+				color: #ff8282;
+				border-block-end-color: #ff8282;;
+			}
+
+			#messageInput.inputError{
+				/* border-block-end-color: #ff8282;; */
+				border-bottom-color:  #ff8282
+			}
+
+			#lastNameInput.inputError {
+				color: #ff8282;;
+
+			}
+
+			#firstNameInput.inputError {
+				color: #ff8282;;
+
+			}
+
+			#companyNameInput.inputError {
+				color: #ff8282;;
+
+			}
+
+			#emailInput.inputError {
+				color: #ff8282;;
+
+			}
+
+			#phoneNumberInput.inputError {
+				color: #ff8282;;
+
+			}
+
+			#lastNameInput.inputError {
+				color: #ff8282;;
+			}
+
+
+
+			#messageInput {
+				border-left-style: none;
+				border-right-style: none;
+				border-top-style: none;
+				border-bottom-style: solid;
+				border-bottom-color: rgb(255,255,255,0.6);
+				border-bottom-width: 2px;
+				padding-bottom: 10px;
+			}
+
+
+
+		</style>
+	</head>
+	<body class='tutorial'>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r118/three.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.0/paper-core.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js"></script>
+		<script src="/assets/OrbitControls.js"></script>
+		<script src="/assets/OBJLoader.js"></script>
+		<script src="/assets/Water.js"></script>
+		<script src="/assets/MTLLoader.js"></script>
+		<script src="/assets/postprocessing.min.js" ></script>
+		<script src="/assets/stats.js"></script>
+		<script src="/assets/DigitalGlitch.js" type="module"></script>
+		<script src="/assets/GlitchPass.js" type="module"></script>
+		<script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+
+
+		<script id="vertex-shader" type="x-shader/x-vertex">
+			uniform float radiusX;
+			uniform float radiusZ;
+			uniform float height;
+			uniform float elapsedTime;
+
+			void main() {
+				vec3 pos = position;
+				pos.x += cos((elapsedTime + position.z) * 0.25) * radiusX;
+				pos.y += sin((elapsedTime + position.x) * 0.25) * radiusX;
+				pos.z += mod(pos.z - elapsedTime, height); 
+
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( pos, 0.8 );
+			}
+			
+		</script>
+
+		<script id="vertex-shader-two" type="x-shader/x-vertex">
+			uniform float height; 
+			uniform float elapsedTime; 
+			uniform float radiusX;
+			uniform float radiusZ;
+
+			void main() { 
+				vec3 pos = position; 
+				pos.x = cos((elapsedTime + position.z) * 0.25) * 0.2;
+				pos.y = sin((elapsedTime + position.z) * 0.25) * radiusY;
+				pos.z = mod(pos.z + elapsedTime, height); 
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( pos, 1.0 ); 
+			}
+			
+		</script>
+
+
+
+		<script id="fragment-shader" type="x-shader/x-vertex">
+			
+			uniform vec3 color;
+
+			void main() {
+				gl_FragColor = vec4( color, 1.0 );
+			}
+
+		</script>
+		<script src="/scripts.js" type="module" ></script>
+
+		<main class='container'>
+
+			<div class='loading-page' id='loading-page'>
+				<div id='titleLoadingPage' class='samarra-text'>
+					<h1 class='titleTextTwo'>  Samarra & Co. </h1>
+					<div class='loadingPage--loadingBar' id='loadingPage--loadingBar'>
+						<div class='loadingPage--whiteLoadingBar' id='loadingPage--whiteLoadingBar'> </div>
+					</div>
+					<p class='loadingPage--normalText' id='loadingPage--normalText'> Please turn on your volume </p>
+
+				</div>
+
+				<!-- <div class='company-logo-loading-page samarra-text' id='company-logo-loading-page'>
+					<svg id="Layer_3" data-name="Layer 3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96.08 297.75" height='290'>
+						<circle cx="48.04" cy="48.04" r="46.54" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:5px"/>
+						<polyline points="25.14 138.9 70.2 138.9 70.2 221.47 25.14 221.47 25.14 296.25 70.2 296.25" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:5px"/>
+					</svg>
+				</div>	 -->
+			</div>
+
+			<div class='pages'>
+	
+
+				<!-- Cursor Elements -->
+				<div class="cursor cursor--small" id='cursor--small'></div>
+				<canvas class="cursor cursor--canvas" resize></canvas>
+
+				<!-- Hamburger Menu -->
+				<div href="#" class="browser-window__link" id='browser-window__link' >
+					<div class="hamburger" id="hamburger">
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+				</div>
+
+				<div class='disabilitiesRelatedText' id='disabilitiesRelatedText'>
+					<p class='voiceControlText' id='voiceControlText'> Activate Voice Control </p>
+				</div>
+
+				<div class='directionsVoiceControl' id='directionsVoiceControl'>
+					<p class='directionsVoiceControlText' id='directionsVoiceControlText'> 
+						Say 'Go To' &nbsp 1. Main Menu &nbsp 2. About Page &nbsp 3. Client Page &nbsp 4. Contact Page &nbsp 5. Home Page to navigate our website.
+					</p>
+					<p class='directionsVoiceControlText' id='directionsVoiceControlText2'>
+						Say 'Deactivate Voice Control' in order to deactivate it.
+					</p>
+				</div>
+
+				<div href="#" class="browser-window__link" >
+					<div class='closeButton' id='closeButton'>
+						<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34.05 32.19">
+							<line x1="1.03" y1="1.09" x2="33.03" y2="31.09" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+							<line x1="1.03" y1="31.09" x2="33.03" y2="1.09" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+						</svg>
+					</div>
+				</div>
+
+				<!-- Sound On/Off Button -->
+				<div class="soundwave-container">
+					<svg id="wave" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 38.05">
+					  <title>Audio Wave</title>
+					  <path id="Line_1" class="Line_1"  stroke-width="3" data-name="Line 1" d="M0.91,15L0.78,15A1,1,0,0,0,0,16v6a1,1,0,1,0,2,0s0,0,0,0V16a1,1,0,0,0-1-1H0.91Z"/>
+					  <path id="Line_2" class="Line_2"  stroke-width="3" data-name="Line 2" d="M6.91,9L6.78,9A1,1,0,0,0,6,10V28a1,1,0,1,0,2,0s0,0,0,0V10A1,1,0,0,0,7,9H6.91Z"/>
+					  <path id="Line_3" class="Line_3"  stroke-width="3" data-name="Line 3" d="M12.91,0L12.78,0A1,1,0,0,0,12,1V37a1,1,0,1,0,2,0s0,0,0,0V1a1,1,0,0,0-1-1H12.91Z"/>
+					  <path id="Line_4" class="Line_4"  stroke-width="3" data-name="Line 4" d="M18.91,10l-0.12,0A1,1,0,0,0,18,11V27a1,1,0,1,0,2,0s0,0,0,0V11a1,1,0,0,0-1-1H18.91Z"/>
+					  <path id="Line_5" class="Line_5"  stroke-width="3" data-name="Line 5" d="M24.91,15l-0.12,0A1,1,0,0,0,24,16v6a1,1,0,0,0,2,0s0,0,0,0V16a1,1,0,0,0-1-1H24.91Z"/>
+					  <path id="Line_6" class="Line_6"  stroke-width="3" data-name="Line 6" d="M30.91,10l-0.12,0A1,1,0,0,0,30,11V27a1,1,0,1,0,2,0s0,0,0,0V11a1,1,0,0,0-1-1H30.91Z"/>
+					  <path id="Line_7" class="Line_7"  stroke-width="3" data-name="Line 7" d="M36.91,0L36.78,0A1,1,0,0,0,36,1V37a1,1,0,1,0,2,0s0,0,0,0V1a1,1,0,0,0-1-1H36.91Z"/>
+					  <path id="Line_8" class="Line_8"  stroke-width="3" data-name="Line 8" d="M42.91,9L42.78,9A1,1,0,0,0,42,10V28a1,1,0,1,0,2,0s0,0,0,0V10a1,1,0,0,0-1-1H42.91Z"/>
+					  <path id="Line_9" class="Line_9"  stroke-width="3" data-name="Line 9" d="M48.91,15l-0.12,0A1,1,0,0,0,48,16v6a1,1,0,1,0,2,0s0,0,0,0V16a1,1,0,0,0-1-1H48.91Z"/>
+					</svg>
+					<div class='soundwave-description' id='soundwave-description'>
+							Pause
+					</div>
+				</div>
+
+				<!-- Plus Sign for Languages -->
+				<div class='plus-sign-container' id='plus-sign-container'>
+					<svg id='plus-sign' viewBox="0 0 100 100">
+						<line x1="32.5" y1="50" x2="67.5" y2="50" stroke-width="3" stroke='white'></line>
+						<line x1="50" y1="32.5" x2="50" y2="67.5" stroke-width="3" stroke='white'></line>
+					  </svg>
+					  <div class='plus-sign-description' id='plus-sign-description'>
+						Languages
+					  </div>
+					  <div class='language-description' id='language-description'>
+						<p class='language' id='languageOne'> FR </p>
+						<p class='language' id='languageTwo'> EN </p>
+					  </div>
+				</div>
+
+				<!-- Samarra Logo -->
+
+				<!-- Logo Center -->
+				<div class='company-logo-two samarra-text' id='company-logo-two'>
+					<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96.08 297.75" height='290'>
+						<circle cx="48.04" cy="48.04" r="46.54" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:3px"/>
+						<polyline points="25.14 138.9 70.2 138.9 70.2 221.47 25.14 221.47 25.14 296.25 70.2 296.25" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:3px"/>
+					</svg>
+				</div>
+
+				
+				<!-- Logo Left  -->
+				<div class='company-logo samarra-text'>
+					<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240.21 70" width="180">
+						<polyline points="200.71 18.04 200.7 48.54 144.81 48.52 144.83 18.02 94.21 17.99 94.2 48.49" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+						<circle cx="33" cy="33" r="31.5" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+					</svg>
+				</div>
+
+				<div class='page page--current samarra-text' id='homePage'>
+
+					<!-- Main Headline of the Main Page -->
+					<div id='titleOne' class='samarra-text'>
+						<h1 class='titleText content-item' data-splitting> <span id='companyName'> Samarra & Co. </span> <br> Creative, Innovative, <br> One of a Kind </h1>
+					</div>
+	
+				</div>
+
+				<div class="second--page reveal--layer samarra-text" id="reveal--layer">
+
+				</div>
+
+				<!-- New York Address Information -->
+				<div class='address-information-left samarra-text' id='address-information-left'>
+					<div class='address-item'>
+						<div class='address-line-left'> </div>
+						<div class='address-details'>
+							<div class='address-details-inside'>
+								<p class='address-title'> New York Head Office </p>
+								<p class='address-street'> 84 Berry Street </p>
+								<p class='address-street'> Brooklyn, NY 11211 </p>
+							</div>
+						</div>
+					</div>
+					<div class='address-item samarra-text'>
+						<div class='address-line-left'> </div>
+						<div class='address-details'>
+							<div class='address-details-inside'>
+								<p class='address-title'>  Contact </p>
+								<p class='address-street'> hello@samarracapital.com </p>
+								<p class='address-street'> +1-917-938-6889 </p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Paris Address Information -->
+				<div class='address-information-right samarra-text' id='address-information-right'>
+					<div class='address-item-right samarra-text'>
+						<div class='address-details-right samarra-text'>
+							<div class='address-details-inside samarra-text'>
+								<p class='address-title-right samarra-text'> Paris Office </p>
+								<p class='address-street-right samarra-text'> 84 Avenue De la Bourdonnais </p>
+								<p class='address-street-right samarra-text'> 75006 Paris, France </p>
+							</div>
+						</div>
+						<div class='address-line-right samarra-text'> </div>
+					</div>
+					<div class='address-item-right samarra-text'>
+						<div class='address-details-right samarra-text'>
+							<div class='address-details-inside samarra-text'>
+								<p class='address-title-right samarra-text'>  Contact</p>
+								<p class='address-street-right samarra-text'> bonjour@samarracapital.com </p>
+								<p class='address-street-right samarra-text'> +33 1 45 28 32 24 </p>
+							</div>
+						</div>
+						<div class='address-line-right samarra-text'> </div>
+					</div>
+				</div>
+
+				<div class='contactPageContainer samarra-text'  id='contactPageContainer'>
+					<div class='contactPageTitleContainer samarra-text' >
+						<h1 class='titleText samarra-text'>
+							Samarra & Co.
+						</h1>
+					</div>
+					<div class='contactPageDetails'>
+						<div class='contactPageLeftContainer'>
+							<div class='contactPageOptions' id='contactPageOptions'>
+								<div class='contactPageLeftTitleContainer'>
+									<h3 class='contactPageTitle'>
+										Question, new project, job application?
+									</h3>
+									<p class='contactPageSubTitle'>
+										Do not hesitate to contact us by phone or by email
+									</p>
+								</div>
+								<div class='contactPageOptionsContainer'>
+
+										<div class='contactPageQuestionOptions'>
+											<div class='contactPageSingleOptionContainer' id='firstOptionContainer'>
+												<p class='contactPageOptionText' id='askAQuestion'>
+													Ask a Question
+												</p>
+												<div class='arrowContainer arrow-sign-link' id='askAQuestionArrow'>
+													<svg id="askAQuestionArrowSVG" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.67 17.68" width="40">
+														<path d="M550.5,288.5" transform="translate(-479.5 -255.32)" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+														<polyline points="0 16.18 35 16.18 26 4.18 50 16.18" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+													</svg>
+												</div>
+											</div>
+											<div class='contactPageSingleOptionContainer' id='secondOptionContainer' >
+												<p class='contactPageOptionText' id='startProject'>
+													Start a Project
+												</p>
+												<div class='arrowContainer arrow-sign-link' id='startProjectArrow'>
+													<svg id="startProjectArrowSVG" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.67 17.68" width="40">
+														<path d="M550.5,288.5" transform="translate(-479.5 -255.32)" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+														<polyline points="0 16.18 35 16.18 26 4.18 50 16.18" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+													</svg>
+												</div>
+											</div>
+											<div class='contactPageSingleOptionContainer' id='thirdOptionContainer'>
+												<p class='contactPageOptionText' id='joinTeam'>
+													Join the Team
+												</p>
+												<div class='arrowContainer arrow-sign-link' id='joinTeamArrow'>
+													<svg id="joinTeamArrowSVG" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.67 17.68" width="40">
+														<path d="M550.5,288.5" transform="translate(-479.5 -255.32)" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+														<polyline points="0 16.18 35 16.18 26 4.18 50 16.18" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+													</svg>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<div class='contactPageOptionsTwo' id='contactPageOptionsTwo'>
+								<div class='contactPageLeftTitleContainer'>
+									<div class='formRowNoSpace' id='goBackElement'>
+										<div class='arrowContainer arrow-sign-link' id='goBackArrow'>
+											<svg id="Layer_10" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.67 17.68" width="40">
+												<path d="M550.5,288.5" transform="translate(-479.5 -255.32)" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"/>
+												<polyline points="0 16.18 35 16.18 26 4.18 50 16.18" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"/>
+											</svg>
+										</div>
+										<p class='contactPageOptionText' id='goBackStatement'>
+											Back
+										</p>
+									</div>
+									<h3 class='contactPageTitle' id='contactPageTitle'> </h3>
+									<p class='contactPageSubTitle' id='contactPageSubTitle'></p>
+								</div>
+								<div class='formContainer'>
+									<form
+									action="https://formspree.io/xvowjwez"
+									method="POST" 
+									>
+										<div class='formRow'>
+											<div class='formInputContainer' >
+												<p class='formDescriptionText' id='lastNameInput'>
+													Last Name *
+												</p>
+												<input type='text' class='formActualInput' id='lastNameActualInput' name='lastName' required />
+											</div>
+											<div class='formInputContainer' >
+												<p class='formDescriptionText' id='firstNameInput'>
+													First Name *
+												</p>
+												<input type='text' class='formActualInput' id='firstNameActualInput' name='firstName' required />
+											</div>
+										</div>
+										<div class='formRow'>
+											<div class='formInputContainer' >
+												<p class='formDescriptionText' id='companyNameInput'>
+													Company *
+												</p>
+												<input type='text' class='formActualInput' id='companyNameActualInput' name='companyName' required />
+											</div>
+											<div class='formInputContainer' >
+												<p class='formDescriptionText' id='emailInput'>
+													Email *
+												</p>
+												<input type='text' class='formActualInput' id='emailActualInput' name='email' required />
+											</div>
+										</div>
+										<div class='formRow'>
+											<div class='formInputContainer' >
+												<p class='formDescriptionText' id='phoneNumberInput'>
+													Phone Number *
+												</p>
+												<input type='text' class='formActualInput' id='phoneNumberActualInput' name='phoneNumber' required />
+											</div>
+										</div>
+
+										<!-- This input here allows us to avoid doing the default redirect caused by FormSpree submission -->
+
+										<input type="hidden" name="_next" value="http://localhost:8080/examples/3d-obj-loader/index.html" />
+
+										<div class='textAreaFormRow'>
+											<textarea class='textArea' id='messageInput' placeholder='The devil is in the details.' name='message' required></textarea>
+										</div>
+
+										<div class='formRow'>
+											<button class='contactPageOptionText' id='submitFormButton' type='submit'>
+												Submit
+											</button>
+											<div class='arrowContainer arrow-sign-link' id='submitFormArrow'>
+												<svg id="Layer_10" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.67 17.68" width="40">
+													<path d="M550.5,288.5" transform="translate(-479.5 -255.32)" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"/>
+													<polyline points="0 16.18 35 16.18 26 4.18 50 16.18" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"/>
+												</svg>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class='contactPageRightContainer'>
+							<div class='contactPageAddressContainer'>
+								<div class='address-item-right-two samarra-text'>
+									<div class='address-details-right samarra-text'>
+										<div class='address-details-inside samarra-text'>
+											<p class='address-title-right samarra-text'> New York Head Office </p>
+											<p class='address-street-right samarra-text'> hello@samarracapital.com </p>
+											<p class='address-street-right samarra-text'> 917-938-6889 </p>
+										</div>
+									</div>
+									<div class='address-line-right samarra-text'> </div>
+								</div>
+								<div class='address-item-right-two samarra-text'>
+									<div class='address-details-right samarra-text'>
+										<div class='address-details-inside samarra-text'>
+											<p class='address-title-right samarra-text'> Paris Office </p>
+											<p class='address-street-right samarra-text'> bonjour@samarracapital.com </p>
+											<p class='address-street-right samarra-text'> +33 1 45 28 32 24 </p>
+										</div>
+									</div>
+									<div class='address-line-right samarra-text'> </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class='aboutPageTitleContainer samarra-text' id='aboutPageTitleContainer'>
+					<div class='aboutPageTitleTextContainer samarra-text' >
+						<h1 class='titleText samarra-text'>
+							Samarra & Co.
+						</h1>
+					</div>
+					<div class='aboutPageDescriptionTextContainer samarra-text'>
+						<!-- <div class='aboutPageLeft samarra-text'> -->
+							<!-- <div class='aboutDescriptionLine'>
+							</div> -->
+							<div class='aboutPageLeftDescriptionContainer samarra-text'>
+								<p class='expertiseTitle samarra-text'>
+									IDENTITY
+								</p>
+								<div class='aboutTextContainer samarra-text'>
+									<p class='aboutText samarra-text'>
+										Samarra & Co. is a digital agency and art collective based in New York City, Paris, and Jeddah.
+									</p>
+								</div>
+								<div class='aboutTextContainer samarra-text'>
+									<p class='aboutText samarra-text'>
+										We work with startups, corporations, artists, fashion brands, hospitality groups, and other agencies in order to bring their ideas to life.
+									</p>
+								</div>
+								<div class='aboutTextContainer samarra-text'>
+									<p class='aboutText samarra-text'>
+										Perfectionism and creativity drive everything we do, from the music videos that we direct, to the applications that we create, and the advertising campaigns that we lead.
+									</p>
+								</div>
+						<!-- </div> -->
+						</div>
+						<div class='aboutPageRightDescriptionContainer'>
+							<p class='expertiseTitle samarra-text'>
+								EXPERTISES
+							</p>
+							<div class='expertiseRow'>
+								<div class='expertiseGroup'>
+									<p class='expertiseGroupTitle'>
+										 Strategy 
+									</p>
+									<p class='expertiseText'>
+										Branding
+									</p>
+									<p class='expertiseText'>
+										Copywriting
+									</p>
+									<p class='expertiseText'>
+										Tone Of Voice
+									</p>
+									<p class='expertiseText'>
+										Digital In-Store
+									</p>
+									<p class='expertiseText'>
+										Creative Strategy
+									</p>
+									<p class='expertiseText'>
+										Innovative Digital Concepts
+									</p>
+								</div>
+
+								<div class='expertiseGroup'>
+									<p class='expertiseGroupTitle'>
+										Creative & Design
+									</p>
+									<p class='expertiseText'>
+										Illustration
+									</p>
+									<p class='expertiseText'>
+										Art Direction
+									</p>
+									<p class='expertiseText'>
+										2D & 3D Animation
+									</p>
+									<p class='expertiseText'>
+										User Experience Design
+									</p>
+									<p class='expertiseText'>
+										Photo & Video Production
+									</p>
+									<p class='expertiseText'>
+										User Interface & Interactive Design
+									</p>
+	
+								</div>
+	
+
+							</div>
+							
+
+							<div class='expertiseRowTwo'>
+
+								<div class='expertiseGroup'>
+									<p class='expertiseGroupTitle'>
+										Technology
+									</p>
+									<p class='expertiseText'>
+										Mobile Application Development
+									</p>
+									<p class='expertiseText'>
+										Front-end Development
+									</p>
+									<p class='expertiseText'>
+										Back-end Development
+									</p>
+									<p class='expertiseText'>
+										Creative Development
+									</p>
+
+								</div>
+
+							</div>
+
+
+		
+						</div>
+
+					</div>
+				</div>
+
+
+				<!-- Menu Items -->
+				<div class="page samarra-text" id='menuPage'>
+					<div class='menuElements samarra-text' id='menuElements'>
+						<h2 class='menuElement samarra-text' id='menuElementOne'> Home </h2>
+						<h2 class='menuElement samarra-text' id='menuElementTwo'> About </h2>
+						<h2 class='menuElement samarra-text' id='menuElementThree'> FAQ </h2>
+						<h2 class='menuElement samarra-text' id='menuElementFour'> Contact </h2>
+					</div>
+				</div>
+
+			</div>
+		</main>
+
+
+		
+	</body>
+</html>

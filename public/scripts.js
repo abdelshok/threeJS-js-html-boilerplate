@@ -1,0 +1,4078 @@
+// ThreeJS related variables
+let beetleObject, 
+    particles, 
+    particlesMesh,
+    particleGeometry,  
+    pivotPoint, 
+    pivotPoint2, 
+    light1, 
+    clock;
+let numParticles; // Number of particles that will be set in the Mesh of particles animating the ThreeJS project
+let mouseX, mouseY;
+let previousClientX, previousClientY, currentClientX, currentClientY;
+let arrayOfCursorPositions = [];
+let isBeetleWireframe = false;
+let stats;
+
+let currentMenuIcon = 'menuIcon';
+
+// Web Audio API-related Variables
+
+let source;
+let isSongFinished = false;
+let musicStartedPlaying = false;
+
+// Contact Page Related Variables
+
+let formShowing = false;
+
+// let lightIntensityDivider = 33; // Nina Simone
+let lightIntensityDivider = 29; // Nina Simone
+// let lightIntensityDivider = 25; // Trap Beldi
+// let lightIntensityDivider = 8; // For Erik Satie, probably Ludovico Einaudi
+
+let planeGeometry, planeTexture, planeMaterial, planeMesh;
+
+let windowHalfX = window.innerWidth / 2;
+let windowHalfY = window.innerHeight / 2;
+
+
+// Voice Control related constants
+
+let ACTIVATE_VOICE_SHOWN = false;
+let DIRECTIONS_VOICE_SHOWN = false;
+
+// Variables related to the different pages that will be shown are going to be declared here
+
+let pageShown = 'homePage';
+
+let listOfPages = {
+    'homePage': true,
+    'menuPage': false,
+    'aboutPage': false,
+    'contactPage': false,
+    'clientsPage': false,
+}
+
+let PAGE_FIRST_LOADED = false;
+let MUSIC_PLAYING = false;
+let musicPlaying = true; // That's the one actually used
+
+let ANIMATION_STARTED = false;
+let MENU_BASED_ANIMATION_STARTED = false;
+
+// Loading Page Based Variables
+
+let loadingPageAnimationFinished = false;
+let loadingGraphicalSceneFinished = false;
+
+// --------------------------------------------------------------------------------
+
+/*
+ * Scripts that will split the characters of the DOM elements
+ *
+ *
+ */
+
+const splitItems = Splitting();
+
+console.log('Split Items are', splitItems);
+
+
+// --------------------------------------------------------------------------------
+
+/*
+ * Scripts that will run after all the items in the page are loaded
+ *
+ *
+ */
+
+// const onCompleteLoading = () => {
+
+//     console.log('Removing loading screen from the page');
+
+    // let loadingPageElement = document.getElementById('loading-page');
+    // loadingPageElement.classList.toggle('hiding');
+
+// }
+
+
+// --------------------------------------------------------------------------------
+
+/*
+ * Loading Manager 
+ * Object / Function provided by ThreeJS in order to track the loading progression of the different models and textures 
+ * within the ThreeJS environment
+ */
+
+let loadingManager = new THREE.LoadingManager();
+
+loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
+
+    console.log('Started loading file ', url, '.\n Loaded ', itemsLoaded, ' of ', itemsTotal, ' files');
+
+    // Makes sure to start the loading bar animation as soon as the actual loading manager starts
+    document.getElementById('loadingPage--whiteLoadingBar').classList.add('loading');
+
+    // Makes sure to also trigger the directions that tell the user to turn up their volume
+    document.getElementById('loadingPage--normalText').classList.add('shown');
+
+
+}
+
+// Function that gets triggered when all of the different objects and textures are correctly loaded 
+
+loadingManager.onLoad = () => {
+
+    console.log('Loading complete of the file');
+
+    // We add the second variable to ensure that when the animation (the bar reached the end) is finished for the loading page
+    // then as soon as the objects are downloaded, the animation for the loading page to be moved up is triggered
+    if (PAGE_FIRST_LOADED === false && loadingPageAnimationFinished === true) {
+        PAGE_FIRST_LOADED = true;
+        onCompleteLoading();
+        loadingGraphicalSceneFinished = true;
+    } else if (PAGE_FIRST_LOADED === false && loadingPageAnimationFinished === false) {
+        // By doing that, we ensure that when the scene is ready, the variable is changed to true so that when the animation is finished after 10 seconds
+        // it knows that it is safe to remove the loading page
+        loadingGraphicalSceneFinished = true;
+    }
+
+}
+
+// Tracks the progress of the loading of objects
+
+loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
+
+    console.log('Loading file ', url, ' \n Loaded ', itemsLoaded, ' of ', itemsTotal, ' files');
+
+}
+
+// Message that gets logged out when the loading manager encounters an error
+
+loadingManager.onError = (url) => {
+
+    console.log('An error was encountered while loading ', url);
+
+}
+
+// Function that is triggered when the #loadingBar #animation ends, which triggers the loading page to be completely removed from the page
+
+const removeLoadingPage = () => {
+
+    console.log('WE ARE REMOVING LOADING PAGE')
+
+    // Here we get the element that represents the loading page & add the 'hiding' class to it in order to trigger the slideLoadingPage keyframes animation
+    // that leads it to be translateY to the top
+
+    if (loadingGraphicalSceneFinished === true)  {
+        let loadingPageElement = document.getElementById('loading-page');
+        loadingPageElement.classList.toggle('hiding');
+        loadingPageAnimationFinished = true;
+    } else if (loadingGraphicalSceneFinished === false) {
+        loadingPageAnimationFinished = true;
+    }
+
+    // This should take care of it
+
+    // Also now we trigger the music
+    playSong();
+
+}
+
+
+
+
+// --------------------------------------------------------------------------------
+
+
+// Split the sentences in different letters
+// Used in order to actual reveal the text with a staggered effect.
+// Not completed, will finish it later 
+
+
+// Get relevant DOM elements
+
+let DOM = {
+    content: {
+        home: {
+            section: document.querySelector('content_item'),
+            get chars() {
+                // return this.section.querySelectorAll('.content_paragraph .word > .char, .whitespace')
+            },
+            isVisible: true,
+        }
+    }
+}
+
+const timelineSettings = {
+    staggerValue: 0.014,
+    charsDuration: 0.5,
+}
+
+const timeline = gsap.timeline({paused: true})
+    .addLabel('start')
+    .staggerTo(DOM.content.home.chars, timelineSettings.charsDuration,  {
+        ease: 'Power3.easeIn',
+        y: '-100%',
+        opacity: 0,
+    }, timelineSettings.staggerValue, 'start')
+    .addLabel('switchtime')
+    // Here we do the switch - toggle between the current class for content sections
+    .add(() => {
+        DOM.content.home.section.classList.toggle('content_item--current')
+    })
+    // Change the body's background color
+    .to(document.body, {
+        duration: 0.8,
+        ease: 'Power1.easeInOut',
+        backgroundColor: '#c3b996'
+    }, 'switchtime-=timelineSettings.charsDuration/4')
+    // Start values for the about section elemenets will animate in 
+ 
+const switchContent = () => {
+    // DOM.links.
+}
+
+// --------------------------------------------------------------------------------
+
+// Water effect
+
+// let water = new Water();
+
+// console.log('Water is ', water);
+
+
+
+
+// --------------------------------------------------------------------------------
+
+
+
+
+// Web Audio API related variables
+let frequencyData, averageFrequency;
+let domainData, averageDomain; // Relates to the waveform of the current audio
+let audioContext;
+
+// Function that creates a random number between the min and max that are passed in
+const rand = (min,max) => min + Math.random()*(max-min)
+
+// Function which calculates the average number of an array 
+const average = (array) => {
+    let average = 0;
+    let count = 0;
+
+    for (let i=0; i<array.length; i++) {
+        count++;
+        let currentNum = array[i];
+        average += currentNum;
+    }
+
+    average = average/count;
+    return average;
+}
+
+// Boilerplate code to set a scene, camera, renderer for the ThreeJS project
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 2000 );
+
+// Camera afar positions used in order to actually look at the Beetle object and the different Mesh's rotations relative to it
+const setCameraTestPosition = () => {
+    camera.position.z = 250;
+    camera.position.x = 250;
+    camera.position.y = 180;
+}
+
+// Camera real position in order to actually look at the Beetle object the way it should be in the final iteration of the website
+const setCameraFinalPosition = () => {
+    camera.position.z = 0;
+    camera.position.x = 0;
+    camera.position.y = 200;
+}
+
+/*
+ * Here we set the Camera into the final position. The Test position is used to check on the particle and light movements from afar
+ */
+
+// setCameraTestPosition();
+setCameraFinalPosition();
+
+
+// Renderer & OrbitControls (which help us move around the scene are set)
+let renderer = new THREE.WebGLRenderer({
+    powerPreference: 'high-performance',
+    antialias: false,
+    stencil: false,
+});
+
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
+
+let controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.25;
+controls.enableZoom = true;
+
+
+// Sets the stats at the top left of the page so that we can test the frame rate per second of the website as we develop it
+const createStats = () => {
+    let stats = new Stats();
+    // console.log('Nez stats', new Stats());
+    // console.log('Stats', Stats);
+    stats.setMode(0);
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0';
+    stats.domElement.style.top = '0';
+    return stats;
+};
+
+
+// Add Stats to the page
+stats = createStats();
+document.body.appendChild(stats.domElement);
+
+
+// Clock
+// Used in the shader that moves the different particles around
+clock = new THREE.Clock();
+
+
+// ------------------------------------------------
+
+/*
+ * Post Processing part of the code
+ */
+
+// let composer = new POSTPROCESSING.EffectComposer(renderer);
+// composer.addPass(new POSTPROCESSING.RenderPass(scene, camera)); // Renders the main scene for other passes
+
+// const effectPass = new POSTPROCESSING.EffectPass(
+//     camera, 
+//     new POSTPROCESSING.UnrealBloomPass()
+// );
+// effectPass.renderToScreen = true;
+// composer.addPass(effectPass);
+
+// const renderScene = new POSTPROCESSING.RenderPass(scene, camera); 
+
+// let bloomPass = new POSTPROCESSING.BloomEffect();
+// bloomPass.threshold = 0;
+// bloomPass.strength = 1.5;
+// bloomPass.radius = 0;
+
+// const effectPass = new POSTPROCESSING.EffectPass(camera, bloomPass);
+
+// composer = new POSTPROCESSING.EffectComposer(renderer);
+// composer.addPass(renderScene);
+// composer.addPass(bloomPass);
+
+// console.log('Composer createad', composer);
+// console.log('Effect pass created', bloomPass);
+
+
+const bloomOptions = {
+    luminanceThreshold: 89,
+    luminanceSmoothing: 90.5,
+    height: 480
+};
+
+
+const composer = new POSTPROCESSING.EffectComposer(renderer);
+composer.addPass(new POSTPROCESSING.RenderPass(scene, camera));
+
+let glitchPass = new POSTPROCESSING.GlitchEffect();
+let bloomEffect = new POSTPROCESSING.BloomEffect(bloomOptions);
+
+const effectPassA = new POSTPROCESSING.EffectPass(camera, bloomEffect);
+effectPassA.renderToScreen = true;
+
+glitchPass.renderToScreen = true;
+composer.addPass(effectPassA);
+
+// Post Processing currently not working
+
+// -------------------------------------------------
+
+// Lights
+
+let keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
+keyLight.position.set(-100, 0, 100);
+keyLight.target.position.set(0, 180, 0)
+
+
+let fillLightOne = new THREE.DirectionalLight(new THREE.Color('hsl(210, 100%, 75%)'), 0.75);
+fillLightOne.position.set(100, 0, 100);
+
+let fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(240, 100%, 75%)'), 0.75);
+fillLight.position.set(100, 0, 100);
+
+let backLight = new THREE.DirectionalLight(0xffffff, 1.0);
+backLight.position.set(100, 0, -100).normalize();
+
+let pointLight = new THREE.PointLight( 0xffffff, 10, 40);
+pointLight.position.set( 0, 120, 0 ).normalize(); 
+
+let ambientLight = new THREE.AmbientLight(0x555555, 1);
+// scene.add(0, 140, 0);
+scene.add(ambientLight);
+
+// Main Light used in order to light up the Beetle Object. A SpotLightHelper is created below in order to help us
+// visualize how the light is moving and whether it's cone is wide enough to hit the object and light it, casting
+// a shadow on it's corners
+
+let spotLightIntensity = 2;
+let spotLightColor = 0xffffff;
+let spotLight = new THREE.SpotLight(spotLightColor, 0, 550);
+spotLight.position.set(0, 120, 0);
+spotLight.target.position.set(0, 100, 0);
+spotLight.castShadow = true;
+spotLight.angle = Math.PI / 10;
+// scene.add(spotLight);
+// scene.add(spotLight.target);
+
+// Set up shadow properties for the SpotLight
+// spotLight.castShadow.camera.near = 0.5;
+// spotLight.castShadow.camera.far = 15000;
+
+let spotLightHelper = new THREE.SpotLightHelper(spotLight);
+// scene.add(spotLightHelper);
+
+
+// Previously added two spotlights that are located at the left and right of the BeetleObject and that were supposed to light up
+// and illuminate the sides of the Object when the audio is above a certain frequency. Did not work correctly as it ended up 
+// illuminating the actual Beetle Object too much and the effect was barely noticeable. Will come back to it or completely scratch
+// that from the project later.
+
+let spotLightTwo = new THREE.SpotLight(spotLightColor, 2);
+let spotLightThree = new THREE.SpotLight(spotLightColor, 2);
+spotLightTwo.position.set(-250, 220, 0);
+spotLightThree.position.set(250, 220, 0);
+spotLightTwo.target.position.set(0, 300, 0);
+spotLightThree.target.position.set(0, 300, 0);
+spotLightTwo.angle = Math.PI / 10;
+spotLightThree.angle = Math.PI / 10;
+let spotLightHelperTwo = new THREE.SpotLightHelper(spotLightTwo);
+let spotLightHelperThree = new THREE.SpotLightHelper(spotLightThree);
+// scene.add(spotLightTwo);
+// scene.add(spotLightThree);
+// scene.add(spotLightHelperTwo)
+// scene.add(spotLightHelperThree);
+
+
+// Point Light created and inspired by the previous code
+var sphere = new THREE.SphereBufferGeometry( 5, 16, 8 );
+light1 = new THREE.PointLight( 0xffffff, 2, 50 );
+light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xffffff } ) ) );
+// light1.position.x = 0;
+// light1.position.y = 180;
+// light1.position.z = 0;
+
+// #toDo: light1 doesn't seem to be changing anything. Revisit it it's purpose later on.
+scene.add( light1 );
+
+
+// scene.add(pointLight);
+// scene.add(keyLight);
+// scene.add(fillLight);
+// scene.add(backLight);
+
+// ------------------------------------------------
+
+/*
+ * 
+ * Fog Element
+ * 
+ */
+
+ // Add Fog, set color and add it to the scene.
+// scene.fog = new THREE.FogExp2(0x000000, 0.001);
+// renderer.setClearColor(scene.fog.color);
+
+scene.fog = new THREE.FogExp2(0x11111f, 0.002);
+renderer.setClearColor(scene.fog.color);
+
+
+// ------------------------------------------------
+
+/*
+ * 
+ * Cloud Plane & Background
+ * 
+ */
+
+let cloudParticles = [];
+let cloud;
+let lightning;
+
+// Loader for the Smoke that will represent the different clouds
+let textureLoader = new THREE.TextureLoader(loadingManager);
+// textureLoader.load('/assets/smoke.png', (texture) => {
+    // texture.wrapS = THREE.RepeatWrapping;
+    // texture.wrapT = THREE.RepeatWrapping;
+//     let cloudGeometry = new THREE.PlaneBufferGeometry(1500, 1500);
+//     let cloudMaterial = new THREE.MeshLambertMaterial({
+//         map: texture,
+//         transparent: true,
+//     })
+//     let cloudMaterialTwo = new THREE.MeshBasicMaterial({
+//         color: 0x0000ff, 
+//         wireframe: true
+//     })
+
+//     for (let p=0; p<3; p++) {
+//         cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+//         cloud.position.set(
+//            0,
+//             -50,
+//             0,
+//         );
+//         cloud.rotation.x = - (Math.PI / 2);
+//         // cloud.rotation.y = -0.12
+//         cloud.rotation.z = -0.12;
+//         cloud.material.opacity = 0.6;
+//         cloudParticles.push(cloud);
+//         // Clouds currently not working so we will actually hide them from the scene for now
+//         // scene.add(cloud);
+
+
+//     }
+// })
+
+// Function that animates the Cloud Plane Geometry
+
+const animateCloud = () => {
+    cloud.rotation.z += 0.002;
+}
+
+const createLightForCloud = () => {
+    lightning = new THREE.PointLight(0x062d89, 100, 400 ,1.7);
+    lightning.position.set(0,-200,0);
+    let sphereSize = 10;
+    let pointLightHelper= new THREE.PointLightHelper(lightning, sphereSize);
+    scene.add(lightning);
+    scene.add(pointLightHelper)
+}
+
+
+// createLightForCloud();
+
+const animateLightning = () => {
+    if(Math.random() > 0.93 || lightning.power > 100) {
+        if(lightning.power < 100) 
+          lightning.position.set(
+            Math.random()*400,
+            -200,
+            Math.random()*400,
+          );
+        lightning.power = 50 + Math.random() * 500;
+      }
+}
+
+// ------------------------------------------------
+
+
+// Create and set the different Axes #helper #toDelete
+let axesHelper = new THREE.AxisHelper(1000);
+scene.add(axesHelper);
+
+// let mtlLoader = new THREE.TextureLoader();
+// mtlLoader.setTexturePath('/assets/');
+// mtlLoader.setPath('/assets/');
+// mtlLoader.load('blackMarble.jpg', function (materials) {
+
+// materials.preload();
+
+let texture = textureLoader.load( '/assets/blackMarble2.jpg' );
+// immediately use the texture for material creation
+// let material = new THREE.MeshPhongMaterial( { map: texture } );
+// material.emissive('#4d2f78');
+// console.log('Material has properties', material);
+let material = new THREE.MeshPhongMaterial({ map: texture });
+
+let objLoader = new THREE.OBJLoader(loadingManager);
+// objLoader.setMaterials(materials);
+objLoader.setPath('/assets/');
+objLoader.load('beetle.obj', function (object) {
+
+
+    object.traverse(function(node) {
+        if (node.isMesh) {
+            node.material = material;
+            // Output the different meshes that we found 
+            // console.log('Encountered Mesh', node)
+        }
+    })
+
+    beetleObject = object;
+    beetleObject.position.y = 100;
+    beetleObject.rotation.y = 158 * 0.02;
+    // beetleObject.rotation.z = - (Math.PI / 6)
+    beetleObject.position.z = 20;
+    beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.15;
+    beetleObject.name = 'beetle';
+    scene.add(beetleObject);
+
+    // Activate this in order to get it to change colors automatically
+    // Will later on be set up so that the colors change depending on the actual buttons clicked
+    // setTimeout(changeTexture, 5000)
+
+
+    // Associate the light to the Beetle Object as a pivot point
+
+    pivotPoint = new THREE.Object3D();
+    beetleObject.add(pivotPoint);
+    pivotPoint.add(light1);
+
+    pivotPoint2 = new THREE.Object3D();
+    beetleObject.add(pivotPoint2);
+    pivotPoint2.add(spotLight);
+    // console.log('Pivot point 2', pivotPoint2);
+
+    // console.log('Pivot point one', pivotPoint)
+});
+
+// });
+
+// -------------------------------------------------------
+
+// Create Plane Geometry
+
+const createPlaneGeometry = () => {
+    planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    planeTexture = THREE.ImageUtils.loadTexture('/assets/blueRock.jpg');
+    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
+    planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+    planeMesh.position.set(0,-50,0);
+    planeMesh.rotation.x =  - (Math.PI / 2);
+
+    // Add Plane Mesh to the scene
+    scene.add(planeMesh);
+}
+
+// Black Rock Plane
+
+const createBlackPlaneGeometry = () => {
+    planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    planeTexture = THREE.ImageUtils.loadTexture('/assets/blackRock.png');
+    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
+    planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+    planeMesh.position.set(0,-50,0);
+    planeMesh.rotation.x =  - (Math.PI / 2);
+    scene.add(planeMesh);
+}
+
+// Turquoise Rock Plane
+
+const createTurquoisePlaneGeometry = () => {
+    planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    planeTexture = THREE.ImageUtils.loadTexture('/assets/turquoiseMarble.jpg');
+    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
+    planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+    planeMesh.position.set(0,-50,0);
+    planeMesh.rotation.x =  - (Math.PI / 2);
+    scene.add(planeMesh);
+}
+
+const createBluePlaneGeometry = () => {
+    planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    planeTexture = THREE.ImageUtils.loadTexture('/assets/blueRock.jpg');
+    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
+    planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+    planeMesh.position.set(0,-50,0);
+    planeMesh.rotation.x =  - (Math.PI / 2);
+    scene.add(planeMesh);
+}
+
+const createRockyTerrainGeometry = () => {
+    planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    planeTexture = THREE.ImageUtils.loadTexture('/assets/rockyTerrain.jpg');
+    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
+    planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+    planeMesh.position.set(0,-50,0);
+    planeMesh.rotation.x =  - (Math.PI / 2);
+    scene.add(planeMesh);
+}
+
+const createBlackRockGeometry = () => {
+    planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    planeTexture = THREE.ImageUtils.loadTexture('/assets/blackRock.jpg');
+    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
+    planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+    planeMesh.position.set(0,-50,0);
+    planeMesh.rotation.x =  - (Math.PI / 2);
+    scene.add(planeMesh);
+}
+
+
+const createGreyGoldPlaneGeometry = () => {
+    planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    planeTexture = THREE.ImageUtils.loadTexture('/assets/greyMarble5.jpg');
+    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
+    planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+    planeMesh.position.set(0,-50,0);
+    planeMesh.rotation.x =  - (Math.PI / 2);
+    scene.add(planeMesh);
+}
+
+
+
+// Function used to remove the current plane geometry before we change it to something else
+
+const removePlaneGeometry = () => {
+    scene.remove(planeMesh);
+    planeMesh.geometry.dispose();
+    planeMesh.material.dispose();
+    planeMesh = undefined; 
+}
+
+// Function Calls
+
+createPlaneGeometry();
+
+// Create particle system
+
+const createParticleSystem = () => {
+    numParticles = 1000;
+    let width = 500;
+    let height = 500;
+    let depth = 500;
+    particles = []
+    particleGeometry = new THREE.Geometry()
+
+    for(let i=0; i<numParticles; i++) {
+        const particle = {
+            position: new THREE.Vector3(
+                  Math.random() * (- 500),
+                  Math.random() * (- 500),
+                  Math.random() * (- 500),
+            ),
+            velocity: new THREE.Vector3(
+                  rand(-0.01, 0.01),
+                  0.06,
+                  rand(-0.01, 0.01)),
+            acceleration: new THREE.Vector3(0, -0.001, 0),
+        }
+
+        const particleTwo = new THREE.Vector3(
+            Math.random() * (-500),
+            Math.random() * (-500),
+            Math.random() * (-500),
+        )
+
+        let pX =  Math.random() * (- 500);
+        let pY =  Math.random() * (- 500);
+        let pZ =  Math.random() * (- 500);
+
+        
+        let particleThree = new THREE.Vector3(pX, pY, pZ);
+        particleThree.diff = Math.random() + 0.2;
+        // particleThree.position = new THREE.Vector3(pX, pY, pZ);
+        particleThree.default = new THREE.Vector3(pX, pY, pZ);
+        particleThree.nodes = []; // We add to this all the nodes that the particle is currently connected to
+        particleThree.neighborCount = 0;
+        
+        particles.push(particleThree)
+        
+        // We add one vertex per particle to the geometry object which is
+        // used to store the position of each particle
+        // particleGeometry.vertices.push(particle.position)
+        particleGeometry.vertices.push(particleThree);
+    }
+
+    // Center the geometry around it's center
+    particleGeometry.center();
+
+    const mat = new THREE.PointsMaterial({color:0xffffff, size: 0.1})
+
+    // Previously loaded a material for the particles themselves
+
+    let pMaterial = new THREE.PointsMaterial({
+        color: 0xFFFFFF,
+        size: 1.5,
+        map: THREE.ImageUtils.loadTexture(
+          "/assets/particle.png"
+        ),
+        blending: THREE.AdditiveBlending,
+        transparent: true
+      });
+
+    const particleMaterial = new THREE.ShaderMaterial({
+        uniforms: { 
+            color: { type: 'c', value: new THREE.Color( 0xffffff ) }, 
+            height: { type: 'f', value: -200 }, 
+            elapsedTime: { type: 'f', value: 0 },
+            radiusX: { type: 'f', value: 2.5 },
+            radiusY: { type: 'f', value: 2.5 },
+        },
+        vertexShader: document.getElementById( 'vertex-shader' ).textContent,
+        fragmentShader: document.getElementById( 'fragment-shader' ).textContent
+    })
+      
+    // ParticleMesh is the equivalent of ParticleSystem in all the tutorials
+    particlesMesh = new THREE.Points(particleGeometry, pMaterial)
+    // particlesMesh.position.z = 100;
+    particlesMesh.position.y = - 100 / 2;
+    // particlesMesh.position.x = 0;
+
+
+    // console.log('particlesMesh is ', particlesMesh)
+    // particlesMesh.sortParticles = true;
+    // particlesMesh.scale.x = particlesMesh.scale.y = particlesMesh.scale.z = 0.01;
+
+    scene.add(particlesMesh);
+}
+
+// Update Particle System
+
+
+// Animation loop for particles
+
+const createSmokeSystem = () => {
+    let smokeTexture = THREE.ImageUtils.loadTexture('https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png');
+    let smokeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: smokeTexture, transparent: true});
+    let smokeGeo = new THREE.PlaneGeometry(300,300);
+    let smokeParticles = [];
+
+
+    for (p = 0; p < 150; p++) {
+        var particle = new THREE.Mesh(smokeGeo,smokeMaterial);
+        particle.position.set(Math.random()*500-250,Math.random()*500-250,Math.random()*1000-100);
+        particle.rotation.z = Math.random() * 360;
+        scene.add(particle);
+        smokeParticles.push(particle);
+    }
+}
+
+// createSmokeSystem()
+
+createParticleSystem();
+
+let textureCounter = 1;
+
+let changeTexture = () => {
+
+    // Remove object from Scene
+    let name = 'beetle'
+    let selectedObject = scene.getObjectByName(beetleObject.name);
+    scene.remove( selectedObject );
+    // animate();
+ 
+
+    let material = new THREE.MeshNormalMaterial({wireframe: true});
+    // let objLoader = new THREE.OBJLoader();
+    // objLoader.setMaterials(materials);
+    objLoader.setPath('/assets/');
+    objLoader.load('beetle.obj', function (object) {
+    
+        object.traverse(function(node) {
+            if (node.isMesh) {
+                node.material = material;
+                // console.log('Encountered Mesh', node)
+            }
+
+        })
+    
+        beetleObject = object;
+        beetleObject.position.y = 100;
+        beetleObject.rotation.y = 158 * 0.02;
+        beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.35;
+
+        scene.add(beetleObject);
+    });
+
+    if (textureCounter === 1) {
+        textureCounter = 2;
+        setTimeout(changeBeetleToGreyMarble, 5000);
+    } else if (textureCounter == 2) {
+        textureCounter = 3;
+        seTimeout(changeBeetleToWhiteMarble, 5000);
+    } else if (textureCounter == 3) {
+        textureCounter = 4;
+        seTimeout(changeBeetleToGreenMarble, 5000);
+    } 
+}
+
+// White Marble Texture Change
+const changeBeetleToBlackMarble = () => {
+    let texture = textureLoader.load('/assets/blackMarble2.jpg' );
+    // immediately use the texture for material creation
+    let material = new THREE.MeshPhongMaterial( { map: texture } );
+    
+    // let objLoader = new THREE.OBJLoader();
+    // objLoader.setMaterials(materials);
+    objLoader.setPath('/assets/');
+    objLoader.load('beetle.obj', function (object) {
+    
+        object.traverse(function(node) {
+            if (node.isMesh) {
+                node.material = material;
+                // console.log('Encountered Mesh', node)
+            }
+
+        })
+    
+        beetleObject = object;
+        beetleObject.name = 'beetle'
+        beetleObject.position.y = 100;
+        beetleObject.rotation.y = 158 * 0.02;
+        beetleObject.position.z = 20;
+        beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.15;
+
+        
+        scene.add(beetleObject);
+        // setTimeout(changeBeetleToGreenMarble, 5000);
+
+        // Associate the light to the pivot point once again
+        pivotPoint = new THREE.Object3D();
+        beetleObject.add(pivotPoint);
+        pivotPoint.add(light1);
+    
+        pivotPoint2 = new THREE.Object3D();
+        beetleObject.add(pivotPoint2);
+        pivotPoint2.add(spotLight);
+    });
+}
+
+
+// #chosen ones
+// kandinsky3
+// kandinsky4
+//
+
+// White Marble Texture Change
+const changeBeetleToWhiteMarble = () => {
+    let texture = textureLoader.load('/assets/whiteMarble.jpg' );
+    // immediately use the texture for material creation
+    let material = new THREE.MeshPhongMaterial( { map: texture } );
+    
+    // let objLoader = new THREE.OBJLoader();
+    // objLoader.setMaterials(materials);
+    objLoader.setPath('/assets/');
+    objLoader.load('beetle.obj', function (object) {
+    
+        object.traverse(function(node) {
+            if (node.isMesh) {
+                node.material = material;
+                // console.log('Encountered Mesh', node)
+            }
+
+        })
+    
+        beetleObject = object;
+        beetleObject.name = 'beetle'
+        beetleObject.position.y = 100;
+        beetleObject.rotation.y = 158 * 0.02;
+        beetleObject.position.z = 20;
+        beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.15;
+
+        
+        scene.add(beetleObject);
+        // setTimeout(changeBeetleToGreenMarble, 5000);
+
+        // Associate the light to the pivot point once again
+        pivotPoint = new THREE.Object3D();
+        beetleObject.add(pivotPoint);
+        pivotPoint.add(light1);
+    
+        pivotPoint2 = new THREE.Object3D();
+        beetleObject.add(pivotPoint2);
+        pivotPoint2.add(spotLight);
+    });
+}
+
+// Grey Marble Texture Change
+const changeBeetleToGreyMarble = () => {
+    let texture = textureLoader.load( '/assets/greyMarble5.jpg' );
+    // immediately use the texture for material creation
+    let material = new THREE.MeshPhongMaterial( { map: texture } );
+    
+    // let objLoader = new THREE.OBJLoader();
+    // objLoader.setMaterials(materials);
+    objLoader.setPath('/assets/');
+    objLoader.load('beetle.obj', function (object) {
+    
+        object.traverse(function(node) {
+            if (node.isMesh) {
+                node.material = material;
+                // console.log('Encountered Mesh', node)
+            }
+
+        })
+    
+        beetleObject = object;
+        beetleObject.name = 'beetle'
+        beetleObject.position.y = 100;
+        beetleObject.rotation.y = 158 * 0.02;
+        beetleObject.position.z = 20;
+        beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.15;
+
+        
+        scene.add(beetleObject);
+        // setTimeout(changeBeetleToGreenMarble, 5000);
+
+        // Associate the light to the pivot point once again
+        pivotPoint = new THREE.Object3D();
+        beetleObject.add(pivotPoint);
+        pivotPoint.add(light1);
+    
+        pivotPoint2 = new THREE.Object3D();
+        beetleObject.add(pivotPoint2);
+        pivotPoint2.add(spotLight);
+    });
+}
+
+
+
+// Green Marble Texture Change
+const changeBeetleToGreenMarble = () => {
+    let texture = textureLoader.load( '/assets/greenMarble.jpg' );
+    // immediately use the texture for material creation
+    let material = new THREE.MeshPhongMaterial( { map: texture } );
+    
+    // let objLoader = new THREE.OBJLoader();
+    // objLoader.setMaterials(materials);
+    objLoader.setPath('/assets/');
+    objLoader.load('beetle.obj', function (object) {
+    
+        object.traverse(function(node) {
+            if (node.isMesh) {
+                node.material = material;
+                console.log('Encountered Mesh', node)
+            }
+        })
+    
+        beetleObject = object;
+        beetleObject.name = 'beetle'
+        beetleObject.position.y = 100;
+        beetleObject.rotation.y = 158 * 0.02;
+        beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.35;
+
+        scene.add(beetleObject);
+        setTimeout(changeBeetleToRuby, 2000);
+
+    });
+}
+
+// Pink Marble #pinkMarble Beetle
+
+const changeBeetleToPinkMarble = () => {
+    // let texture = textureLoader.load( '/assets/brownMarble.jpg' );
+    let texture = textureLoader.load( '/assets/blueMarble3.jpg' );
+    // immediately use the texture for material creation
+    // let material = new THREE.MeshNormalMaterial({wireframe: true});
+    let material = new THREE.MeshPhongMaterial( { map: texture } );
+    
+    // let objLoader = new THREE.OBJLoader();
+    // objLoader.setMaterials(materials);
+    objLoader.setPath('/assets/');
+    objLoader.load('beetle.obj', function (object) {
+    
+        object.traverse(function(node) {
+            if (node.isMesh) {
+                node.material = material;
+                // console.log('Encountered Mesh', node)
+            }
+
+        })
+    
+        beetleObject = object;
+        beetleObject.name = 'beetle'
+        beetleObject.position.y = 100;
+        beetleObject.rotation.y = 158 * 0.02;
+        beetleObject.position.z = 20;
+        beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.15;
+
+        
+        scene.add(beetleObject);
+        // setTimeout(changeBeetleToGreenMarble, 5000);
+
+        // Associate the light to the pivot point once again
+        pivotPoint = new THREE.Object3D();
+        beetleObject.add(pivotPoint);
+        pivotPoint.add(light1);
+    
+        pivotPoint2 = new THREE.Object3D();
+        beetleObject.add(pivotPoint2);
+        pivotPoint2.add(spotLight);
+    });
+}
+
+
+// Projects Michel Angelo's Creation of Adam's painting onto the Beetle
+
+const changeBeetleToDarkGreenMarble = () => {
+
+    let texture = textureLoader.load( '/assets/brownMarble.jpg' );
+    // immediately use the texture for material creation
+    let material = new THREE.MeshPhongMaterial( { map: texture } );
+    
+    // let objLoader = new THREE.OBJLoader();
+    // objLoader.setMaterials(materials);
+    objLoader.setPath('/assets/');
+    objLoader.load('beetle.obj', function (object) {
+    
+        object.traverse(function(node) {
+            if (node.isMesh) {
+                node.material = material;
+                // console.log('Encountered Mesh', node)
+            }
+
+        })
+    
+        beetleObject = object;
+        beetleObject.name = 'beetle'
+        beetleObject.position.y = 100;
+        beetleObject.rotation.y = 158 * 0.02;
+        beetleObject.position.z = 20;
+        beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.15;
+
+        
+        scene.add(beetleObject);
+        // setTimeout(changeBeetleToGreenMarble, 5000);
+
+        // Associate the light to the pivot point once again
+        pivotPoint = new THREE.Object3D();
+        beetleObject.add(pivotPoint);
+        pivotPoint.add(light1);
+    
+        pivotPoint2 = new THREE.Object3D();
+        beetleObject.add(pivotPoint2);
+        pivotPoint2.add(spotLight);
+    });
+
+
+}
+
+
+// ------------------------------------------------------
+
+// Light-related changes 
+// Some light changes will shift depending on the color of the marble that is displayed
+
+// This function modifies a variable called lightIntensityDivider based on the color of the marble 
+// texture that is displayed on top of the Beetle object
+// This is done because when we switch, for instance, to the white marble texture, the default light intensity divider
+// set to 33, creates too much specular reflection on the object itself, which prevents the user / us from actually
+// seeing the texture itself.
+
+const changeLightIntensity = (marbleColor) => {
+
+    console.log('#lightIntensity changed for color', marbleColor);
+
+    if (marbleColor === 'white') {
+        lightIntensityDivider = 80;
+    } else if (marbleColor === 'black') {
+        lightIntensityDivider = 33;
+    } else if (marbleColor === 'veryLight') {
+        lightIntensityDivider = 110;
+    } else if (marbleColor === 'grey') {    
+        lightIntensityDivider = 50;
+    } else if (marbleColor === 'lightBlue') {
+        lightIntensityDivider = 25;
+    }
+
+}
+
+
+// Re-connect pivot to the newly created beetle - to be added every time a new beetle is created and rendered with a different texture
+
+const connectPivotToBeetle = () => {
+    pivotPoint2 = new THREE.Object3D();
+    beetleObject.add(pivotPoint2);
+    pivotPoint2.add(spotLight);
+}
+
+// De-activate this so that it doesn't switch it to black directly
+// setTimeout(changeBeetleToWhiteMarble, 10000);
+
+// Detect different actions
+
+// const onDocumentMouseMove = (event) => {
+//     console.log('Mouse moved');
+//     console.log(event);
+//     changeVelocityParticles(event);
+// }
+
+const changeVelocityParticles = (event) => {
+    let lengthOfPositions = arrayOfCursorPositions.length;
+    if (lengthOfPositions < 4) {
+        arrayOfCursorPositions.push(event.clientX, event.clientY);
+    } else {
+        // Make it empty again so that we can keep filling it up
+        arrayOfCursorPositions = []
+    }
+
+    // Now we compare positions to move particles
+    previousClientX = arrayOfCursorPositions[0];
+    previousClientY = arrayOfCursorPositions[1];
+    currentClientX = arrayOfCursorPositions[2];
+    currentClientY = arrayOfCursorPositions[3];
+
+    if (previousClientX < currentClientX) {
+        console.log('ClientX is decreasing');
+        console.log(previousClientY, ' is smaller than ', currentClientY);
+        mesh.rotation.z -= 0.05;
+    } else if (previousClientX > currentClientX) {
+        mesh.rotation.z += 0.05;
+    } else if (previousClientY < currentClientY) {
+        mesh.rotation.z -= 0.05;
+    } else if (previousClientY < currentClientY) {
+        mesh.rotation.z += 0.05;
+    } 
+
+    mesh.geometry.verticesNeedUpdate = true
+
+}
+
+const onDocumentMouseMove = (event) => {
+
+    mouseX = ( event.clientX - windowHalfX ) / 100;
+    mouseY = ( event.clientY - windowHalfY ) / 100;
+
+    // console.log('Mouse X', mouseX);
+    // console.log('Mouse Y', mouseY);
+
+}
+
+
+const onMouseDown = () => {
+
+    console.log('Audio context state general', audioContext.state);
+    // if (audioContext.state === 'running') {
+    //     console.log('Audio Context is running');
+    //     audioContext.suspend().then(() => {
+    //         console.log('It is now paused')
+    //     })
+    // } else if (audioContext.state === 'suspended') {
+    //     console.log('Audio Context state is suspended');
+    //     audioContext.resume().then(() => {
+    //         console.log(`Music is playing now`);
+    //     })
+        
+    // }
+
+    // Comment this out to prevent the Marble texture to change and from the different wireframes to show
+
+    // if (isBeetleWireframe === false) {
+    //     console.log('On Document Mouse move Two called')
+    //     isBeetleWireframe = true;
+    //     removeCurrentBeetleObject();
+    
+    //     let material = new THREE.MeshNormalMaterial({wireframe: true});
+    //     let objLoader = new THREE.OBJLoader();
+    //     // objLoader.setMaterials(materials);
+    //     objLoader.setPath('/assets/');
+    //     objLoader.load('beetle.obj', function (object) {
+        
+    //         object.traverse(function(node) {
+    //             if (node.isMesh) {
+    //                 node.material = material;
+    //                 console.log('Encountered Mesh', node)
+    //             }
+    
+    //         })
+        
+    //         beetleObject = object;
+    //         beetleObject.name = 'beetle'
+    //         beetleObject.position.y = 100;
+    //         beetleObject.rotation.y = 158 * 0.02;
+    //         beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.35;
+
+    //         scene.add(beetleObject);
+    //     });
+    //     isBeetleWireframe = false;
+    //     setTimeout(() => {
+    //         changeBeetleToBlackMarble();
+    //     }, 3000)
+    // }
+    
+
+}
+
+const removeCurrentBeetleObject = () => {
+    // let name = 'beetle'
+    // let selectedObject = scene.getObjectByName(beetleObject.name);
+    scene.remove(beetleObject);
+    // beetleObject.geometry.dispose();
+    // beetleObject.material.dispose();
+    beetleObject = undefined; 
+}
+
+
+// Event Listeners for the page
+
+// Mouse down triggers the beetle's wireframe to show instead of the texture
+document.addEventListener( 'mousedown', onMouseDown, false );
+// Mouse move used here in order to track the mouse position within the page
+document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+// Event listener for the menu click
+
+
+// ------------------------------------------------------
+
+// Load Web Audio API & shit
+// WEb Audio API is a high level Javascript API for processing and synthesizing audio
+// in web applications. Allows dynamic sound effects in games and real-time
+// analysis in music visualizers.
+
+// Music visuaalizers create to render ani;mations that are synchronized to changes in
+// the music properties, suh as loundness, frequency, etc. 
+
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+audioContext = new AudioContext();
+
+// Function that is called when the song ends playing
+// #music
+
+const onEnded = () => {
+
+    isSongFinished = true;
+
+    // Ensures that the sound wave shows 'Play' when the song ends & also that the variable musicPlaying is changed to the boolean false
+    // at the end of the song
+    toggleSoundWave();
+    console.log('Song finished playing', isSongFinished);
+    console.log('Now we have the choice between playing another song or replaying this one');
+
+
+}
+
+
+const URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/No+Church+In+The+Wild.mp3'
+const SIMONE_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Nina+Simone+-+Sinnerman+(320++kbps).mp3';
+const KANYE_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Flashing+Lights.mp3';
+const ERIK_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Erik+Satie+-+Gymnop%C3%A9die+No.1.mp3'
+const RYU_URL = "https://music-samarra-group.s3.us-east-2.amazonaws.com/Ryuichi+Sakamoto-+'Merry+Christmas+Mr+Lawrence'.mp3";
+const LUDO_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Ludovico+Einaudi+-+Una+Mattina+(Extended+Remix).mp3';
+const BELDI_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/ISSAM+-+Trap+Beldi+(Prod+Adam+K).mp3';
+const RUNAWAY_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Kanye+West+-+Runaway+(Video+Version)+ft.+Pusha+T.mp3';
+const TEST_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/trapBeldiShort.mp3';
+
+let songBuffer, analyser;
+
+// Function called when the user clicks on the SoundWave button on the bottom right when the song has finished
+const playSong = () => {
+    window.fetch(BELDI_URL)
+    .then(response => response.arrayBuffer())
+    .then(arrayBuffer => 
+        // Creates a short audio asset stored in memory, created from an audio file
+        // Once put into an AudioBuffer, the audio can be played by being passed
+        // into AudioBufferSourceNode
+        audioContext.decodeAudioData(arrayBuffer)
+    )
+    .then(audioBuffer => {
+        console.log('Audio buffer')
+        console.log(audioBuffer)
+        source = audioContext.createBufferSource();
+        source.buffer = audioBuffer;
+
+        // Make sure that the onEnded function is called when the song ends 
+        source.onended = onEnded;
+
+        // Create the analyzer node and connect it between the input
+        // and the output so that it can provide us with data
+        // abou the actual sound we have
+        analyser = audioContext.createAnalyser();
+
+        source.connect(analyser);
+
+        console.log('Source given is', source);
+        analyser.connect(audioContext.destination);
+
+        // Change the analyser data available so that we can access it later on.
+        // By default, the analyser will give us frequency data with 1024 data points.
+        // We can change this by setting the fftSize property.
+        analyser.fftSize = 64;
+        frequencyData = new Uint8Array(analyser.frequencyBinCount);
+        domainData = new Uint8Array(analyser.fftSize); // Uint8Array should be the same length as the fftSize
+        
+        // analyser.getByteFrequencyData(frequencyData);
+
+        console.log('Analyser is', analyser);
+        source.start();
+    })
+}
+
+
+// Not necessary to play the #music on load
+
+// window.onload = () => {
+//     window.fetch(BELDI_URL)
+//     .then(response => response.arrayBuffer())
+//     .then(arrayBuffer => 
+//         // Creates a short audio asset stored in memory, created from an audio file
+//         // Once put into an AudioBuffer, the audio can be played by being passed
+//         // into AudioBufferSourceNode
+//         audioContext.decodeAudioData(arrayBuffer)
+//     )
+//     .then(audioBuffer => {
+//         console.log('Audio buffer')
+//         console.log(audioBuffer)
+//         source = audioContext.createBufferSource();
+//         source.buffer = audioBuffer;
+
+//         // Make sure that the onEnded function is called when the song ends 
+//         source.onended = onEnded;
+
+//         // Create the analyzer node and connect it between the input
+//         // and the output so that it can provide us with data
+//         // abou the actual sound we have
+//         analyser = audioContext.createAnalyser();
+
+//         source.connect(analyser);
+
+//         console.log('Source given is', source);
+//         analyser.connect(audioContext.destination);
+
+//         // Change the analyser data available so that we can access it later on.
+//         // By default, the analyser will give us frequency data with 1024 data points.
+//         // We can change this by setting the fftSize property.
+//         analyser.fftSize = 64;
+//         frequencyData = new Uint8Array(analyser.frequencyBinCount);
+//         domainData = new Uint8Array(analyser.fftSize); // Uint8Array should be the same length as the fftSize
+        
+//         // analyser.getByteFrequencyData(frequencyData);
+
+//         console.log('Analyser is', analyser);
+//         source.start();
+//     })
+
+// }
+
+const toggleMusicOnOff = () => {
+
+    if (audioContext.state === 'running' && isSongFinished !== true) {
+        console.log('Audio Context is running');
+        audioContext.suspend().then(() => {
+            console.log('It is now paused')
+        })
+    } else if (audioContext.state === 'suspended' && isSongFinished !== true) {
+        console.log('Audio Context state is suspended');
+        audioContext.resume().then(() => {
+            console.log(`Music is playing now`);
+        })
+        
+    }
+}
+
+
+// ------------------------------------------------------
+
+// Inialize Pivot Point 2 Position so that the light is rendered the first time that the website
+// is actually displayed
+
+let time = Date.now() * 0.0005;
+// pivotPoint2.position.x = Math.sin(time * 0.7) * mouseX;
+// pivotPoint2.position.y = Math.sin(time * 0.1) * mouseY;
+// pivotPoint2.position.z = Math.sin(time * 0.2) * mouseX;
+
+// ------------------------------------------------------
+
+// Ensures that the scale of the different objects doesn't change when the window is resized
+
+
+// remember these initial values
+let tanFOV = Math.tan( ( ( Math.PI / 180 ) * camera.fov / 2 ) );
+let windowHeight = window.innerHeight;
+
+// Event Listeners
+// -----------------------------------------------------------------------------
+
+
+window.onresize = function () {
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+
+    camera.aspect = width / height;
+
+    // adjust the FOV
+    camera.fov = ( 360 / Math.PI ) * Math.atan( tanFOV * ( window.innerHeight / windowHeight ) );
+
+    camera.updateProjectionMatrix();
+    // camera look at here ?
+
+    renderer.setSize( width, height );
+    composer.setSize( width, height );
+    // renderer.render(scene, camera);
+
+};
+
+// ------------------------------------------------------
+
+/*
+ * Cursor Animations & shit
+ */
+
+// Set starting position of the cursor outside of the screen
+
+let clientX = -100;
+let clientY = -100;
+const innerCursor = document.querySelector(".cursor--small");
+
+const initCursor = () => {
+
+    console.log('Calling init cursor in order to move the cursor fucking position to the right place');
+
+    // Add listener to track the current mouse position, which constantly updates the two variables that are in the global scope
+    document.addEventListener("mousemove", e => {
+        clientX = e.clientX;
+        clientY = e.clientY;
+    })
+
+    console.log('Client X is', clientX);
+    console.log('Client Y is', clientY);
+
+    innerCursor.style.transform = `translate(${clientX}px, ${clientY}px)`;
+    // Transform the inner cursor to the current mouse position
+    // Use requestAnimationFrame for smotth perfromance
+}
+
+const updateCursor = () => {
+    innerCursor.style.transform = `translate(${clientX}px, ${clientY}px)`;
+}
+
+initCursor();
+
+
+/*
+ * Cursor Animations II : Setting up the Circle on Canvas
+ */
+
+let lastX = 0;
+let lastY = 0;
+let isStuck = false;
+let showCursor = false;
+let group, stuckX, stuckY, fillOuterCursor;
+let polygon;
+
+const initCanvas = () => {
+
+    const canvas = document.querySelector(".cursor--canvas");
+    const shapeBounds = {
+        width: 75,
+        height: 75
+    }
+
+    paper.setup(canvas);
+    const strokeColor = "rgba(255,255,240,1)";
+    const strokeWidth = 1;
+    const segments = 8;
+    const radius = 12;
+
+    // We need these later for the "noisy circle"
+    const noiseScale = 150; // Speed
+    const noiseRange = 4; // Range of Distortion
+    let isNoisy = false; // State
+
+    // The base shape for the noisy circle
+    polygon = new paper.Path.RegularPolygon(
+        new paper.Point(0,0),
+        segments,
+        radius,
+    );
+    polygon.strokeColor = strokeColor;
+    polygon.strokeWidth = strokeWidth;
+    polygon.smooth();
+
+    group = new paper.Group([polygon]);
+    group.applyMatrix = false;
+
+    const noiseObjects = polygon.segments.map(() => new SimplexNoise());
+    let bigCoordinates = [];
+
+    // Function for linear interpolation of values
+    const lerp = (a, b, n) => {
+        return (1-n) * a + n * b;
+    }
+
+    // Function to map a value from one range to another range
+    const map = (value, in_min, in_max, out_min, out_max) => {
+        return (
+            ((value - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
+        );
+    }
+
+    // The Draw Loop of Paper.js
+    // 60 FPS with requestAnimationFrame under the hood
+    paper.view.onFrame = event => {
+        // using linear interpolation, the circle will move 0.2 (20%)
+        // of the distance between its current position and the mouse
+        // coordinates per Frame
+        if (!isStuck) {
+          // move circle around normally
+          lastX = lerp(lastX, clientX, 0.2);
+          lastY = lerp(lastY, clientY, 0.2);
+          group.position = new paper.Point(lastX, lastY);
+        } else if (isStuck) {
+          // fixed position on a nav item
+          lastX = lerp(lastX, stuckX, 0.2);
+          lastY = lerp(lastY, stuckY, 0.2);
+          group.position = new paper.Point(lastX, lastY);
+        }
+        
+        if (isStuck && polygon.bounds.width < shapeBounds.width) { 
+          // scale up the shape 
+          polygon.scale(1.08);
+        } else if (!isStuck && polygon.bounds.width > 30) {
+          // remove noise
+          if (isNoisy) {
+            polygon.segments.forEach((segment, i) => {
+              segment.point.set(bigCoordinates[i][0], bigCoordinates[i][1]);
+            });
+            isNoisy = false;
+            bigCoordinates = [];
+          }
+          // scale down the shape
+          const scaleDown = 0.92;
+          polygon.scale(scaleDown);
+        }
+        
+        // while stuck and big, apply simplex noise
+        if (isStuck && polygon.bounds.width >= shapeBounds.width) {
+          isNoisy = true;
+          // first get coordinates of large circle
+          if (bigCoordinates.length === 0) {
+            polygon.segments.forEach((segment, i) => {
+              bigCoordinates[i] = [segment.point.x, segment.point.y];
+            });
+          }
+          
+          // loop over all points of the polygon
+          polygon.segments.forEach((segment, i) => {
+            
+            // get new noise value
+            // we divide event.count by noiseScale to get a very smooth value
+            const noiseX = noiseObjects[i].noise2D(event.count / noiseScale, 0);
+            const noiseY = noiseObjects[i].noise2D(event.count / noiseScale, 1);
+            
+            // map the noise value to our defined range
+            const distortionX = map(noiseX, -1, 1, -noiseRange, noiseRange);
+            const distortionY = map(noiseY, -1, 1, -noiseRange, noiseRange);
+            
+            // apply distortion to coordinates
+            const newX = bigCoordinates[i][0] + distortionX;
+            const newY = bigCoordinates[i][1] + distortionY;
+            
+            // set new (noisy) coodrindate of point
+            segment.point.set(newX, newY);
+          });
+          
+        }
+        polygon.smooth();
+    };
+}
+
+initCanvas();
+
+/*
+ * Changes the Cursor color to black - Used when the menu transition is triggered
+ */
+
+const changeCursorColorToBlack = () => {
+    
+    setTimeout(() => {
+
+        const cursorElement = document.getElementById('cursor--small');
+        cursorElement.style.background = 'black';
+        polygon.strokeColor = "rgba(0,0,0,1)"
+
+    }, 450);
+
+    setTimeout(() => {
+        changeCursorColorToWhite();
+    }, 1800)
+
+}
+
+
+/*
+ * Changes the Cursor color to White - Used when the menu transition is triggered
+ */
+
+const changeCursorColorToWhite = () => {
+    
+    const cursorElement = document.getElementById('cursor--small');
+    cursorElement.style.background = 'white';
+
+    polygon.strokeColor = "rgba(255,255,240,1)"
+}
+
+
+/*
+ * Cursor Animations III : Handling the Hover State
+ */
+
+ const initHovers = () => {
+
+    // Find the center of the link element and set stuckX and stuckY to these, so that we can set the position of the noisy circle more easily
+    const handleMouseEnter = (e) => {
+        console.log('Mouse entered');
+        const navItem = e.currentTarget;
+        const navItemBox = navItem.getBoundingClientRect();
+        stuckX = Math.round(navItemBox.left + navItemBox.width / 2);
+        stuckY = Math.round(navItemBox.top + navItemBox.height / 2);
+        isStuck = true;
+    }
+
+    // Reset isStuck on MouseLeave
+    const handleMouseLeave = (e) => {
+        console.log('Is Stuck is', isStuck);
+        isStuck = false;
+    }
+
+    // Add Event Listeners to all .Link class items
+    const linkItems = document.querySelectorAll('.browser-window__link');
+    const soundWaveItem = document.querySelectorAll('.soundwave-container');
+    const plusSignItem = document.querySelectorAll('.plus-sign-container');
+
+    linkItems.forEach(item => {
+        item.addEventListener("mouseenter", handleMouseEnter);
+        item.addEventListener("mouseleave", handleMouseLeave);
+    })
+
+    soundWaveItem.forEach(item => {
+        item.addEventListener("mouseenter", handleMouseEnter);
+        item.addEventListener("mouseleave", handleMouseLeave);
+    })
+
+    plusSignItem.forEach(item => {
+        item.addEventListener("mouseenter", handleMouseEnter);
+        item.addEventListener("mouseleave", handleMouseLeave);
+    })
+
+
+
+    // Add Event Listeners to the Title
+    // const textItems = document.querySelectorAll('.titleText');
+
+    // textItems.forEach(item => {
+    //     item.addEventListener("mouseenter", handleMouseEnter);
+    //     item.addEventListener("mouseleave", handleMouseLeave);
+    // })
+}
+
+initHovers();
+
+
+const initiateContactPageHovers = () => {
+
+        // Find the center of the link element and set stuckX and stuckY to these, so that we can set the position of the noisy circle more easily
+        const handleMouseEnter = (e) => {
+            console.log('Mouse entered');
+            const navItem = e.currentTarget;
+            const navItemBox = navItem.getBoundingClientRect();
+            stuckX = Math.round(navItemBox.left + navItemBox.width / 2);
+            stuckY = Math.round(navItemBox.top + navItemBox.height / 2);
+            isStuck = true;
+        }
+    
+        // Reset isStuck on MouseLeave
+        const handleMouseLeave = (e) => {
+            console.log('Is Stuck is', isStuck);
+            isStuck = false;
+        }
+
+        const arrowItem = document.querySelectorAll('.arrowContainer');
+
+
+        console.log('ARROW ITEM ARE #arrowItem', arrowItem);
+
+        arrowItem.forEach(item => {
+            console.log('Adding event listeners to #arrowItem ')
+            item.addEventListener("mouseenter", handleMouseEnter);
+            item.addEventListener("mouseleave", handleMouseLeave);
+        })
+}
+
+// ------------------------------------------------------
+
+/*
+ * Connecting Lines Animation: This part of the script includes functions that will be used to calculate the distance between
+ * the different vertices that make up the ParticleMesh, create lines that connect them dynamically if the distance between those
+ * points is under a certain maximum, and finally, functions that will take care of deleting and removing those lines if the distance
+ * between the different vertices is too high
+ */
+
+
+// #lines
+
+let line;
+let linesObject = {};
+let lineGroup = new THREE.Group();
+let lineArray = [];
+// console.log('Line group', lineGroup)
+// lineGroup.verticesNeedUpdate = true;
+let lineMaterial = new THREE.LineBasicMaterial({
+    color: 0xffffff,
+    lineWidth: 1,
+});
+
+// Max distance there should be between the different points
+let maxDistance = 30;
+
+// Add lineGroup to the scene
+scene.add(lineGroup);
+
+const animateParticles = () => {
+
+    let particleCount = numParticles; 
+
+    // console.log('Particle count before', particleCount)
+    while (particleCount--) {
+
+        let timestamp = new Date() * 0.0005;
+
+        let particle = particleGeometry.vertices[particleCount];
+        // particle.z -= 0.1;
+        // particle.y = Math.cos(timestamp) * 7;
+        // particle.z = Math.sin(timestamp) * 7;
+
+        let move = Math.sin(clock.getElapsedTime() * Math.random()) / 2;
+        let particleVelocityObject = particles[particleCount];
+
+        // console.log('Particle passed', particle)
+        // console.log('Move', move);
+        // let offset = (move * particleVelocityObject.y);
+        // particle.z += move;
+        detectCloseByPoints(particle);
+
+    };
+
+    particleGeometry.verticesNeedUpdate = true;
+
+}
+
+const detectCloseByPoints = (particle) => {
+
+    let particleCount = numParticles;
+    while (particleCount--) {
+
+        let comparedParticle = particleGeometry.vertices[particleCount];
+        // console.log('Compared particle', comparedParticle);
+        // Make sure that the particle we're comparing it to is not the same on. They're objects so the references would be compared here
+        if (particle !== comparedParticle) { 
+
+            let distanceBetweenParticles = particle.distanceTo(comparedParticle); // Calculate the distance between the two particles moving around the space
+            // let connection = checkConnection(particle, comparedParticle);
+            
+            if (distanceBetweenParticles < maxDistance) {
+
+                // console.log('Found particles that are close');
+                // console.log('Particles are close to each other');
+                // console.log(particle);
+                // console.log(comparedParticle);
+                // createLine(particle, comparedParticle);
+                createLineTwo(particle, comparedParticle);
+
+            }
+        }
+
+    };
+
+}
+
+
+const createLineTwo = (particleOne, particleTwo) => {
+    
+    let particleOneNCount = particleOne.neighborCount;
+    let particleTwoNCount = particleTwo.neighborCount;
+
+    if (particleOneNCount < 2 && particleTwoNCount < 2) {
+        // console.log('Particle one', particleOne);
+        // console.log('Particle two', particleTwo);
+        let lineGeometry = new THREE.Geometry();
+        // console.log('Particle one default', particleOne.default);
+        lineGeometry.vertices.push(particleOne);
+        lineGeometry.vertices.push(particleTwo);
+
+        console.log('Particle one position is', particleOne.position)
+        lineGeometry.dynamic = true;
+
+        particleOne.neighborCount += 1;
+        particleTwo.neighborCount += 1;
+        let line = new THREE.Line(lineGeometry, lineMaterial);
+        // line.geometry.verticesNeedUpdate = true;
+        lineArray.push(line);
+        lineGroup.add(line);
+        scene.add(line);
+        // lineGroup.verticesNeedUpdate = true;
+        // console.log('Line group updated with new vertex', line);
+    }
+
+}
+
+const updateLines = () => {
+    // lineGroup.matrixAutoUpdate = true;
+    // lineGroup.geometry.verticesNeedUpdate = true;
+
+    let lineArrayLength = lineArray.length;
+    console.log('Line array length', lineArrayLength);
+
+    for (let i=0; i<lineArray.length; i++) {
+        let currentLine = lineArray[i];
+        // console.log('Update line', currentLine);
+        lineGroup.verticesNeedUpdate = true;
+        // console.log('Current line geometry', currentLine);
+        currentLine.geometry.verticesNeedUpdate = true;
+    }
+}
+
+// Checks whether there is already a line connection between the two vertices that we pass into it: particle & comparedParticle
+
+const checkConnection = (particle, comparedParticle) => {
+    
+    let particleOneIndex = particleGeometry.vertices.indexOf(particle);
+    let particleTwoIndex = particleGeometry.vertices.indexOf(comparedParticle);
+    let connectionIndex = particleOneIndex + '-' + particleTwoIndex;
+    let connectionExists = linesObject[connectionIndex];
+
+    if (connectionExists === true) {
+        return true;
+    } else {
+        return false;
+    };
+
+}
+
+// Creates a line object between the two particles that we pass in
+
+const createLine = (particleOne, particleTwo) => {
+
+    // Add particle two to the list of neighbors / nodes of particleOne
+    particleOne.nodes.push(particleTwo);
+    // Add line
+    addEventListener(particleOne, particleTwo);
+
+}
+
+// Adds line between the two particles. Used in the function above
+
+const addLine = (particleOne, particleTwo) => {
+
+    let lineID = particleGeometry.vertices.indexOf(particleOne) + '-' + particleGeometry.vertices.indexOf(particleTwo);
+    let lineGeometry = new THREE.Geometry();
+
+    // If there is no line with this ID within the line object that we created, then we add it
+    if (!linesObject[lineID]) {
+
+        lineGeometry.dynamic = true;
+        lineGeometry.vertices.push(particleOne);
+        lineGeometry.vertices.push(particleTwo);
+        let currentLine = new THREE.Line(lineGeometry, lineMaterial);
+        currentLine.touched = false;
+        lines[lineID] = currentLine;
+        lineGroup.add(currentLine);
+        return currentLine;
+
+    } else {
+        return false;
+    };
+
+}
+
+// ------------------------------------------------------
+
+/*
+*
+* Sound Wave animation when clicked
+*
+*/
+
+let numberOfBars = 9;
+let soundWaveArray = [];
+
+const toggleSoundWave = (e) => {
+    console.log('Sound wave clicked');
+ 
+    let soundWaveElement1 = document.getElementById(`Line_1`);
+    let soundWaveElement2 = document.getElementById(`Line_2`);
+    let soundWaveElement3 = document.getElementById(`Line_3`);
+    let soundWaveElement4 = document.getElementById(`Line_4`);
+    let soundWaveElement5 = document.getElementById(`Line_5`);
+    let soundWaveElement6 = document.getElementById(`Line_6`);
+    let soundWaveElement7 = document.getElementById(`Line_7`);
+    let soundWaveElement8 = document.getElementById(`Line_8`);
+    let soundWaveElement9 = document.getElementById(`Line_9`);
+
+    let classList1 = soundWaveElement1.classList;
+    let classList2 = soundWaveElement2.classList;
+    let classList3 = soundWaveElement3.classList;
+    let classList4 = soundWaveElement4.classList;
+    let classList5 = soundWaveElement5.classList;
+    let classList6 = soundWaveElement6.classList;
+    let classList7 = soundWaveElement7.classList;
+    let classList8 = soundWaveElement8.classList;
+    let classList9 = soundWaveElement9.classList;
+
+    classList1.toggle('paused');
+    classList2.toggle('paused');
+    classList3.toggle('paused');
+    classList4.toggle('paused');
+    classList5.toggle('paused');
+    classList6.toggle('paused');
+    classList7.toggle('paused');
+    classList8.toggle('paused');
+    classList9.toggle('paused');
+
+    console.log('MUSIC PLAYING IS', musicPlaying);
+
+    // For now the music will play forever until the user stops it
+    if (isSongFinished === true) {
+        // Start the song again
+        playSong();
+        // Reset variable to false
+        isSongFinished = false;
+        // Get out of the function
+        return;
+    }
+
+    if (musicPlaying === true) {
+        console.log('Sound Wave Description clicked while music is playing');
+        document.getElementById('soundwave-description').innerHTML = 'Play';
+        musicPlaying = false;
+
+        // Here we will trigger the actual text to be shown at the top of the page that lets users know that the page
+        // is actually for people with disabilities
+        toggleVoiceControl();
+
+        console.log('Is Music Playing now?', musicPlaying);
+
+    // If music is not playing, then we ensure that the boolean is switched to true while also making 
+    // sure that the text disappears correctly.
+    } else {
+        console.log('Going through the second music playing false NOW')
+        document.getElementById('soundwave-description').innerHTML = 'Pause';
+        musicPlaying = true;
+
+        // Ensures thatvoice control is deactivated and doesn't keep track of what the user is saying
+        deactivateVoiceControl();
+
+        // This ensures that the voice control elements are shown and hidden correctly
+        
+        if (DIRECTIONS_VOICE_SHOWN === false) {
+            toggleVoiceControl();
+        } else if (DIRECTIONS_VOICE_SHOWN === true) {
+            // Removes the text of directions
+            toggleVoiceControlDirections();
+            // Also removes the activate voice cotnrol text
+            toggleVoiceControl();
+        }
+
+        // Also need to make sure that the speech recognition is stopped
+
+        // If music is not playing and we're trying to play music then we should hide everything tha
+
+    }
+
+    toggleMusicOnOff();
+
+}
+
+const showMusicText = () => {
+    console.log('Mouse entered to show music')
+    let toggleSoundTextElement = document.getElementById('soundwave-description');
+    toggleSoundTextElement.style.visibility = 'visible';
+    toggleSoundTextElement.style.transform = 'translateX(-20px)';
+    toggleSoundTextElement.style.opacity = '1';
+}
+
+const hideMusicText = () => {
+    console.log('Mouse left to show music')
+    let toggleSoundTextElement = document.getElementById('soundwave-description');
+    toggleSoundTextElement.style.visibility = 'hidden';
+    toggleSoundTextElement.style.transform = 'translateX(10px)';
+    toggleSoundTextElement.style.opacity = '0';
+}
+
+const createSoundWaveAnimation = () => {
+
+    // let soundWaveArray = [];
+    // let soundWaveElement1 = document.getElementById(`Line_1`).addEventListener("click", toggleSoundWave);
+    // let soundWaveElement2 = document.getElementById(`Line_2`).addEventListener("click", toggleSoundWave);
+    // let soundWaveElement3 = document.getElementById(`Line_3`).addEventListener("click", toggleSoundWave);
+    // let soundWaveElement4 = document.getElementById(`Line_4`).addEventListener("click", toggleSoundWave);
+    // let soundWaveElement5 = document.getElementById(`Line_5`).addEventListener("click", toggleSoundWave);
+    // let soundWaveElement6 = document.getElementById(`Line_6`).addEventListener("click", toggleSoundWave);
+    // let soundWaveElement7 = document.getElementById(`Line_7`).addEventListener("click", toggleSoundWave);
+    // let soundWaveElement8 = document.getElementById(`Line_8`).addEventListener("click", toggleSoundWave);
+    // let soundWaveElement9 = document.getElementById(`Line_9`).addEventListener("click", toggleSoundWave);
+    // soundWaveArray.push(soundWaveElement1);
+    // soundWaveArray.push(soundWaveElement2);
+    // soundWaveArray.push(soundWaveElement3);
+    // soundWaveArray.push(soundWaveElement4);
+    // soundWaveArray.push(soundWaveElement5);
+    // soundWaveArray.push(soundWaveElement6);
+    // soundWaveArray.push(soundWaveElement7);
+    // soundWaveArray.push(soundWaveElement8);
+    // soundWaveArray.push(soundWaveElement9);
+    
+
+    document.getElementById('wave').addEventListener('click', toggleSoundWave);
+    document.getElementById('wave').addEventListener('mouseenter', showMusicText);
+    document.getElementById('wave').addEventListener('mouseleave', hideMusicText);
+
+}
+
+createSoundWaveAnimation();
+
+
+
+// ------------------------------------------------------
+
+/*
+*
+* Language Animation when clicked
+*
+*/
+
+const toggleLanguageChoices = (languageChoice) => {
+    document.getElementById('languageOne').classList.toggle('showing');
+    document.getElementById('languageTwo').classList.toggle('showing');
+    document.getElementById('language-description').classList.toggle('showing');
+
+}
+
+
+
+// ------------------------------------------------------
+
+/*
+*
+* JavaScript Event Handlers set up here
+*
+*/
+
+// Animation for #pageTransition is also going to be here
+
+let pageTransitionPlaying = false;
+
+
+const showLanguagesText = () => {
+    let toggleLanguageElement = document.getElementById('plus-sign-description');
+    toggleLanguageElement.style.visibility = 'visible';
+    toggleLanguageElement.style.transform = 'translateX(35px)';
+    toggleLanguageElement.style.opacity = '1';
+}
+
+const hideLanguagesText = () => {
+    let toggleLanguageElement = document.getElementById('plus-sign-description');
+    toggleLanguageElement.style.visibility = 'hidden';
+    toggleLanguageElement.style.transform = 'translateX(-10px)';
+    toggleLanguageElement.style.opacity = '0';
+    // toggleLanguageChoices();
+}
+
+// This function is used as an intermediate function within the transitions in order to remove the meshes that are existing 
+// and allow us to create new meshes to display visually - in this case, the plane geometry with the rock texture and the differing
+// beetle geometry with the marble textures 
+
+const removeThreeJSMeshes = () => {
+
+    console.log('Currently removing three JS meshes of ', pageShown)
+
+    setTimeout(() => {
+        
+        // Remove plane geometry
+        removePlaneGeometry();
+        
+        // Remove beetle object
+        removeCurrentBeetleObject();
+
+    }, 750)
+
+
+}
+
+
+// Main Function to toggle between all the different pages
+
+const toggleGeneralPageTransition = (event) => {
+
+    // Don't forget to also hide the form in case we are in the contact page
+
+    hideForm();
+    
+    console.log('General transition triggered')
+
+    let id, elementID;
+
+    if (MENU_BASED_ANIMATION_STARTED === false) {
+
+        MENU_BASED_ANIMATION_STARTED = true;
+
+
+        // In this function, we're going to take in account the current page that is being shown and use that
+        // to remove all the elements that are related to that page (which will be called previousPage)
+        // After that, we'll make sure to trigger the correct set of functions which will set the three.js 
+        // environment to look the way we need it - mainly remove the previous plane & beetle meshes, and replace
+        // them with the correct meshes
+
+
+        if (typeof event !== 'string') {
+            id = event.target.id;
+        }
+
+        console.log('EVENT CAUGHT IS', event);
+        console.log('ID caught is', id);
+    
+        console.log('General transition initiated')
+    
+    
+        console.log('Initiating page transition')
+        // First we initiate the page transition
+        initiateTransitionAnimation();
+    
+        // First part we're checking the current page and removing the elements on the page that need to be taken away 
+    
+        console.log('Removing meshes')
+        // First we remove the geometries 
+        removeThreeJSMeshes();
+    
+        // Second remove, the different elements of the DOM that are displayed
+        let oldPageShown = pageShown;
+    
+        console.log('Old page shown is', oldPageShown);
+    
+        // Toggle elements off accordingly
+    
+        if (oldPageShown === 'homePage') {
+    
+            // If we pass an empty string, it removes the elements
+            console.log('Removing elements from the homepage');
+            toggleHomePage('')
+    
+    
+        } else if (oldPageShown === 'menuPage') {
+            
+            // If we pass an empty string, it removes the elements for the menuPage
+            console.log('Toggling elements off first step from menu page')
+            toggleMenuPage('')
+    
+        } else if (oldPageShown === 'aboutPage') {
+            console.log('now passing through about page');
+            console.log('OLD PAGE SHOWN IS ', oldPageShown)
+            // If we pass an empty string, it removes the elements from the 'aboutPage'
+            toggleAboutPage('');
+        } else if (oldPageShown === 'contactPage') {
+    
+            // Insert removing the different contact page elements here when you get to it
+            // By passing this function and all the similar ones above an empty string, we ensure that the DOM elements
+            // are correctly removed from the page
+            console.log('We were in the #contactPage and are now removing the elements of the contact page correctly')
+            toggleContactPage('')
+    
+        }
+    
+    
+        // Second part we're adding the elements that we want and triggering the Three.JS animations
+
+        if (typeof event === 'string') {
+
+            console.log('Received string event in the general page transition');
+            
+            if (event === 'aboutPage') {
+                
+                id = 'menuElementTwo'
+
+            } else if (event === 'clientPage') {
+
+                id = 'menuElementThree';
+
+            } else if (event === 'contactPage') {
+
+                id = 'menuElementFour';
+
+            } else if (event === 'homePage') {
+
+                id = 'menuElementOne';
+
+            } else if (event === 'menuPage') {
+
+                id = 'menuElementFive'
+
+            }
+
+        }
+    
+        // This is the homePage
+        if (id === 'menuElementOne') {
+    
+            changeMenuIcon('')
+            changePageShown('homePage')
+            toggleHomePage('homePage');
+            toggleHomePageMesh();
+    
+        // This is the aboutPage
+        } else if (id === 'menuElementTwo') {
+    
+            console.log('Toggling the About Page Mesh')
+            changeMenuIcon('')
+            changePageShown('aboutPage');
+            toggleAboutPage('aboutPage');
+            toggleAboutPageMesh();
+    
+        // This is the clientPage
+        } else if (id === 'menuElementThree') {
+
+            changeMenuIcon('');
+            // The client page is the only one missing elements
+            // Might miss elements for a bit since we don't have enough clients to display 
+            changePageShown('clientPage');
+            toggleClientsPageMesh();
+    
+            // Will be toggling the elements when they are created
+    
+        // This is the contactPage
+        } else if (id === 'menuElementFour') {
+    
+            changeMenuIcon('');
+            changePageShown('contactPage');
+            toggleContactPage('contactPage')
+            toggleContactPageMesh();
+    
+        // This is the menu page
+        } else if (id === 'menuElementFive') {
+
+            console.log('Running towards Menu Page again')
+
+            // if (currentMenuIcon !== 'menuIcon') {
+            changeMenuIcon('menuPage');
+            // }
+
+            changePageShown('menuPage');
+            toggleMenuPage('menuPage');
+            toggleMenuPageMesh();
+    
+        }
+
+    }
+
+
+}
+
+const initiateTransitionAnimation = () => {
+
+    let revealLayerOne = document.getElementById('reveal--layer');
+    revealLayerOne.classList.toggle('showing');
+
+    // When the animation, the class will be toggled back again
+
+}
+
+
+// Main **Menu** related function
+// This function ensures that when the menu button is clicked, we get redirected to the page correctly
+
+// This function will be used in order to trigger initially the animation that will cause the page transition animation to be triggered
+// and after that for the correct page to be displayed
+const toggleMenuAnimation = () => {
+
+    console.log('Toggling menuz')
+
+    // Don't forget to hide the form of the contact page and reset everything
+    hideForm();
+
+
+    // Only play menu animation if the variable is false - preventing unnecessary re-rendering
+    if (pageTransitionPlaying === false) {
+
+        // Removes the current Three JS meshes that are present on screen
+        removeThreeJSMeshes();
+
+        // This triggers the White Page Animation that goes from the bottom to the top o fthe page
+        let revealLayerOne = document.getElementById('reveal--layer');
+        revealLayerOne.classList.toggle('showing');
+
+        // This part is to make sure that the variable that tells you which page it is, is correct
+        let oldPageShown = pageShown;
+
+        // Log in order to track the different steps of the function calls
+        console.log('Starting the #menu Animation')
+        console.log('Old page shown that we moving away from is', oldPageShown);
+
+        // First Step is to analyze which page is currently being shown and remove the different DOM elements associated to it
+
+        if (oldPageShown === 'menuPage') {
+
+            // We're moving away from the menu icon so we pass an empty string to the changeMenuIcon function 
+            // so that it disables the actual icons
+            toggleMenuPage('');
+
+        } else if (oldPageShown === 'homePage') {
+
+            // Now we're moving into the actual menuPage so we pass that string to the icon
+            toggleHomePage('')
+
+        } else if (oldPageShown === 'aboutPage') {
+
+            toggleAboutPage('')
+
+        } else if (oldPageShown === 'clientsPage') {
+            
+            console.log('No toggle set to remove nonexistent elements of the client page');
+
+        } else if (oldPageShown === 'contactPage') {
+
+            toggleContactPage('')
+
+        }
+
+
+        // Second Step is to change the name of the actual page shown and change the hash table so that it displays 
+        // the page status correctly
+
+        console.log('AGAIN, the old page shown is', oldPageShown);
+
+        if (oldPageShown !== 'menuPage') {
+
+            console.log('Moving towards menuPage - about to call the function that is going to cause the icon change #menuIcon')
+            // Modify the variable to the page currently shown 
+            // If the variable is not the menuPage and this button is clicked, then we are aiming to go towards the
+            // menuPage - doesn't matter which page we came from
+            // We set the new page shown to be equal to menuPage
+            pageShown = 'menuPage';
+
+            // Ensure that the Hash of pages, which indicates which page is currently showing is updated correctly
+            // #useless 
+            listOfPages['menuPage'] = true;
+            listOfPages['homePage'] = false;
+            listOfPages['aboutPage'] = false;
+            listOfPages['contactPage'] = false;
+            listOfPages['clientsPage'] = false;
+
+            // Make sure to change the menu icon according to what next page will be shown
+            changeMenuIcon('menuPage');
+
+
+        // If we click on the menu button (which will be soon changed into an X ) from the menu page then we either
+        // return to the previous page or we return to the home page
+        // For now, we'll just make it so that we return to the home page (first one) of the application
+        } else if (oldPageShown === 'menuPage') {
+            console.log('Page is currently set to ', pageShown, ' #menuIcon')
+            console.log('Moving away from the menuPage - about to call the function that is going to cause the icon change #menuIcon')
+
+            // Modify the variable to the page currently shown
+            pageShown = 'homePage'; // That's actually not the case 
+
+            // Ensure that the Hash of pages, which indicates which page is currently showing is updated correctly
+            listOfPages['homePage'] = true;
+            listOfPages['menuPage'] = false;  
+            listOfPages['aboutPage'] = false;
+            listOfPages['contactPage'] = false;
+            listOfPages['clientsPage'] = false; 
+            
+            // Make sure to change the menu icon according to what next page will be shown
+            changeMenuIcon('');
+
+        }  
+
+        // This part here basically makes sure that the different animations that are necessary to be triggered will be
+        // depending on which page you're on for the trigger
+
+        console.log('PAGE SHOWN BOYS IS ', pageShown);
+
+        // The text animations here are used in order to actually remove or add the different DOM elements of the page
+        // depending on whether we're clicking on the burger menu or not
+        // So the idea here is that when we click on the burger menu initially, we are actually moving away and adding to 
+        // a page, therefore we need to make sure that we are removing the right things 
+
+        if (pageShown === 'menuPage') {
+            // Makes the homepage invisible
+
+            // Makes the menu page visible
+            // setTextAnimationTimers('menuPage');
+            // setThreeAnimationTimers('menuPage');
+            toggleMenuPageMesh();
+            toggleMenuPage('menuPage');
+
+
+        // We're keeping it this way because after we click back on it the only place we should be able
+        // to go is the homePage
+        } else if (pageShown === 'homePage') {
+
+            // Makes menu page invisible
+            // setTextAnimationTimers('homePage')
+            // setThreeAnimationTimers('homePage');
+            toggleHomePageMesh();
+            toggleHomePage('homePage')
+
+        } else if (pageShown === 'aboutPage') {
+
+            console.log('PAGE SHOWN RIGHT NOW getting DESTROYED')
+            setTextAnimationTimers('aboutPage')
+
+
+        } 
+
+
+        console.log('Page being shown is ', pageShown);
+        console.log('Hash of pages shows ', listOfPages);
+
+    }
+
+}
+
+
+const setThreeAnimationTimers = (pageShown) => {
+
+    if (pageShown === 'menuPage') {
+
+        // Removes the Blue Ice Plane, creates a new black one, removes Black Beetle, creates a Beetle with White Texture
+        setTimeout(() => {
+
+            removePlaneGeometry();
+            createTurquoisePlaneGeometry();
+            removeCurrentBeetleObject();
+            changeBeetleToGreyMarble();
+            changeLightIntensity('white');
+
+        }, 1000);
+
+    } else if (pageShown === 'homePage') {
+
+        // Removes Black Plane, replaces it with the Blue one, removes the White Beetle & replaces it with the default Black one
+
+        setTimeout(() => {
+            removePlaneGeometry();
+            createBluePlaneGeometry();
+            removeCurrentBeetleObject();
+            changeBeetleToBlackMarble();
+            changeLightIntensity('black');
+        }, 1000);
+
+    } else if (pageShown === 'aboutPage') {
+
+        console.log('Should now remove the meshes of the aboutPage')
+
+        setTimeout(() => {
+            removePlaneGeometry();
+            createBlackPlaneGeometry();
+            removeCurrentBeetleObject();
+            changeBeetleToWhiteMarble();
+            changeLightIntensity('veryLight');
+        }, 1500);
+
+    }
+}
+
+
+// FUNCTIONS THAT FOCUS ON CREATING THE MESHES THAT WE NEED 
+
+const toggleHomePageMesh = () => {
+
+    setTimeout(() => {
+        createBluePlaneGeometry();
+        changeBeetleToBlackMarble();
+    }, 1000)
+
+}
+
+
+const toggleMenuPageMesh = () => {
+
+    setTimeout(() => {
+        createTurquoisePlaneGeometry();
+        changeBeetleToGreyMarble();
+    }, 1000)
+
+}
+
+const toggleAboutPageMesh = () => {
+
+    console.log('Toggling the about page mesh');
+
+    setTimeout(() => {
+        const beetleColor = 'white';
+        createBlackPlaneGeometry();
+        changeBeetleToWhiteMarble();
+        changeLightIntensity(beetleColor)
+    }, 1000)
+
+}
+
+const toggleContactPageMesh = () => {
+
+    console.log('Toggling the contact page mesh');
+
+    setTimeout(() => {
+        const beetleColor = 'lightBlue'
+        createBlackRockGeometry();
+        changeBeetleToPinkMarble();
+        changeLightIntensity(beetleColor)
+    }, 1000)
+
+
+}
+
+const toggleClientsPageMesh = () => {
+
+    console.log('Togglign the Clients page Mesh');
+    
+    setTimeout(() => {
+        const beetleColor = 'black'
+        createGreyGoldPlaneGeometry();
+        changeBeetleToDarkGreenMarble();
+        changeLightIntensity(beetleColor)
+    }, 1000)
+
+}
+
+
+// Changes the page to the correct one
+const changePageShown = (newPageShown) => {
+
+    console.log('Current page shown', newPageShown);
+    pageShown = newPageShown;
+
+}
+
+// This function toggles on / off the menu elements based on whether we're moving away from the menu page
+// or moving into it 
+// @pageShown (string): if the pageShown is 'menupage' then we toggle them on through a timeout, if not then 
+// we toggle them off through another timeout that runs at a different speed
+
+const toggleMenuPage = (pageShown) => {
+
+    if (pageShown === 'menuPage') {
+
+        // Toggle Address 
+        toggleAddressElements('menuPage');
+
+        // Ensures that the menu options are displayed and hidden with a delay so that 
+        // they don't appear or disappear too quickly throughout the page animation
+
+        setTimeout(() => {
+
+            document.getElementById('menuElements').style.visibility = 'visible';
+            document.getElementById('menuElements').style.visibility = 'visible';
+            document.getElementById('menuElementOne').style.visibility = 'visible';
+            document.getElementById('menuElementTwo').style.visibility = 'visible';
+            document.getElementById('menuElementThree').style.visibility = 'visible';
+            document.getElementById('menuElementFour').style.visibility = 'visible';
+            document.getElementById('menuElementOne').style.opacity = 1;
+            document.getElementById('menuElementTwo').style.opacity = 1;
+            document.getElementById('menuElementThree').style.opacity = 1;
+            document.getElementById('menuElementFour').style.opacity = 1;
+
+
+        }, 1000)
+
+
+        // setTimeout(() => {
+
+        //     // Animation for the logo
+        //     document.getElementById('company-logo-two').classList.toggle('showing');
+
+        // }, 300);
+
+        // ENsures that the title doesn't disappear directly when the actual animation is initiated
+        setTimeout(() => {
+            document.getElementById('homePage').style.opacity = 0;
+            document.getElementById('homePage').style.visibility = 'hidden';      
+        }, 1600)
+
+
+
+    } else if (pageShown !== 'menuPage') {
+
+
+        console.log('menu page is being deleted so we removing the different elements')
+        // This ensures that when we're moving awa from the actual menu page, we turn it off accordingly
+
+        // Toggle Address 
+        toggleAddressElements('');
+
+        // Ensures that the Title elements appears quickly when the animation is re-initiated
+        setTimeout(() => {
+            document.getElementById('menuElementOne').style.opacity = 0;
+            document.getElementById('menuElementTwo').style.opacity = 0;
+            document.getElementById('menuElementThree').style.opacity = 0;
+            document.getElementById('menuElementFour').style.opacity = 0; 
+            document.getElementById('menuElements').style.visibility = 'hidden';
+            document.getElementById('menuElements').style.visibility = 'hidden';
+            document.getElementById('menuElementOne').style.visibility = 'hidden';
+            document.getElementById('menuElementTwo').style.visibility = 'hidden';
+            document.getElementById('menuElementThree').style.visibility = 'hidden';
+            document.getElementById('menuElementFour').style.visibility = 'hidden';
+                    
+        }, 500);
+
+        // Makes sure that the menu Elements don't hide too quickly
+        setTimeout(() => {
+
+            document.getElementById('menuElements').style.visibility = 'hidden';
+            // document.getElementById('company-logo-two').classList.toggle('showing');
+
+        }, 1400);
+
+
+    }
+    
+}
+
+
+// This function will be used in order to toggle the 'homePage' elements on / off depending on whether we're moving towards
+// the homepage or away from the homepage
+
+const toggleHomePage = (pageShown) => {
+
+    // If it is the homePage, then we toggle these elements on
+    if (pageShown === 'homePage') {
+
+        // Ensures that the homePage elemnts are toggle on when we're moving to the homepage
+        setTimeout(() => {
+            document.getElementById('homePage').style.opacity = 1;
+            document.getElementById('homePage').style.visibility = 'visible';
+        }, 1700);
+
+
+    // If it's not the homePage we toggle the homePage elements off
+    } else if (pageShown !== 'homePage') {
+
+        // Ensures that the title doesn't disappear directly when the actual animation is initiated
+        setTimeout(() => {
+            document.getElementById('homePage').style.opacity = 0;
+            document.getElementById('homePage').style.visibility = 'hidden';      
+        }, 340);
+
+    }
+
+}
+
+
+// Function focuses on togglign the About Page instead
+
+const toggleAboutPage = (pageShown) => {
+    
+    console.log('TOGGLING THE ABOUT PAGE FINALLY ')
+
+    if (pageShown === 'aboutPage') {
+
+        // Add the elements towards the end of the transition
+        // Slower than the time out below
+        setTimeout(() => {
+            document.getElementById('aboutPageTitleContainer').classList.toggle('showing')
+        }, 1700);
+
+    } else if (pageShown !== 'aboutPage') {
+
+        console.log('Now we ARE HIDING THE ACTUAL ABOUT PAGE')
+        // Remove the elements very quickly
+        setTimeout(() => {
+            document.getElementById('aboutPageTitleContainer').classList.toggle('showing')
+        }, 250);
+
+    }
+
+}
+
+
+// Function which toggles the Contact Page when the correct button is clicked 
+
+const toggleContactPage = (pageShown) => {
+
+
+    console.log('Toggling the #contactPage - we inside the function now');
+
+    if (pageShown === 'contactPage') {
+
+        // Addd the elements towards the end of the page transition 
+        // Slower than the time out below it because we need it to appear after the transition is over
+
+        setTimeout(() => {
+            document.getElementById('contactPageContainer').classList.toggle('showing')
+        }, 1700)
+
+        setTimeout(() => {
+            initiateContactPageHovers();
+        }, 2200)
+
+
+    } else if (pageShown !== 'contactPage') {
+
+        // Remove the elements very quickly
+        setTimeout(() => {
+            document.getElementById('contactPageContainer').classList.toggle('showing')
+        }, 250);
+
+    }
+
+
+}
+
+// Function & Event listener attached to the text area for resizing
+
+const OnInput = (event) => {
+    console.log('Input is being added to text area')
+    console.log('Element event', event);
+    const element = event.srcElement;
+    element.style.height = 'auto';
+    element.style.height = (element.scrollHeight) + 'px';
+  }
+
+const textArea = document.getElementById('messageInput');
+
+// for (let i = 0; i < textArea.length; i++) {
+//   textArea[i].setAttribute('style', 'height:' + (textArea[i].scrollHeight) + 'px;overflow-y:hidden;');
+textArea.addEventListener("input", OnInput, false);
+// }
+
+
+// Helper functions that orchestrates which texts are hidden and which texts are shown
+
+const setTextAnimationTimers = (pageShown) => {
+
+    // Toggle Menu Elements
+    toggleMenuElement();
+
+
+    if (pageShown === 'menuPage') {
+
+        // Toggle Address 
+        toggleAddressElements('menuPage');
+
+        // Ensures that the menu options are displayed and hidden with a delay so that 
+        // they don't appear or disappear too quickly throughout the page animation
+
+        setTimeout(() => {
+
+            document.getElementById('menuElements').style.visibility = 'visible';
+            document.getElementById('menuElements').style.visibility = 'visible';
+            document.getElementById('menuElementOne').style.visibility = 'visible';
+            document.getElementById('menuElementTwo').style.visibility = 'visible';
+            document.getElementById('menuElementThree').style.visibility = 'visible';
+            document.getElementById('menuElementFour').style.visibility = 'visible';
+            document.getElementById('menuElementOne').style.opacity = 1;
+            document.getElementById('menuElementTwo').style.opacity = 1;
+            document.getElementById('menuElementThree').style.opacity = 1;
+            document.getElementById('menuElementFour').style.opacity = 1;
+
+
+        }, 1000)
+
+
+        // Adds the logo to the transition page while it is animating
+        // setTimeout(() => {
+        //     // Animation for the logo
+        //     document.getElementById('company-logo-two').classList.toggle('showing');
+        // }, 300);
+
+        // Ensures that the title doesn't disappear directly when the actual animation is initiated
+        setTimeout(() => {
+            document.getElementById('homePage').style.opacity = 0;
+            document.getElementById('homePage').style.visibility = 'hidden';      
+        }, 1600)
+
+        // We also need to make sure to also toggle the AboutPage so that the elements disappear
+        // Passing in the 'menuPage' will ensure that the elements with the About description of the 
+        // company are removed
+   
+
+    } else if (pageShown === 'homePage') {
+
+        // Toggle Address 
+        toggleAddressElements('homePage');
+
+        // Makes sure that the menu Elements don't hide too quickly
+        setTimeout(() => {
+
+            document.getElementById('menuElements').style.visibility = 'hidden';
+            // document.getElementById('company-logo-two').classList.toggle('showing');
+
+        }, 1400);
+
+        // Ensures that the Title elements appears quickly when the animation is re-initiated
+        setTimeout(() => {
+            document.getElementById('menuElementOne').style.opacity = 0;
+            document.getElementById('menuElementTwo').style.opacity = 0;
+            document.getElementById('menuElementThree').style.opacity = 0;
+            document.getElementById('menuElementFour').style.opacity = 0; 
+                  
+        }, 500);
+
+        // Everything here is orchestrated so that the elements show exactly at the correct time within the page
+        // We can't have the elements of the page disappear and reappear at the wrong times. Perfection is what we aim for here.
+        // How we do  small things is how do larger things. How do you cook your food? Clean your dishes? Your room? How do you treat your
+        // family, the people that you know are going to stay either way? You got what I'm trying to say.
+        setTimeout(() => {
+            document.getElementById('homePage').style.opacity = 1;
+            document.getElementById('homePage').style.visibility = 'visible';
+        }, 500);
+
+    } else if (pageShown === 'aboutPage') {
+
+        console.log('TOGGLIGN THE ABOUT PAGE')
+
+        setTimeout(() => {
+            document.getElementById('aboutPageTitleContainer').classList.toggle('showing')
+        }, 450)
+
+    }
+
+}
+
+// Simply ensures that the address elements are directly toggled off
+
+const toggleOffAddressElements = () => {
+
+    console.log('toggling address two')
+    setTimeout(() => {
+        document.getElementById('address-information-left').classList.toggle('showing');
+        document.getElementById('address-information-right').classList.toggle('showing');
+
+    }, 200)
+
+}
+
+// Ensures that the address only shows up only when the menu page 
+const toggleAddressElements = (pageShown) => {
+
+    console.log('toggling address one')
+    // Timeout is shorter for when the homepage shoes again because we need it to disappear quickly
+    // since the first part of the animation that translatesY  the white div goes very fast initially
+    // very quickly
+
+    if (pageShown === 'menuPage') {
+
+            setTimeout(() => {
+                document.getElementById('address-information-left').classList.toggle('showing');
+                document.getElementById('address-information-right').classList.toggle('showing');
+
+            }, 1700)
+
+    } else if (pageShown !== 'menuPage') {
+
+
+            console.log('finally removing the address elements of the menu page')
+            setTimeout(() => {
+                document.getElementById('address-information-left').classList.toggle('showing');
+                document.getElementById('address-information-right').classList.toggle('showing');
+
+            }, 200)
+
+    }
+}
+
+const toggleMenuElement = (pageShown) => {
+
+    document.getElementById('menuElementOne').classList.toggle('showing');
+    document.getElementById('menuElementTwo').classList.toggle('showing');
+    document.getElementById('menuElementThree').classList.toggle('showing');
+    document.getElementById('menuElementFour').classList.toggle('showing');
+
+}
+
+const toggleTextColor = (event) => {
+
+    // Changes the cursor to black
+    changeCursorColorToBlack();
+
+    console.log('Page transition animation just started successfully')
+
+    ANIMATION_STARTED = true;
+    pageTransitionPlaying = true;
+    
+
+    // The Samarra Group / Capital doesn't show when we move from the actual other pages
+    // because of the fact that it's made invisible. So we need to make sure to make it 
+    // visibile
+
+    console.log('Page shown is', pageShown)
+
+    setTimeout(() => {
+        console.log('Short set time out to get the colors going initiated');
+        document.getElementById('companyName').style.color = 'black';
+        document.getElementById('homePage').style.opacity = 1;
+        document.getElementById('homePage').style.visibility = 'visible';
+    }, 450)
+
+    setTimeout(() => {
+        document.getElementById('companyName').style.color = 'white';
+
+        if (pageShown !== 'homePage') {
+            document.getElementById('homePage').style.opacity = 0;
+            document.getElementById('homePage').style.visibility = 'hidden';
+        }
+
+    }, 1600)
+}
+
+const makeTitleTextWhite = () => {
+    console.log('Animation ended')
+    document.getElementById('companyName').style.color = 'white';
+}
+
+const myRepeatFunction = (event) => {
+    let elapsedTime = "Elapsed time: " + event.elapsedTime;
+    console.log('Inner HTML', elapsedTime);
+}
+
+const showContactMenu = (event) => {
+
+    // First we set the formShowing boolean to true - we use it later in the hideForm but more importantly
+    // in the transition-related events that will reset the transition delays for the two divs to be their
+    // initial value
+    formShowing = true;
+
+    console.log('Contact menu #contactMenu is supposed to be shown');
+    console.log('Event fired is ', event);
+
+    const id = event.target.id;
+
+    const formTitleElement = document.getElementById('contactPageTitle');
+    const formSubTitleElement = document.getElementById('contactPageSubTitle');
+
+    if (id === 'askAQuestion' || id === 'askAQuestionArrowSVG') {
+        formTitleElement.innerHTML = 'Ask a Question';
+        formSubTitleElement.innerHTML = "Ask us anything, we'll make sure to answer in the briefest delay.";
+
+    } else if (id === 'joinTeam' || id === 'joinTeamArrowSVG') {
+        formTitleElement.innerHTML = 'Join our Team';
+        formSubTitleElement.innerHTML = "We're always looking for creatives. Tell us why you want to join our team.";
+    } else if (id === 'startProject' || id === 'startProjectArrowSVG') {
+        formTitleElement.innerHTML = 'Start a Project';
+        formSubTitleElement.innerHTML = "Tell us more about your project and how we can help.";
+    }
+
+    // We hide the general options and the initial presentation of the contact page 
+    document.getElementById('contactPageOptions').classList.toggle('hidden');
+
+    // We display the form associated to the question / option that is clicked by the user
+    document.getElementById('contactPageOptionsTwo').classList.toggle('showing');
+}
+
+// #form #contactPage
+
+// Function used in order to send the client email to the Samarra email
+
+// Sending the email is taken care of through FormSpree.io, this function will simply be used in order to validate that the correct inputs have been
+// actually filled up
+
+// Variables that will be used and modified by the actual validation form in order to track which inputs have errors and which haven't
+
+// These are actually useless #delete
+
+let firstNameInputError = false, 
+    lastNameInputError = false, 
+    companyNameInputError = false, 
+    phoneNumberInputError = false, 
+    emailInputError = false, 
+    messageInputError = false;
+
+const validateForm = () => {
+
+    console.log('Form Is Being')
+
+    const lastNameElement = document.getElementById('lastNameActualInput');
+    const firstNameElement=  document.getElementById('firstNameActualInput');
+    const emailElement=  document.getElementById('emailActualInput');
+    const phoneNumberElement=  document.getElementById('phoneNumberActualInput');
+    const companyNameElement=  document.getElementById('companyNameActualInput');
+    const messageElement =  document.getElementById('messageInput');
+
+    const lastNameText = document.getElementById('lastNameInput');
+    const firstNameText=  document.getElementById('firstNameInput');
+    const emailText =  document.getElementById('emailInput');
+    const phoneNumberText =  document.getElementById('phoneNumberInput');
+    const companyNameText =  document.getElementById('companyNameInput');
+
+    const lastNameActualInput =  document.getElementById('lastNameActualInput').value;
+    const firstNameActualInput =  document.getElementById('firstNameActualInput').value;
+    const emailActualInput =  document.getElementById('emailActualInput').value;
+    const phoneNumberActualInput =  document.getElementById('phoneNumberActualInput').value;
+    const companyNameActualInput =  document.getElementById('companyNameActualInput').value;
+    const messageInput =  document.getElementById('messageInput').value;
+
+    if (lastNameActualInput == '') {
+        lastNameElement.classList.toggle('inputError');
+        lastNameText.classList.toggle('inputError');
+        lastNameInputError = true;
+    }
+
+    if (firstNameActualInput === '') {
+        firstNameElement.classList.toggle('inputError');
+        firstNameText.classList.toggle('inputError');
+        firstNameInputError = true;
+    }
+
+    if (emailActualInput === '') {
+        emailElement.classList.toggle('inputError');
+        emailText.classList.toggle('inputError');
+        emailInputError = true;
+    }
+
+    if (phoneNumberActualInput === '') {
+        phoneNumberElement.classList.toggle('inputError');
+        phoneNumberText.classList.toggle('inputError');
+        phoneNumberInputError = true;
+    }
+
+    if (companyNameActualInput === '') {
+        companyNameElement.classList.toggle('inputError');
+        companyNameText.classList.toggle('inputError');
+        companyNameInputError = true;
+    }
+
+    if (messageInput === '') {
+        messageElement.classList.toggle('inputError');
+        messageInputError = true;    
+    }
+
+}
+
+
+// Function that will track the different inputs & will change the color of the descriptive text and the border bottom to white when the user actually writes
+// in the input
+
+const trackTextInputForm = (event) => {
+
+    console.log('Tracking text input form by USER');
+
+    const lastNameText = document.getElementById('lastNameInput');
+    const firstNameText=  document.getElementById('firstNameInput');
+    const emailText =  document.getElementById('emailInput');
+    const phoneNumberText =  document.getElementById('phoneNumberInput');
+    const companyNameText =  document.getElementById('companyNameInput');
+
+    const lastNameActualInput =  document.getElementById('lastNameActualInput');
+    const firstNameActualInput =  document.getElementById('firstNameActualInput');
+    const emailActualInput =  document.getElementById('emailActualInput');
+    const phoneNumberActualInput =  document.getElementById('phoneNumberActualInput');
+    const companyNameActualInput =  document.getElementById('companyNameActualInput');
+    const messageInput =  document.getElementById('messageInput');
+
+    const inputID = event.target.id;
+
+    console.log('INPUT ID OF EVENT IS', inputID);
+
+    if (inputID === 'firstNameActualInput') {
+
+        firstNameText.classList.remove('inputError');
+        firstNameActualInput.classList.remove('inputError');
+
+    } else if (inputID === 'lastNameActualInput') {
+
+        lastNameText.classList.remove('inputError');
+        lastNameActualInput.classList.remove('inputError');
+
+    } else if (inputID === 'emailActualInput') {
+
+        emailText.classList.remove('inputError');
+        emailActualInput.classList.remove('inputError');
+
+    } else if (inputID === 'phoneNumberActualInput') {
+
+        phoneNumberText.classList.remove('inputError');
+        phoneNumberActualInput.classList.remove('inputError');
+
+    } else if (inputID === 'companyNameActualInput') {
+
+        companyNameText.classList.remove('inputError');
+        companyNameActualInput.classList.remove('inputError');
+
+    } else if (inputID === 'messageInput') {
+        messageInput.classList.remove('inputError');
+    }
+
+}
+
+
+// Function that is triggered by 1. the Back button at the top of the form when the form is shown & 2. when the menu is clicked while the form is actually showing
+const hideForm = (event) => {
+
+
+    // When we hide the form, before we toggle the class to do it successfully, we change the delays of the transitions so that it mirrors the first transition
+    // when the user first lands on the contact page
+    document.getElementById('contactPageOptions').style.transitionDelay = '0.4s';
+    document.getElementById('contactPageOptionsTwo').style.transitionDelay = '0s';
+
+    console.log('Hiding form');
+
+    // We hide the form associated to the question / option that is clicked by the user
+    document.getElementById('contactPageOptionsTwo').classList.remove('showing');
+
+    // We show the general options and the initial presentation of the contact page 
+    document.getElementById('contactPageOptions').classList.remove('hidden');
+
+    // Throw an asynchronous event reset delays so that the transition delays are reset after the asynchronous DOM events above
+    resetDelaysContactPage();
+
+    // Clear all the inputs of the form
+    clearAllInputs();
+
+}
+
+// Function that will be called by the hideForm function above, triggered by the Back button at the top of the contact form on the Contact page.
+// Will ensure that all of the values written by the user within the function are cleared out
+
+const clearAllInputs = () => {
+
+    const lastNameActualInput =  document.getElementById('lastNameActualInput');
+    const firstNameActualInput =  document.getElementById('firstNameActualInput');
+    const emailActualInput =  document.getElementById('emailActualInput');
+    const phoneNumberActualInput =  document.getElementById('phoneNumberActualInput');
+    const companyNameActualInput =  document.getElementById('companyNameActualInput');
+    const messageInput =  document.getElementById('messageInput');
+
+    const lastNameInput =  document.getElementById('lastNameInput');
+    const firstNameInput =  document.getElementById('firstNameInput');
+    const emailInput =  document.getElementById('emailInput');
+    const phoneNumberInput =  document.getElementById('phoneNumberInput');
+    const companyNameInput =  document.getElementById('companyNameInput');
+
+    lastNameActualInput.value = '';
+    firstNameActualInput.value = '';
+    emailActualInput.value = '';
+    phoneNumberActualInput.value = '';
+    companyNameActualInput.value = '';
+    messageInput.value = '';
+
+    lastNameInput.classList.remove('clicked');
+    firstNameInput.classList.remove('clicked');
+    emailInput.classList.remove('clicked');
+    phoneNumberInput.classList.remove('clicked');
+    companyNameInput.classList.remove('clicked');
+
+    lastNameTextMoved = false;
+    firstNameTextMoved = false;
+    phoneNumberTextMoved = false;
+    companyNameTextMoved = false;
+    emailTextMoved = false;
+
+}
+
+const resetDelaysContactPage = (event) => {
+
+    setTimeout(() => {
+    // After the transitions are done and the elements are shown / hidden respectively, we can actually reset the delays to be the accurate ones
+        document.getElementById('contactPageOptions').style.transitionDelay = '0s';
+        document.getElementById('contactPageOptionsTwo').style.transitionDelay = '0.4s';
+    }, 1000);
+
+}
+
+// Ensures that the class is toggled back so that .showing isn't on the element. Allows us to re-trigger the animation whenever we click on the actual menu button.
+// This function always runs at the end of the animation
+
+const toggleClassOnAnimation = (event) => {
+
+    // Change cursor to white
+    // changeCursorColorToWhite();
+
+    // Set the two to false in order to enable animations in the future
+    ANIMATION_STARTED = false;
+    MENU_BASED_ANIMATION_STARTED = false;
+
+    // Set it to false again to allow the user to click on the menu button again
+    pageTransitionPlaying = false;
+
+    console.log('Animation ended therefore we are ensuring that the class is toggled correctly');
+    
+    // Toggle the reveal layer
+    let revealLayerOne = document.getElementById('reveal--layer');
+    revealLayerOne.classList.toggle('showing');
+    
+    // Toggle the class of the vertical logo too
+    let logo = document.getElementById('company-logo-two');
+    // logo.classList.toggle('showing');
+
+}
+
+
+// Animation in order to show / hide the voice control for the website
+
+const toggleVoiceControl = () => {
+
+    // Variable used in order to track whether the actual activate voice text is displayed on the user page
+    ACTIVATE_VOICE_SHOWN = !ACTIVATE_VOICE_SHOWN;
+
+    let voiceControlElement = document.getElementById('disabilitiesRelatedText');
+    voiceControlElement.classList.toggle('showing');
+}
+
+// Animation to show the second part of voice control for the website
+
+const toggleVoiceControlDirections = () => {
+
+    // Variable used to track whether the directions are displayed
+    DIRECTIONS_VOICE_SHOWN = !DIRECTIONS_VOICE_SHOWN;
+
+    // First we hide the element that says 'Activate Voice Control'
+    let voiceControlElement = document.getElementById('disabilitiesRelatedText');
+    voiceControlElement.classList.toggle('showing');
+
+    // Second we show the element that gives the user directions as to how to use voice control
+    let directionsVoiceControlElement = document.getElementById('directionsVoiceControl');
+    directionsVoiceControlElement.classList.toggle('showing');
+
+}
+
+
+// ----------------------------------------------------------------------------------------------------
+
+/*
+ * Voice Control Area 
+ */
+
+
+let USER_DECIDED_TO_DEACTIVATE = false;
+
+const triggerEndOfSpeechRecognition = () => {
+
+    console.log('Speech recognition service has disconnected successfully');
+    // We reset it to 0 so that next time the user actually talks to the speech recognition API we know which index we're at
+    // and where to get the latest actual command given
+    console.log('DID USER DECIDE TO DEACTIVATE', USER_DECIDED_TO_DEACTIVATE);
+    CURRENT_SPEECH_SESSION_COUNTER = 0;
+
+    if (USER_DECIDED_TO_DEACTIVATE === false) {
+        // Restart speech recognition
+        speechRecognitionListening = true;
+        startSpeechRecognition();
+    } else if (USER_DECIDED_TO_DEACTIVATE === true) {
+        speechRecognitionListening = true; 
+    }
+
+    // Reset the constant above to false so that the user can click again
+    USER_DECIDED_TO_DEACTIVATE = false;
+
+}
+
+const triggerStartOfSpeechRecognition = () => {
+
+    console.log('Speech recognition service has started successfully');
+
+}
+
+// Constants
+
+// Attention
+// VOICE_RESULTS_COUNTER sometimes is higher than the actual count because the SpeechRecognition API does not run continuously for some reason 
+let VOICE_RESULTS_COUNTER = 0;
+let CURRENT_SPEECH_SESSION_COUNTER = 0;
+
+// Array that stores all the commands spoken by the user
+let arrayOfUserCommands = [];
+
+// Get SpeechRecognition API
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition;
+let speechRecognitionListening = false;
+
+// Check if it's not undefined and initialize if it is accesible to this browser
+if (typeof SpeechRecognition !== 'undefined') {
+    console.log('Speech Recognition API is compatible with this browser')
+    recognition = new SpeechRecognition;
+    recognition.continuous = true;
+    recognition.interimResults = false;
+    recognition.addEventListener('end', triggerEndOfSpeechRecognition)
+    recognition.addEventListener('start', triggerStartOfSpeechRecognition)
+
+} else if (typeof SpeechRecognition === 'undefined') {
+    const voiceControlElement = document.getElementById('voiceControlText');
+    voiceControlElement.innerHTML = 'Voice Control not available in this browser';
+    console.log('Voice control #voiceControl is not available in this browser');
+
+}
+// Event that triggers the speech to text recognition when the voice control is clicked 
+
+const stopSpeechRecognition = () => {
+    recognition.stop();
+
+    // Don't forget to change the boolean to false so the text can appear afterwards
+    
+    console.log('Speech recognition listening', speechRecognitionListening);
+    console.log('#Recognition #recognition stopped');
+    console.log('Recognition stopped')
+}
+
+const startSpeechRecognition = () => {
+
+    console.log('Starting speech recognition')
+    if (speechRecognitionListening === false) {
+        console.log('TOGGLING THE VOICE CONTROL DIRECTIONS');
+        toggleVoiceControlDirections();
+    }
+    recognition.start();
+    console.log('Listening ')
+}
+
+const onSpeechRecognitionResult = (event) => {
+    console.log('Event of results of recognition is', event);
+
+
+    // Function returns an object that has the transcript of the user's speech, a confidence percentage of how accurate it is, and a boolean isFinal that 
+    // indicates whether it is the last sentence mentioned by the user
+    let finalResultObject = extractTextFromSpeech(event);
+
+
+    // We push the object that shows the user command into an array in order to always be able to track all of the previous commands.
+    // The SpeechRecognition API returns an array of objects continuously, constantly adding to the next index the new result, so we initially
+    // used a counter in order to track how many commands were given. But the SpeechRecognition API also goes to sleep after a certain period (read seconds)
+    // of inactivity, which means that it'll be easier for us to track all the commands through an array
+    arrayOfUserCommands.push(finalResultObject);
+
+    console.log('Array of user commands', arrayOfUserCommands);
+
+    let finalCommand = arrayOfUserCommands[VOICE_RESULTS_COUNTER];
+    console.log('VOICE RESULTS COUNTER', VOICE_RESULTS_COUNTER);
+
+    // Increment the counter every time so we know what's the index of the last element
+    VOICE_RESULTS_COUNTER += 1;
+
+    console.log('Final Command Given by User', finalCommand)
+
+    // Only trigger the analysis of the speech when the boolean returns true & if the confidence level is above 85%;
+    if (finalResultObject.isFinal === true && finalResultObject.confidence > 0.65) {
+        analyzeSpeech(finalCommand);
+    }
+
+}
+
+// Add Event listener to speech recognition
+recognition.addEventListener('result', onSpeechRecognitionResult);
+
+// const activateVoiceControl = () => {
+
+//     console.log('Activating voice control');
+//     let voiceControlElement = document.getElementById('disabilitiesRelatedText');
+
+//     if (typeof SpeechRecognition === 'undefined') {
+//         const voiceControlElement = document.getElementById('voiceControlText');
+//         voiceControlElement.innerHTML = 'Voice Control not available in this browser';
+//         console.log('Voice control #voiceControl is not available in this browser');
+//     } else {
+
+
+//         // Toggle The Voice Control Directions so the user knows what to say in order to navigate the website
+//         // toggleVoiceControlDirections();
+
+//         // let listening  = false;
+//         // const recognition = new SpeechRecognition;
+
+//         // const start = () => {
+
+//         // };
+
+//         // const stop = () => {
+
+//         // };
+
+
+
+        
+
+//         // voiceControlElement.addEventListener('click', () => {
+//         //     listening ? stop() : start();
+//         //     listening = !listening;
+//         // });
+
+//     }
+
+
+// }
+
+
+// Utility Function that extracts the final result from the speech recognition
+
+const extractTextFromSpeech = (event) => {
+    
+    // Always gets the last result 
+    // SpeechRecognition API adds all the results to the same array, so we have to make sure to always get the latest element of the array
+
+    // VOICE_RESULTS_COUNTER = counts the amount of commands given to the SpeechRecognition API. Used to keep track of the different indices of the
+    // results so that we can access them every time
+    let resultObject = event.results[CURRENT_SPEECH_SESSION_COUNTER][0];
+    console.log('Last result object', resultObject);
+    // Tells you if this event is the final speech given by the user
+    let resultObjectFinal = event.results[CURRENT_SPEECH_SESSION_COUNTER].isFinal;
+
+    console.log('Current speech session counter is', CURRENT_SPEECH_SESSION_COUNTER);
+
+    // Increment the counter for the current session
+    CURRENT_SPEECH_SESSION_COUNTER += 1;
+
+    console.log('Result object is', resultObject);
+
+    let finalResult = {
+        speech: resultObject.transcript,
+        confidence: resultObject.confidence,
+        isFinal: resultObjectFinal,
+    }
+
+    console.log('final result', finalResult)
+
+    console.log('Analyzing presence of string through index')
+
+    const { speech } = finalResult;
+
+    let isStringPresent = speech.indexOf('deactivate voice control');
+
+    console.log('Is string present within speech', isStringPresent);
+
+    if (finalResult.isFinal === true ) {
+        console.log('Object of speech results', finalResult);
+        return finalResult;
+    }
+
+    return finalResult;
+
+}
+
+const deactivateVoiceControl = () => {
+
+    // First we reset all the counters to 0, flush out the array, and after that we stop the voice control
+    VOICE_RESULTS_COUNTER = 0;
+    CURRENT_SPEECH_SESSION_COUNTER = 0;
+    arrayOfUserCommands = [];
+    stopSpeechRecognition();
+
+    // Second we toggle the class so that it looks like what it is supposed to look with 'Activate Voice Control'
+    document.getElementById('directionsVoiceControl').classList.toggle('showing');
+    document.getElementById('disabilitiesRelatedText').classList.toggle('showing');
+
+}
+
+// FORM RELATED VARIABLES
+
+let lastNameTextMoved = false;
+let firstNameTextMoved = false;
+let emailTextMoved = false;
+let companyNameTextMoved = false;
+let phoneNumberTextMoved = false;
+
+const triggerInputAnimation = (event) => {
+
+    console.log('Event triggered by input', event);
+
+    const inputName = event.target.id;
+
+    console.log('Input name is', inputName)
+
+    const lastNameActualInput =  document.getElementById('lastNameActualInput').value;
+    const firstNameActualInput =  document.getElementById('firstNameActualInput').value;
+    const emailActualInput =  document.getElementById('emailActualInput').value;
+    const phoneNumberActualInput =  document.getElementById('phoneNumberActualInput').value;
+    const companyNameActualInput =  document.getElementById('companyNameActualInput').value;
+
+    console.log('Last Name Actual Input', lastNameActualInput);
+    console.log('First Name Actual Input', firstNameActualInput);
+    console.log('Email Actual Input', emailActualInput);
+
+    if (inputName === 'lastNameInput') {
+
+        // Do not toggle it if the value is different than empty string
+
+        if (lastNameActualInput === '') {
+            lastNameTextMoved = !lastNameTextMoved;
+            document.getElementById('lastNameInput').classList.toggle('clicked');
+        }
+
+    } else if (inputName === 'firstNameInput') {
+
+        if (firstNameActualInput === '') {
+            firstNameTextMoved = !firstNameTextMoved;
+            document.getElementById('firstNameInput').classList.toggle('clicked');
+        }
+
+    } else if (inputName === 'emailInput') {
+
+        if (emailActualInput === '') {
+            emailTextMoved = !emailTextMoved;
+            document.getElementById('emailInput').classList.toggle('clicked');
+        }
+
+    }  else if (inputName === 'phoneNumberInput') {
+
+        if (phoneNumberActualInput === '') {
+            phoneNumberTextMoved = !phoneNumberTextMoved;
+            document.getElementById('phoneNumberInput').classList.toggle('clicked');
+        }
+
+    }  else if (inputName === 'companyNameInput') {
+
+        if (companyNameActualInput === '') {
+            companyNameTextMoved = !companyNameTextMoved;
+            document.getElementById('companyNameInput').classList.toggle('clicked');
+        }
+
+    }
+
+}
+
+// This function takes care of the scenario when a user tabs into an input without actually clicking it.
+// Without this function, the text that describes the input would stay in the same position (within the input)
+// instead of being moved up for the user to be able to write in the input - which is the behavior that takes
+// place when the user clicks on the text
+
+const triggerTextRiseAnimation = (event) => {
+
+    console.log('ELEMENT FOCUSED THROUGH TABBING');
+
+    const inputName = event.target.id;
+
+    console.log('Input name is', inputName)
+
+    const lastNameActualInput =  document.getElementById('lastNameActualInput').value;
+    const firstNameActualInput =  document.getElementById('firstNameActualInput').value;
+    const emailActualInput =  document.getElementById('emailActualInput').value;
+    const phoneNumberActualInput =  document.getElementById('phoneNumberActualInput').value;
+    const companyNameActualInput =  document.getElementById('companyNameActualInput').value;
+
+    if (inputName === 'lastNameActualInput') {
+
+        // Do not toggle it if the value is different than empty string
+
+        if (lastNameTextMoved === false) {
+            document.getElementById('lastNameInput').classList.add('clicked');
+            lastNameTextMoved = true;
+        }
+
+    } else if (inputName === 'firstNameActualInput') {
+
+        if (firstNameTextMoved === false) {
+            document.getElementById('firstNameInput').classList.add('clicked');
+            firstNameTextMoved = true;
+        }
+
+    } else if (inputName === 'emailActualInput') {
+
+        if (emailTextMoved === false) {
+            document.getElementById('emailInput').classList.add('clicked');
+            emailTextMoved = true;
+        }
+
+    }  else if (inputName === 'phoneNumberActualInput') {
+
+        if (phoneNumberTextMoved === false) {
+            document.getElementById('phoneNumberInput').classList.add('clicked');
+            phoneNumberTextMoved = true;
+        }
+
+    }  else if (inputName === 'companyNameActualInput') {
+
+        if (companyNameTextMoved === false) {
+            document.getElementById('companyNameInput').classList.add('clicked');
+            companyNameTextMoved = true;
+        }
+
+    }
+}
+
+// #speech #speechRecognition
+
+const analyzeSpeech = (speechResultObject) => {
+
+    console.log('About to analyzes speech');
+    console.log('Object given to analyzer is', speechResultObject);
+
+    let { speech } = speechResultObject;
+    speech = speech.toLowerCase();
+    speech = speech.trim();
+    console.log('Speech is NOW', speech);
+    console.log('Speech extracted is', speech);
+
+    const mainMenuSpeech = 'go to main menu';
+    const mainMenuSpeech2 = 'main menu';
+    const mainMenuSpeech3 = 'mainmenu';
+    const mainMenuSpeech4 = 'go to mainmenu';
+    const mainMenuSpeech5 = 'go back to main menu';
+
+    const aboutPageSpeech = 'go to about page';
+    const aboutPageSpeech2 = 'go to aboutpage';
+    const aboutPageSpeech3 = 'about page';
+    const aboutPageSpeech4 = 'aboutpage';
+    const aboutPageSpeech5 = 'go back to about page';
+
+    const contactPageSpeech = 'go to contact page';
+    const contactPageSpeech2 = 'go to contactpage';
+    const contactPageSpeech3 = 'contact page';
+    const contactPageSpeech4 = 'contactpage';
+    const contactPageSpeech5 = 'go back to contact page';
+
+
+    const clientPageSpeech = 'go to client page';
+    const clientPageSpeech2 = 'go to clientpage';
+    const clientPageSpeech3 = 'client page';
+    const clientPageSpeech4 = 'clientpage';
+    const clientPageSpeech5 = 'go back to client page';
+
+
+    const homePageSpeech = 'go to home page';
+    const homePageSpeech2 = 'go to homepage';
+    const homePageSpeech3 = 'homepage';
+    const homePageSpeech4 = 'home page';
+    const homePageSpeech5 = 'go back to home page';
+
+    const deactivateSpeech = 'deactivate voice control';
+    const deactivateSpeech2 = 'Deactivate voice control';
+    const deactivateSpeech3 = 'deactivate voicecontrol';
+
+
+    // if (speech === mainMenuSpeech || speech === mainMenuSpeech2 || speech === mainMenuSpeech3 || speech === mainMenuSpeech4 || speech === mainMenuSpeech5) {
+    //     toggleMenuAnimation();
+    // } else if (speech === aboutPageSpeech || speech === aboutPageSpeech2 || speech === aboutPageSpeech3 || speech === aboutPageSpeech4 || speech === aboutPageSpeech5) {
+    //     toggleGeneralPageTransition('aboutPage');
+    // } else if (speech === contactPageSpeech || speech === contactPageSpeech2 || speech === contactPageSpeech3 || speech === contactPageSpeech4 || speech === contactPageSpeech5) {
+    //     toggleGeneralPageTransition('contactPage');
+    // } else if (speech === clientPageSpeech || speech === clientPageSpeech2 || speech === clientPageSpeech3 || speech === clientPageSpeech4 || speech === clientPageSpeech5) {
+    //     toggleGeneralPageTransition('clientPage');
+    // } else if (speech === homePageSpeech || speech === homePageSpeech2 || speech === homePageSpeech3 || speech === homePageSpeech4 || speech === homePageSpeech5) {
+    //     toggleMenuAnimation();
+    // } else if (speech === deactivateSpeech || speech === deactivateSpeech2 || speech === deactivateSpeech3) {
+    //     // By switching this to true, we prevent it from starting again automatically
+    //     USER_DECIDED_TO_DEACTIVATE = true;
+    //     deactivateVoiceControl();
+    // }
+
+    let mainMenuFinder = speech.indexOf('main menu');
+    console.log('Main Menu Finder', mainMenuFinder);
+
+    let aboutPageFinder = speech.indexOf('about page');
+    console.log('About Page Finder', aboutPageFinder);
+
+    let contactPageFinder = speech.indexOf('contact page');
+    console.log('Contact Page Finder', contactPageFinder);
+
+    let clientPageFinder = speech.indexOf('client page');
+    console.log('Client Page Finder', clientPageFinder);
+
+    let homePageFinder = speech.indexOf('home page');
+    console.log('Home Page 1 Finder', homePageFinder);
+
+    let homePageFinder2 = speech.indexOf('homepage');
+    console.log('Home Page 2 Finder', homePageFinder2);
+
+    
+    if (mainMenuFinder != -1) {
+        toggleGeneralPageTransition('menuPage');
+    } else if (aboutPageFinder != -1) {
+        toggleGeneralPageTransition('aboutPage');
+    } else if (contactPageFinder != -1) {
+        toggleGeneralPageTransition('contactPage');
+    } else if (clientPageFinder != -1) {
+        toggleGeneralPageTransition('clientPage');
+    } else if (homePageFinder != -1 || homePageFinder2 != -1) {
+        toggleGeneralPageTransition('homePage');
+    } else if (speech === deactivateSpeech) {
+        USER_DECIDED_TO_DEACTIVATE = true;
+        deactivateVoiceControl();
+    }
+
+
+}
+
+const initializeEventListeners = () => {
+    document.getElementById('plus-sign-container').addEventListener('mouseenter', showLanguagesText);
+    document.getElementById('plus-sign-container').addEventListener('mouseleave', hideLanguagesText);
+    document.getElementById('hamburger').addEventListener('click', toggleMenuAnimation);
+    document.getElementById('closeButton').addEventListener('click', toggleMenuAnimation);
+    document.getElementById('reveal--layer').addEventListener("animationstart", toggleTextColor);
+    document.getElementById('reveal--layer').addEventListener("animationend", toggleClassOnAnimation);
+    document.getElementById('plus-sign-container').addEventListener('click', toggleLanguageChoices);
+    document.getElementById('menuElementOne').addEventListener('click', toggleGeneralPageTransition);
+    document.getElementById('menuElementTwo').addEventListener('click', toggleGeneralPageTransition);
+    document.getElementById('menuElementThree').addEventListener('click', toggleGeneralPageTransition);
+    document.getElementById('menuElementFour').addEventListener('click', toggleGeneralPageTransition);
+    document.getElementById('firstOptionContainer').addEventListener('click', showContactMenu);
+    document.getElementById('secondOptionContainer').addEventListener('click', showContactMenu);
+    document.getElementById('thirdOptionContainer').addEventListener('click', showContactMenu);
+    // document.getElementById('disabilitiesRelatedText').addEventListener('click', activateVoiceControl);
+    // document.getElementById('menuElementFive').addEventListener('click', toggleGeneralPageTransition);
+    document.getElementById('lastNameInput').addEventListener('click', triggerInputAnimation);
+    document.getElementById('firstNameInput').addEventListener('click', triggerInputAnimation);
+    document.getElementById('emailInput').addEventListener('click', triggerInputAnimation);
+    document.getElementById('phoneNumberInput').addEventListener('click', triggerInputAnimation);
+    document.getElementById('companyNameInput').addEventListener('click', triggerInputAnimation);
+    document.getElementById('lastNameActualInput').addEventListener('focus', triggerTextRiseAnimation);
+    document.getElementById('firstNameActualInput').addEventListener('focus', triggerTextRiseAnimation);
+    document.getElementById('emailActualInput').addEventListener('focus', triggerTextRiseAnimation);
+    document.getElementById('phoneNumberActualInput').addEventListener('focus', triggerTextRiseAnimation);
+    document.getElementById('companyNameActualInput').addEventListener('focus', triggerTextRiseAnimation);
+    document.getElementById('goBackElement').addEventListener('click', hideForm);
+    document.getElementById('submitFormButton').addEventListener('click', validateForm);
+
+    // Makes sure the text and border go back to white when the input is selected
+    document.getElementById('lastNameActualInput').addEventListener('input', trackTextInputForm);
+    document.getElementById('firstNameActualInput').addEventListener('input', trackTextInputForm);
+    document.getElementById('emailActualInput').addEventListener('input', trackTextInputForm);
+    document.getElementById('phoneNumberActualInput').addEventListener('input', trackTextInputForm);
+    document.getElementById('companyNameActualInput').addEventListener('input', trackTextInputForm);
+    document.getElementById('messageInput').addEventListener('input', trackTextInputForm);
+
+    document.getElementById('lastNameActualInput').addEventListener('focus', trackTextInputForm);
+    document.getElementById('firstNameActualInput').addEventListener('focus', trackTextInputForm);
+    document.getElementById('emailActualInput').addEventListener('focus', trackTextInputForm);
+    document.getElementById('phoneNumberActualInput').addEventListener('focus', trackTextInputForm);
+    document.getElementById('companyNameActualInput').addEventListener('focus', trackTextInputForm);
+    document.getElementById('messageInput').addEventListener('focus', trackTextInputForm);
+
+    document.getElementById('disabilitiesRelatedText').addEventListener('click', () => {
+        speechRecognitionListening ? stopSpeechRecognition() : startSpeechRecognition();
+        speechRecognitionListening = !speechRecognitionListening;
+        console.log('Speech recognition listening', speechRecognitionListening);
+    });
+
+    // Ensures the loading page is removed once the animation for the actual loading bar is finished
+    document.getElementById('loadingPage--whiteLoadingBar').addEventListener("animationend", removeLoadingPage);
+
+
+
+}
+
+ 
+initializeEventListeners();
+
+
+// ------------------------------------------------------
+
+/*
+*
+* Area where we will focus on switching the icons back and forth between the different pages of the website
+*
+*/
+
+const changeMenuIcon = (nextPage) => {
+
+    if (nextPage === 'menuPage') {
+
+        currentMenuIcon = 'xIcon'
+
+        console.log('Moving towards #menuPage this time, not FROM IT');
+
+        setTimeout(() => {
+            document.getElementById('closeButton').classList.add('shown');
+            document.getElementById('hamburger').classList.add('hidden');
+        }, 1800);
+
+    } else if (nextPage !== 'menuPage') {
+
+        currentMenuIcon = 'menuIcon';
+
+        console.log('Moving away from the #menuPage therefore we change #menuIcon');
+
+        // Might need to create a timer here that will take care of changing the stroke 
+        // of the svg to white momentarily while the actual page transition is being triggered
+        // Best scenario is to create an actual animation that will be switching the menu into 
+        // an X but I don't want to focus on that detail right now
+        // #future #futureWork #futureDetails
+
+        setTimeout(() => {
+            document.getElementById('closeButton').classList.remove('shown');
+            document.getElementById('hamburger').classList.remove('hidden');
+        }, 1900);
+
+    }
+
+}
+
+// ------------------------------------------------------
+
+let animate = function () {
+    requestAnimationFrame( animate );
+
+    // Can be used later in order to increase the velocity of the mesh
+    // depending on the actual tempo or BPM of the music that's going to be played
+
+    // particles.forEach(p => {
+    //     p.velocity.add(p.acceleration)
+    //     p.position.add(p.velocity)
+    //  })
+
+    // Rotate the Mesh of Particles
+    // particlesMesh.rotation.z += 0.005;
+
+    if (ANIMATION_STARTED === false) {
+        particlesMesh.position.z -= 0.1;
+    }
+
+    // animateParticles();
+
+    // console.log('Particles Mesh Z', particlesMesh.position.z);
+
+    // Hack but will do for now
+
+    // particlesMesh.position.x += Math.sin(particlesMesh.position.z) * 0.05;
+    // particlesMesh.position.y += Math.sin(particlesMesh.position.x) * 0.05;
+    // particlesMesh.geometry.verticesNeedUpdate = true
+
+    // Makes the SpotLight rotate
+    let axis = new THREE.Vector3(0,0,1);
+    let rad = 0.01
+    // spotLight.rotateOnAxis(axis, rad);
+
+    // let spotLightX = spotLight.position.x;
+    // let spotLightY = spotLight.position.y
+    // let spotLightZ = spotLight.position.z;
+    // console.log('Spotlight X', spotLightX)
+    // // Two breaking points for it to decrease
+    // // First decrease happens if x is 0, if x is negative but higher than -220, and if x is higher than 220
+    // // Increase happens when x is lower than 220 and x is lower than 220 (positive)
+    // if (spotLightX === -220 ) {
+    //     spotLight.position.y -= 1;
+    // } else if (spotLightX == 0 || spotLightX < 0 ) {
+    //     spotLight.position.x -= 1;
+    // } else if (spotLightY == -220) {
+    //     spotLight.position.x += 1
+    // } else if (spotLightX == 220 ) {
+    //     spotLight.position.y += 1;
+    // }
+
+    
+    // spotLight.position.x = 0
+    // spotLight.position.y = Math.cos( time * 0.5 ) * 10;
+    // spotLight.position.z = Math.cos( time * 0.3 ) * 10;
+
+    spotLight.position.x = 0
+    spotLight.position.y = 180
+    spotLight.position.z = 0
+
+    // Move the particles with the shader
+
+    let delta = clock.getDelta(),
+        elapsedTime = clock.getElapsedTime(),
+        t = elapsedTime * 0.5;
+
+    // console.log('Elapsed time', elapsedTime)
+
+    // particlesMesh.material.uniforms.elapsedTime.value = elapsedTime * 10;
+
+    // spotLight.target.position.set(0, 100, 0);
+    // // scene.add(spotLight.target);
+    // console.log('Spotlight position', spotLight.position.x);
+    let time = Date.now() * 0.0005;
+
+    // light1.position.x = Math.sin( time * 0.7 ) * 100;
+    // light1.position.y = Math.cos( time * 0.5 ) * 100;
+    // light1.position.z = Math.cos( time * 0.3 ) * 100;
+
+    // light1.rotation.y += 0.5;
+    // pivotPoint2.rotation.y += 0.5;
+
+    // Comment this out in order to remove the light hovering above the Scarab in a Sin fashion
+
+    // if (musicPlaying === true)  {
+
+        pivotPoint2.position.x = Math.sin( time * 0.7 ) * 80;
+        // pivotPoint2.position.y = Math.sin( time  ) * 30; 
+        pivotPoint2.position.z = Math.sin( time  ) * 80;
+
+    // }
+
+    // Experimental - allows the light to move depending on the position of the mouse within
+    // the screen itself
+
+    // pivotPoint2.position.x += Math.sin(time * 0.7) * mouseX;
+    // pivotPoint2.position.y += Math.sin(time * 0.1) * mouseY;
+    // pivotPoint2.position.z += Math.sin(time * 0.2) * mouseX;
+
+    // console.log('Mouse X', mouseX)
+    // console.log('Pivot point position x', pivotPoint2.position.x);
+    // console.log('Pivot point position y', pivotPoint2.position.y);
+    // console.log('Pivot point position z', pivotPoint2.position.z);
+
+
+    // Web Audio Analyser - Get the new frequency data
+    if (frequencyData !== undefined) {
+        analyser.getByteFrequencyData(frequencyData);
+        analyser.getByteTimeDomainData(domainData);
+        // console.log('Frequency data for song', frequencyData);
+        // console.log('Domain data for song', domainData);
+        averageFrequency = average(frequencyData);
+        averageDomain = average(domainData);
+        // console.log('Average frequency', averageFrequency);
+    }
+
+    // If there is an average frequency, then it must not be equal to 0, therefore we make sure that the intensity of the actual spotlight is related
+    // to the average frequency of the music that is playi
+    if (isSongFinished === false) {
+    spotLight.intensity = averageFrequency === 0 ? 0 : averageFrequency / lightIntensityDivider;
+    } else if (isSongFinished === true) {
+        spotLight.intensity = 3.8;
+    }
+    // spotLightTwo.intensity = averageFrequency === 0 ? 2 : averageFrequency / 20;
+    // spotLightThree.intensity = averageFrequency === 0 ? 2 : averageFrequency / 20;
+
+        
+    // Experimenting with these two different ways of dealing with the animations 
+
+    // We combine the two so that when the mesh goes too far out of range it comes back to the very beginning
+    // If the general position of the mesh particles goes too far away from the general frame / frustum of the camera
+    // then we re-assign it to it's earlier position
+    // Important: The mesh of particles (particlesMesh) is re-assigned it's original position whenever the frequency of the
+    // music goes above a certain maximum. This ensures that as long as the music is playing, the particles will always be
+    // within view
+    // This, on the other hand, ensures that when no music is playing (and therefore the particlesMesh is never reset), the mesh
+    // is reset when they go too far out of view.
+    // Long explanation but this is my project and more details is better than not enough, bitch.
+    if (particlesMesh.position.z < -120) {
+        particlesMesh.position.z = 160;
+    }
+
+    // Second one here --> Particles get re-assigned when the domain reaches a different level
+    // if (averageDomain > 160 ) {
+    //     particlesMesh.position.z += 5;
+    // }
+
+    // Cloud Animation
+    // animateCloud();
+    // animateLightning();
+
+    // Updates Lines
+    // #lines
+    // updateLines();
+
+    // Make sure to update cursor
+    updateCursor();
+
+    // Update the light angle when the music is off 
+
+    if (musicPlaying === false) {
+        // console.log('Music is not playing anymore');
+
+        // This part here moves the SpotLight around when the music stops
+        // Commenting it out because the effect doesn't look that good
+        // Might replace it through a click effect accompanied with a flash effect when the music
+        // is stopped
+
+        // pivotPoint2.position.x += (mouseX - pivotPoint2.position.x ) * 0.4;
+        // pivotPoint2.position.z += ( - mouseY - pivotPoint2.position.z ) * 0.4;
+
+        // let intensity = spotLight.intensity;
+        // console.log('Intensity', spotLight.intensity);
+
+        // if (spotLight.intensity < 4) {
+        //     console.log('Intensity increasing')
+        //     spotLight.intensity += 0.01;
+        // } else if (spotLight.intensity > 4) {
+        //     console.log('Intensity is decreasing');
+        //     spotLight.intensity -= 0.01;
+        // }
+
+        // End of the part that animates the SpotLight
+
+        // This part will animate the particles
+
+    }
+
+    if (ANIMATION_STARTED === true) {
+        particlesMesh.position.z += (mouseY + particlesMesh.position.y) * 0.1;
+    }
+
+
+    // Update Controls
+    controls.update();
+
+    // Update stats
+    stats.update();
+    
+    renderer.clear();
+    renderer.render(scene, camera);
+    // composer.render(); 
+
+};
+
+animate();
