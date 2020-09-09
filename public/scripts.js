@@ -73,8 +73,6 @@ let windowHalfY = window.innerHeight / 2;
 let ACTIVATE_VOICE_SHOWN = false;
 let DIRECTIONS_VOICE_SHOWN = false;
 
-
-
 // Variables related to the different pages that will be shown are going to be declared here
 
 let pageShown = 'homePage';
@@ -120,14 +118,14 @@ console.log('Split Items are', splitItems);
  *
  */
 
-// const onCompleteLoading = () => {
+const onCompleteLoading = () => {
 
-//     console.log('Removing loading screen from the page');
+    console.log('Removing loading screen from the page');
 
-    // let loadingPageElement = document.getElementById('loading-page');
-    // loadingPageElement.classList.toggle('hiding');
+    let loadingPageElement = document.getElementById('loading-page');
+    loadingPageElement.classList.toggle('hiding');
 
-// }
+}
 
 
 // --------------------------------------------------------------------------------
@@ -163,7 +161,7 @@ loadingManager.onLoad = () => {
     // then as soon as the objects are downloaded, the animation for the loading page to be moved up is triggered
     if (PAGE_FIRST_LOADED === false && loadingPageAnimationFinished === true) {
         PAGE_FIRST_LOADED = true;
-        onCompleteLoading();
+        // onCompleteLoading();
         loadingGraphicalSceneFinished = true;
     } else if (PAGE_FIRST_LOADED === false && loadingPageAnimationFinished === false) {
         // By doing that, we ensure that when the scene is ready, the variable is changed to true so that when the animation is finished after 10 seconds
@@ -500,15 +498,15 @@ let spotLightHelperThree = new THREE.SpotLightHelper(spotLightThree);
 
 
 // Point Light created and inspired by the previous code
-var sphere = new THREE.SphereBufferGeometry( 5, 16, 8 );
-light1 = new THREE.PointLight( 0xffffff, 2, 50 );
-light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xffffff } ) ) );
+// var sphere = new THREE.SphereBufferGeometry( 5, 16, 8 );
+// light1 = new THREE.PointLight( 0xffffff, 2, 50 );
+// light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xffffff } ) ) );
 // light1.position.x = 0;
 // light1.position.y = 180;
 // light1.position.z = 0;
 
 // #toDo: light1 doesn't seem to be changing anything. Revisit it it's purpose later on.
-scene.add( light1 );
+// scene.add( light1 );
 
 
 // scene.add(pointLight);
@@ -694,52 +692,53 @@ const createBlackMarbleBeetle = () => {
 
     textureLoader.load(RELATIVE_URL + 'blackMarble2.jpg', (texture) => {
         material = new THREE.MeshPhongMaterial({ map: texture });
+        // objLoader.setMaterials(materials);
+        objLoader.setPath(RELATIVE_URL);
+        objLoader.load('beetle.obj', function (object) {
+
+
+            object.traverse(function(node) {
+                if (node.isMesh) {
+                    node.material = material;
+                    // Output the different meshes that we found 
+                    // console.log('Encountered Mesh', node)
+                }
+            })
+
+            blackMarbleBeetleObject = object;
+            blackMarbleBeetleObject.position.y = 100;
+            blackMarbleBeetleObject.rotation.y = 158 * 0.02;
+            blackMarbleBeetleObject.position.z = 20;
+            blackMarbleBeetleObject.scale.x = blackMarbleBeetleObject.scale.y = blackMarbleBeetleObject.scale.z = 1.15;
+            blackMarbleBeetleObject.name = 'beetle';
+
+            // Make invisible
+            blackMarbleBeetleObject.visible = true;
+
+            scene.add(blackMarbleBeetleObject);
+
+
+
+            // Activate this in order to get it to change colors automatically
+            // Will later on be set up so that the colors change depending on the actual buttons clicked
+            // setTimeout(changeTexture, 5000)
+
+            // Associate the light to the Beetle Object as a pivot point
+
+            // pivotPoint = new THREE.Object3D();
+            // blackMarbleBeetleObject.add(pivotPoint);
+            // pivotPoint.add(light1);
+
+            // pivotPoint2 = new THREE.Object3D();
+            // blackMarbleBeetleObject.add(pivotPoint2);
+            // pivotPoint2.add(spotLight);
+
+            console.log('BLACK BEETLE OBJECT CREATED', blackMarbleBeetleObject);
+            // beetleObject.visible = false;
+        });
+
     });
 
-    // objLoader.setMaterials(materials);
-    objLoader.setPath(RELATIVE_URL);
-    objLoader.load('beetle.obj', function (object) {
-
-
-        object.traverse(function(node) {
-            if (node.isMesh) {
-                node.material = material;
-                // Output the different meshes that we found 
-                // console.log('Encountered Mesh', node)
-            }
-        })
-
-        blackMarbleBeetleObject = object;
-        blackMarbleBeetleObject.position.y = 100;
-        blackMarbleBeetleObject.rotation.y = 158 * 0.02;
-        blackMarbleBeetleObject.position.z = 20;
-        blackMarbleBeetleObject.scale.x = blackMarbleBeetleObject.scale.y = blackMarbleBeetleObject.scale.z = 1.15;
-        blackMarbleBeetleObject.name = 'beetle';
-
-        // Make invisible
-        blackMarbleBeetleObject.visible = true;
-
-        scene.add(blackMarbleBeetleObject);
-
-
-
-        // Activate this in order to get it to change colors automatically
-        // Will later on be set up so that the colors change depending on the actual buttons clicked
-        // setTimeout(changeTexture, 5000)
-
-        // Associate the light to the Beetle Object as a pivot point
-
-        // pivotPoint = new THREE.Object3D();
-        // blackMarbleBeetleObject.add(pivotPoint);
-        // pivotPoint.add(light1);
-
-        // pivotPoint2 = new THREE.Object3D();
-        // blackMarbleBeetleObject.add(pivotPoint2);
-        // pivotPoint2.add(spotLight);
-
-        console.log('BLACK BEETLE OBJECT CREATED', blackMarbleBeetleObject);
-        // beetleObject.visible = false;
-    });
 }
 
 
@@ -1119,49 +1118,51 @@ const changeBeetleToWhiteMarble = () => {
 
     textureLoader.load(RELATIVE_URL + 'whiteMarble.jpg', (texture) => {
         material = new THREE.MeshPhongMaterial( { map: texture } );
+
+        // let objLoader = new THREE.OBJLoader();
+        // objLoader.setMaterials(materials);
+        objLoader.setPath(RELATIVE_URL);
+        objLoader.load('beetle.obj', function (object) {
+        
+            object.traverse(function(node) {
+                if (node.isMesh) {
+                    node.material = material;
+                    // console.log('Encountered Mesh', node)
+                }
+
+            })
+        
+            whiteMarbleBeetleObject = object;
+            // whiteMarbleBeetleObject.name = 'beetle'
+            whiteMarbleBeetleObject.position.y = 100;
+            whiteMarbleBeetleObject.rotation.y = 158 * 0.02;
+            whiteMarbleBeetleObject.position.z = 20;
+            whiteMarbleBeetleObject.scale.x = whiteMarbleBeetleObject.scale.y = whiteMarbleBeetleObject.scale.z = 1.15;
+
+            
+            scene.add(whiteMarbleBeetleObject);
+            // setTimeout(changeBeetleToGreenMarble, 5000);
+
+            // Make Beetle Object Invisible upon first page loading
+            whiteMarbleBeetleObject.visible = false;
+
+            // Associate the light to the pivot point once again
+            
+            // Commenting these out since there's an error when we try to load all the beetles at once
+
+            // pivotPoint = new THREE.Object3D();
+            // whiteMarbleBeetleObject.add(pivotPoint);
+            // pivotPoint.add(light1);
+        
+            // pivotPoint2 = new THREE.Object3D();
+            // whiteMarbleBeetleObject.add(pivotPoint2);
+            // pivotPoint2.add(spotLight);
+
+            console.log('WHITE BEETLE OBJECT LOADED');
+        });
+
     });
     
-    // let objLoader = new THREE.OBJLoader();
-    // objLoader.setMaterials(materials);
-    objLoader.setPath(RELATIVE_URL);
-    objLoader.load('beetle.obj', function (object) {
-    
-        object.traverse(function(node) {
-            if (node.isMesh) {
-                node.material = material;
-                // console.log('Encountered Mesh', node)
-            }
-
-        })
-    
-        whiteMarbleBeetleObject = object;
-        // whiteMarbleBeetleObject.name = 'beetle'
-        whiteMarbleBeetleObject.position.y = 100;
-        whiteMarbleBeetleObject.rotation.y = 158 * 0.02;
-        whiteMarbleBeetleObject.position.z = 20;
-        whiteMarbleBeetleObject.scale.x = whiteMarbleBeetleObject.scale.y = whiteMarbleBeetleObject.scale.z = 1.15;
-
-        
-        scene.add(whiteMarbleBeetleObject);
-        // setTimeout(changeBeetleToGreenMarble, 5000);
-
-        // Make Beetle Object Invisible upon first page loading
-        whiteMarbleBeetleObject.visible = false;
-
-        // Associate the light to the pivot point once again
-        
-        // Commenting these out since there's an error when we try to load all the beetles at once
-
-        // pivotPoint = new THREE.Object3D();
-        // whiteMarbleBeetleObject.add(pivotPoint);
-        // pivotPoint.add(light1);
-    
-        // pivotPoint2 = new THREE.Object3D();
-        // whiteMarbleBeetleObject.add(pivotPoint2);
-        // pivotPoint2.add(spotLight);
-
-        console.log('WHITE BEETLE OBJECT LOADED');
-    });
 }
 
 // Grey Marble Texture Change
@@ -1171,52 +1172,52 @@ const changeBeetleToGreyMarble = () => {
     
     let material;
 
-    textureLoader.load(RELATIVE_URL + 'painting1.jpg', (texture) => {
+    textureLoader.load(RELATIVE_URL + 'greyMarble5.jpg', (texture) => {
         // immediately use the texture for material creation
         material = new THREE.MeshPhongMaterial( { map: texture } );
+        // let objLoader = new THREE.OBJLoader();
+        // objLoader.setMaterials(materials);
+
+        objLoader.setPath(RELATIVE_URL);
+        objLoader.load('beetle.obj', function (object) {
+        
+            object.traverse(function(node) {
+                if (node.isMesh) {
+                    node.material = material;
+                    // console.log('Encountered Mesh', node)
+                }
+
+            })
+        
+            greyMarbleBeetleObject = object;
+            greyMarbleBeetleObject.name = 'beetle'
+            greyMarbleBeetleObject.position.y = 100;
+            greyMarbleBeetleObject.rotation.y = 158 * 0.02;
+            greyMarbleBeetleObject.position.z = 20;
+            greyMarbleBeetleObject.scale.x = greyMarbleBeetleObject.scale.y = greyMarbleBeetleObject.scale.z = 1.15;
+
+            scene.add(greyMarbleBeetleObject);
+
+            // Make it visible or invisible
+            greyMarbleBeetleObject.visible = false;
+
+
+            // setTimeout(changeBeetleToGreenMarble, 5000);
+
+            // Associate the light to the pivot point once again
+            // pivotPoint = new THREE.Object3D();
+            // greyMarbleBeetleObject.add(pivotPoint);
+            // pivotPoint.add(light1);
+        
+            // pivotPoint2 = new THREE.Object3D();
+            // greyMarbleBeetleObject.add(pivotPoint2);
+            // pivotPoint2.add(spotLight);
+
+            console.log('GREY BEETLE OBJECT LOADED')
+        });
+
     });
 
-    
-    // let objLoader = new THREE.OBJLoader();
-    // objLoader.setMaterials(materials);
-
-    objLoader.setPath(RELATIVE_URL);
-    objLoader.load('beetle.obj', function (object) {
-    
-        object.traverse(function(node) {
-            if (node.isMesh) {
-                node.material = material;
-                // console.log('Encountered Mesh', node)
-            }
-
-        })
-    
-        greyMarbleBeetleObject = object;
-        greyMarbleBeetleObject.name = 'beetle'
-        greyMarbleBeetleObject.position.y = 100;
-        greyMarbleBeetleObject.rotation.y = 158 * 0.02;
-        greyMarbleBeetleObject.position.z = 20;
-        greyMarbleBeetleObject.scale.x = greyMarbleBeetleObject.scale.y = greyMarbleBeetleObject.scale.z = 1.15;
-
-        scene.add(greyMarbleBeetleObject);
-
-        // Make it visible or invisible
-        greyMarbleBeetleObject.visible = false;
-
-
-        // setTimeout(changeBeetleToGreenMarble, 5000);
-
-        // Associate the light to the pivot point once again
-        // pivotPoint = new THREE.Object3D();
-        // greyMarbleBeetleObject.add(pivotPoint);
-        // pivotPoint.add(light1);
-    
-        // pivotPoint2 = new THREE.Object3D();
-        // greyMarbleBeetleObject.add(pivotPoint2);
-        // pivotPoint2.add(spotLight);
-
-        console.log('GREY BEETLE OBJECT LOADED')
-    });
 }
 
 
@@ -1261,49 +1262,53 @@ const changeBeetleToBlueMarble = () => {
     let material;
 
     // let texture = textureLoader.load( RELATIVE_URL + 'brownMarble.jpg' );
-    textureLoader.load( RELATIVE_URL + 'redPinkRock.jpg', (texture) => {
+    textureLoader.load(RELATIVE_URL + 'blueMarble3.jpg', (texture) => {
         material = new THREE.MeshPhongMaterial( { map: texture } );
-    });
-    // immediately use the texture for material creation
-    // let material = new THREE.MeshNormalMaterial({wireframe: true});
-    
-    // let objLoader = new THREE.OBJLoader();
-    // objLoader.setMaterials(materials);
-    objLoader.setPath(RELATIVE_URL);
-    objLoader.load('beetle.obj', function (object) {
-    
-        object.traverse(function(node) {
-            if (node.isMesh) {
-                node.material = material;
-                // console.log('Encountered Mesh', node)
-            }
 
-        })
-    
-        blueMarbleBeetleObject = object;
-        blueMarbleBeetleObject.name = 'beetle'
-        blueMarbleBeetleObject.position.y = 100;
-        blueMarbleBeetleObject.rotation.y = 158 * 0.02;
-        blueMarbleBeetleObject.position.z = 20;
-        blueMarbleBeetleObject.scale.x = blueMarbleBeetleObject.scale.y = blueMarbleBeetleObject.scale.z = 1.15;
 
+        // immediately use the texture for material creation
+        // let material = new THREE.MeshNormalMaterial({wireframe: true});
         
-        scene.add(blueMarbleBeetleObject);
+        // let objLoader = new THREE.OBJLoader();
+        // objLoader.setMaterials(materials);
+        objLoader.setPath(RELATIVE_URL);
+        objLoader.load('beetle.obj', function (object) {
+        
+            object.traverse(function(node) {
+                if (node.isMesh) {
+                    node.material = material;
+                    // console.log('Encountered Mesh', node)
+                }
 
-        // Make the beetle invisible upon page initial loading
-        blueMarbleBeetleObject.visible = false;
+            })
+        
+            blueMarbleBeetleObject = object;
+            blueMarbleBeetleObject.name = 'beetle'
+            blueMarbleBeetleObject.position.y = 100;
+            blueMarbleBeetleObject.rotation.y = 158 * 0.02;
+            blueMarbleBeetleObject.position.z = 20;
+            blueMarbleBeetleObject.scale.x = blueMarbleBeetleObject.scale.y = blueMarbleBeetleObject.scale.z = 1.15;
 
-        // Associate the light to the pivot point once again
-        // pivotPoint = new THREE.Object3D();
-        // blueMarbleBeetleObject.add(pivotPoint);
-        // pivotPoint.add(light1);
-    
-        // pivotPoint2 = new THREE.Object3D();
-        // blueMarbleBeetleObject.add(pivotPoint2);
-        // pivotPoint2.add(spotLight);
+            // Make the beetle invisible upon page initial loading
+            blueMarbleBeetleObject.visible = false;
 
-        console.log('BLUE BEETLE OBJECT LOADED')
+            console.log('BLUE MARBLE OBJECT BEING CREATED', blueMarbleBeetleObject);
+
+            scene.add(blueMarbleBeetleObject);
+
+            // Associate the light to the pivot point once again
+            // pivotPoint = new THREE.Object3D();
+            // blueMarbleBeetleObject.add(pivotPoint);
+            // pivotPoint.add(light1);
+        
+            // pivotPoint2 = new THREE.Object3D();
+            // blueMarbleBeetleObject.add(pivotPoint2);
+            // pivotPoint2.add(spotLight);
+
+            console.log('BLUE BEETLE OBJECT LOADED')
+        });
     });
+    
 }
 
 
@@ -1361,14 +1366,15 @@ const changeBeetleToDarkGreenMarble = () => {
 
 const createInitialBeetleObjects = async () => {
 
+    // Contact Page Beetle
+    changeBeetleToBlueMarble();
     // Home Page Beetle
     createBlackMarbleBeetle();
     // Main Menu Page Beetle
     changeBeetleToGreyMarble();
     // About Page Beetle
     changeBeetleToWhiteMarble();
-    // Contact Page Beetle
-    changeBeetleToBlueMarble();
+
 
     // The functions above are asynchronous so none of these work 
     // blackMarbleBeetleObject.visible = false;
@@ -2459,10 +2465,8 @@ const changeMeshVisibility = (currentPage) => {
         whiteMarbleBeetleObject.visible = false;
         blackMarbleBeetleObject.visible = false;
 
-        console.log('Bluer marble object', blueMarbleBeetleObject);
-
+        console.log('BLUE MARBLE BEETLE', blueMarbleBeetleObject);
         console.log('WHITE MARBLE BEETLE', whiteMarbleBeetleObject);
-
         console.log('BLACK MARBLE BEETLE', blackMarbleBeetleObject);
 
         // Ensure that the incorrect planes are invisible too
@@ -2471,15 +2475,12 @@ const changeMeshVisibility = (currentPage) => {
         planeMesh.visible = false;
 
         console.log('BLACK PLANE MESH', blackPlaneMesh);
-
         console.log('BLACK PLANE MESH 2', blackPlaneMeshTwo);
-
         console.log('PLANE MESH', planeMesh);
 
         // Make correct beetle meshe visible
         // blueMarbleBeetleObject.visible = true;
         greyMarbleBeetleObject.visible = true;
-
 
         console.log('GREY MARBLE BEETLE', greyMarbleBeetleObject);
 
@@ -2503,11 +2504,8 @@ const changeMeshVisibility = (currentPage) => {
         darkGreenPlaneMesh.visible = false;
 
         console.log('LOGGING IN MESH VISIBILITY SECOND LAYER FOR TESTING');
-
         console.log('BLACK PLANE MESH TWO', blackPlaneMeshTwo);
-
         console.log('BLACK PLANE MESH', blackPlaneMesh);
-
         console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
 
         // Make correct beetle meshe visible
@@ -2520,15 +2518,13 @@ const changeMeshVisibility = (currentPage) => {
         console.log('Showing CONTACT PAGE NOW VISIBILITY CHANGE')
 
         // Ensure that the incorrect beetle meshes are invisible
-        // greyMarbleBeetleObject.visible = false;
+        greyMarbleBeetleObject.visible = false;
         blackMarbleBeetleObject.visible = false;
         whiteMarbleBeetleObject.visible = false;
-        blueMarbleBeetleObject.visible = false;
+        // blueMarbleBeetleObject.visible = false;
 
         console.log('GREY MARBLE BEETLE', greyMarbleBeetleObject);
-
         console.log('WHITE MARBLE BEETLE', whiteMarbleBeetleObject);
-
         console.log('BLACK MARBLE BEETLE', blackMarbleBeetleObject);
 
         // Ensure that the incorrect planes are invisible too
@@ -2538,15 +2534,12 @@ const changeMeshVisibility = (currentPage) => {
         // blackPlaneMeshTwo.visible = false;
 
         console.log('PLANE MESH', planeMesh);
-
         console.log('BLACK PLANE', blackPlaneMesh);
-
         console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
 
         // Make correct beetle meshe visible
-        // blueMarbleBeetleObject.visible = true;
-        greyMarbleBeetleObject.visible = true;
-
+        blueMarbleBeetleObject.visible = true;
+        // greyMarbleBeetleObject.visible = true;
 
         console.log('BLUE MARBLE BEETLE LOADED', blueMarbleBeetleObject);
 
