@@ -1,7 +1,7 @@
 {
   "name": "three-js-boilerplate",
   "version": "1.0.0",
-  "homepage": "https://5f4f2505fdfd7c568b88ae40--frosty-hypatia-597792.netlify.app/",
+  "homepage": "http://localhost:8081/",
   "description": "",
   "main": "scripts.js",
   "scripts": {
