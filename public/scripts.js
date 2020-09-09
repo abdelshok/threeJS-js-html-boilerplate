@@ -59,9 +59,10 @@ let musicStartedPlaying = false;
 let formShowing = false;
 
 // let lightIntensityDivider = 33; // Nina Simone
-let lightIntensityDivider = 29; // Nina Simone
+// let lightIntensityDivider = 29; // Nina Simone
 // let lightIntensityDivider = 25; // Trap Beldi
-// let lightIntensityDivider = 8; // For Erik Satie, probably Ludovico Einaudi
+// let lightIntensityDivider = 8; // Not enough anymore for Erik Satie
+let lightIntensityDivider = 6; // Better for Erik Satie
 
 let planeGeometry, planeTexture, planeMaterial, planeMesh;
 
@@ -125,6 +126,8 @@ const onCompleteLoading = () => {
     let loadingPageElement = document.getElementById('loading-page');
     loadingPageElement.classList.toggle('hiding');
 
+    let loadingPageText = document.getElementById('loadingPage--normalText')
+
 }
 
 
@@ -169,6 +172,7 @@ loadingManager.onLoad = () => {
         loadingGraphicalSceneFinished = true;
     }
 
+
 }
 
 // Tracks the progress of the loading of objects
@@ -189,7 +193,24 @@ loadingManager.onError = (url) => {
 
 // Function that is triggered when the #loadingBar #animation ends, which triggers the loading page to be completely removed from the page
 
-const removeLoadingPage = () => {
+const showClickMessageToRemoveLoadingPage = () => {
+
+    // Moves & hides the text that tells the user to 'Turn on the volume'
+    // Remove the delay too so that it actually disappears faster - if the delay of 2s, which is written in the CSS rules, stays, then the transition
+    // delay takes way too much time to disappear. 
+    document.getElementById('loadingPage--normalText').style.transitionDelay = '0s';
+    document.getElementById('loadingPage--normalText').classList.remove('shown');
+    
+    // Shows & moves up the text that tells the user to click
+    document.getElementById('loadingPage--secondNormalText').classList.add('shown');
+
+
+}
+
+// Function that removes the initial loading page after the user clicks on the 'Click to Enter' message displayed the first time a user
+// lands on the website
+
+const removeInitialLoadingPage = () => {
 
     console.log('WE ARE REMOVING LOADING PAGE')
 
@@ -209,10 +230,13 @@ const removeLoadingPage = () => {
     // Also now we trigger the music
     playSong();
 
+    // We also make sure to remove the text from the loading page that asks the user to turn on the volume
+    // The page cannot be seen but if the user actually minimizes the window vertically, they can see the message show up
+    setTimeout(() => {
+        document.getElementById('loadingPage--generalText').classList.add('hiddenAgain');
+    }, 4000);
+
 }
-
-
-
 
 // --------------------------------------------------------------------------------
 
@@ -473,7 +497,7 @@ scene.add(spotLight.target);
 // spotLight.castShadow.camera.far = 15000;
 
 let spotLightHelper = new THREE.SpotLightHelper(spotLight);
-scene.add(spotLightHelper);
+// scene.add(spotLightHelper);
 
 
 // Previously added two spotlights that are located at the left and right of the BeetleObject and that were supposed to light up
@@ -1405,7 +1429,7 @@ const changeLightIntensity = (marbleColor) => {
     console.log('#lightIntensity changed for color', marbleColor);
 
     if (marbleColor === 'white') {
-        lightIntensityDivider = 80;
+        lightIntensityDivider = 100;
     } else if (marbleColor === 'black') {
         lightIntensityDivider = 33;
     } else if (marbleColor === 'veryLight') {
@@ -1478,6 +1502,8 @@ const onDocumentMouseMove = (event) => {
     // console.log('Mouse Y', mouseY);
 
 }
+
+
 
 
 const onMouseDown = () => {
@@ -1593,12 +1619,13 @@ const LUDO_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Ludovic
 const BELDI_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/ISSAM+-+Trap+Beldi+(Prod+Adam+K).mp3';
 const RUNAWAY_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Kanye+West+-+Runaway+(Video+Version)+ft.+Pusha+T.mp3';
 const TEST_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/trapBeldiShort.mp3';
+const ENFANCE_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/VIDEOCLUB+-+Enfance+80+(Clip+Officiel).mp3';
 
 let songBuffer, analyser;
 
 // Function called when the user clicks on the SoundWave button on the bottom right when the song has finished
 const playSong = () => {
-    window.fetch(BELDI_URL)
+    window.fetch(ERIK_URL)
     .then(response => response.arrayBuffer())
     .then(arrayBuffer => 
         // Creates a short audio asset stored in memory, created from an audio file
@@ -1643,7 +1670,7 @@ const playSong = () => {
 // Not necessary to play the #music on load
 
 // window.onload = () => {
-//     window.fetch(BELDI_URL)
+//     window.fetch(ERIK_URL)
 //     .then(response => response.arrayBuffer())
 //     .then(arrayBuffer => 
 //         // Creates a short audio asset stored in memory, created from an audio file
@@ -2553,6 +2580,37 @@ const changeMeshVisibility = (currentPage) => {
 
 }
 
+// Function that toggles the Animation, which creates the white lines next to the Contact components
+// on the Contact page of the website
+
+const animateContactLinesContactPage = () => {
+
+    document.getElementById('address-line-right-two-two').classList.add('animated');
+    document.getElementById('address-line-right-two-three').classList.add('animated');
+
+}
+
+// Function that removes the lines that show up next to the Contact information on the Main Menu Page
+
+const removeContactInfoLinesMainMenu = () => {
+
+    console.log('REMOVING CONTACT INFORMATION LINES MAIN MENU')
+    document.getElementById('address-line-left-two-zero').classList.remove('animated');
+    document.getElementById('address-line-right-two-zero').classList.remove('animated');
+    document.getElementById('address-line-left-two-one').classList.remove('animated');
+    document.getElementById('address-line-right-two-one').classList.remove('animated');
+
+}
+
+
+// Function that removes the lines that show up next to the Contact information on the Contact Page
+
+const removeContactInfoLinesContactPage = () => {
+
+    document.getElementById('address-line-right-two-two').classList.remove('animated');
+    document.getElementById('address-line-right-two-three').classList.remove('animated');
+
+}
 
 
 // Main Function to toggle between all the different pages
@@ -2565,7 +2623,7 @@ const toggleGeneralPageTransition = (event) => {
     
     console.log('General transition triggered')
 
-    let id, elementID;
+    let id;
 
     if (MENU_BASED_ANIMATION_STARTED === false) {
 
@@ -2617,10 +2675,17 @@ const toggleGeneralPageTransition = (event) => {
     
     
         } else if (oldPageShown === 'menuPage') {
+
+            console.log('OLD PAGE SHOWN IS MAIN MENU PAGE')
             
+            // Make sure that the vertical lines next to the contact information disappear from the menu page with a delay
+            setTimeout(() => {
+                removeContactInfoLinesMainMenu();
+            }, 300)
+
             // If we pass an empty string, it removes the elements for the menuPage
-            console.log('Toggling elements off first step from menu page')
             toggleMenuPage('')
+
     
         } else if (oldPageShown === 'aboutPage') {
             console.log('now passing through about page');
@@ -2628,6 +2693,11 @@ const toggleGeneralPageTransition = (event) => {
             // If we pass an empty string, it removes the elements from the 'aboutPage'
             toggleAboutPage('');
         } else if (oldPageShown === 'contactPage') {
+
+            // Make sure that the vertical lines next to the contact information disappear from the contact page with a delay
+            // setTimeout(() => {
+            //     removeContactInfoLinesContactPage();
+            // }, 500)
     
             // Insert removing the different contact page elements here when you get to it
             // By passing this function and all the similar ones above an empty string, we ensure that the DOM elements
@@ -2727,7 +2797,9 @@ const toggleGeneralPageTransition = (event) => {
     
             changeMenuIcon('');
             changePageShown('contactPage');
-            toggleContactPage('contactPage')
+            toggleContactPage('contactPage');
+            // Ensures that the lines next to the contact information are shown
+            animateContactLinesContactPage();
 
             // App V.1 - Start - We call functions that create the geometries & the Mesh
             // toggleContactPageMesh();
@@ -2911,6 +2983,16 @@ const toggleMenuAnimation = () => {
 
             toggleMenuPage('menuPage');
 
+            // Adds 'animated' class to the contact information components so that vertical lines next to the contact informations appear
+            // with a delay after the page transition animation
+            animateContactLines();
+            
+            // Removes the Vertical Lines next to the Contact Information in the pages that have contact information
+            // Currently the only other page apart from the Main Menu that has Contact information is the Contact page
+            setTimeout(() => {
+                removeContactInfoLinesContactPage();
+            }, 300);
+
 
         // We're keeping it this way because after we click back on it the only place we should be able
         // to go is the homePage
@@ -2931,22 +3013,34 @@ const toggleMenuAnimation = () => {
 
             toggleHomePage('homePage')
 
+            // Remove Veritical Lines next to Contact Information
+            setTimeout(() => {
+                removeContactInfoLinesMainMenu();
+            }, 300);
+
         } else if (pageShown === 'aboutPage') {
 
             console.log('PAGE SHOWN RIGHT NOW getting DESTROYED')
             setTextAnimationTimers('aboutPage')
 
-
-        } 
-
-
-        console.log('Page being shown is ', pageShown);
-        console.log('Hash of pages shows ', listOfPages);
+        };
 
     }
 
 }
 
+// Function that animates the line that shows with the contact
+
+const animateContactLines = () => {
+
+    console.log('ADDING CONTACT LINES MAN MENU');
+    document.getElementById('address-line-left-two-zero').classList.add('animated');
+    document.getElementById('address-line-right-two-zero').classList.add('animated');
+    document.getElementById('address-line-left-two-one').classList.add('animated');
+    document.getElementById('address-line-right-two-one').classList.add('animated');
+
+
+}
 
 // Not useed anymore
 
@@ -3047,7 +3141,7 @@ const toggleContactPageMesh = () => {
 
 const toggleClientsPageMesh = () => {
 
-    console.log('Togglign the Clients page Mesh');
+    console.log('Toggling the Clients page Mesh');
     
     setTimeout(() => {
         const beetleColor = 'black'
@@ -4203,6 +4297,19 @@ const analyzeSpeech = (speechResultObject) => {
 
 }
 
+const testClick = () => {
+
+    console.log('Testing the click of the loading page');
+
+}
+
+const loadingPageEndTransitions = () => {
+
+    console.log('Hiding the direction messages displayed on the initial loading page');
+    
+
+
+}
 const initializeEventListeners = () => {
     document.getElementById('plus-sign-container').addEventListener('mouseenter', showLanguagesText);
     document.getElementById('plus-sign-container').addEventListener('mouseleave', hideLanguagesText);
@@ -4213,7 +4320,7 @@ const initializeEventListeners = () => {
     document.getElementById('plus-sign-container').addEventListener('click', toggleLanguageChoices);
     document.getElementById('menuElementOne').addEventListener('click', toggleGeneralPageTransition);
     document.getElementById('menuElementTwo').addEventListener('click', toggleGeneralPageTransition);
-    document.getElementById('menuElementThree').addEventListener('click', toggleGeneralPageTransition);
+    // document.getElementById('menuElementThree').addEventListener('click', toggleGeneralPageTransition);
     document.getElementById('menuElementFour').addEventListener('click', toggleGeneralPageTransition);
     document.getElementById('firstOptionContainer').addEventListener('click', showContactMenu);
     document.getElementById('secondOptionContainer').addEventListener('click', showContactMenu);
@@ -4255,8 +4362,11 @@ const initializeEventListeners = () => {
     });
 
     // Ensures the loading page is removed once the animation for the actual loading bar is finished
-    document.getElementById('loadingPage--whiteLoadingBar').addEventListener("animationend", removeLoadingPage);
+    document.getElementById('loadingPage--whiteLoadingBar').addEventListener('animationend', showClickMessageToRemoveLoadingPage);
 
+    document.getElementById('loading-page').addEventListener('click', removeInitialLoadingPage);
+    // document.getElementById('loading-page').addEventListener('animationend', loadingPageEndTransitions)
+    // document.getElementById('loading-page').addEventListener('click', testClick);
 
 
 }

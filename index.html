@@ -45,7 +45,9 @@
 				-youbkit-user-select: none;   
 				-moz-user-select: none;	   
 				-ms-user-select: none;		
-				user-select: none;		
+				user-select: none;
+				min-width: 400px;
+				min-height: 600px;	
 			}
 
 		
@@ -114,6 +116,7 @@
 				height: 100vh;
 				background-color: transparent;
 				/* z-index: 10000; */
+				min-width: 400px;
 			}
 
 			/* .page--current {
@@ -164,7 +167,7 @@
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-				z-index: 100;
+				z-index: 5000;
 			}
 
 			.loadingPage--loadingBar {
@@ -195,12 +198,43 @@
 				text-align: center;
 				opacity: 0;
 				visibility: block;
-				transition: opacity 1s ease-in 2s;
-				max-width: 194px;
+				transition: all 1s ease-in 2s;
+				max-width: 155px;
 			}
 
 			.loadingPage--normalText.shown {
 				opacity: 1;
+				transition: all 0.5s ease-in;
+			}
+
+
+			.loadingPage--generalText.hiddenAgain {
+				opacity: 0;
+				display: none;
+			}
+
+			.loadingPage--secondNormalText {
+				color: rgb(255, 255, 255, 0.6);
+				font-family: Montserrat, sans-serif;
+				font-size: 1.2rem;
+				text-transform: uppercase;
+				font-weight: 500;
+				text-align: center;
+				opacity: 0;
+				border-style: none;
+				border-width: 0px;
+				text-align: center;
+				cursor: none;
+				background-color: transparent;
+				visibility: block;
+				transition: all 0.5s ease-in 1.1s;
+				max-width: 154px;
+				z-index: 5000;
+			}
+
+			.loadingPage--secondNormalText.shown {
+				opacity: 1;
+				transform: translateY(-40px);
 			}
 
 			#titleAbout {
@@ -596,6 +630,15 @@
 				}
 			}
 
+			@keyframes slideContactLineBar {
+				0% {
+					height: 0%;
+				}
+				100% {
+					height: 100%;
+				}
+			}
+
 			.soundwave-description {
 				position: absolute;
 				right: 50;
@@ -825,6 +868,7 @@
 				opacity: 1;
 				color: white;
 				height: 298px;
+				z-index: 5000;
 			}
 
 			#company-logo-two.showing {
@@ -908,19 +952,79 @@
 
 			.address-line-left {
 				width: 2px;
-				height: 105px;
-				background-color: white;
+				height: 96px;
+				background-color: transparent;
 				margin-right: 14px;
 				display: inline-block;
+				position: relative;
 				/* margin-left: 28%; */
+				transform: translateY(-5px);
+			}
+
+			#address-line-left-two-zero {
+				height: 0px;
+				background-color: white;
+			}
+
+			#address-line-left-two-one {
+				height: 0px;
+				background-color: white;
+			}
+
+			#address-line-left-two-zero.animated {
+				animation: slideContactLineBar 0.45s ease-in 2.1s forwards;
+			}
+
+			#address-line-left-two-one.animated {
+				animation: slideContactLineBar 0.45s ease-in 2.55s forwards;
 			}
 
 			.address-line-right {
 				width: 2px;
-				height: 105px;
-				background-color: white;
+				height: 96px;
+				background-color: transparent;
 				margin-left: 14px;
 				display: inline-block;
+				position: relative;
+				transform: translateY(-5px);
+			}
+
+			#address-line-right-two-zero {
+				height: 0px;
+				background-color: white;
+			}
+
+
+			#address-line-right-two-zero.animated {
+				animation: slideContactLineBar 0.45s ease-in 2.1s forwards;
+			}
+
+			#address-line-right-two-one {
+				height: 0px;
+				background-color: white;
+			}
+
+
+			#address-line-right-two-one.animated {
+				animation: slideContactLineBar 0.45s ease-in 2.55s forwards;
+			}
+
+			#address-line-right-two-two {
+				height: 0px;
+				background-color: white;
+			}
+
+			#address-line-right-two-two.animated {
+				animation: slideContactLineBar 0.45s ease-in 2.1s forwards;
+			}
+
+			#address-line-right-two-three {
+				height: 0px;
+				background-color: white;
+			}
+
+			#address-line-right-two-three.animated {
+				animation: slideContactLineBar 0.45s ease-in 2.55s forwards;
 			}
 
 			.address-details {
@@ -943,7 +1047,7 @@
 
 			.address-title {
 				font-family: sofia-pro, serif;
-				font-size: 1.7rem;
+				font-size: 1.4rem;
 				text-transform: uppercase;
 				color: #b8b8b8;
 				font-weight: 300;
@@ -951,12 +1055,13 @@
 				margin-top: 0px;
 				margin-bottom: 10px;
 				min-width: 250px;
+				letter-spacing: 0.5px;
 
 			}
 
 			.address-title-right {
 				font-family: sofia-pro, serif;
-				font-size: 1.7rem;
+				font-size: 1.4rem;
 				text-transform: uppercase;
 				color: #b8b8b8;
 				font-weight: 300;
@@ -964,11 +1069,12 @@
 				margin-top: 0px;
 				margin-bottom: 10px;
 				text-align: right;
+				letter-spacing: 0.5px;
 			}
 
 			.address-street {
 				font-family: sofia-pro, serif;
-				font-size: 1.6rem;
+				font-size: 1.5rem;
 				color: white;
 				font-weight: 700;
 				visibility: visible;
@@ -980,7 +1086,7 @@
 
 			.address-street-right {
 				font-family: sofia-pro, serif;
-				font-size: 1.6rem;
+				font-size: 1.5rem;
 				color: white;
 				font-weight: 700;
 				visibility: visible;
@@ -1050,9 +1156,7 @@
 				background-color: black;
 				visibility: visible;
 				opacity: 1;
-				z-index: 1000;
 				/* transition: opacity 1s ease-in, display 0.3s ease-in 1s; */
-				pointer-events: none;
 				position: absolute;
 				display: flex;
 				flex-direction: column;
@@ -1559,6 +1663,7 @@
 				margin-top: 0px;
 				opacity: 0;
 				transition: opacity 0.2s ease-in;
+				display: none;
 			}
 
 			.disabilitiesRelatedText:before {
@@ -1613,6 +1718,7 @@
 				white-space: nowrap;
 				margin-top: 0px;
 				margin-bottom: 10px;
+				display: none;
 			}
 
 			.directionsVoiceControl {
@@ -1706,7 +1812,7 @@
 				border-left-width: 0px;
 				border-right-width: 0px;
 				border-top-width: 0px;
-				font-weight: 600;
+				font-weight: 500;
 				/* padding-left: 5px;
 				padding-right: 5px; */
 			}
@@ -1786,9 +1892,10 @@
 				margin-top: 25px;
 				padding-left: 0px;
 				padding-right: 0px;
-				max-height: 180px;
+				max-height: 71px;
 				min-height: 71px;
 				padding-bottom: 7px;
+
 			}
 
 			/* Here we set the animations for the inputs that are not filled */
@@ -1904,20 +2011,22 @@
 		<script src="/public/assets/postprocessing.min.js" ></script>
 		<script src="/public/assets/stats.js"></script>
 		<script src="/public/assets/DigitalGlitch.js" type="module"></script>
+		<script src="/public/assets/GlitchPass.js" type="module"></script>
 
-		<script src="/public/scripts.js" type="module" ></script>
+		<!-- <script src="/public/scripts.js" type="module" ></script> -->
 
 		<!-- For Local Development -->
 		
 		<!-- <script src="/assets/OrbitControls.js"></script>
-		<script src="/assets/OBJLoader.js"></script> -->
-		<!-- <script src="/assets/Water.js"></script> -->
-		<!-- <script src="/assets/MTLLoader.js"></script>
+		<script src="/assets/OBJLoader.js"></script>
+		<script src="/assets/MTLLoader.js"></script>
 		<script src="/assets/postprocessing.min.js" ></script>
-		<script src="/assets/stats.js"></script> -->
+		<script src="/assets/stats.js"></script>
+		<script src="/scripts.js" type="module" ></script> -->
+
+		<!-- <script src="/assets/Water.js"></script> -->
 		<!-- <script src="/assets/DigitalGlitch.js" type="module"></script>
 		<script src="/assets/GlitchPass.js" type="module"></script> -->
-		<!-- <script src="/scripts.js" type="module" ></script> -->
 
 
 
@@ -1974,8 +2083,10 @@
 					<div class='loadingPage--loadingBar' id='loadingPage--loadingBar'>
 						<div class='loadingPage--whiteLoadingBar' id='loadingPage--whiteLoadingBar'> </div>
 					</div>
-					<p class='loadingPage--normalText' id='loadingPage--normalText'> Please turn up your volume </p>
-
+					<div class='loadingPage--generalText' id='loadingPage--generalText'>
+						<p class='loadingPage--normalText' id='loadingPage--normalText'> Please turn on your volume </p>
+						<button class='loadingPage--secondNormalText' id='loadingPage--secondNormalText'> Click Anywhere to Enter </button>
+					</div>
 				</div>
 
 				<!-- <div class='company-logo-loading-page samarra-text' id='company-logo-loading-page'>
@@ -2093,7 +2204,9 @@
 				<!-- New York Address Information -->
 				<div class='address-information-left samarra-text' id='address-information-left'>
 					<div class='address-item'>
-						<div class='address-line-left'> </div>
+						<div class='address-line-left' id='address-line-left'>
+							<div id='address-line-left-two-zero'></div>
+						 </div>
 						<div class='address-details'>
 							<div class='address-details-inside'>
 								<p class='address-title'> New York Head Office </p>
@@ -2103,7 +2216,9 @@
 						</div>
 					</div>
 					<div class='address-item samarra-text'>
-						<div class='address-line-left'> </div>
+						<div class='address-line-left' id='address-line-left'> 
+							<div id='address-line-left-two-one'> </div>
+						</div>
 						<div class='address-details'>
 							<div class='address-details-inside'>
 								<p class='address-title'>  Contact </p>
@@ -2124,7 +2239,9 @@
 								<p class='address-street-right samarra-text'> 75006 Paris, France </p>
 							</div>
 						</div>
-						<div class='address-line-right samarra-text'> </div>
+						<div class='address-line-right samarra-text' id='address-line-right'> 
+							<div id='address-line-right-two-zero'></div>
+						</div>
 					</div>
 					<div class='address-item-right samarra-text'>
 						<div class='address-details-right samarra-text'>
@@ -2134,7 +2251,9 @@
 								<p class='address-street-right samarra-text'> +33 1 45 28 32 24 </p>
 							</div>
 						</div>
-						<div class='address-line-right samarra-text'> </div>
+						<div class='address-line-right samarra-text' id='address-line-right'> 
+							<div id='address-line-right-two-one'></div>
+						</div>
 					</div>
 				</div>
 
@@ -2215,6 +2334,7 @@
 									<form
 									action="https://formspree.io/xvowjwez"
 									method="POST" 
+									autocomplete="off"
 									>
 										<div class='formRow'>
 											<div class='formInputContainer' >
@@ -2286,7 +2406,9 @@
 											<p class='address-street-right samarra-text'> 917-938-6889 </p>
 										</div>
 									</div>
-									<div class='address-line-right samarra-text'> </div>
+									<div class='address-line-right samarra-text'>
+										<div id='address-line-right-two-two'></div>
+									</div>
 								</div>
 								<div class='address-item-right-two samarra-text'>
 									<div class='address-details-right samarra-text'>
@@ -2296,7 +2418,9 @@
 											<p class='address-street-right samarra-text'> +33 1 45 28 32 24 </p>
 										</div>
 									</div>
-									<div class='address-line-right samarra-text'> </div>
+									<div class='address-line-right samarra-text'> 
+										<div id='address-line-right-two-three'></div>
+									</div>
 								</div>
 							</div>
 						</div>
