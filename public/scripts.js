@@ -44,8 +44,8 @@ let currentMenuIcon = 'menuIcon';
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'prod';
-// let environment = 'dev';
+// let environment = 'prod';
+let environment = 'dev';
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
 
 // Web Audio API-related Variables
@@ -3469,7 +3469,7 @@ const showContactMenu = (event) => {
 
     } else if (id === 'joinTeam' || id === 'joinTeamArrowSVG') {
         formTitleElement.innerHTML = 'Join our Team';
-        formSubTitleElement.innerHTML = "Good news, please tell us about yourself.";
+        formSubTitleElement.innerHTML = "Please tell us about yourself.";
     } else if (id === 'startProject' || id === 'startProjectArrowSVG') {
         formTitleElement.innerHTML = 'Start a Project';
         formSubTitleElement.innerHTML = "Tell us more about your project and how we can help.";

@@ -1,6 +1,9 @@
 <html>
 	<head>
 		<title> Samarra & Co. </title>
+		<base href = "https://awesome-bhaskara-0ca323.netlify.app/" />
+		<!-- <base href = "http://localhost:8081" /> -->
+		
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
 		<meta name="author" content="" />
@@ -11,16 +14,25 @@
 		<link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css" />
 		<link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting-cells.css" />
 		<link rel="stylesheet" href="https://use.typekit.net/akf2vsf.css">
+		<!-- For Deployed Server -->
 		<link rel="icon" href="/public/assets/samarraIcon.png">
+		<!-- For Local Development -->
+		<!-- <link rel="icon" href="/assets/samarraIcon.png"> -->
 
 
 
 
 		<style>
 
+			html {
+				font-size: 62.5%;
+			}
+
 			html, body {
 				height: 100%;
+				font-size: 62.5%;
 			}
+
 
 			/* #toThink #toDo: user selection on the contents within the body is actually prevented. Should you keep it? */
 			body { 
@@ -33,7 +45,7 @@
 				-youbkit-user-select: none;   
 				-moz-user-select: none;	   
 				-ms-user-select: none;		
-				user-select: none;			
+				user-select: none;		
 			}
 
 		
@@ -79,12 +91,16 @@
 			}
 
 			canvas { 
-				width: 100%; 
-				height: 100% 
+				width: 100vw; 
+				height: 100vh;
 			}
 
 			.container {
 				overflow: hidden;
+				width: 100vw;
+				height: 100vh;
+				background: transparent;
+				position: absolute;
 			}
 
 			.samarra-text::selection {
@@ -97,6 +113,7 @@
 				width: 100vw;
 				height: 100vh;
 				background-color: transparent;
+				/* z-index: 10000; */
 			}
 
 			/* .page--current {
@@ -172,7 +189,7 @@
 			.loadingPage--normalText {
 				color: rgb(255, 255, 255, 0.6);
 				font-family: Montserrat, sans-serif;
-				font-size: 15px;
+				font-size: 1.2rem;
 				text-transform: uppercase;
 				font-weight: 500;
 				text-align: center;
@@ -198,7 +215,7 @@
 			}
 
 			.titleText {
-				font-size: 24px;
+				font-size: 2.4rem;
 				font-family: 'Spectral', freight-big-pro, 'Times', serif;
 				text-align: center;
 				color: #ffffff;
@@ -222,7 +239,7 @@
 			}
 
 			.titleTextTwo {
-				font-size: 24px;
+				font-size: 2.4rem;
 				font-family: 'Spectral', freight-big-pro, 'Times', serif;
 				text-align: center;
 				color: #ffffff;
@@ -234,15 +251,6 @@
 			.titleText::selection {
 				background: white;
 				color: black;
-			}
-
-			#titleSubText {
-				font-size: 26px;
-				font-family: 'Spectral', 'Times', serif;
-				text-align: center;
-				color: #ffffff;
-				font-style: normal;
-				margin-top: 10px;
 			}
 
 			#companyName {
@@ -594,7 +602,7 @@
 				top: 20;
 				width: auto;
 				background: transparent;
-				font-size: 14px;
+				font-size: 1.4rem;
 				font-family: 'Montserrat', sans-serif;
 				width: auto;
 				white-space: nowrap;
@@ -611,7 +619,7 @@
 				top: 25;
 				width: auto;
 				background: transparent;
-				font-size: 14px;
+				font-size: 1.4rem;
 				font-family: 'Montserrat', sans-serif;
 				width: auto;
 				white-space: nowrap;
@@ -625,7 +633,7 @@
 			.soundwave-description-text {
 				color: white;
 				background: transparent;
-				font-size: 8px;
+				font-size: 0.8rem;
 			}
 
 			/* This is a #hack --> The Plus sign is centered and takes more space than necessary, it should be as close to the edges as the other logos */
@@ -686,7 +694,7 @@
 			}
 
 			.menuElement {
-				font-size: 45px;
+				font-size: 4.5rem;
 				display: inline-block;
 				font-family: sans-serif, 'Times New Roman', Times, serif;
 				color: white;
@@ -762,7 +770,7 @@
 				white-space: nowrap;
 				color: white;
 				text-transform: uppercase;
-				font-size: 15px;		
+				font-size: 1.5rem;		
 			}
 
 			#languageTwo {
@@ -773,7 +781,7 @@
 				white-space: nowrap;
 				color: white;
 				text-transform: uppercase;	
-				font-size: 15px;		
+				font-size: 1.5rem;		
 			}
 
 
@@ -935,7 +943,7 @@
 
 			.address-title {
 				font-family: sofia-pro, serif;
-				font-size: 18px;
+				font-size: 1.7rem;
 				text-transform: uppercase;
 				color: #b8b8b8;
 				font-weight: 300;
@@ -948,7 +956,7 @@
 
 			.address-title-right {
 				font-family: sofia-pro, serif;
-				font-size: 18px;
+				font-size: 1.7rem;
 				text-transform: uppercase;
 				color: #b8b8b8;
 				font-weight: 300;
@@ -960,7 +968,7 @@
 
 			.address-street {
 				font-family: sofia-pro, serif;
-				font-size: 17px;
+				font-size: 1.6rem;
 				color: white;
 				font-weight: 700;
 				visibility: visible;
@@ -972,7 +980,7 @@
 
 			.address-street-right {
 				font-family: sofia-pro, serif;
-				font-size: 17px;
+				font-size: 1.6rem;
 				color: white;
 				font-weight: 700;
 				visibility: visible;
@@ -985,7 +993,7 @@
 
 			.aboutPageTitleText {
 
-				font-size: 44px;
+				font-size: 4.5rem;
 				font-family: 'Spectral', freight-big-pro, 'Times', serif;
 				text-align: center;
 				font-style: normal;
@@ -1073,7 +1081,7 @@
 
 			.aboutPageDescriptionTextContainer {
 				position: relative;
-				margin-top: 6%;
+				margin-top: 3.5%;
 				width: 100vw;
 				display: flex;
 				flex-direction: row;
@@ -1112,7 +1120,7 @@
 			}
 
 			.aboutText {
-				font-size: 17px;
+				font-size: 13px;
 				color: #B8B8B8;
 				font-weight: 400;
 				line-height: 1.45;
@@ -1126,7 +1134,7 @@
 			}
 
 			.expertiseTitle {
-				font-size: 45px;
+				font-size: 4.5rem;
 				color: white;
 				font-weight: 800;
 				font-family: 'Montserrat', 'Times', sans-serif;
@@ -1166,7 +1174,7 @@
 				margin-top: 0px;
 				margin-bottom: 25px;
 				background-color: transparent;
-				width: 37%;
+				width: 50%;
 				height: auto;
 				display: flex;
 				flex-direction: column;
@@ -1198,7 +1206,7 @@
 				visibility: visible;
 				letter-spacing: 0.5px;
 				font-family: 'Montserrat', 'Times', sans-serif;
-				font-size: 16px;
+				font-size: 1.5rem;
 				margin-bottom: 10px;
 				text-transform: uppercase;
 				font-weight: 300;
@@ -1210,9 +1218,9 @@
 				margin-bottom: 5px;
 				color: white;
 				font-family: 'Montserrat', 'Times', sans-serif;
-				font-weight: 700;
+				font-weight: 600;
 				display: block;
-				font-size: 15px;
+				font-size: 1.3rem;
 				background-color: transparent;
 			}
 
@@ -1240,7 +1248,6 @@
 				flex-direction: row;
 				width: 100vw;
 				background-color: transparent;
-				min-height: 510px;
 			}
 
 
@@ -1261,8 +1268,8 @@
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-				height: 100%;
-
+				height: auto;
+				min-height: 361px;
 			}
 
 			.contactPageTitle {
@@ -1272,7 +1279,7 @@
 				font-style: normal;
 				font-weight: 600;
 				display: block;
-				font-size: 30px;
+				font-size: 2.05rem;
 				margin-top: 0px;
 				margin-bottom: 20px;
 				background-color: transparent;
@@ -1285,10 +1292,11 @@
 				font-style: normal;
 				font-weight: 400;
 				display: block;
-				font-size: 16px;
+				font-size: 1.4rem;
 				margin-top: 0px;
 				margin-bottom: 0px;
 				background-color: transparent;
+				padding-bottom: 0px;
 			}
 
 			.contactPageOptionsContainer {
@@ -1296,6 +1304,7 @@
 				display: flex;
 				flex-direction: column;
 				/* align-items: center; */
+				/* min-height: 510px; */
 			}
 
 			.contactPageSingleOptionContainer {
@@ -1313,7 +1322,7 @@
 				font-style: normal;
 				font-weight: 500;
 				display: block;
-				font-size: 16px;
+				font-size: 1.4rem;
 				display: inline-block;
 				min-width: 190px;
 				margin-top: 0px;
@@ -1332,7 +1341,7 @@
 				font-style: normal;
 				font-weight: 600;
 				display: block;
-				font-size: 20px;
+				font-size: 2rem;
 				display: inline-block;
 				margin-top: 0px;
 				margin-bottom: 0px;
@@ -1401,6 +1410,7 @@
 				position: absolute;
 				transform: translateY(-50px);
 				z-index: 2000;
+				/* min-height: 510px; */
 			}
 
 			.contactPageOptionsTwo.showing {
@@ -1427,7 +1437,7 @@
 
 			.contactQuestionTitle {
 				font-family: 'Spectral', freight-big-pro, 'Times', serif;
-				font-size: 30px;
+				font-size: 3rem;
 				text-align: left;
 				color: white;
 				font-weight: 600;
@@ -1527,7 +1537,7 @@
 			}
 
 			.voiceControlText {
-				font-size: 17px;
+				font-size: 1.7rem;
 				color: white;
 				font-family: 'Montserrat', sans-serif;
 				text-align: center; 
@@ -1592,7 +1602,7 @@
 
 
 			.directionsVoiceControlText {
-				font-size: 17px;
+				font-size: 1.7rem;
 				color: white;
 				font-family: 'Montserrat', sans-serif;
 				text-align: center; 
@@ -1631,7 +1641,7 @@
 				border-bottom-style: solid;
 				border-bottom-width: 2px;
 				border-bottom-color: rgb(255,255,255,0.4);
-				font-size: 12px;
+				font-size: 1.rem;
 				font-family: 'Montserrat', sans-serif;
 				padding-bottom: 5px;
 				margin-top: 25px;
@@ -1657,7 +1667,7 @@
 
 			.formDescriptionText {
 				font-family: Montserrat, sans-serif;
-				font-size: 12px;
+				font-size: 1.1rem;
 				text-align: left;
 				color: white;
 				text-transform: uppercase;
@@ -1687,7 +1697,7 @@
 				position: relative;
 				height: 38px;
 				font-family: Montserrat, sans-serif;
-				font-size: 15px;
+				font-size: 1.5rem;
 				color: white;
 				opacity: 1;
 				border-left-style: none;
@@ -1743,7 +1753,7 @@
 				display: flex;
 				flex-direction: row;
 				justify-content: space-between;
-				margin-bottom: 20px;
+				margin-bottom: 6px;
 			}
 
 			.formRowNoSpace {
@@ -1772,7 +1782,7 @@
 				resize: vertical;
 				background-color: transparent;
 				color: white;
-				font-size: 16px;
+				font-size: 1.6rem;
 				margin-top: 25px;
 				padding-left: 0px;
 				padding-right: 0px;
@@ -1883,15 +1893,33 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.0/paper-core.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js"></script>
+		<script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+
+		<!-- For Netlify Deployment -->
+
 		<script src="/public/assets/OrbitControls.js"></script>
 		<script src="/public/assets/OBJLoader.js"></script>
-		<!-- <script src="/public/assets/Water.js"></script> -->
+		<script src="/public/assets/Water.js"></script>
 		<script src="/public/assets/MTLLoader.js"></script>
-		<!-- <script src="/public/assets/postprocessing.min.js" ></script> -->
+		<script src="/public/assets/postprocessing.min.js" ></script>
 		<script src="/public/assets/stats.js"></script>
-		<!-- <script src="/public/assets/DigitalGlitch.js" type="module"></script> -->
-		<!-- <script src="/public/assets/GlitchPass.js" type="module"></script> -->
-		<script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+		<script src="/public/assets/DigitalGlitch.js" type="module"></script>
+		<script src="/public/assets/GlitchPass.js" type="module"></script>
+
+		<!-- <script src="/public/scripts.js" type="module" ></script> -->
+
+		<!-- For Local Development -->
+		
+		<!-- <script src="/assets/OrbitControls.js"></script>
+		<script src="/assets/OBJLoader.js"></script> -->
+		<!-- <script src="/assets/Water.js"></script> -->
+		<!-- <script src="/assets/MTLLoader.js"></script>
+		<script src="/assets/postprocessing.min.js" ></script>
+		<script src="/assets/stats.js"></script> -->
+		<!-- <script src="/assets/DigitalGlitch.js" type="module"></script>
+		<script src="/assets/GlitchPass.js" type="module"></script> -->
+		<!-- <script src="/scripts.js" type="module" ></script> -->
+
 
 
 		<script id="vertex-shader" type="x-shader/x-vertex">
@@ -1938,7 +1966,6 @@
 			}
 
 		</script>
-		<script src="/public/scripts.js" type="module" ></script>
 
 		<main class='container'>
 
@@ -2126,7 +2153,7 @@
 										Question, new project, job application?
 									</h3>
 									<p class='contactPageSubTitle'>
-										Do not hesitate to contact us by phone or by email
+										Do not hesitate to contact us by phone or by email.
 									</p>
 								</div>
 								<div class='contactPageOptionsContainer'>
@@ -2138,8 +2165,8 @@
 												</p>
 												<div class='arrowContainer arrow-sign-link' id='askAQuestionArrow'>
 													<svg id="askAQuestionArrowSVG" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.67 17.68" width="40">
-														<path d="M550.5,288.5" transform="translate(-479.5 -255.32)" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
-														<polyline points="0 16.18 35 16.18 26 4.18 50 16.18" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+														<path d="M550.5,288.5" transform="translate(-479.5 -255.32)" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"/>
+														<polyline points="0 16.18 35 16.18 26 4.18 50 16.18" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"/>
 													</svg>
 												</div>
 											</div>
@@ -2149,8 +2176,8 @@
 												</p>
 												<div class='arrowContainer arrow-sign-link' id='startProjectArrow'>
 													<svg id="startProjectArrowSVG" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.67 17.68" width="40">
-														<path d="M550.5,288.5" transform="translate(-479.5 -255.32)" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
-														<polyline points="0 16.18 35 16.18 26 4.18 50 16.18" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+														<path d="M550.5,288.5" transform="translate(-479.5 -255.32)" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"/>
+														<polyline points="0 16.18 35 16.18 26 4.18 50 16.18" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"/>
 													</svg>
 												</div>
 											</div>
@@ -2160,8 +2187,8 @@
 												</p>
 												<div class='arrowContainer arrow-sign-link' id='joinTeamArrow'>
 													<svg id="joinTeamArrowSVG" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.67 17.68" width="40">
-														<path d="M550.5,288.5" transform="translate(-479.5 -255.32)" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
-														<polyline points="0 16.18 35 16.18 26 4.18 50 16.18" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+														<path d="M550.5,288.5" transform="translate(-479.5 -255.32)" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"/>
+														<polyline points="0 16.18 35 16.18 26 4.18 50 16.18" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"/>
 													</svg>
 											</div>
 										</div>
@@ -2229,7 +2256,7 @@
 
 										<!-- This input here allows us to avoid doing the default redirect caused by FormSpree submission -->
 
-										<!-- <input type="hidden" name="_next" value="http://localhost:8081/index.html" /> -->
+										<input type="hidden" name="_next" value="http://localhost:8080/index.html" />
 
 										<div class='textAreaFormRow'>
 											<textarea class='textArea' id='messageInput' placeholder='The devil is in the details.' name='message' required></textarea>
