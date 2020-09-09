@@ -750,7 +750,7 @@ const createBlackMarbleBeetle = () => {
 
 const createPlaneGeometry = () => {
     planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture(RELATIVE_URL + 'blueRock.jpg');
+    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.set(0,-50,0);
@@ -766,7 +766,7 @@ const createPlaneGeometry = () => {
 const createBlackPlaneGeometry = () => {
     // Black Plane that's displayed in the 'About' page
     blackPlaneGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture(RELATIVE_URL + 'blackRock.png');
+    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRock.png');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     blackPlaneMesh = new THREE.Mesh(blackPlaneGeometry, planeMaterial);
     blackPlaneMesh.position.set(0,-50,0);
@@ -779,7 +779,7 @@ const createBlackPlaneGeometry = () => {
 
 const createTurquoisePlaneGeometry = () => {
     darkGreenPlaneGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture(RELATIVE_URL + 'turquoiseMarble.jpg');
+    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'turquoiseMarble.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     darkGreenPlaneMesh = new THREE.Mesh(darkGreenPlaneGeometry, planeMaterial);
     darkGreenPlaneMesh.position.set(0,-50,0);
@@ -792,7 +792,7 @@ const createTurquoisePlaneGeometry = () => {
 
 const createBluePlaneGeometry = () => {
     planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture(RELATIVE_URL + 'blueRock.jpg');
+    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.set(0,-50,0);
@@ -805,7 +805,7 @@ const createBluePlaneGeometry = () => {
 
 const createRockyTerrainGeometry = () => {
     planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture(RELATIVE_URL + 'rockyTerrain.jpg');
+    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'rockyTerrain.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.set(0,-50,0);
@@ -820,7 +820,7 @@ const createBlackRockGeometry = () => {
     // Black Plane that's displayed in the 'Contact page - difference between this and the one above
     // is the file type. png vs. jpg.
     blackPlaneGeometryTwo = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture(RELATIVE_URL + 'blackRock.jpg');
+    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRock.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     blackPlaneMeshTwo = new THREE.Mesh(blackPlaneGeometryTwo, planeMaterial);
     blackPlaneMeshTwo.position.set(0,-50,0);
@@ -832,7 +832,7 @@ const createBlackRockGeometry = () => {
 // Not used
 const createGreyGoldPlaneGeometry = () => {
     planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = THREE.ImageUtils.loadTexture(RELATIVE_URL + 'greyMarble5.jpg');
+    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'greyMarble5.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.set(0,-50,0);
@@ -958,7 +958,7 @@ const createParticleSystem = () => {
     let pMaterial = new THREE.PointsMaterial({
         color: 0xFFFFFF,
         size: 1.5,
-        map: THREE.ImageUtils.loadTexture(
+        map: new THREE.TextureLoader().load(
             RELATIVE_URL + "particle.png"
         ),
         blending: THREE.AdditiveBlending,
@@ -997,7 +997,7 @@ const createParticleSystem = () => {
 // Animation loop for particles
 
 const createSmokeSystem = () => {
-    let smokeTexture = THREE.ImageUtils.loadTexture('https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png');
+    let smokeTexture = new THREE.TextureLoader().load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png');
     let smokeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: smokeTexture, transparent: true});
     let smokeGeo = new THREE.PlaneGeometry(300,300);
     let smokeParticles = [];
@@ -1261,7 +1261,7 @@ const changeBeetleToBlueMarble = () => {
     let material;
 
     // let texture = textureLoader.load( RELATIVE_URL + 'brownMarble.jpg' );
-    textureLoader.load( RELATIVE_URL + 'blueMarble3.jpg', (texture) => {
+    textureLoader.load( RELATIVE_URL + 'redPinkRock.jpg', (texture) => {
         material = new THREE.MeshPhongMaterial( { map: texture } );
     });
     // immediately use the texture for material creation
@@ -2520,19 +2520,41 @@ const changeMeshVisibility = (currentPage) => {
         console.log('Showing CONTACT PAGE NOW VISIBILITY CHANGE')
 
         // Ensure that the incorrect beetle meshes are invisible
-        greyMarbleBeetleObject.visible = false;
+        // greyMarbleBeetleObject.visible = false;
         blackMarbleBeetleObject.visible = false;
         whiteMarbleBeetleObject.visible = false;
+        blueMarbleBeetleObject.visible = false;
+
+        console.log('GREY MARBLE BEETLE', greyMarbleBeetleObject);
+
+        console.log('WHITE MARBLE BEETLE', whiteMarbleBeetleObject);
+
+        console.log('BLACK MARBLE BEETLE', blackMarbleBeetleObject);
 
         // Ensure that the incorrect planes are invisible too
         blackPlaneMesh.visible = false;
         planeMesh.visible = false;
         darkGreenPlaneMesh.visible = false;
+        // blackPlaneMeshTwo.visible = false;
+
+        console.log('PLANE MESH', planeMesh);
+
+        console.log('BLACK PLANE', blackPlaneMesh);
+
+        console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
 
         // Make correct beetle meshe visible
-        blueMarbleBeetleObject.visible = true;
+        // blueMarbleBeetleObject.visible = true;
+        greyMarbleBeetleObject.visible = true;
+
+
+        console.log('BLUE MARBLE BEETLE LOADED', blueMarbleBeetleObject);
+
         // Make correct plane visible
         blackPlaneMeshTwo.visible = true;
+        // planeMesh.visible = true;
+
+        console.log('BLACK PLANE MESH', blackPlaneMeshTwo);
 
     }
 
@@ -4407,7 +4429,7 @@ let animate = function () {
         // console.log('Domain data for song', domainData);
         averageFrequency = average(frequencyData);
         averageDomain = average(domainData);
-        console.log('Average frequency', averageFrequency);
+        // console.log('Average frequency', averageFrequency);
     }
 
     // If there is an average frequency, then it must not be equal to 0, therefore we make sure that the intensity of the actual spotlight is related
@@ -4421,7 +4443,7 @@ let animate = function () {
     // spotLightTwo.intensity = averageFrequency === 0 ? 2 : averageFrequency / 20;
     // spotLightThree.intensity = averageFrequency === 0 ? 2 : averageFrequency / 20;
 
-    console.log('Spotlihgt intensity IS ', spotLight.intensity);
+    // console.log('Spotlihgt intensity IS ', spotLight.intensity);
 
     // Experimenting with these two different ways of dealing with the animations 
 
