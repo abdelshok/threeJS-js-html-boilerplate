@@ -98,7 +98,7 @@
 			}
 
 			.container {
-				overflow: hidden;
+				/* overflow: hidden; */
 				width: 100vw;
 				height: 100vh;
 				background: transparent;
@@ -200,17 +200,27 @@
 				visibility: block;
 				transition: all 1s ease-in 2s;
 				max-width: 155px;
+				position: absolute;
+				top: 0;
+				margin-top: 0px;
+				margin-bottom: 0px;
 			}
 
 			.loadingPage--normalText.shown {
 				opacity: 1;
-				transition: all 0.5s ease-in;
+				/* transition: all 0.5s ease-in; */
 			}
 
 
+			.loadingPage--generalText {
+				position: relative;
+				width: 100%;
+				background-color: transparent;
+			}
+
 			.loadingPage--generalText.hiddenAgain {
-				opacity: 0;
-				display: none;
+				opacity: 1;
+				display: block;
 			}
 
 			.loadingPage--secondNormalText {
@@ -227,14 +237,17 @@
 				cursor: none;
 				background-color: transparent;
 				visibility: block;
-				transition: all 0.5s ease-in 1.1s;
+				transition: all 0.3s ease-in 0.35s;
 				max-width: 154px;
 				z-index: 5000;
+				position: absolute;
+				top: 20;
+				margin-top: 0px;
 			}
 
 			.loadingPage--secondNormalText.shown {
 				opacity: 1;
-				transform: translateY(-40px);
+				transform: translateY(-20px);
 			}
 
 			#titleAbout {
@@ -254,7 +267,7 @@
 				text-align: center;
 				color: #ffffff;
 				font-style: normal;
-				font-weight: 600;
+				font-weight: 500;
 				/* letter-spacing: 2px; */
 			}
 
@@ -639,6 +652,24 @@
 				}
 			}
 
+			@keyframes cta-bottom-animation {
+				0% {
+					width: 30px;
+				}
+				3% {
+					width: 45px;
+				}
+				100% {
+					width: 45px;
+				}
+			}
+
+			/* @keyframes left-cta-animation {
+				0% {
+
+				}
+			} */
+
 			.soundwave-description {
 				position: absolute;
 				right: 50;
@@ -670,7 +701,7 @@
 				text-transform: uppercase;
 				visibility: hidden;
 				opacity: 0;
-				transition: 0.5s ease;
+				transition: 0.25s ease;
 			}
 
 			.soundwave-description-text {
@@ -689,6 +720,10 @@
 				z-index: 3000;
 			}
 
+			.plus-sign-container:hover #plus-sign {
+				transform: rotate(90deg);
+			}
+
 
 			#plus-sign {
 				fill: white;
@@ -698,9 +733,9 @@
 				transition: transform 0.15s ease-in;
 			}
 
-			#plus-sign:hover {
+			/* #plus-sign:hover {
 				transform: rotate(90deg);
-			}
+			} */
 
 			.content_item {
 				overflow: hidden;
@@ -711,6 +746,7 @@
 			}
 
 
+			/* Needs to be an actual ID in order to make sense */
 			.menuPage {
 				position: absolute;
 				opacity: 0;
@@ -739,7 +775,7 @@
 			.menuElement {
 				font-size: 4.5rem;
 				display: inline-block;
-				font-family: sans-serif, 'Times New Roman', Times, serif;
+				font-family: Montserrat, sans-serif;
 				color: white;
 				-webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
 				-webkit-text-stroke-width: 1px;
@@ -807,7 +843,7 @@
 
 			#languageOne {
 				opacity: 0;
-				transition: opacity 0.3s ease 0s, transform 0.5s ease 0s;
+				transition: opacity 0.4s ease-out 0.1s, transform 0.4s ease-out 0.1s;
 				font-family: 'Montserrat', sans-serif;
 				width: auto;
 				white-space: nowrap;
@@ -818,7 +854,7 @@
 
 			#languageTwo {
 				opacity: 0;
-				transition: opacity 0.3s ease 0.1s, transform 0.5s ease 0.1s;
+				transition: opacity 0.4s ease-out 0s, transform 0.4s ease-out 0s;
 				font-family: 'Montserrat', sans-serif;
 				width: auto;
 				white-space: nowrap;
@@ -827,16 +863,25 @@
 				font-size: 1.5rem;		
 			}
 
-
-			#languageOne.showing {
+			.plus-sign-container:hover #languageOne {
 				opacity: 1;
 				transform: translateY(-14px);
 			}
 
-			#languageTwo.showing {
+			/* #languageOne.showing {
+				opacity: 1;
+				transform: translateY(-14px);
+			} */
+
+			.plus-sign-container:hover #languageTwo {
 				opacity: 1;
 				transform: translateY(-14px);
 			}
+
+			/* #languageTwo.showing {
+				opacity: 1;
+				transform: translateY(-14px);
+			} */
 
 			.company-logo {
 				position: absolute;
@@ -1136,12 +1181,27 @@
 			}
 
 			.aboutPageTitleContainer.showing {
-
 				opacity: 1;
 				visibility: visible;
-
 			}
 
+			.faqPageContainer {
+				width: 100vw;
+				height: 100vh;
+				background-color: transparent;
+				position: absolute;
+				display: flex;
+				flex-direction: column;
+				opacity: 0;
+				visibility: hidden;
+				transition: opacity 0.2s ease, visibility 0.2s ease;
+				pointer-events: none;
+			}
+
+			.faqPageContainer.showing {
+				opacity: 1;
+				visibility: visible;
+			}
 
 			.aboutPageLeftContainer  {
 				opacity: 0;
@@ -1180,10 +1240,30 @@
 				justify-content: center;
 				align-items: center;
 				height: auto;			
+			}
+
+			.faqPageTextContainer {
+				position: relative;
+				margin-top: 250px;
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				height: auto;			
 					
 			}
 
 			.aboutPageDescriptionTextContainer {
+				position: relative;
+				margin-top: 3.5%;
+				width: 100vw;
+				display: flex;
+				flex-direction: row;
+				background-color: transparent;
+			}
+
+			.faqPageDescriptionTextContainer {
 				position: relative;
 				margin-top: 3.5%;
 				width: 100vw;
@@ -1200,6 +1280,15 @@
 				background-color: transparent;
 			}
 
+			.faqPageLeftDescriptionContainer {
+				width: 50%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				background-color: transparent;
+			}
+
+
 			.aboutPageRightDescriptionContainer {
 				width: 50%;
 				display: flex;
@@ -1208,6 +1297,13 @@
 				align-items: center;
 			}
 
+			.faqPageRightDescriptionContainer {
+				width: 50%;
+				display: flex;
+				flex-direction: column;
+				background-color: transparent;
+				align-items: center;
+			}
 
 			.aboutPageLeft {
 				width: 50%;
@@ -1248,7 +1344,8 @@
 				display: block;
 				background-color: transparent;
 				margin-top: 0px;
-				margin-bottom: 45px;
+				margin-bottom: 65px;
+				/* old margin-bottom: 45px; */
 				/* transform: translateY(-60px); */
 			}
 
@@ -1278,7 +1375,7 @@
 				margin-top: 0px;
 				margin-bottom: 25px;
 				background-color: transparent;
-				width: 50%;
+				/* width: 50%; */
 				height: auto;
 				display: flex;
 				flex-direction: column;
@@ -1290,6 +1387,7 @@
 				background-color: transparent;
 				display: flex;
 				flex-direction: row;
+				align-items: center;
 				justify-content: space-around;
 				margin-bottom: 45px;
 			}
@@ -1416,7 +1514,7 @@
 				display: flex;
 				flex-direction: row;
 				margin-top: 28px;
-				margin-bottom: 12px;
+				margin-bottom: 4px;
 			}
 
 			.contactPageOptionText {
@@ -1992,6 +2090,186 @@
 			}
 
 
+			.bottomLeft--line {
+				width: 40px;
+				background-color: white;
+				height: 2px;
+				margin-left: 15px;
+				position: absolute;
+			}
+
+			.cta--click--container {
+				position: absolute;
+				bottom: 45px;
+				left: 50%;
+				transform: translateX(-50%);
+				background-color: transparent;
+				z-index: 3000;
+				visibility: visible;
+			}
+
+			.cta--click--container.hidden {
+				visibility: hidden;
+			}
+
+			.cta--click--container::before {
+				position: absolute;
+				top: 50%;
+				height: 1px;
+				width: 30px;
+				background-color: white;
+				display: block;
+				left: -60px;
+				content: '';
+				/* transform: rotate(180deg); */
+				animation: cta-bottom-animation 7s linear 3s infinite alternate ;
+			}
+
+			.cta--click--container::after {
+				position: absolute;
+				top: 50%;
+				height: 1px;
+				width: 30px;
+				background-color: white;
+				display: block;
+				right: -60px;
+				content: '';
+				animation: cta-bottom-animation 7s linear 3s infinite alternate;
+			}
+
+			.cta--click--text {
+				position: relative;
+				font-family: Montserrat, sans-serif;
+				color: white;
+				font-weight: 600;
+				font-size: 11px;
+				background-color: transparent;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				text-align: center;
+			}
+
+			.privacy--click--container {
+				position: absolute; 
+				bottom: 45px;
+				left: 50%;
+				transform: translateX(-50%);
+				background-color: transparent;
+				z-index: 3000;
+				display: none;
+				visibility: hidden;
+			}
+
+			.privacy--click--container.shown {
+				display: block;
+				visibility: visible;
+			}
+
+			.privacy--click--text {
+				position: relative;
+				font-family: Montserrat, sans-serif;
+				color: rgb(255,255,255,0.4);
+				font-weight: 600;
+				font-size: 11px;
+				background-color: transparent;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				text-align: center;
+			}
+
+			.privacy--click--text:hover {
+				color: rgb(255,255,255,1);;
+			}
+
+
+			#legalPage {
+				position: fixed;
+				opacity: 0;
+				height: 100vh;
+				width: 100vw;
+				display: none;
+				visibility: hidden;
+				background-color: transparent;
+				overflow-y: scroll;
+				display: flex;
+				justify-content: center;;
+			}
+
+			.legalPageTextContainer {
+				margin-top: 5%;
+				background-color: transparent;
+				display: flex;
+				align-items: center;
+				max-width: 606px;
+				flex-direction: column;
+				padding-bottom: 450px;
+			}
+
+			.legalPageTitle {
+				font-family: Montserrat, sans-serif;
+				color: white;
+				font-size: 4.5rem;
+				display: block;
+				width: auto;
+				background-color: transparent;
+				position: relative;
+				margin-bottom: 50px;
+				text-transform: uppercase;
+				text-align: center;
+				font-weight: 800;
+				height: auto;
+			}
+
+			.legalTermsParagraph {
+				font-family: Montserrat, sans-serif;
+				color: rgb(255, 255, 255, 0.6);
+				font-size: 13px;
+				display: block;
+				width: auto;
+				background-color: transparency;
+				position: relative;
+				margin-bottom: 25px;
+				text-align: justify;
+			}
+
+			.legalTermsList {
+				font-family: Montserrat, sans-serif;
+				color: rgb(255, 255, 255, 0.6);
+				font-size: 13px;
+				display: block;
+				width: auto;
+				background-color: transparency;
+				position: relative;
+				margin-bottom: 25px;
+				/* text-align: justify;	 */
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+			}
+
+			.legalTermsSubtitle {
+				font-family: Montserrat, sans-serif;
+				color: rgb(255, 255, 255, 1);
+				font-size: 15px;
+				display: block;
+				width: auto;
+				background-color: transparent;
+				position: relative;
+				margin-bottom: 25px;
+				text-align: center;
+			}
+
+			.lastLegalTermParagraph {
+				font-family: Montserrat, sans-serif;
+				color: rgb(255, 255, 255, 0.6);
+				font-size: 13px;
+				display: block;
+				width: auto;
+				background-color: transparency;
+				position: relative;
+				margin-bottom: 150px;
+				text-align: justify;
+			}
 
 		</style>
 	</head>
@@ -2001,7 +2279,8 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js"></script>
 		<script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
-
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Blotter/0.1.0/materials/liquidDistortMaterial.js" integrity="sha512-rvYwlDPzd/lRzBvegx4gYYSywGV31gBq2dTL80HdKMzJ3EdfIbQXNbxbHSdfgf52L+tk9F2dRvUtvZYAvXNFPA==" crossorigin="anonymous"></script>		 -->
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Blotter/0.1.0/blotter.min.js" integrity="sha512-Na4qwz8+Hb6JAVf8zFKtPri3XX/Z9/drSpFQuA9hUDnSYLFuu+GU0sfyDYw0SIUkvo/gSw//hCW/CjFJmIIc4Q==" crossorigin="anonymous"></script> -->
 		<!-- For Netlify Deployment -->
 
 		<!-- <script src="/public/assets/OrbitControls.js"></script>
@@ -2015,17 +2294,23 @@
 
 		<!-- <script src="/public/scripts.js" type="module" ></script> -->
 
-		<!-- For Local Development -->
-		
-		<script src="/assets/OrbitControls.js"></script>
-		<script src="/assets/OBJLoader.js"></script>
-		<!-- <script src="/assets/Water.js"></script> -->
-		<script src="/assets/MTLLoader.js"></script>
-		<script src="/assets/postprocessing.min.js" ></script>
-		<script src="/assets/stats.js"></script>
-		<!-- <script src="/assets/DigitalGlitch.js" type="module"></script>
-		<script src="/assets/GlitchPass.js" type="module"></script> -->
-		<script src="/scripts.js" type="module" ></script>
+		 <!-- For Local Development -->
+		 <!-- Blotter.js not currently used -->
+		 <!-- <script src="scripts.js" type="module" ></script> -->
+
+		<script src="assets/OrbitControls.js"></script>
+		<script src="assets/OBJLoader.js"></script>
+		<!-- <script src="assets/Water.js"></script> -->
+		<script src="assets/MTLLoader.js"></script>
+		<script src="assets/postprocessing.min.js" ></script>
+		<script src="assets/stats.js"></script>
+
+		<!-- <script src="assets/liquidDistortMaterial.js"></script> -->
+		<!-- <script src="assets/DigitalGlitch.js" type="module"></script>
+		<script src="assets/GlitchPass.js" type="module"></script> -->
+		<script src="scripts.js" type="module" ></script>
+		<!-- <script src="assets/blotter.min.js"></script>
+		<script src="assets/liquidDistortMaterial.js"></script>  -->
 
 
 
@@ -2162,10 +2447,24 @@
 					  <div class='plus-sign-description' id='plus-sign-description'>
 						Languages
 					  </div>
+					  <!-- <div class='bottomLeft--line'></div> -->
 					  <div class='language-description' id='language-description'>
 						<p class='language' id='languageOne'> FR </p>
 						<p class='language' id='languageTwo'> EN </p>
 					  </div>
+				</div>
+
+
+				<div class='cta--click--container' id='cta--click--container'>
+					<p class='cta--click--text' id='cta--click--text'>
+						Click & Hold
+					</p>
+				</div>
+
+				<div class='privacy--click--container' id='privacy--click--container'>
+					<p class='privacy--click--text' id='privacy--click--text'>
+						Legal Terms
+					</p>
 				</div>
 
 				<!-- Samarra Logo -->
@@ -2191,7 +2490,7 @@
 
 					<!-- Main Headline of the Main Page -->
 					<div id='titleOne' class='samarra-text'>
-						<h1 class='titleText content-item' data-splitting> <span id='companyName'> Samarra & Co. </span> <br> Creative, Innovative, <br> One of a Kind </h1>
+						<h1 class='titleText content-item' data-splitting> <span id='companyName'> Samarra & Co. </span> <br> Digital Solutions, <br> Creative, Innovative, <br> One of a Kind </h1>
 					</div>
 	
 				</div>
@@ -2442,17 +2741,17 @@
 								</p>
 								<div class='aboutTextContainer samarra-text'>
 									<p class='aboutText samarra-text'>
-										Samarra & Co. is a digital agency and art collective based in New York City, Paris, and Jeddah.
+										Samarra & Co. is a venture capital and creative agency based in New York City, Paris, and Dubai.
 									</p>
 								</div>
 								<div class='aboutTextContainer samarra-text'>
 									<p class='aboutText samarra-text'>
-										We work with startups, corporations, artists, fashion brands, hospitality groups, and other agencies in order to bring their ideas to life.
+										We work with startups, corporations, artists, fashion brands, hospitality groups, and other agencies in order to bring their ideas to light.
 									</p>
 								</div>
 								<div class='aboutTextContainer samarra-text'>
 									<p class='aboutText samarra-text'>
-										Perfectionism and creativity drive everything we do, from the music videos that we direct, to the applications that we create, and the advertising campaigns that we lead.
+										Perfectionism and creativity drive everything we do, from the advertising campaigns that we lead, to the applications that we create, and the companies that we fund.
 									</p>
 								</div>
 						<!-- </div> -->
@@ -2462,7 +2761,7 @@
 								EXPERTISES
 							</p>
 							<div class='expertiseRow'>
-								<div class='expertiseGroup'>
+								<!-- <div class='expertiseGroup'>
 									<p class='expertiseGroupTitle'>
 										 Strategy 
 									</p>
@@ -2484,7 +2783,7 @@
 									<p class='expertiseText'>
 										Innovative Digital Concepts
 									</p>
-								</div>
+								</div> -->
 
 								<div class='expertiseGroup'>
 									<p class='expertiseGroupTitle'>
@@ -2515,7 +2814,7 @@
 							</div>
 							
 
-							<div class='expertiseRowTwo'>
+							<!-- <div class='expertiseRowTwo'>
 
 								<div class='expertiseGroup'>
 									<p class='expertiseGroupTitle'>
@@ -2533,8 +2832,11 @@
 									<p class='expertiseText'>
 										Creative Development
 									</p>
+									<p class='expertiseText'>
+										IoT
+									</p>
 
-								</div>
+								</div> -->
 
 							</div>
 
@@ -2546,13 +2848,225 @@
 				</div>
 
 
+				<div class='faqPageContainer samarra-text' id='faqPageContainer'>
+					<div class='faqPageTextContainer samarra-text' >
+						<h1 class='titleText samarra-text'>
+							Samarra & Co.
+						</h1>
+					</div>
+					<div class='faqPageDescriptionTextContainer samarra-text'>
+							<div class='faqPageLeftDescriptionContainer samarra-text'>
+								
+							</div>
+							<div class='faqPageRightDescriptionContainer'>
+			
+							</div>
+
+					</div>
+				</div>
+
+
 				<!-- Menu Items -->
 				<div class="page samarra-text" id='menuPage'>
 					<div class='menuElements samarra-text' id='menuElements'>
 						<h2 class='menuElement samarra-text' id='menuElementOne'> Home </h2>
 						<h2 class='menuElement samarra-text' id='menuElementTwo'> About </h2>
-						<h2 class='menuElement samarra-text' id='menuElementThree'> FAQ </h2>
+						<h2 class='menuElement samarra-text' id='menuElementThree'> Clients </h2>
 						<h2 class='menuElement samarra-text' id='menuElementFour'> Contact </h2>
+					</div>
+				</div>
+
+				<div class='legalPage' id='legalPage'>
+					<div class='legalPageTextContainer'>
+						<h1 class='legalPageTitle'>
+							Legal Terms & Privacy 
+						</h1>
+						<p class='legalTermsParagraph'>  
+							Samarra & Co. respects your privacy and processes personal data in accordance with the European General Data Protection Regulation (GDPR). In this Privacy and Cookie Policy (hereafter ‘Policy’) we address the usage of cookies and how we handle and protect your personal data.
+							More precisely, this Policy addresses:
+						</p>
+						<ul class='legalTermsList'>
+							<li>
+								what personal data we collect and how
+							</li>
+							<li>
+								for what purposes and on what grounds we process your personal data
+							</li>
+							<li>
+								for how long we keep your personal data
+							</li>
+							<li>
+								the rights you have as data subject
+							</li>
+							<li>
+								how your personal data is protected
+							</li>
+						</ul>
+						<p class='legalTermsParagraph'>
+							This Policy applies to all persons who visit our websites and of whom Samarra & Co processes personal data, such as clients, prospects, persons who have subscribed to newsletters or events, and persons who have applied for a job at Samarra & Co.
+						</p>
+						<h3 class='legalTermsSubtitle'>
+							What is Personal Data?
+						</h3>
+						<p class='legalTermsParagraph'>
+							Personal data is any information relating to an identified or identifiable natural person. Personal data that we process may include:
+						</p>
+						<ul class='legalTermsList'>
+							<li>
+								Basic information, such as your first and last name, prefix, title
+							</li>
+							<li>
+								Contact details, such as your e-mail address, postal address and phone number
+							</li>
+							<li>
+								Personal data you provide us for the purpose of becoming our client, such as your nationality, date of birth, country of birth, residence address, bank account number	
+							</li>
+							<li>
+								Personal data you provide us for the purpose of attending events or meetings, such as access and dietary requirements
+							</li>
+							<li>
+								Personal data you may provide us for the purpose of a job application, such as your full name, date of birth, address, phone number, nationality, marital status and any other personal data set out in your application
+							</li>
+							<li>
+								Any other personal data relating to you which you may provide us or that we may obtain in relation to the purposes and based on grounds set out below
+							</li>
+						</ul>
+						<p class='legalTermsParagraph'>
+							We collect this personal data because you provided this data to us. For example, you may provide data when entering into an agreement with us, by entering your data on our website (www.samarrra.co), by giving us your business card or by applying for a job. We may also collect your personal data from other sources, such as from local counsel, counterparties, the Trade Register, the Land Registry or by using publicly available sources. If you are a mere visitor of our website, we will not collect any personal data.
+						</p>
+						<h3 class='legalTermsSubtitle'>
+							Purposes and legal basis for the processing of personal data
+						</h3>
+						<p class='legalTermsParagraph'>
+							Samarra & Co. may process your personal data for the following purposes:
+						</p>
+						<ul class='legalTermsList'>
+							<li>
+								To identify and accept you as a client
+							</li>
+							<li>
+								To provide our services
+							</li>
+							<li>
+								To comply with our legal and regulatory obligations
+							</li>
+							<li>
+								For marketing and business development activities, such as news updates, invitations for our events and other marketing communications that may be of interest to you
+							</li>
+							<li>
+								To handle your job application or subscription to any of our recruitment services and events
+							</li>
+						</ul>
+						<p class='legalTermsParagraph'>
+							We will process your personal data using one or more of the following legal grounds:
+						</p>
+						<ul class='legalTermsList'>
+							<li>
+								Performance of a contract
+							</li>
+							<li>
+								Compliance with a legal obligation
+							</li>
+							<li>
+								Legitimate interest
+							</li>
+							<li>
+								Your consent
+							</li>
+						</ul>
+						<h3 class='legalTermsSubtitle'>
+							Sharing of personal data
+						</h3>
+						<p class='legalTermsParagraph'>
+							In some cases we may also share your personal data with third parties. This may include, but is not limited to:
+						</p>
+						<ul class='legalTermsList'>
+							<li>
+								Third parties relevant to the investment services that we provide, such as the fund administrator, regulatory authorities, tax office and governmental institutions.
+							</li>
+							<li>
+								Third parties that we engage with, such as supervisory authorities and other bodies, in order to comply with legal obligations.
+							</li>
+							<li>
+								Third party suppliers in connection with the processing of your personal data for the purposes described in this Policy, such as IT providers, communication service providers or other suppliers to whom we outsource certain support services.
+							</li>
+						</ul>
+						<p class='legalTermsParagraph'>
+							We will only share your personal data with these third parties for the purposes and on the legal grounds stated in this Policy. <br>
+							Third parties to whom we transfer your personal data are themselves responsible for compliance with privacy legislation. Samarra & Co. is neither responsible nor liable for the processing of your personal data by these third parties. To the extent that a third party processes your personal data as a data processor of Samarra & Co., Samarra & Co. will conclude a processor agreement with such party that meets the requirements set out in the GDPR. <br>
+							To be able to provide our services, it may be necessary for us to transfer your personal data to a recipient in a country outside of the European Economic Area. In that case, Samarra & Co. will ensure that the data transfer is compliant with the applicable law.
+						</p>
+						<h3 class='legalTermsSubtitle'>
+							How long do we keep your data?
+						</h3>
+						<p class='legalTermsParagraph'>
+							Your personal data is kept in accordance with the GDPR. <br>
+							Your personal data is processed up until the moment that you inform Samarra & Co. that you no longer wish to receive any digital notices and/or Samarra & Co. stops sending you newsletters, white papers, invitations to events or other digital mailings. <br>
+							Your personal data will be erased if:
+						</p>
+						<ul class='legalTermsList'>
+							<li>
+								it appears that your email address is no longer in use (for example when error messages are received)
+							</li>
+							<li>
+								the consent based on which your personal data is processed and/or stored is withdrawn by you
+							</li>
+							<li>
+								the aforementioned legal grounds on which your personal data is processed, expires because for example if your company ceases to exist, or you have not had any contact with Samarra & Co. for a period of 5 years (notwithstanding possible legal obligations).
+							</li>
+						</ul>
+						<h3 class='legalTermsSubtitle'>
+							Cookies
+						</h3>
+						<p class='legalTermsParagraph'>
+							Our websites only use necessary cookies to optimize their performance. Necessary cookies are cookies that are necessary for the delivery of the functionalities of our websites or services. This allows you, for example, to stay logged in if needed. On each website you will be asked to accept the usage of cookies.
+						</p>
+						<p class='legalTermsParagraph'>
+							Necessary cookies can be subdivided into: (i) Session cookies With the help of a session cookie you can keep track of which web pages you visit and which options you use. A session cookie is only saved for the duration of your internet visit, i.e. one internet session. When you close your internet browser, the session ends, and the cookie is deleted. (ii) Permanent cookies With the help of a permanent cookie, our websites can recognise you and your favourites pages on a subsequent visit. A permanent cookie is stored longer than a single session.
+						</p>
+						<h3 class='legalTermsSubtitle'>
+							What are cookies?
+						</h3>
+						<p class='legalTermsParagraph'>
+							Cookies are small text files that are placed on your computer when you visit one of our websites. Cookies may collect data associated with the use of our websites, such as web pages you have visited and the duration of a user session. When you visit one of our websites, the cookie sends information back to us or to a third party on behalf of whom we have placed the cookie.
+						</p>
+						<p class='legalTermsParagraph'>
+							If you do not wish to receive any cookies at all, you can adjust the settings of your internet browser to completely block the placement of cookies. You may however not be able to make optimum use of all parts of our websites.
+
+						</p>
+						<h3 class='legalTermsSubtitle'>
+							Your rights
+						</h3>
+						<p class='legalTermsParagraph'>
+							At the end of each digital mailing that you receive from Samarra & Co., you can always change your mailing preferences via the ‘unsubscribe’ or ‘subscribe’ link. Therefore, you can always withdraw your consent.
+						</p>
+						<p class='legalTermsParagraph'>
+							In addition, you are entitled to request Samarra & Co. to allow you to inspect your personal data and/or to correct it, to make additions, to erase it or to hide it, and/or to restrict it, and/or to provide your personal data in a structured, standard and machine-readable format.
+						</p>
+						<p class='legalTermsParagraph'>
+							In so far as your personal data is processed on the basis of a legitimate interest, you are entitled to object to this processing. You can address any request in that regard to 84 Berry St, Brooklyn, NY 11249, USA or per email at hello@samarra.co
+							
+
+						</p>
+						<h3 class='legalTermsSubtitle'>
+							Security of your data
+						</h3>
+						<p class='legalTermsParagraph'>
+							We want your personal data to remain as secure as possible and accordingly strive to provide secure data transmission between your computer and our servers. Samarra & Co. has taken appropriate technical and organisational measures in accordance with the GDPR to protect personal data against loss or any form of unlawful processing.
+						</p>
+						<h3 class='legalTermsSubtitle'>
+							Changes
+						</h3>
+						<p class='legalTermsParagraph'>
+							Samarra & Co. may amend this Policy from time to time. On our website, you can always view the latest version of this Policy. We would advise you to check the statement regularly and, in any event, whenever you provide us with personal data.
+
+						</p>
+						<h3 class='legalTermsSubtitle'>
+							Contact
+						</h3>
+						<p class='lastLegalTermParagraph'>
+							If you have any questions or comments about our Policy or the processing of your personal data, please send a request in that regard to Samarra & Co. 84 Berry St, Brooklyn, NY 11249, USA or per email at hello@samarra.co
+						</p>
 					</div>
 				</div>
 
@@ -2563,3 +3077,4 @@
 		
 	</body>
 </html>
+

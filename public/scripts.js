@@ -19,18 +19,22 @@ let whiteBeetleObject;
 let blackPlaneGeometry;
 let darkGreenPlaneGeometry;
 let blackPlaneGeometryTwo;
+let XPlaneGeometry;
 
 let blackPlaneMesh;
 let darkGreenPlaneMesh;
 let blackPlaneMeshTwo;
+let xPlaneMesh;
 
 let blackMarbleBeetleObject;
 let blueMarbleBeetleObject;
 let whiteMarbleBeetleObject;
 let greyMarbleBeetleObject;
+let redPinkMarbleBeetleObject;
 
 // Constants that controls the delay at which meshes' visibility gets changed
 let MESH_VISIBILITY_DELAY = 1100;
+let CLICK_HOLD_VISIBILITY_DELAY = 200;
 
 let numParticles; // Number of particles that will be set in the Mesh of particles animating the ThreeJS project
 let mouseX, mouseY;
@@ -41,11 +45,15 @@ let stats;
 
 let currentMenuIcon = 'menuIcon';
 
+// Loading Page Related Variables
+
+let initialPageLoadingBarFullyLoaded = false;
+
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'prod';
-// let environment = 'dev';
+// let environment = 'prod';
+let environment = 'dev';
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
 
 // Web Audio API-related Variables
@@ -62,7 +70,7 @@ let formShowing = false;
 // let lightIntensityDivider = 29; // Nina Simone
 // let lightIntensityDivider = 25; // Trap Beldi
 // let lightIntensityDivider = 8; // Not enough anymore for Erik Satie
-let lightIntensityDivider = 6; // Better for Erik Satie
+let lightIntensityDivider = 7; // Better for Erik Satie
 
 let planeGeometry, planeTexture, planeMaterial, planeMesh;
 
@@ -128,6 +136,43 @@ const onCompleteLoading = () => {
 
     let loadingPageText = document.getElementById('loadingPage--normalText')
 
+}
+
+
+// Blotter Related Text
+
+const blotterInitialization = () => {
+    // BLOTTER - Example 2
+    let text = new Blotter.Text("observation", {
+        family : "'EB Garamond', serif",
+        size : 27,
+        fill : "#171717",
+        paddingLeft : 40,
+        paddingRight : 40
+    });
+    
+    let material = new Blotter.LiquidDistortMaterial();
+    
+    // Play with the value for uSpeed. Lower values slow
+    // down animation, while higher values speed it up. At
+    // a speed of 0.0, animation is stopped entirely.
+    material.uniforms.uSpeed.value = 0.25;
+    
+    // Try uncommenting the following line to play with
+    // the "volatility" of the effect. Higher values here will
+    // produce more dramatic changes in the appearance of your
+    // text as it animates, but you will likely want to keep
+    // the value below 1.0.
+    //material.uniforms.uVolatility.value = 0.30;
+    
+    let blotter = new Blotter(material, {
+        texts : text
+    });
+    
+    let elem = document.getElementById("distortion-text");
+    var scope = blotter.forText(text);
+    
+    scope.appendTo(elem);
 }
 
 
@@ -199,10 +244,14 @@ const showClickMessageToRemoveLoadingPage = () => {
     // Remove the delay too so that it actually disappears faster - if the delay of 2s, which is written in the CSS rules, stays, then the transition
     // delay takes way too much time to disappear. 
     document.getElementById('loadingPage--normalText').style.transitionDelay = '0s';
+    document.getElementById('loadingPage--normalText').style.webkitTransitionDuration = '0.25s';
+
     document.getElementById('loadingPage--normalText').classList.remove('shown');
     
     // Shows & moves up the text that tells the user to click
     document.getElementById('loadingPage--secondNormalText').classList.add('shown');
+
+    initialPageLoadingBarFullyLoaded = true;
 
 
 }
@@ -214,27 +263,31 @@ const removeInitialLoadingPage = () => {
 
     console.log('WE ARE REMOVING LOADING PAGE')
 
-    // Here we get the element that represents the loading page & add the 'hiding' class to it in order to trigger the slideLoadingPage keyframes animation
-    // that leads it to be translateY to the top
+    if (initialPageLoadingBarFullyLoaded === true) {
 
-    if (loadingGraphicalSceneFinished === true)  {
-        let loadingPageElement = document.getElementById('loading-page');
-        loadingPageElement.classList.toggle('hiding');
-        loadingPageAnimationFinished = true;
-    } else if (loadingGraphicalSceneFinished === false) {
-        loadingPageAnimationFinished = true;
+        // Here we get the element that represents the loading page & add the 'hiding' class to it in order to trigger the slideLoadingPage keyframes animation
+        // that leads it to be translateY to the top
+
+        if (loadingGraphicalSceneFinished === true)  {
+            let loadingPageElement = document.getElementById('loading-page');
+            loadingPageElement.classList.toggle('hiding');
+            loadingPageAnimationFinished = true;
+        } else if (loadingGraphicalSceneFinished === false) {
+            loadingPageAnimationFinished = true;
+        }
+
+        // This should take care of it
+
+        // Also now we trigger the music
+        playSong();
+
+        // We also make sure to remove the text from the loading page that asks the user to turn on the volume
+        // The page cannot be seen but if the user actually minimizes the window vertically, they can see the message show up
+        setTimeout(() => {
+            document.getElementById('loadingPage--generalText').classList.add('hiddenAgain');
+        }, 4000);
+
     }
-
-    // This should take care of it
-
-    // Also now we trigger the music
-    playSong();
-
-    // We also make sure to remove the text from the loading page that asks the user to turn on the volume
-    // The page cannot be seen but if the user actually minimizes the window vertically, they can see the message show up
-    setTimeout(() => {
-        document.getElementById('loadingPage--generalText').classList.add('hiddenAgain');
-    }, 4000);
 
 }
 
@@ -851,6 +904,20 @@ const createBlackRockGeometry = () => {
     scene.add(blackPlaneMeshTwo);
 }
 
+// 4. X Rock - FAQ Page
+
+const createXPlaneGeometry = () => {
+
+    XPlaneGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'greyMarble5.jpg');
+    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
+    xPlaneMesh = new THREE.Mesh(XPlaneGeometry, planeMaterial);
+    xPlaneMesh.position.set(0,-50,0);
+    xPlaneMesh.rotation.x =  - (Math.PI / 2);
+    scene.add(xPlaneMesh);
+
+}
+
 
 // Not used
 const createGreyGoldPlaneGeometry = () => {
@@ -897,6 +964,8 @@ const createInitialPlaneGeometries = () => {
     createTurquoisePlaneGeometry();
     // Home Page Plane
     createPlaneGeometry();
+    // FAQ Page Plane
+    createXPlaneGeometry();
 
     // About Page
     blackPlaneMesh.visible = false;
@@ -906,6 +975,8 @@ const createInitialPlaneGeometries = () => {
     blackPlaneMeshTwo.visible = false;
     // Home Page
     planeMesh.visible = true;
+    // FAQ Page
+    xPlaneMesh.visible = false;
 
     // Used for testing in order to see how smooth the three js transition is between one plane's visibility turned off and another plane's visibility
     // turned on
@@ -1189,6 +1260,60 @@ const changeBeetleToWhiteMarble = () => {
     
 }
 
+// X Marble Texture Change
+// Used in FAQ page
+
+const changeBeetleToRedMarble = () => {
+
+    let material;
+
+    textureLoader.load(RELATIVE_URL + 'ice.jpg', (texture) => {
+        // immediately use the texture for material creation
+        material = new THREE.MeshPhongMaterial( { map: texture } );
+        // let objLoader = new THREE.OBJLoader();
+        // objLoader.setMaterials(materials);
+
+        objLoader.setPath(RELATIVE_URL);
+        objLoader.load('beetle.obj', function (object) {
+        
+            object.traverse(function(node) {
+                if (node.isMesh) {
+                    node.material = material;
+                    // console.log('Encountered Mesh', node)
+                }
+
+            })
+        
+            redPinkMarbleBeetleObject = object;
+            redPinkMarbleBeetleObject.name = 'beetle'
+            redPinkMarbleBeetleObject.position.y = 100;
+            redPinkMarbleBeetleObject.rotation.y = 158 * 0.02;
+            redPinkMarbleBeetleObject.position.z = 20;
+            redPinkMarbleBeetleObject.scale.x = redPinkMarbleBeetleObject.scale.y = redPinkMarbleBeetleObject.scale.z = 1.15;
+
+            scene.add(redPinkMarbleBeetleObject);
+
+            // Make it visible or invisible
+            redPinkMarbleBeetleObject.visible = false;
+
+
+            // setTimeout(changeBeetleToGreenMarble, 5000);
+
+            // Associate the light to the pivot point once again
+            // pivotPoint = new THREE.Object3D();
+            // greyMarbleBeetleObject.add(pivotPoint);
+            // pivotPoint.add(light1);
+        
+            // pivotPoint2 = new THREE.Object3D();
+            // greyMarbleBeetleObject.add(pivotPoint2);
+            // pivotPoint2.add(spotLight);
+
+        });
+
+    });
+
+};
+
 // Grey Marble Texture Change
 // Used in Main Menu Page
 
@@ -1398,7 +1523,8 @@ const createInitialBeetleObjects = async () => {
     changeBeetleToGreyMarble();
     // About Page Beetle
     changeBeetleToWhiteMarble();
-
+    // FAQ Page Beetle 
+    changeBeetleToRedMarble();
 
     // The functions above are asynchronous so none of these work 
     // blackMarbleBeetleObject.visible = false;
@@ -1429,15 +1555,15 @@ const changeLightIntensity = (marbleColor) => {
     console.log('#lightIntensity changed for color', marbleColor);
 
     if (marbleColor === 'white') {
-        lightIntensityDivider = 100;
+        lightIntensityDivider = 14;
     } else if (marbleColor === 'black') {
-        lightIntensityDivider = 33;
+        lightIntensityDivider = 6;
     } else if (marbleColor === 'veryLight') {
         lightIntensityDivider = 110;
     } else if (marbleColor === 'grey') {    
-        lightIntensityDivider = 50;
+        lightIntensityDivider = 7;
     } else if (marbleColor === 'lightBlue') {
-        lightIntensityDivider = 25;
+        lightIntensityDivider = 7;
     }
 
 }
@@ -2400,12 +2526,18 @@ createSoundWaveAnimation();
 */
 
 const toggleLanguageChoices = (languageChoice) => {
-    document.getElementById('languageOne').classList.toggle('showing');
-    document.getElementById('languageTwo').classList.toggle('showing');
-    document.getElementById('language-description').classList.toggle('showing');
+    // document.getElementById('languageOne').classList.toggle('showing');
+    // document.getElementById('languageTwo').classList.toggle('showing');
+    // document.getElementById('language-description').classList.toggle('showing');
 
 }
 
+// Language Animation that removes the languages
+
+const removeLanguageChoices = () => {   
+    document.getElementById('languageOne').classList.remove('showing');
+    document.getElementById('languageTwo').classList.remove('showing');
+}
 
 
 // ------------------------------------------------------
@@ -2424,15 +2556,17 @@ let pageTransitionPlaying = false;
 const showLanguagesText = () => {
     let toggleLanguageElement = document.getElementById('plus-sign-description');
     toggleLanguageElement.style.visibility = 'visible';
-    toggleLanguageElement.style.transform = 'translateX(35px)';
+    toggleLanguageElement.style.transform = 'translateX(48px)';
     toggleLanguageElement.style.opacity = '1';
+    // toggleLanguageElement.style.transitionProperty = 'ease-out';
 }
 
 const hideLanguagesText = () => {
     let toggleLanguageElement = document.getElementById('plus-sign-description');
     toggleLanguageElement.style.visibility = 'hidden';
-    toggleLanguageElement.style.transform = 'translateX(-10px)';
+    toggleLanguageElement.style.transform = 'translateX(-16px)';
     toggleLanguageElement.style.opacity = '0';
+    // toggleLanguageElement.style.transitionProperty = 'ease-in';
     // toggleLanguageChoices();
 }
 
@@ -2471,19 +2605,122 @@ const changeMeshVisibility = (currentPage) => {
         blueMarbleBeetleObject.visible = false;
         whiteMarbleBeetleObject.visible = false;
         greyMarbleBeetleObject.visible = false;
+        redPinkMarbleBeetleObject.visible = false;
 
         // Ensure that the incorrect planes are invisible too
         blackPlaneMesh.visible = false;
         darkGreenPlaneMesh.visible = false;
         blackPlaneMeshTwo.visible = false;
+        xPlaneMesh.visible = false;
 
         // Make correct beetle meshe visible
         blackMarbleBeetleObject.visible = true;
         // Make correct plane visible
         planeMesh.visible = true;
 
+        // Don't forget to change the light intensity
+        let beetleColor = 'black';
+        changeLightIntensity(beetleColor);
+
     } else if (currentPage === 'menuPage') {
+
+        // Old Meshes
         
+        // console.log('Entering if loop of MESH Visibility of menuPage')
+
+        // // Ensure that the incorrect beetle meshes are invisible
+        // // greyMarbleBeetleObject.visible = false;
+        // blueMarbleBeetleObject.visible = false;
+        // whiteMarbleBeetleObject.visible = false;
+        // blackMarbleBeetleObject.visible = false;
+        // redPinkMarbleBeetleObject.visible = false;
+
+        // // console.log('BLUE MARBLE BEETLE', blueMarbleBeetleObject);
+        // // console.log('WHITE MARBLE BEETLE', whiteMarbleBeetleObject);
+        // // console.log('BLACK MARBLE BEETLE', blackMarbleBeetleObject);
+
+        // // Ensure that the incorrect planes are invisible too
+        // blackPlaneMesh.visible = false;
+        // blackPlaneMeshTwo.visible = false;
+        // planeMesh.visible = false;
+        // xPlaneMesh.visible = false;
+
+        // // console.log('BLACK PLANE MESH', blackPlaneMesh);
+        // // console.log('BLACK PLANE MESH 2', blackPlaneMeshTwo);
+        // // console.log('PLANE MESH', planeMesh);
+
+        // // Make correct beetle meshe visible
+        // // blueMarbleBeetleObject.visible = true;
+        // greyMarbleBeetleObject.visible = true;
+        // // Make correct plane visible
+        // darkGreenPlaneMesh.visible = true;
+
+        // // Don't forget to change the light intensity
+        // let beetleColor = 'grey';
+        // changeLightIntensity(beetleColor);
+
+        // New Meshes
+
+        // Ensure that the incorrect beetle meshes are invisible
+        blueMarbleBeetleObject.visible = false;
+        greyMarbleBeetleObject.visible = false;
+        blackMarbleBeetleObject.visible = false;
+        redPinkMarbleBeetleObject.visible = false;
+
+        // Ensure that the incorrect planes are invisible too
+        blackPlaneMeshTwo.visible = false;
+        planeMesh.visible = false;
+        darkGreenPlaneMesh.visible = false;
+        xPlaneMesh.visible = false;
+
+        // console.log('LOGGING IN MESH VISIBILITY SECOND LAYER FOR TESTING');
+        // console.log('BLACK PLANE MESH TWO', blackPlaneMeshTwo);
+        // console.log('BLACK PLANE MESH', blackPlaneMesh);
+        // console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
+
+        // Make correct beetle meshe visible
+        whiteMarbleBeetleObject.visible = true;
+        // Make correct plane visible
+        blackPlaneMesh.visible = true;
+
+        // Don't forget to change the light intensity
+        let beetleColor = 'white';
+        changeLightIntensity(beetleColor);
+
+    } else if (currentPage === 'aboutPage') {
+
+        // Old Meshes
+
+        // // console.log('ENTERING IF STATEMENT IN MESH VISIBILITY FUNCTION')
+
+        // // Ensure that the incorrect beetle meshes are invisible
+        // blueMarbleBeetleObject.visible = false;
+        // greyMarbleBeetleObject.visible = false;
+        // blackMarbleBeetleObject.visible = false;
+        // redPinkMarbleBeetleObject.visible = false;
+
+        // // Ensure that the incorrect planes are invisible too
+        // blackPlaneMeshTwo.visible = false;
+        // planeMesh.visible = false;
+        // darkGreenPlaneMesh.visible = false;
+        // xPlaneMesh.visible = false;
+
+        // // console.log('LOGGING IN MESH VISIBILITY SECOND LAYER FOR TESTING');
+        // // console.log('BLACK PLANE MESH TWO', blackPlaneMeshTwo);
+        // // console.log('BLACK PLANE MESH', blackPlaneMesh);
+        // // console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
+
+        // // Make correct beetle meshe visible
+        // whiteMarbleBeetleObject.visible = true;
+        // // Make correct plane visible
+        // blackPlaneMesh.visible = true;
+
+        // // Don't forget to change the light intensity
+        // let beetleColor = 'white';
+        // changeLightIntensity(beetleColor);
+
+        // New Meshes
+
         console.log('Entering if loop of MESH Visibility of menuPage')
 
         // Ensure that the incorrect beetle meshes are invisible
@@ -2491,54 +2728,32 @@ const changeMeshVisibility = (currentPage) => {
         blueMarbleBeetleObject.visible = false;
         whiteMarbleBeetleObject.visible = false;
         blackMarbleBeetleObject.visible = false;
+        redPinkMarbleBeetleObject.visible = false;
 
-        console.log('BLUE MARBLE BEETLE', blueMarbleBeetleObject);
-        console.log('WHITE MARBLE BEETLE', whiteMarbleBeetleObject);
-        console.log('BLACK MARBLE BEETLE', blackMarbleBeetleObject);
+        // console.log('BLUE MARBLE BEETLE', blueMarbleBeetleObject);
+        // console.log('WHITE MARBLE BEETLE', whiteMarbleBeetleObject);
+        // console.log('BLACK MARBLE BEETLE', blackMarbleBeetleObject);
 
         // Ensure that the incorrect planes are invisible too
         blackPlaneMesh.visible = false;
         blackPlaneMeshTwo.visible = false;
         planeMesh.visible = false;
+        xPlaneMesh.visible = false;
 
-        console.log('BLACK PLANE MESH', blackPlaneMesh);
-        console.log('BLACK PLANE MESH 2', blackPlaneMeshTwo);
-        console.log('PLANE MESH', planeMesh);
+        // console.log('BLACK PLANE MESH', blackPlaneMesh);
+        // console.log('BLACK PLANE MESH 2', blackPlaneMeshTwo);
+        // console.log('PLANE MESH', planeMesh);
 
         // Make correct beetle meshe visible
         // blueMarbleBeetleObject.visible = true;
         greyMarbleBeetleObject.visible = true;
-
-        console.log('GREY MARBLE BEETLE', greyMarbleBeetleObject);
-
         // Make correct plane visible
         darkGreenPlaneMesh.visible = true;
 
-        console.log('DARK GREEN PLANE', darkGreenPlaneMesh);
+        // Don't forget to change the light intensity
+        let beetleColor = 'grey';
+        changeLightIntensity(beetleColor);
 
-    } else if (currentPage === 'aboutPage') {
-
-        console.log('ENTERING IF STATEMENT IN MESH VISIBILITY FUNCTION')
-
-        // Ensure that the incorrect beetle meshes are invisible
-        blueMarbleBeetleObject.visible = false;
-        greyMarbleBeetleObject.visible = false;
-        blackMarbleBeetleObject.visible = false;
-
-        // Ensure that the incorrect planes are invisible too
-        blackPlaneMeshTwo.visible = false;
-        planeMesh.visible = false;
-        darkGreenPlaneMesh.visible = false;
-
-        console.log('LOGGING IN MESH VISIBILITY SECOND LAYER FOR TESTING');
-        console.log('BLACK PLANE MESH TWO', blackPlaneMeshTwo);
-        console.log('BLACK PLANE MESH', blackPlaneMesh);
-        console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
-
-        // Make correct beetle meshe visible
-        whiteMarbleBeetleObject.visible = true;
-        // Make correct plane visible
-        blackPlaneMesh.visible = true;
 
     } else if (currentPage === 'contactPage') {
 
@@ -2548,33 +2763,75 @@ const changeMeshVisibility = (currentPage) => {
         greyMarbleBeetleObject.visible = false;
         blackMarbleBeetleObject.visible = false;
         whiteMarbleBeetleObject.visible = false;
+        redPinkMarbleBeetleObject.visible = false;
         // blueMarbleBeetleObject.visible = false;
 
-        console.log('GREY MARBLE BEETLE', greyMarbleBeetleObject);
-        console.log('WHITE MARBLE BEETLE', whiteMarbleBeetleObject);
-        console.log('BLACK MARBLE BEETLE', blackMarbleBeetleObject);
+        // console.log('GREY MARBLE BEETLE', greyMarbleBeetleObject);
+        // console.log('WHITE MARBLE BEETLE', whiteMarbleBeetleObject);
+        // console.log('BLACK MARBLE BEETLE', blackMarbleBeetleObject);
 
         // Ensure that the incorrect planes are invisible too
         blackPlaneMesh.visible = false;
         planeMesh.visible = false;
         darkGreenPlaneMesh.visible = false;
+        xPlaneMesh.visible = false;
         // blackPlaneMeshTwo.visible = false;
 
-        console.log('PLANE MESH', planeMesh);
-        console.log('BLACK PLANE', blackPlaneMesh);
-        console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
+        // console.log('PLANE MESH', planeMesh);
+        // console.log('BLACK PLANE', blackPlaneMesh);
+        // console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
 
         // Make correct beetle meshe visible
         blueMarbleBeetleObject.visible = true;
         // greyMarbleBeetleObject.visible = true;
 
-        console.log('BLUE MARBLE BEETLE LOADED', blueMarbleBeetleObject);
+        // console.log('BLUE MARBLE BEETLE LOADED', blueMarbleBeetleObject);
 
         // Make correct plane visible
         blackPlaneMeshTwo.visible = true;
         // planeMesh.visible = true;
 
-        console.log('BLACK PLANE MESH', blackPlaneMeshTwo);
+        // Don't forget to change the light intensity
+        let beetleColor = 'lightBlue';
+        changeLightIntensity(beetleColor);
+ 
+    } else if (currentPage === 'faqPage') {
+
+        // Ensure that the incorrect beetle meshes are invisible
+        blueMarbleBeetleObject.visible = false;
+        whiteMarbleBeetleObject.visible = false;
+        greyMarbleBeetleObject.visible = false;
+        blackMarbleBeetleObject.visible = false;
+
+        // Ensure that the incorrect planes are invisible too
+        blackPlaneMesh.visible = false;
+        darkGreenPlaneMesh.visible = false;
+        blackPlaneMeshTwo.visible = false;
+        planeMesh.visible = false;
+
+        // Make correct beetle meshe visible
+        redPinkMarbleBeetleObject.visible = true;
+        // Make correct plane visible
+        xPlaneMesh.visible = true;
+
+
+        // Don't forget to change the light intensity
+        let beetleColor = 'grey';
+        changeLightIntensity(beetleColor);
+
+    } else if (currentPage === 'legalPage') {
+        
+        // In the case that we are facing the legal page, then we hide all of the different beetles
+
+        // Ensure that all of the beetle meshes are invisible
+        blueMarbleBeetleObject.visible = false;
+        whiteMarbleBeetleObject.visible = false;
+        greyMarbleBeetleObject.visible = false;
+        blackMarbleBeetleObject.visible = false;
+        redPinkMarbleBeetleObject.visible = false;
+
+        // We don't actually change the Plane Geometry or Texture of the plane, so unlike the above conditions,
+        // in this case, we do nothing. 
 
     }
 
@@ -2704,7 +2961,14 @@ const toggleGeneralPageTransition = (event) => {
             // are correctly removed from the page
             console.log('We were in the #contactPage and are now removing the elements of the contact page correctly')
             toggleContactPage('')
-    
+        } else if (oldPageShown === 'faqPage') {
+
+            toggleFAQPage('');
+
+        } else if (oldPageShown === 'legalPage') {
+
+            toggleLegalPage('');
+
         }
     
     
@@ -2718,7 +2982,7 @@ const toggleGeneralPageTransition = (event) => {
                 
                 id = 'menuElementTwo'
 
-            } else if (event === 'clientPage') {
+            } else if (event === 'faqPage') {
 
                 id = 'menuElementThree';
 
@@ -2732,15 +2996,28 @@ const toggleGeneralPageTransition = (event) => {
 
             } else if (event === 'menuPage') {
 
-                id = 'menuElementFive'
+                id = 'menuElementFive';
+
+            } else if (event === 'legalPage') {
+
+                id = 'menuElementSix';
 
             }
+
 
         }
     
         // This is the homePage
         if (id === 'menuElementOne') {
     
+            // Make sure we add the Click & Hold Button that's shown on Home/Intro page
+            setTimeout(() => {
+                addClickHoldButton();
+            }, CLICK_HOLD_VISIBILITY_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
+
+            // Removes the legal terms text at bottom of main menu
+            removeLegalTermsText();
+
             changeMenuIcon('')
             changePageShown('homePage')
             toggleHomePage('homePage');
@@ -2757,8 +3034,12 @@ const toggleGeneralPageTransition = (event) => {
     
         // This is the aboutPage
         } else if (id === 'menuElementTwo') {
+
+            // Removes the legal terms text at bottom of main menu
+            removeLegalTermsText();
     
-            console.log('Toggling the About Page Mesh')
+            // Remove the Click & Hold Button if we're moving away from the Home Page
+            removeClickHoldButton();
             changeMenuIcon('')
             changePageShown('aboutPage');
             toggleAboutPage('aboutPage');
@@ -2773,13 +3054,21 @@ const toggleGeneralPageTransition = (event) => {
             }, MESH_VISIBILITY_DELAY);
             // App V.2 - End
     
-        // This is the clientPage
+        // This is the FAQ Page
         } else if (id === 'menuElementThree') {
 
+
+            // Removes the legal terms text at bottom of main menu
+            removeLegalTermsText();
+
+            // Remove the Click & Hold Button if we're moving away from the Home Page
+            removeClickHoldButton();
             changeMenuIcon('');
             // The client page is the only one missing elements
             // Might miss elements for a bit since we don't have enough clients to display 
-            changePageShown('clientPage');
+            changePageShown('faqPage');
+            // Toggling on the DOM elements of the FAQ page
+            toggleFAQPage('faqPage');
 
             // App V.1 - Start
             // toggleClientsPageMesh();
@@ -2787,7 +3076,7 @@ const toggleGeneralPageTransition = (event) => {
 
             // App V.2 - Start
             setTimeout(() => {
-                changeMeshVisibility('clientPage');
+                changeMeshVisibility('faqPage');
             }, MESH_VISIBILITY_DELAY);
             // App V.2 - End
     
@@ -2795,6 +3084,12 @@ const toggleGeneralPageTransition = (event) => {
         // This is the contactPage
         } else if (id === 'menuElementFour') {
     
+            // Removes the legal terms text at bottom of main menu
+            removeLegalTermsText();
+
+            // Remove the Click & Hold Button if we're moving away from the Home Page
+            removeClickHoldButton();
+
             changeMenuIcon('');
             changePageShown('contactPage');
             toggleContactPage('contactPage');
@@ -2814,8 +3109,15 @@ const toggleGeneralPageTransition = (event) => {
         // This is the menu page
         } else if (id === 'menuElementFive') {
 
-            console.log('Running towards Menu Page again')
+            // Adds the Legal Terms text
+            setTimeout(() => {
+                addLegalTermsText();
+            }, CLICK_HOLD_VISIBILITY_DELAY);
 
+            // Remove the Click & Hold Button if we're moving away from the Home Page
+            removeClickHoldButton();
+
+            console.log('Running towards Menu Page again')
             // if (currentMenuIcon !== 'menuIcon') {
             changeMenuIcon('menuPage');
             // }
@@ -2833,11 +3135,84 @@ const toggleGeneralPageTransition = (event) => {
             }, MESH_VISIBILITY_DELAY);
             // App V.2 - End
     
+        } else if (id === 'menuElementSix')  {
+
+            console.log('Menu Element Six');
+
+            // Boilerplate functions that need to be called with every condition satisfied
+
+            // Change pageShown variable to legalPage
+            changePageShown('legalPage');
+            // Removes the legal terms text at bottom of main menu
+            removeLegalTermsText();
+            // Remove the Click & Hold Button if we're moving away from the Home Page
+            removeClickHoldButton();
+            // Makes the top right button look like a Menu button
+            changeMenuIcon('');
+            
+            // Makes the text of the legal page visible
+            toggleLegalPage('legalPage');
+
+            // Will ensure that the White Beetle isn't displayed
+            setTimeout(() => {
+                changeMeshVisibility('legalPage');
+            }, MESH_VISIBILITY_DELAY);
+
         }
 
     }
 }
 
+
+// Function that will display to the user the Legal Terms of Samarra & Co.
+// Attached to the click event of the 'privacy--click--container' in the HTML document, or in other words, to the 'Legal Terms' text
+// that shows at the bottom of the 'Main Menu' page
+
+const showLegalTermsPage = () => {
+
+    console.log('Test log in order to ensure that @showLegalTermsPage is called');
+
+    // Calls the general function with the correct argument in order to remove the incorrect meshes (the white Beetle) 
+    // and display the correct HTML DOM elements
+
+    toggleGeneralPageTransition('legalPage');
+
+}
+
+// Function associated to the 'click' event of the 'About Samarra & Co' button at the bottom of the About page
+// Used in order to trigger an animation and afterwards a transition into the About page of 'Samarra & Co.'
+
+const goToAboutPageFromHome = () => {
+
+    // Two things will be done here, first, we're going to trigger an animation for the user
+
+    // Second, we're going to go to the 'About page'
+    toggleGeneralPageTransition('aboutPage');
+
+
+}
+
+
+// Function which will remove the 'Click & Hold' message so that it doesn't appear in any other page but the Intro page
+// - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
+// Home Page Related
+
+const removeClickHoldButton = () => {
+
+    let clickHoldButton = document.getElementById('cta--click--container');
+    clickHoldButton.classList.add('hidden');
+
+}
+
+// Function that does the opposite of the above function, it makes the Click & Hold Button visible whenever the user is on the About Page
+// - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
+// Home Page Releated
+const addClickHoldButton = () => {
+
+    let clickHoldButton = document.getElementById('cta--click--container');
+    clickHoldButton.classList.remove('hidden');
+
+}
 
 const initiateTransitionAnimation = () => {
 
@@ -2848,6 +3223,29 @@ const initiateTransitionAnimation = () => {
 
 }
 
+// Similar as the other two 
+// Main Menu Related
+
+// Function that shows the 'Legal Terms' text at the bottom of the Main Menu Page
+// Called in @toggleMenuAnimation & @toggleGeneralTransition functions
+
+const removeLegalTermsText = () => {
+
+    let legalTermsText = document.getElementById('privacy--click--container');
+    legalTermsText.classList.remove('shown');
+
+}
+
+
+// Function that removes the 'Legal Terms' text at the bottom of the Main Menu Page (when we transition away from it)
+// Called in @toggleMenuAnimation & @toggleGeneralTransition functions
+
+const addLegalTermsText = () => {
+
+    let legalTermsText = document.getElementById('privacy--click--container');
+    legalTermsText.classList.add('shown');
+
+}
 
 // Main **Menu** related function
 // This function ensures that when the menu button is clicked, we get redirected to the page correctly
@@ -2873,7 +3271,7 @@ const toggleMenuAnimation = () => {
         revealLayerOne.classList.toggle('showing');
 
         // This part is to make sure that the variable that tells you which page it is, is correct
-        let oldPageShown = pageShown;
+        let oldPageShown = pageShown; // pageShown is a global variable, not declared in this scope
 
         // Log in order to track the different steps of the function calls
         console.log('Starting the #menu Animation')
@@ -2896,14 +3294,17 @@ const toggleMenuAnimation = () => {
 
             toggleAboutPage('')
 
-        } else if (oldPageShown === 'clientsPage') {
+        } else if (oldPageShown === 'faqPage') {
             
             console.log('No toggle set to remove nonexistent elements of the client page');
+            toggleFAQPage('');
 
         } else if (oldPageShown === 'contactPage') {
 
             toggleContactPage('')
 
+        } else if (oldPageShown === 'legalPage') {
+            toggleLegalPage('');
         }
 
 
@@ -2968,6 +3369,12 @@ const toggleMenuAnimation = () => {
         if (pageShown === 'menuPage') {
             // Makes the homepage invisible
 
+
+            // Shows the Legal Terms text at the bottom of the page
+            setTimeout(() => {
+                addLegalTermsText();
+            }, CLICK_HOLD_VISIBILITY_DELAY);
+
             // Makes the menu page visible
             // setTextAnimationTimers('menuPage');
             // setThreeAnimationTimers('menuPage');
@@ -2994,9 +3401,16 @@ const toggleMenuAnimation = () => {
             }, 300);
 
 
+            // Remove the Click & Hold Button that's showing in the Home Page
+            removeClickHoldButton();
+
+
         // We're keeping it this way because after we click back on it the only place we should be able
         // to go is the homePage
         } else if (pageShown === 'homePage') {
+
+            // Removes the legal terms text at bottom of main menu
+            removeLegalTermsText();
 
             // Makes menu page invisible
             // setTextAnimationTimers('homePage')
@@ -3017,6 +3431,11 @@ const toggleMenuAnimation = () => {
             setTimeout(() => {
                 removeContactInfoLinesMainMenu();
             }, 300);
+
+            setTimeout(() => {
+                addClickHoldButton();
+            }, CLICK_HOLD_VISIBILITY_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
+
 
         } else if (pageShown === 'aboutPage') {
 
@@ -3302,6 +3721,29 @@ const toggleAboutPage = (pageShown) => {
 }
 
 
+// Function that focuses on toggling the Contact Page
+
+const toggleFAQPage = (pageShown) => {
+
+    console.log('TOGGLING THE FAQ PAGE FINALLY');
+
+    if (pageShown === 'faqPage') {
+
+        setTimeout(() => {
+            document.getElementById('faqPageContainer').classList.add('showing')
+        }, 1700);
+
+    } else if (pageShown !== 'faqPage') {
+
+        setTimeout(() => {
+            document.getElementById('faqPageContainer').classList.remove('showing')
+        }, 250);
+
+    }
+
+}
+
+
 // Function which toggles the Contact Page when the correct button is clicked 
 
 const toggleContactPage = (pageShown) => {
@@ -3332,6 +3774,38 @@ const toggleContactPage = (pageShown) => {
 
     }
 
+
+}
+
+// This function will be used in order to toggle the 'legalPage' elements on / off depending on whether we're moving towards
+// the legal page or away from the legal page
+
+const toggleLegalPage = (pageShown) => {
+
+    console.log('Toggling the legal page');
+
+    // If it is the homePage, then we toggle these elements on
+    if (pageShown === 'legalPage') {
+
+        // Ensures that the legalPage elemnts are toggle on when we're moving to the homepage
+        setTimeout(() => {
+            document.getElementById('legalPage').style.opacity = 1;
+            document.getElementById('legalPage').style.visibility = 'visible';
+            document.getElementById('legalPage').style.display = 'flex';
+        }, 1700);
+
+
+    // If it's not the legalPage we toggle the legalPage elements off
+    } else if (pageShown !== 'legalPage') {
+
+        // Ensures that the title doesn't disappear directly when the actual animation is initiated
+        setTimeout(() => {
+            document.getElementById('legalPage').style.opacity = 0;
+            document.getElementById('legalPage').style.visibility = 'hidden'; 
+            document.getElementById('legalPage').style.display = 'none';
+        }, 400);
+
+    }
 
 }
 
@@ -4306,10 +4780,28 @@ const testClick = () => {
 const loadingPageEndTransitions = () => {
 
     console.log('Hiding the direction messages displayed on the initial loading page');
-    
-
 
 }
+
+// Function that will modify the aspect of the noisy circle
+
+const modifyNoisyCircle = () => {
+    console.log('Hovering the Click & Hold Container ')
+    // polygon.radius = 1;
+
+    // Not doing anything yet
+
+    // const radius = 1;
+    // const segments = 8;
+
+    // polygon = new paper.Path.RegularPolygon(
+    //     new paper.Point(0,0),
+    //     segments,
+    //     radius,
+    // );
+
+}
+
 const initializeEventListeners = () => {
     document.getElementById('plus-sign-container').addEventListener('mouseenter', showLanguagesText);
     document.getElementById('plus-sign-container').addEventListener('mouseleave', hideLanguagesText);
@@ -4320,7 +4812,7 @@ const initializeEventListeners = () => {
     document.getElementById('plus-sign-container').addEventListener('click', toggleLanguageChoices);
     document.getElementById('menuElementOne').addEventListener('click', toggleGeneralPageTransition);
     document.getElementById('menuElementTwo').addEventListener('click', toggleGeneralPageTransition);
-    // document.getElementById('menuElementThree').addEventListener('click', toggleGeneralPageTransition);
+    document.getElementById('menuElementThree').addEventListener('click', toggleGeneralPageTransition);
     document.getElementById('menuElementFour').addEventListener('click', toggleGeneralPageTransition);
     document.getElementById('firstOptionContainer').addEventListener('click', showContactMenu);
     document.getElementById('secondOptionContainer').addEventListener('click', showContactMenu);
@@ -4365,6 +4857,9 @@ const initializeEventListeners = () => {
     document.getElementById('loadingPage--whiteLoadingBar').addEventListener('animationend', showClickMessageToRemoveLoadingPage);
 
     document.getElementById('loading-page').addEventListener('click', removeInitialLoadingPage);
+    document.getElementById('cta--click--container').addEventListener('mouseenter', modifyNoisyCircle);
+    document.getElementById('cta--click--container').addEventListener('click', goToAboutPageFromHome);
+    document.getElementById('privacy--click--text').addEventListener('click', showLegalTermsPage);
     // document.getElementById('loading-page').addEventListener('animationend', loadingPageEndTransitions)
     // document.getElementById('loading-page').addEventListener('click', testClick);
 
