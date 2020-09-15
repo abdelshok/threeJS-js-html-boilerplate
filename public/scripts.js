@@ -16,15 +16,19 @@ let whiteBeetleObject;
 // Plane Geometries - We're declaring them as global variables so that they can be accessible across different functions - may constitute a memory leak in the JS heap 
 // Will look into that later #optimization
 
-let blackPlaneGeometry;
+let blackRockPlaneGeometry;
 let darkGreenPlaneGeometry;
-let blackPlaneGeometryTwo;
+let blackRockPlaneGeometryTwo;
 let XPlaneGeometry;
+let reversedPlaneGeometry;
+let blackWavePlaneGeometry;
 
-let blackPlaneMesh;
+let blackRockPlaneMesh;
 let darkGreenPlaneMesh;
-let blackPlaneMeshTwo;
+let blackRockPlaneMeshTwo;
 let xPlaneMesh;
+let reversedPlaneMesh;
+let blackWavePlaneMesh;
 
 let blackMarbleBeetleObject;
 let blueMarbleBeetleObject;
@@ -825,7 +829,7 @@ const createBlackMarbleBeetle = () => {
 // Create Plane Geometry
 
 const createPlaneGeometry = () => {
-    planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
     planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -841,20 +845,23 @@ const createPlaneGeometry = () => {
 
 const createBlackPlaneGeometry = () => {
     // Black Plane that's displayed in the 'About' page
-    blackPlaneGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    blackRockPlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
     planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRock.png');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
-    blackPlaneMesh = new THREE.Mesh(blackPlaneGeometry, planeMaterial);
-    blackPlaneMesh.position.set(0,-50,0);
-    blackPlaneMesh.rotation.x =  - (Math.PI / 2);
+    blackRockPlaneMesh = new THREE.Mesh(blackRockPlaneGeometry, planeMaterial);
+    blackRockPlaneMesh.position.set(0,-160,0);
+    blackRockPlaneMesh.rotation.x =  - (Math.PI / 2);
 
-    scene.add(blackPlaneMesh);
+    scene.add(blackRockPlaneMesh);
 }
 
+// Not used anymore
+// V.1
 // 3. Turquoise Rock Plane - Main Menu
+// V.1
 
 const createTurquoisePlaneGeometry = () => {
-    darkGreenPlaneGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    darkGreenPlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
     planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'turquoiseMarble.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     darkGreenPlaneMesh = new THREE.Mesh(darkGreenPlaneGeometry, planeMaterial);
@@ -867,7 +874,7 @@ const createTurquoisePlaneGeometry = () => {
 // 1. Blue Ice-Looking Plane - Home Page
 
 const createBluePlaneGeometry = () => {
-    planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
     planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -880,7 +887,7 @@ const createBluePlaneGeometry = () => {
 // Not Used
 
 const createRockyTerrainGeometry = () => {
-    planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
     planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'rockyTerrain.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -895,24 +902,24 @@ const createRockyTerrainGeometry = () => {
 const createBlackRockGeometry = () => {
     // Black Plane that's displayed in the 'Contact page - difference between this and the one above
     // is the file type. png vs. jpg.
-    blackPlaneGeometryTwo = new THREE.PlaneGeometry(800, 800, 1200);
+    blackRockPlaneGeometryTwo = new THREE.PlaneGeometry(2000, 2000, 2000);
     planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRock.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
-    blackPlaneMeshTwo = new THREE.Mesh(blackPlaneGeometryTwo, planeMaterial);
-    blackPlaneMeshTwo.position.set(0,-50,0);
-    blackPlaneMeshTwo.rotation.x =  - (Math.PI / 2);
-    scene.add(blackPlaneMeshTwo);
+    blackRockPlaneMeshTwo = new THREE.Mesh(blackRockPlaneGeometryTwo, planeMaterial);
+    blackRockPlaneMeshTwo.position.set(0,-250,0);
+    blackRockPlaneMeshTwo.rotation.x =  - (Math.PI / 2);
+    scene.add(blackRockPlaneMeshTwo);
 }
 
-// 4. X Rock - FAQ Page
+// 4. X Rock - Client Page
 
 const createXPlaneGeometry = () => {
 
-    XPlaneGeometry = new THREE.PlaneGeometry(800, 800, 1200);
-    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'greyMarble5.jpg');
+    XPlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
+    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackWhiteRock.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     xPlaneMesh = new THREE.Mesh(XPlaneGeometry, planeMaterial);
-    xPlaneMesh.position.set(0,-50,0);
+    xPlaneMesh.position.set(0,-280,0);
     xPlaneMesh.rotation.x =  - (Math.PI / 2);
     scene.add(xPlaneMesh);
 
@@ -921,7 +928,7 @@ const createXPlaneGeometry = () => {
 
 // Not used
 const createGreyGoldPlaneGeometry = () => {
-    planeGeometry = new THREE.PlaneGeometry(800, 800, 1200);
+    planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
     planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'greyMarble5.jpg');
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -929,6 +936,32 @@ const createGreyGoldPlaneGeometry = () => {
     planeMesh.rotation.x =  - (Math.PI / 2);
     scene.add(planeMesh);
 }
+
+const createReversedBlackPlaneGeometry = () => {
+    // Black Plane that's displayed in the 'About' page
+    reversedPlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
+    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRock.png');
+    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
+    reversedPlaneMesh = new THREE.Mesh(reversedPlaneGeometry, planeMaterial);
+    reversedPlaneMesh.position.set(0,-48,0);
+    reversedPlaneMesh.rotation.x = (Math.PI / 2);
+
+    scene.add(reversedPlaneMesh);
+}
+
+// 5. Main Menu 
+// V.2
+
+const createBlackWavePlaneGeometry = () => {
+    blackWavePlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
+    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackWaves.jpg');
+    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
+    blackWavePlaneMesh = new THREE.Mesh(blackWavePlaneGeometry, planeMaterial);
+    blackWavePlaneMesh.position.set(0,-50,0);
+    blackWavePlaneMesh.rotation.x =  - (Math.PI / 2);
+    scene.add(blackWavePlaneMesh);
+}
+ 
 
 
 // Function used to remove the current plane geometry before we change it to something else
@@ -961,28 +994,38 @@ const createInitialPlaneGeometries = () => {
     // Contact Page Plane 
     createBlackRockGeometry();
     // Main Menu
-    createTurquoisePlaneGeometry();
+    createBlackWavePlaneGeometry();
     // Home Page Plane
     createPlaneGeometry();
-    // FAQ Page Plane
-    createXPlaneGeometry();
+    // Client Page Plane
+    createXPlaneGeometry(); // Currently Grey
+    // 
 
     // About Page
-    blackPlaneMesh.visible = false;
+    blackRockPlaneMesh.visible = false;
     // Main Menu Page
-    darkGreenPlaneMesh.visible = false;
+
+    // V.1 
+    // darkGreenPlaneMesh.visible = false;
+    // V.1
+
+    // V.2
+    blackWavePlaneMesh.visible = false;
+
     // Contact Page
-    blackPlaneMeshTwo.visible = false;
+    blackRockPlaneMeshTwo.visible = false;
     // Home Page
     planeMesh.visible = true;
-    // FAQ Page
+    // Client / FAQ Page
     xPlaneMesh.visible = false;
+    // Reversed
+    // reversedPlaneMesh.visible = false;
 
     // Used for testing in order to see how smooth the three js transition is between one plane's visibility turned off and another plane's visibility
     // turned on
 
     // setTimeout(() => {
-    //     blackPlaneMesh.visible = true;
+    //     blackRockPlaneMesh.visible = true;
     //     planeMesh.visible = false;
     // }, 15000)
 
@@ -1344,6 +1387,14 @@ const changeBeetleToGreyMarble = () => {
             greyMarbleBeetleObject.rotation.y = 158 * 0.02;
             greyMarbleBeetleObject.position.z = 20;
             greyMarbleBeetleObject.scale.x = greyMarbleBeetleObject.scale.y = greyMarbleBeetleObject.scale.z = 1.15;
+
+
+            // Comment in the two lines below in order to make sure that the Beetle Mesh is positioned to the left
+            // Experimented with this position & rotation once I decided to redesign the About page, remove the Samarra & Co. 
+            // usually at the center, and put an 'About' header on the left of the page
+            
+            // greyMarbleBeetleObject.position.x = -60;
+            // greyMarbleBeetleObject.rotation.z = 0.41;
 
             scene.add(greyMarbleBeetleObject);
 
@@ -2608,9 +2659,9 @@ const changeMeshVisibility = (currentPage) => {
         redPinkMarbleBeetleObject.visible = false;
 
         // Ensure that the incorrect planes are invisible too
-        blackPlaneMesh.visible = false;
-        darkGreenPlaneMesh.visible = false;
-        blackPlaneMeshTwo.visible = false;
+        blackRockPlaneMesh.visible = false;
+        blackWavePlaneMesh.visible = false;
+        blackRockPlaneMeshTwo.visible = false;
         xPlaneMesh.visible = false;
 
         // Make correct beetle meshe visible
@@ -2640,13 +2691,13 @@ const changeMeshVisibility = (currentPage) => {
         // // console.log('BLACK MARBLE BEETLE', blackMarbleBeetleObject);
 
         // // Ensure that the incorrect planes are invisible too
-        // blackPlaneMesh.visible = false;
-        // blackPlaneMeshTwo.visible = false;
+        // blackRockPlaneMesh.visible = false;
+        // blackRockPlaneMeshTwo.visible = false;
         // planeMesh.visible = false;
         // xPlaneMesh.visible = false;
 
-        // // console.log('BLACK PLANE MESH', blackPlaneMesh);
-        // // console.log('BLACK PLANE MESH 2', blackPlaneMeshTwo);
+        // // console.log('BLACK PLANE MESH', blackRockPlaneMesh);
+        // // console.log('BLACK PLANE MESH 2', blackRockPlaneMeshTwo);
         // // console.log('PLANE MESH', planeMesh);
 
         // // Make correct beetle meshe visible
@@ -2668,20 +2719,20 @@ const changeMeshVisibility = (currentPage) => {
         redPinkMarbleBeetleObject.visible = false;
 
         // Ensure that the incorrect planes are invisible too
-        blackPlaneMeshTwo.visible = false;
+        blackRockPlaneMeshTwo.visible = false;
         planeMesh.visible = false;
-        darkGreenPlaneMesh.visible = false;
+        blackRockPlaneMesh.visible = false;
         xPlaneMesh.visible = false;
 
         // console.log('LOGGING IN MESH VISIBILITY SECOND LAYER FOR TESTING');
-        // console.log('BLACK PLANE MESH TWO', blackPlaneMeshTwo);
-        // console.log('BLACK PLANE MESH', blackPlaneMesh);
+        // console.log('BLACK PLANE MESH TWO', blackRockPlaneMeshTwo);
+        // console.log('BLACK PLANE MESH', blackRockPlaneMesh);
         // console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
 
         // Make correct beetle meshe visible
         whiteMarbleBeetleObject.visible = true;
         // Make correct plane visible
-        blackPlaneMesh.visible = true;
+        blackWavePlaneMesh.visible = true;
 
         // Don't forget to change the light intensity
         let beetleColor = 'white';
@@ -2700,20 +2751,20 @@ const changeMeshVisibility = (currentPage) => {
         // redPinkMarbleBeetleObject.visible = false;
 
         // // Ensure that the incorrect planes are invisible too
-        // blackPlaneMeshTwo.visible = false;
+        // blackRockPlaneMeshTwo.visible = false;
         // planeMesh.visible = false;
         // darkGreenPlaneMesh.visible = false;
         // xPlaneMesh.visible = false;
 
         // // console.log('LOGGING IN MESH VISIBILITY SECOND LAYER FOR TESTING');
-        // // console.log('BLACK PLANE MESH TWO', blackPlaneMeshTwo);
-        // // console.log('BLACK PLANE MESH', blackPlaneMesh);
+        // // console.log('BLACK PLANE MESH TWO', blackRockPlaneMeshTwo);
+        // // console.log('BLACK PLANE MESH', blackRockPlaneMesh);
         // // console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
 
         // // Make correct beetle meshe visible
         // whiteMarbleBeetleObject.visible = true;
         // // Make correct plane visible
-        // blackPlaneMesh.visible = true;
+        // blackRockPlaneMesh.visible = true;
 
         // // Don't forget to change the light intensity
         // let beetleColor = 'white';
@@ -2721,7 +2772,7 @@ const changeMeshVisibility = (currentPage) => {
 
         // New Meshes
 
-        console.log('Entering if loop of MESH Visibility of menuPage')
+        console.log('Entering if loop of Mesh Visibility of menuPage')
 
         // Ensure that the incorrect beetle meshes are invisible
         // greyMarbleBeetleObject.visible = false;
@@ -2729,26 +2780,28 @@ const changeMeshVisibility = (currentPage) => {
         whiteMarbleBeetleObject.visible = false;
         blackMarbleBeetleObject.visible = false;
         redPinkMarbleBeetleObject.visible = false;
-
-        // console.log('BLUE MARBLE BEETLE', blueMarbleBeetleObject);
-        // console.log('WHITE MARBLE BEETLE', whiteMarbleBeetleObject);
-        // console.log('BLACK MARBLE BEETLE', blackMarbleBeetleObject);
+        greyMarbleBeetleObject.visible = false;
 
         // Ensure that the incorrect planes are invisible too
-        blackPlaneMesh.visible = false;
-        blackPlaneMeshTwo.visible = false;
-        planeMesh.visible = false;
+        blackRockPlaneMeshTwo.visible = false;
+        planeMesh.visible = false; // Ice Mesh from Hoe Page
         xPlaneMesh.visible = false;
+        blackWavePlaneMesh.visible = false;
 
-        // console.log('BLACK PLANE MESH', blackPlaneMesh);
-        // console.log('BLACK PLANE MESH 2', blackPlaneMeshTwo);
+        // V.1 
+        // darkGreenPlaneMesh.visible = false;
+        // V.1
+
+        // console.log('BLACK PLANE MESH', blackRockPlaneMesh);
+        // console.log('BLACK PLANE MESH 2', blackRockPlaneMeshTwo);
         // console.log('PLANE MESH', planeMesh);
 
         // Make correct beetle meshe visible
         // blueMarbleBeetleObject.visible = true;
-        greyMarbleBeetleObject.visible = true;
         // Make correct plane visible
-        darkGreenPlaneMesh.visible = true;
+        // xPlaneMesh.visible = true;
+        blackRockPlaneMesh.visible = true;
+
 
         // Don't forget to change the light intensity
         let beetleColor = 'grey';
@@ -2771,14 +2824,14 @@ const changeMeshVisibility = (currentPage) => {
         // console.log('BLACK MARBLE BEETLE', blackMarbleBeetleObject);
 
         // Ensure that the incorrect planes are invisible too
-        blackPlaneMesh.visible = false;
+        blackRockPlaneMesh.visible = false;
         planeMesh.visible = false;
-        darkGreenPlaneMesh.visible = false;
+        blackWavePlaneMesh.visible = false;
         xPlaneMesh.visible = false;
-        // blackPlaneMeshTwo.visible = false;
+        // blackRockPlaneMeshTwo.visible = false;
 
         // console.log('PLANE MESH', planeMesh);
-        // console.log('BLACK PLANE', blackPlaneMesh);
+        // console.log('BLACK PLANE', blackRockPlaneMesh);
         // console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
 
         // Make correct beetle meshe visible
@@ -2788,7 +2841,7 @@ const changeMeshVisibility = (currentPage) => {
         // console.log('BLUE MARBLE BEETLE LOADED', blueMarbleBeetleObject);
 
         // Make correct plane visible
-        blackPlaneMeshTwo.visible = true;
+        blackRockPlaneMeshTwo.visible = true;
         // planeMesh.visible = true;
 
         // Don't forget to change the light intensity
@@ -2804,9 +2857,9 @@ const changeMeshVisibility = (currentPage) => {
         blackMarbleBeetleObject.visible = false;
 
         // Ensure that the incorrect planes are invisible too
-        blackPlaneMesh.visible = false;
-        darkGreenPlaneMesh.visible = false;
-        blackPlaneMeshTwo.visible = false;
+        blackRockPlaneMesh.visible = false;
+        blackWavePlaneMesh.visible = false;
+        blackRockPlaneMeshTwo.visible = false;
         planeMesh.visible = false;
 
         // Make correct beetle meshe visible
@@ -3017,6 +3070,9 @@ const toggleGeneralPageTransition = (event) => {
 
             // Removes the legal terms text at bottom of main menu
             removeLegalTermsText();
+            // Removes the 'Contact' page button usually shown on Client page
+            removeContactPageClickHoldButton();
+
 
             changeMenuIcon('')
             changePageShown('homePage')
@@ -3035,11 +3091,18 @@ const toggleGeneralPageTransition = (event) => {
         // This is the aboutPage
         } else if (id === 'menuElementTwo') {
 
+            // Make sure we add the 'Client Page' Button that's shown at the bottom of the About page
+            setTimeout(() => {
+                addClientPageClickHoldButton();
+            }, CLICK_HOLD_VISIBILITY_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
+
             // Removes the legal terms text at bottom of main menu
             removeLegalTermsText();
-    
             // Remove the Click & Hold Button if we're moving away from the Home Page
             removeClickHoldButton();
+            // Removes the 'Contact' page button usually shown on Client page
+            removeContactPageClickHoldButton();
+
             changeMenuIcon('')
             changePageShown('aboutPage');
             toggleAboutPage('aboutPage');
@@ -3054,8 +3117,13 @@ const toggleGeneralPageTransition = (event) => {
             }, MESH_VISIBILITY_DELAY);
             // App V.2 - End
     
-        // This is the FAQ Page
+        // This is the FAQ / Client Page
         } else if (id === 'menuElementThree') {
+
+            // Make sure we add the Contact Page Button that's shown on Client page
+            setTimeout(() => {
+                addContactPageClickHoldButton();
+            }, CLICK_HOLD_VISIBILITY_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
 
 
             // Removes the legal terms text at bottom of main menu
@@ -3063,6 +3131,9 @@ const toggleGeneralPageTransition = (event) => {
 
             // Remove the Click & Hold Button if we're moving away from the Home Page
             removeClickHoldButton();
+            // Remove the 'Client Page' Button at the bottom of the About page 
+            removeClientPageClickHoldButton();
+
             changeMenuIcon('');
             // The client page is the only one missing elements
             // Might miss elements for a bit since we don't have enough clients to display 
@@ -3089,6 +3160,10 @@ const toggleGeneralPageTransition = (event) => {
 
             // Remove the Click & Hold Button if we're moving away from the Home Page
             removeClickHoldButton();
+            // Remove the 'Client Page' Button at the bottom of the About page 
+            removeClientPageClickHoldButton();
+            // Removes the 'Contact' page button usually shown on Client page
+            removeContactPageClickHoldButton();
 
             changeMenuIcon('');
             changePageShown('contactPage');
@@ -3116,6 +3191,10 @@ const toggleGeneralPageTransition = (event) => {
 
             // Remove the Click & Hold Button if we're moving away from the Home Page
             removeClickHoldButton();
+            // Remove the 'Client Page' Button at the bottom of the About page 
+            removeClientPageClickHoldButton();
+            // Removes the 'Contact' page button usually shown on Client page
+            removeContactPageClickHoldButton();
 
             console.log('Running towards Menu Page again')
             // if (currentMenuIcon !== 'menuIcon') {
@@ -3147,6 +3226,10 @@ const toggleGeneralPageTransition = (event) => {
             removeLegalTermsText();
             // Remove the Click & Hold Button if we're moving away from the Home Page
             removeClickHoldButton();
+            // Remove the 'Client Page' Button at the bottom of the About page 
+            removeClientPageClickHoldButton();
+            // Removes the 'Contact' page button usually shown on Client page
+            removeContactPageClickHoldButton();
             // Makes the top right button look like a Menu button
             changeMenuIcon('');
             
@@ -3193,6 +3276,25 @@ const goToAboutPageFromHome = () => {
 }
 
 
+// Same as above function but goes to the Client page from the About page
+
+const goToClientPageFromAbout = () => {
+
+        // Second, we're going to go to the 'Client Page'
+        toggleGeneralPageTransition('faqPage');
+
+}
+
+// Same as above function but goes to Contact page from Client page
+
+const goToContactPageFromClient = () => {
+
+    // Second, we're going to go to the 'Client Page'
+    toggleGeneralPageTransition('contactPage');
+
+}
+
+
 // Function which will remove the 'Click & Hold' message so that it doesn't appear in any other page but the Intro page
 // - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
 // Home Page Related
@@ -3211,6 +3313,47 @@ const addClickHoldButton = () => {
 
     let clickHoldButton = document.getElementById('cta--click--container');
     clickHoldButton.classList.remove('hidden');
+
+}
+
+
+// Function which will add the 'Clients Page' message so that it doesn't appear in any other page but the About page
+// - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
+// About Page Related
+const  addClientPageClickHoldButton= () => {
+
+    let clickHoldButton = document.getElementById('cta--click--container--two');
+    clickHoldButton.classList.add('shown');
+
+}
+
+// Function that does the opposite of the above function, it makes the 'Client Page' Button invisible whenever the user is on the About Page
+// - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
+// About Page Releated
+const removeClientPageClickHoldButton = () => {
+
+    let clickHoldButton = document.getElementById('cta--click--container--two');
+    clickHoldButton.classList.remove('shown');
+
+}
+
+// Function which will add the 'Contact Page' message so that it doesn't appear in any other page but the Client page
+// - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
+// Client Page Related
+const  addContactPageClickHoldButton= () => {
+
+    let clickHoldButton = document.getElementById('cta--click--container--three');
+    clickHoldButton.classList.add('shown');
+
+}
+
+// Function that does the opposite of the above function, it makes the 'Contact Page' Button invisible whenever the user is on the Client Page
+// - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
+// Client Page Releated
+const removeContactPageClickHoldButton = () => {
+
+    let clickHoldButton = document.getElementById('cta--click--container--three');
+    clickHoldButton.classList.remove('shown');
 
 }
 
@@ -3401,9 +3544,12 @@ const toggleMenuAnimation = () => {
             }, 300);
 
 
-            // Remove the Click & Hold Button that's showing in the Home Page
+            // Remove the Click & Hold / About Page Button that's showing in the Home Page
             removeClickHoldButton();
-
+            // Remove the 'Client Page' button that's showing on the About Page
+            removeClientPageClickHoldButton();
+            // Removes the 'Contact' page button usually shown on Client page
+            removeContactPageClickHoldButton();
 
         // We're keeping it this way because after we click back on it the only place we should be able
         // to go is the homePage
@@ -4857,8 +5003,10 @@ const initializeEventListeners = () => {
     document.getElementById('loadingPage--whiteLoadingBar').addEventListener('animationend', showClickMessageToRemoveLoadingPage);
 
     document.getElementById('loading-page').addEventListener('click', removeInitialLoadingPage);
-    document.getElementById('cta--click--container').addEventListener('mouseenter', modifyNoisyCircle);
+    // document.getElementById('cta--click--container').addEventListener('mouseenter', modifyNoisyCircle); // Not currently used
     document.getElementById('cta--click--container').addEventListener('click', goToAboutPageFromHome);
+    document.getElementById('cta--click--container--two').addEventListener('click', goToClientPageFromAbout);
+    document.getElementById('cta--click--container--three').addEventListener('click', goToContactPageFromClient);
     document.getElementById('privacy--click--text').addEventListener('click', showLegalTermsPage);
     // document.getElementById('loading-page').addEventListener('animationend', loadingPageEndTransitions)
     // document.getElementById('loading-page').addEventListener('click', testClick);

@@ -117,6 +117,7 @@
 				background-color: transparent;
 				/* z-index: 10000; */
 				min-width: 400px;
+				/* pointer-events: none; */
 			}
 
 			/* .page--current {
@@ -1308,7 +1309,7 @@
 			.aboutPageLeft {
 				width: 50%;
 				display: flex;
-		
+				background-color: red;
 			}
 
 
@@ -2117,12 +2118,12 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: white;
+				background-color: rgb(255,255,255,0.6);
 				display: block;
 				left: -60px;
 				content: '';
 				/* transform: rotate(180deg); */
-				animation: cta-bottom-animation 7s linear 3s infinite alternate ;
+				animation: cta-bottom-animation 4s linear 3s infinite alternate ;
 			}
 
 			.cta--click--container::after {
@@ -2130,23 +2131,135 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: white;
+				background-color: rgb(255,255,255,0.6);
 				display: block;
 				right: -60px;
 				content: '';
-				animation: cta-bottom-animation 7s linear 3s infinite alternate;
+				animation: cta-bottom-animation 4s linear 3s infinite alternate;
 			}
+
+
+			.cta--click--container:hover::after {
+				background-color: rgb(255,255,255, 1);
+			}
+
+			.cta--click--container:hover::before {
+				background-color: rgb(255,255,255, 1);
+			}
+
+			.cta--click--container--two {
+				position: absolute;
+				bottom: 45px;
+				left: 50%;
+				transform: translateX(-50%);
+				background-color: transparent;
+				z-index: 3000;
+				visibility: hidden;
+				display: none;
+			}
+
+			.cta--click--container--two.shown {
+				visibility: visible;
+				display: block;
+			}
+
+			.cta--click--container--two::before {
+				position: absolute;
+				top: 50%;
+				height: 1px;
+				width: 30px;
+				background-color: rgb(255,255,255,0.6);
+				display: block;
+				left: -60px;
+				content: '';
+				/* transform: rotate(180deg); */
+				animation: cta-bottom-animation 4s linear 3s infinite alternate ;
+			}
+
+			.cta--click--container--two::after {
+				position: absolute;
+				top: 50%;
+				height: 1px;
+				width: 30px;
+				background-color: rgb(255,255,255,0.6);
+				display: block;
+				right: -60px;
+				content: '';
+				animation: cta-bottom-animation 4s linear 3s infinite alternate;
+			}
+
+			.cta--click--container--two:hover::after {
+				background-color: rgb(255,255,255, 1);
+			}
+
+			.cta--click--container--two:hover::before {
+				background-color: rgb(255,255,255, 1);
+			}
+
+			.cta--click--container--three {
+				position: absolute;
+				bottom: 45px;
+				left: 50%;
+				transform: translateX(-50%);
+				background-color: transparent;
+				z-index: 3000;
+				visibility: hidden;
+				display: none;
+			}
+
+			.cta--click--container--three.shown {
+				visibility: visible;
+				display: block;
+			}
+
+			.cta--click--container--three::before {
+				position: absolute;
+				top: 50%;
+				height: 1px;
+				width: 30px;
+				background-color: rgb(255,255,255,0.6);
+				display: block;
+				left: -60px;
+				content: '';
+				/* transform: rotate(180deg); */
+				animation: cta-bottom-animation 4s linear 3s infinite alternate ;
+			}
+
+			.cta--click--container--three::after {
+				position: absolute;
+				top: 50%;
+				height: 1px;
+				width: 30px;
+				background-color: rgb(255,255,255,0.6);
+				display: block;
+				right: -60px;
+				content: '';
+				animation: cta-bottom-animation 4s linear 3s infinite alternate;
+			}
+
+			.cta--click--container--three:hover::after {
+				background-color: rgb(255,255,255, 1);
+			}
+
+			.cta--click--container--three:hover::before {
+				background-color: rgb(255,255,255, 1);
+			}
+
 
 			.cta--click--text {
 				position: relative;
 				font-family: Montserrat, sans-serif;
-				color: white;
+				color: rgb(255, 255, 255, 0.9);
 				font-weight: 600;
 				font-size: 11px;
 				background-color: transparent;
 				text-transform: uppercase;
 				letter-spacing: 1px;
 				text-align: center;
+			}
+
+			.cta--click--text:hover {
+				color: rgb(255, 255, 255, 1);
 			}
 
 			.privacy--click--container {
@@ -2196,7 +2309,7 @@
 			}
 
 			.legalPageTextContainer {
-				margin-top: 5%;
+				margin-top: 3%;
 				background-color: transparent;
 				display: flex;
 				align-items: center;
@@ -2271,6 +2384,141 @@
 				text-align: justify;
 			}
 
+			.aboutPageSubTitleContainerI {
+				/* padding-left: 50px;
+				padding-right: 50px;
+				padding-top: 50px;
+				padding-bottom: 50px; */
+				background-color: transparent;
+				display: flex;
+				flex-direction: row;
+				position: relative;
+			}
+
+			.aboutPageLeftContainerII {
+				width: 37%;
+				/* height: 100vh; */
+				background-color: transparent;
+				position: relative;
+				margin-top: 12%;
+			}
+
+			.aboutPageLeftSubContainerII {
+				width: 37%;
+				/* height: 100vh; */
+				background-color: transparent;
+				position: relative;
+			}
+
+			.aboutPageRightContainerII {
+				width: 63%;
+				/* height: 100v; */
+				background-color: transparent;
+				position: relative;
+				margin-top: 12%;
+				display: flex;
+				flex-direction: column;
+				align-items: left;
+				overflow-y: scroll;
+			}
+		
+			.aboutPageSubContainer {
+				width: 100vw;
+				height: 100vh;
+				background-color: transparent;
+				overflow-y: scroll;
+			}
+
+			.aboutPageSubTitleContainerII {
+				background-color: transparent;
+				display: flex;
+				flex-direction: row;
+				position: relative;
+				min-height: 100px;
+				margin-top: 50px;
+			}
+
+			.aboutPageLeftTitle {
+				margin-left: 24%;
+				font-family: Montserrat, sans-serif;
+				color: white;
+				font-size: 4.5rem;
+				display: block;
+				width: auto;
+				background-color: transparent;
+				position: relative;
+				margin-bottom: 50px;
+				text-transform: uppercase;
+				text-align: center;
+				font-weight: 800;
+				height: auto;	
+				margin-top: 0px;		
+			}
+
+			/* .aboutPageLeftTitle::after {
+				content: '';
+				position: absolute;
+				right: 60px;
+				top: 0px;
+				width: 1px;
+				height: 100%;
+				background-color: white;
+			} */
+
+			.aboutPageRightTextContainer {
+				width: 70%;
+			}
+
+
+			.aboutPageMainText {
+				/* margin-left: 7%; */
+				font-family: 'Spectral', freight-big-pro, 'Times', serif;
+				color: white;
+				font-size: 2.8rem;
+				display: block;
+				width: auto;
+				background-color: transparent;
+				position: relative;
+				text-align: justify;
+				font-weight: 500;
+				max-width: 600px;
+				margin-top: 0px;
+			}
+
+			.aboutPageSubText {
+				font-family: Montserrat, sans-serif;
+				color: rgb(255, 255, 255, 0.75);
+				font-size: 1.35rem;
+				display: block;
+				width: auto;
+				background-color: transparent;
+				position: relative;
+				margin-top: 3%;
+				font-weight: 400;
+				max-width: 600px;
+				text-align: justify;
+				line-height: 25px;
+			}
+
+			/* Same as above but doesn't have as much margin on the top */
+			.aboutPageSubTextII {
+				font-family: Montserrat, sans-serif;
+				color: rgb(255, 255, 255, 0.75);
+				font-size: 1.35rem;
+				display: block;
+				width: auto;
+				background-color: transparent;
+				position: relative;
+				margin-top: 1.5%;
+				font-weight: 400;
+				max-width: 600px;
+				text-align: justify;
+				line-height: 25px;
+			}
+
+			
+
+			
 		</style>
 	</head>
 	<body class='tutorial'>
@@ -2457,7 +2705,19 @@
 
 				<div class='cta--click--container' id='cta--click--container'>
 					<p class='cta--click--text' id='cta--click--text'>
-						Click & Hold
+						About
+					</p>
+				</div>
+
+				<div class='cta--click--container--two' id='cta--click--container--two'>
+					<p class='cta--click--text' id='cta--click--text'>
+						Clients
+					</p>
+				</div>
+
+				<div class='cta--click--container--three' id='cta--click--container--three'>
+					<p class='cta--click--text' id='cta--click--text'>
+						Contact
 					</p>
 				</div>
 
@@ -2520,7 +2780,7 @@
 						<div class='address-details'>
 							<div class='address-details-inside'>
 								<p class='address-title'>  Contact </p>
-								<p class='address-street'> hello@samarracapital.com </p>
+								<p class='address-street'> hello@samarra.co </p>
 								<p class='address-street'> +1-917-938-6889 </p>
 							</div>
 						</div>
@@ -2545,7 +2805,7 @@
 						<div class='address-details-right samarra-text'>
 							<div class='address-details-inside samarra-text'>
 								<p class='address-title-right samarra-text'>  Contact</p>
-								<p class='address-street-right samarra-text'> bonjour@samarracapital.com </p>
+								<p class='address-street-right samarra-text'> bonjour@samarra.co </p>
 								<p class='address-street-right samarra-text'> +33 1 45 28 32 24 </p>
 							</div>
 						</div>
@@ -2700,7 +2960,7 @@
 									<div class='address-details-right samarra-text'>
 										<div class='address-details-inside samarra-text'>
 											<p class='address-title-right samarra-text'> New York Head Office </p>
-											<p class='address-street-right samarra-text'> hello@samarracapital.com </p>
+											<p class='address-street-right samarra-text'> hello@samarra.co </p>
 											<p class='address-street-right samarra-text'> 917-938-6889 </p>
 										</div>
 									</div>
@@ -2712,7 +2972,7 @@
 									<div class='address-details-right samarra-text'>
 										<div class='address-details-inside samarra-text'>
 											<p class='address-title-right samarra-text'> Paris Office </p>
-											<p class='address-street-right samarra-text'> bonjour@samarracapital.com </p>
+											<p class='address-street-right samarra-text'> bonjour@samarra.co </p>
 											<p class='address-street-right samarra-text'> +33 1 45 28 32 24 </p>
 										</div>
 									</div>
@@ -2726,16 +2986,16 @@
 				</div>
 				
 				<div class='aboutPageTitleContainer samarra-text' id='aboutPageTitleContainer'>
-					<div class='aboutPageTitleTextContainer samarra-text' >
+					<!-- <div class='aboutPageTitleTextContainer samarra-text' >
 						<h1 class='titleText samarra-text'>
 							Samarra & Co.
 						</h1>
-					</div>
-					<div class='aboutPageDescriptionTextContainer samarra-text'>
-						<!-- <div class='aboutPageLeft samarra-text'> -->
+					</div> -->
+					<!-- <div class='aboutPageDescriptionTextContainer samarra-text'>
+						<div class='aboutPageLeft samarra-text'> -->
 							<!-- <div class='aboutDescriptionLine'>
 							</div> -->
-							<div class='aboutPageLeftDescriptionContainer samarra-text'>
+							<!-- <div class='aboutPageLeftDescriptionContainer samarra-text'>
 								<p class='expertiseTitle samarra-text'>
 									IDENTITY
 								</p>
@@ -2753,14 +3013,14 @@
 									<p class='aboutText samarra-text'>
 										Perfectionism and creativity drive everything we do, from the advertising campaigns that we lead, to the applications that we create, and the companies that we fund.
 									</p>
-								</div>
-						<!-- </div> -->
-						</div>
-						<div class='aboutPageRightDescriptionContainer'>
-							<p class='expertiseTitle samarra-text'>
+								</div> -->
+						<!-- </div>
+						</div> -->
+						<!-- <div class='aboutPageRightDescriptionContainer'> -->
+							<!-- <p class='expertiseTitle samarra-text'>
 								EXPERTISES
 							</p>
-							<div class='expertiseRow'>
+							<div class='expertiseRow'> -->
 								<!-- <div class='expertiseGroup'>
 									<p class='expertiseGroupTitle'>
 										 Strategy 
@@ -2785,7 +3045,7 @@
 									</p>
 								</div> -->
 
-								<div class='expertiseGroup'>
+								<!-- <div class='expertiseGroup'>
 									<p class='expertiseGroupTitle'>
 										Creative & Design
 									</p>
@@ -2811,11 +3071,10 @@
 								</div>
 	
 
-							</div>
+							</div> -->
 							
 
 							<!-- <div class='expertiseRowTwo'>
-
 								<div class='expertiseGroup'>
 									<p class='expertiseGroupTitle'>
 										Technology
@@ -2835,15 +3094,46 @@
 									<p class='expertiseText'>
 										IoT
 									</p>
-
 								</div> -->
-
-							</div>
-
-
-		
+							<!-- </div>
 						</div>
+					</div> -->
 
+					<div class='aboutPageSubContainer'>
+						<div class='aboutPageSubTitleContainerI'>
+							<div class='aboutPageLeftContainerII'>
+								<h2 class='aboutPageLeftTitle'>
+									About
+								</h2>
+							</div>
+							<div class='aboutPageRightContainerII'>
+								<p class='aboutPageMainText'>
+									Samarra & Co. is a creative and digital agency that shapes bespoke experiences.
+								</p>
+								<p class='aboutPageSubText'>
+									Based in New York City, Paris, and Cairo, Samarra & Co. started as an art collective and satirical magazine in Paris back in 2019.
+								</p>
+								<p class='aboutPageSubTextII'>
+									What started as a print publication disseminated through the narrow streets of Paris quickly became a digital one. One flutter of a butterfly's wings later,
+									we decided to expand across the Atlantic Ocean and the Sahara Desert to collaborate with artists, fashion brands, hospitality groups, startups, corporations, and other
+									creative agencies in order to bring their ideas to light.
+								</p>
+								<p class='aboutPageSubTextII'>
+									Because we believe that there's an unmet need for originality and quality engineering in the Middle East, our focus is currently on creating unique artistic experiences 
+									and helping small-to-medium sized startups grow in that region.
+								</p>
+								<p class='aboutPageSubTextII'>
+									Perfectionism and creativity drive everything we do, from the advertising campaigns that we lead, to the applications that we create, and the companies that we fund.
+								</p>
+							</div>
+						</div>
+						<!-- <div class='aboutPageSubTitleContainerII'>
+							<div class='aboutPageLeftSubContainerII'>
+								<h2 class='aboutPageLeftTitle'>
+									Expertises
+								</h2>
+							</div>
+						</div> -->
 					</div>
 				</div>
 
