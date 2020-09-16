@@ -698,7 +698,7 @@ const animateLightning = () => {
 
 // Create and set the different Axes #helper #toDelete
 let axesHelper = new THREE.AxisHelper(1000);
-scene.add(axesHelper);
+// scene.add(axesHelper);
 
 // let mtlLoader = new THREE.TextureLoader();
 // mtlLoader.setTexturePath(RELATIVE_URL);
@@ -3638,6 +3638,8 @@ const toggleMenuAnimation = () => {
             removeAboutPageTransitionButtons();
             // Removes the 'Contact' page button usually shown on Client page
             removeClientPageTransitionButtons();
+            // Remove Contact page related buttons
+            removeContactPageTransitionButtons();
 
         // We're keeping it this way because after we click back on it the only place we should be able
         // to go is the homePage
@@ -4024,7 +4026,19 @@ const toggleContactPage = (pageShown) => {
         // Slower than the time out below it because we need it to appear after the transition is over
 
         setTimeout(() => {
-            document.getElementById('contactPageContainer').classList.toggle('showing')
+            document.getElementById('contactPageContainer').classList.toggle('showing');
+            document.getElementById('contactPageTitleID').classList.add('shown');
+            document.getElementById('contactPageSubTitleID').classList.add('shown');
+            document.getElementById('firstOptionContainer').classList.add('shown');
+            document.getElementById('secondOptionContainer').classList.add('shown');
+            document.getElementById('thirdOptionContainer').classList.add('shown');
+            document.getElementById('samarraContactPageTitle').classList.add('shown');
+            document.getElementById('newYorkOfficeID').classList.add('shown');
+            document.getElementById('newYorkOfficeEmailID').classList.add('shown');
+            document.getElementById('newYorkOfficePhoneID').classList.add('shown');
+            document.getElementById('parisOfficeID').classList.add('shown');
+            document.getElementById('parisOfficeEmailID').classList.add('shown');
+            document.getElementById('parisOfficePhoneID').classList.add('shown');
         }, 1700)
 
         setTimeout(() => {
@@ -4037,6 +4051,18 @@ const toggleContactPage = (pageShown) => {
         // Remove the elements very quickly
         setTimeout(() => {
             document.getElementById('contactPageContainer').classList.toggle('showing')
+            document.getElementById('contactPageTitleID').classList.remove('shown');
+            document.getElementById('contactPageSubTitleID').classList.remove('shown');
+            document.getElementById('firstOptionContainer').classList.remove('shown');
+            document.getElementById('secondOptionContainer').classList.remove('shown');
+            document.getElementById('thirdOptionContainer').classList.remove('shown');
+            document.getElementById('samarraContactPageTitle').classList.remove('shown');
+            document.getElementById('newYorkOfficeID').classList.remove('shown');
+            document.getElementById('newYorkOfficeEmailID').classList.remove('shown');
+            document.getElementById('newYorkOfficePhoneID').classList.remove('shown');
+            document.getElementById('parisOfficeID').classList.remove('shown');
+            document.getElementById('parisOfficeEmailID').classList.remove('shown');
+            document.getElementById('parisOfficePhoneID').classList.remove('shown');
         }, 250);
 
     }
