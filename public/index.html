@@ -1269,6 +1269,7 @@
 				position: relative;
 				margin-top: 3.5%;
 				width: 100vw;
+				height: 45%;
 				display: flex;
 				flex-direction: row;
 				background-color: transparent;
@@ -1286,26 +1287,47 @@
 				width: 50%;
 				display: flex;
 				flex-direction: column;
+				justify-content: center;
 				align-items: center;
 				background-color: transparent;
-			}
-
-
-			.aboutPageRightDescriptionContainer {
-				width: 50%;
-				display: flex;
-				flex-direction: column;
-				background-color: transparent;
-				align-items: center;
 			}
 
 			.faqPageRightDescriptionContainer {
 				width: 50%;
 				display: flex;
 				flex-direction: column;
+				justify-content: center;
 				background-color: transparent;
 				align-items: center;
 			}
+
+			.faqPageTempText {
+				font-family: Montserrat, sans-serif;
+				color: rgb(255, 255, 255, 0.6);
+				font-size: 1.5rem;
+				text-align: center;
+				display: inline-block;
+				background-color: transparent;
+				opacity: 0;
+				transition: opacity 0.2s ease-in 0.9s;
+			}
+
+			#faqPageTempText1.shown {
+				opacity: 1;
+			}
+
+			#faqPageTempText2.shown {
+				opacity: 1;
+			}
+
+			.aboutPageRightDescriptionContainer {
+				width: 50%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+
+
 
 			.aboutPageLeft {
 				width: 50%;
@@ -2148,6 +2170,9 @@
 				background-color: rgb(255,255,255, 1);
 			}
 
+			/* If you change the transition delay here, you also have to change it in 
+			cta--click--container--two--about
+			 */
 			.cta--click--container--two {
 				position: absolute;
 				bottom: 45px;
@@ -2156,12 +2181,14 @@
 				background-color: transparent;
 				z-index: 3000;
 				visibility: hidden;
-				display: none;
+				opacity: 0;
+				transition: opacity 0.4s ease-in 1.25s;
 			}
+
 
 			.cta--click--container--two.shown {
 				visibility: visible;
-				display: block;
+				opacity: 1;
 			}
 
 			.cta--click--container--two::before {
@@ -2197,6 +2224,119 @@
 				background-color: rgb(255,255,255, 1);
 			}
 
+			/* Related to button at top of About page */
+
+			/* If you change the transition delay here, you also have to change it in 
+			cta--click--container--two
+			 */
+			.cta--click--container--two--about {
+				position: absolute;
+				top: 45px;
+				left: 50%;
+				transform: translateX(-50%);
+				background-color: transparent;
+				z-index: 3000;
+				visibility: hidden;
+				opacity: 0;
+				transition: opacity 0.4s ease-in 1.25s;
+			}
+
+			.cta--click--container--two--about.shown {
+				visibility: visible;
+				opacity: 1;
+			}
+
+			.cta--click--container--two--about::before {
+				position: absolute;
+				top: 50%;
+				height: 1px;
+				width: 30px;
+				background-color: rgb(255,255,255,0.6);
+				display: block;
+				left: -60px;
+				content: '';
+				/* transform: rotate(180deg); */
+				animation: cta-bottom-animation 4s linear 3s infinite alternate ;
+			}
+
+			.cta--click--container--two--about::after {
+				position: absolute;
+				top: 50%;
+				height: 1px;
+				width: 30px;
+				background-color: rgb(255,255,255,0.6);
+				display: block;
+				right: -60px;
+				content: '';
+				animation: cta-bottom-animation 4s linear 3s infinite alternate;
+			}
+
+			.cta--click--container--two--about:hover::after {
+				background-color: rgb(255,255,255, 1);
+			}
+
+			.cta--click--container--two--about:hover::before {
+				background-color: rgb(255,255,255, 1);
+			}
+
+			/* End of Button related to About page */
+
+			/* Related to Button at top of Client page */
+
+			.cta--click--container--two--client {
+				position: absolute;
+				top: 45px;
+				left: 50%;
+				transform: translateX(-50%);
+				background-color: transparent;
+				z-index: 3000;
+				visibility: hidden;
+				opacity: 0;
+				transition: opacity 0.4s ease-in 1.25s;
+			}
+
+			.cta--click--container--two--client.shown {
+				visibility: visible;
+				opacity: 1;
+			}
+
+			.cta--click--container--two--client::before {
+				position: absolute;
+				top: 50%;
+				height: 1px;
+				width: 30px;
+				background-color: rgb(255,255,255,0.6);
+				display: block;
+				left: -60px;
+				content: '';
+				/* transform: rotate(180deg); */
+				animation: cta-bottom-animation 4s linear 3s infinite alternate ;
+			}
+
+			.cta--click--container--two--client::after {
+				position: absolute;
+				top: 50%;
+				height: 1px;
+				width: 30px;
+				background-color: rgb(255,255,255,0.6);
+				display: block;
+				right: -60px;
+				content: '';
+				animation: cta-bottom-animation 4s linear 3s infinite alternate;
+			}
+
+			.cta--click--container--two--client:hover::after {
+				background-color: rgb(255,255,255, 1);
+			}
+
+			.cta--click--container--two--client:hover::before {
+				background-color: rgb(255,255,255, 1);
+			}
+
+			/* End */
+
+			/* Button at bottom of Client / FAQ page */
+
 			.cta--click--container--three {
 				position: absolute;
 				bottom: 45px;
@@ -2205,12 +2345,13 @@
 				background-color: transparent;
 				z-index: 3000;
 				visibility: hidden;
-				display: none;
+				opacity: 0;
+				transition: opacity 0.4s ease-in 1.25s;
 			}
 
 			.cta--click--container--three.shown {
 				visibility: visible;
-				display: block;
+				opacity: 1;
 			}
 
 			.cta--click--container--three::before {
@@ -2246,6 +2387,61 @@
 				background-color: rgb(255,255,255, 1);
 			}
 
+			/* END */
+
+			/* Related to button at top of Contact page */
+
+			 .cta--click--container--two--contact {
+				position: absolute;
+				top: 45px;
+				left: 50%;
+				transform: translateX(-50%);
+				background-color: transparent;
+				z-index: 3000;
+				visibility: hidden;
+				opacity: 0;
+				transition: opacity 0.4s ease-in 1.25s;
+			}
+
+			.cta--click--container--two--contact.shown {
+				visibility: visible;
+				opacity: 1;
+			}
+
+			.cta--click--container--two--contact::before {
+				position: absolute;
+				top: 50%;
+				height: 1px;
+				width: 30px;
+				background-color: rgb(255,255,255,0.6);
+				display: block;
+				left: -60px;
+				content: '';
+				/* transform: rotate(180deg); */
+				animation: cta-bottom-animation 4s linear 3s infinite alternate ;
+			}
+
+			.cta--click--container--two--contact::after {
+				position: absolute;
+				top: 50%;
+				height: 1px;
+				width: 30px;
+				background-color: rgb(255,255,255,0.6);
+				display: block;
+				right: -60px;
+				content: '';
+				animation: cta-bottom-animation 4s linear 3s infinite alternate;
+			}
+
+			.cta--click--container--two--contact:hover::after {
+				background-color: rgb(255,255,255, 1);
+			}
+
+			.cta--click--container--two--contact:hover::before {
+				background-color: rgb(255,255,255, 1);
+			}
+
+			/* End of Button related to Contact page */
 
 			.cta--click--text {
 				position: relative;
@@ -2614,6 +2810,7 @@
 				transform: rotate(-90deg);
 			}
 
+
 			#aboutRotatedText.animated {
 				opacity: 1;
 			}
@@ -2621,6 +2818,122 @@
 			.aboutGeneralTextContainer {
 				margin-left: 50px;
 			}
+
+			.pageMainText {
+				font-family: Montserrat, sans-serif;
+				color: white;
+				font-size: 4.5rem;
+				display: inline-block;
+				background-color: transparent;
+				text-transform: uppercase;
+				text-align: center;
+				font-weight: 800;
+				margin-top: 0px;
+				margin-bottom: 0px;
+				position: relative;
+				background-color: transparent;
+				z-index: 5000;
+				opacity: 1;
+			}
+
+			.pageMainTextCharacter {
+				font-family: Montserrat, sans-serif;
+				color: white;
+				font-size: 4.5rem;
+				display: inline-block;
+				background-color: transparent;
+				text-transform: uppercase;
+				text-align: center;
+				font-weight: 800;
+				margin-top: 0px;
+				margin-left: 0px;
+				margin-bottom: 0px;
+				margin-right: -2px;
+				position: relative;
+				background-color: transparent;
+				z-index: 5000;
+			}
+
+			#pageMainTextCharacter1 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.7s;
+			}
+
+			#pageMainTextCharacter2 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.6s;
+			}
+
+			#pageMainTextCharacter3 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.5s;
+			}
+
+			#pageMainTextCharacter4 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.4s;
+			}
+
+			#pageMainTextCharacter5 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.5s;
+			}
+
+			#pageMainTextCharacter6 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.6s;
+			}
+
+			#pageMainTextCharacter7 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.7s;
+			}
+
+
+			#pageMainTextCharacter1.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+			}
+
+			#pageMainTextCharacter2.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+				
+			}
+
+			#pageMainTextCharacter3.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+			}
+
+			#pageMainTextCharacter4.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+				
+			}
+
+			#pageMainTextCharacter5.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+			}
+
+			#pageMainTextCharacter6.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+			}
+
+			#pageMainTextCharacter7.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+			}
+
 
 			
 		</style>
@@ -2807,9 +3120,18 @@
 				</div>
 
 
+				<!-- HOME PAGE - This button gets shown at bottom of Home Page -->
 				<div class='cta--click--container' id='cta--click--container'>
 					<p class='cta--click--text' id='cta--click--text'>
 						About
+					</p>
+				</div>
+
+				<!-- ABOUT PAGE - These two buttons get shown in the About page -->
+
+				<div class='cta--click--container--two--about' id='cta--click--container--two--about'>
+					<p class='cta--click--text' id='cta--click--text'>
+						Home
 					</p>
 				</div>
 
@@ -2819,11 +3141,35 @@
 					</p>
 				</div>
 
+				<!-- END -->
+
+				<!-- CLIENT PAGE - Button gets shown at bottom of Client page -->
+
+				<div class='cta--click--container--two--client' id='cta--click--container--two--client'>
+					<p class='cta--click--text' id='cta--click--text'>
+						About
+					</p>
+				</div>
+
 				<div class='cta--click--container--three' id='cta--click--container--three'>
 					<p class='cta--click--text' id='cta--click--text'>
 						Contact
 					</p>
 				</div>
+
+				<!-- END -->
+
+				<!-- CONTACT PAGE - Button shown at the top of the Contact page -->
+
+				<div class='cta--click--container--two--contact' id='cta--click--container--two--contact'>
+					<p class='cta--click--text' id='cta--click--text'>
+						Contact
+					</p>
+				</div>
+
+				<!-- END -->
+
+				<!-- MAIN MENU PAGE - Button gets shown at bottom of Main Menu to display the legal terms. -->
 
 				<div class='privacy--click--container' id='privacy--click--container'>
 					<p class='privacy--click--text' id='privacy--click--text'>
@@ -3215,7 +3561,7 @@
 											Samarra & Co. is a creative and digital agency that shapes bespoke experiences.
 										</p>
 										<p class='aboutPageSubText' id='aboutPageSubText1' >
-											Based in New York City, Paris, and Cairo, Samarra & Co. started as an art collective and satirical magazine in Paris back in 2019.
+											Based in New York City, Paris, and Cairo, Samarra & Co. started as an art collective and satirical magazine, named 'Vénère mais Courtois', in Paris back in 2019.
 										</p>
 										<p class='aboutPageSubTextII' id='aboutPageSubText2' >
 											What started as a print publication disseminated through the narrow streets of Paris quickly became a digital one. One flutter of a butterfly's wings later,
@@ -3239,18 +3585,44 @@
 
 				<div class='faqPageContainer samarra-text' id='faqPageContainer'>
 					<div class='faqPageTextContainer samarra-text' >
-						<h1 class='titleText samarra-text'>
-							Samarra & Co.
-						</h1>
+						<!-- <h1 class='pageMainText samarra-text'>
+							Clients
+						</h1> -->
+						<div>
+							<span class='pageMainTextCharacter' id='pageMainTextCharacter1'>
+								C
+							</span>
+							<span class='pageMainTextCharacter' id='pageMainTextCharacter2'>
+								L
+							</span>
+							<span class='pageMainTextCharacter' id='pageMainTextCharacter3'>
+								I
+							</span>
+							<span class='pageMainTextCharacter' id='pageMainTextCharacter4'>
+								E
+							</span>
+							<span class='pageMainTextCharacter' id='pageMainTextCharacter5'>
+								N
+							</span>
+							<span class='pageMainTextCharacter' id='pageMainTextCharacter6'>
+								T
+							</span>
+							<span class='pageMainTextCharacter' id='pageMainTextCharacter7'>
+								S
+							</span>
+						</div>
 					</div>
 					<div class='faqPageDescriptionTextContainer samarra-text'>
 							<div class='faqPageLeftDescriptionContainer samarra-text'>
-								
+								<p class='faqPageTempText' id='faqPageTempText1'>
+									New client list currently being updated.
+								</p>
 							</div>
 							<div class='faqPageRightDescriptionContainer'>
-			
+								<p class='faqPageTempText' id='faqPageTempText2'>
+									New client list currently being updated.
+								</p>
 							</div>
-
 					</div>
 				</div>
 

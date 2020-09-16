@@ -41,7 +41,8 @@ let redPinkMarbleBeetleObject;
 
 // Constants that controls the delay at which meshes' visibility gets changed
 let MESH_VISIBILITY_DELAY = 1100;
-let CLICK_HOLD_VISIBILITY_DELAY = 200;
+let DOM_VISIBILITY_SHORT_DELAY = 200;
+let DOM_VISIBILITY_LONG_DELAY = 1700;
 
 let numParticles; // Number of particles that will be set in the Mesh of particles animating the ThreeJS project
 let mouseX, mouseY;
@@ -3082,12 +3083,16 @@ const toggleGeneralPageTransition = (event) => {
             // Make sure we add the Click & Hold Button that's shown on Home/Intro page
             setTimeout(() => {
                 addClickHoldButton();
-            }, CLICK_HOLD_VISIBILITY_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
+            }, DOM_VISIBILITY_SHORT_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
 
             // Removes the legal terms text at bottom of main menu
             removeLegalTermsText();
             // Removes the 'Contact' page button usually shown on Client page
-            removeContactPageClickHoldButton();
+            removeClientPageTransitionButtons();
+            // Remove the 'About' page button usually shown
+            removeAboutPageTransitionButtons();
+            // Remove Contact page related buttons
+            removeContactPageTransitionButtons();
 
 
             changeMenuIcon('')
@@ -3109,15 +3114,17 @@ const toggleGeneralPageTransition = (event) => {
 
             // Make sure we add the 'Client Page' Button that's shown at the bottom of the About page
             setTimeout(() => {
-                addClientPageClickHoldButton();
-            }, CLICK_HOLD_VISIBILITY_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
+                addAboutPageTransitionButtons();
+            }, DOM_VISIBILITY_LONG_DELAY); // 1700 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
 
             // Removes the legal terms text at bottom of main menu
             removeLegalTermsText();
-            // Remove the Click & Hold Button if we're moving away from the Home Page
+            // Remove Home page related buttons
             removeClickHoldButton();
-            // Removes the 'Contact' page button usually shown on Client page
-            removeContactPageClickHoldButton();
+            // Removes Client Page related buttons
+            removeClientPageTransitionButtons();
+            // Remove Contact page related buttons
+            removeContactPageTransitionButtons();
 
             changeMenuIcon('')
             changePageShown('aboutPage');
@@ -3138,17 +3145,19 @@ const toggleGeneralPageTransition = (event) => {
 
             // Make sure we add the Contact Page Button that's shown on Client page
             setTimeout(() => {
-                addContactPageClickHoldButton();
-            }, CLICK_HOLD_VISIBILITY_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
+                addClientPageTransitionButtons();
+            }, DOM_VISIBILITY_LONG_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
 
 
             // Removes the legal terms text at bottom of main menu
             removeLegalTermsText();
 
-            // Remove the Click & Hold Button if we're moving away from the Home Page
+            // Remove Home Page related buttons
             removeClickHoldButton();
-            // Remove the 'Client Page' Button at the bottom of the About page 
-            removeClientPageClickHoldButton();
+            // Remove About page related buttons
+            removeAboutPageTransitionButtons();
+            // Remove Contact page related buttons
+            removeContactPageTransitionButtons();
 
             changeMenuIcon('');
             // The client page is the only one missing elements
@@ -3174,12 +3183,12 @@ const toggleGeneralPageTransition = (event) => {
             // Removes the legal terms text at bottom of main menu
             removeLegalTermsText();
 
-            // Remove the Click & Hold Button if we're moving away from the Home Page
+            // Remove Home page related buttons
             removeClickHoldButton();
-            // Remove the 'Client Page' Button at the bottom of the About page 
-            removeClientPageClickHoldButton();
+            // Remove About page related buttons
+            removeAboutPageTransitionButtons();
             // Removes the 'Contact' page button usually shown on Client page
-            removeContactPageClickHoldButton();
+            removeClientPageTransitionButtons();
 
             changeMenuIcon('');
             changePageShown('contactPage');
@@ -3196,6 +3205,10 @@ const toggleGeneralPageTransition = (event) => {
                 changeMeshVisibility('contactPage');
             }, MESH_VISIBILITY_DELAY);
             // App V.2 - End
+
+            setTimeout(() => {
+                addContactPageTransitionButtons();
+            }, DOM_VISIBILITY_LONG_DELAY)
     
         // This is the menu page
         } else if (id === 'menuElementFive') {
@@ -3203,14 +3216,16 @@ const toggleGeneralPageTransition = (event) => {
             // Adds the Legal Terms text
             setTimeout(() => {
                 addLegalTermsText();
-            }, CLICK_HOLD_VISIBILITY_DELAY);
+            }, DOM_VISIBILITY_SHORT_DELAY);
 
             // Remove the Click & Hold Button if we're moving away from the Home Page
             removeClickHoldButton();
-            // Remove the 'Client Page' Button at the bottom of the About page 
-            removeClientPageClickHoldButton();
-            // Removes the 'Contact' page button usually shown on Client page
-            removeContactPageClickHoldButton();
+            // Remove About page related buttons
+            removeAboutPageTransitionButtons();
+            // Removes Client page related buttons
+            removeClientPageTransitionButtons();
+            // Remove Contact page related buttons
+            removeContactPageTransitionButtons();
 
             console.log('Running towards Menu Page again')
             // if (currentMenuIcon !== 'menuIcon') {
@@ -3230,6 +3245,7 @@ const toggleGeneralPageTransition = (event) => {
             }, MESH_VISIBILITY_DELAY);
             // App V.2 - End
     
+        // Legal Page shown
         } else if (id === 'menuElementSix')  {
 
             console.log('Menu Element Six');
@@ -3243,9 +3259,9 @@ const toggleGeneralPageTransition = (event) => {
             // Remove the Click & Hold Button if we're moving away from the Home Page
             removeClickHoldButton();
             // Remove the 'Client Page' Button at the bottom of the About page 
-            removeClientPageClickHoldButton();
+            removeAboutPageTransitionButtons();
             // Removes the 'Contact' page button usually shown on Client page
-            removeContactPageClickHoldButton();
+            removeClientPageTransitionButtons();
             // Makes the top right button look like a Menu button
             changeMenuIcon('');
             
@@ -3301,6 +3317,31 @@ const goToClientPageFromAbout = () => {
 
 }
 
+// Same as above but goes to About page from Client page
+
+const goToHomeFromAbout = () => {
+
+    toggleGeneralPageTransition('homePage');
+
+}
+
+// Same as above - Goes to the About page from the Client page - Event triggered by the button at the 
+// top of the Client page
+
+const goToAboutFromClient = () => {
+
+    toggleGeneralPageTransition('aboutPage');
+
+}
+
+// Enough said.
+
+const goToClientFromContact = () => {
+
+    toggleGeneralPageTransition('faqPage');
+
+}
+
 // Same as above function but goes to Contact page from Client page
 
 const goToContactPageFromClient = () => {
@@ -3332,43 +3373,74 @@ const addClickHoldButton = () => {
 
 }
 
-
 // Function which will add the 'Clients Page' message so that it doesn't appear in any other page but the About page
 // - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
 // About Page Related
-const  addClientPageClickHoldButton= () => {
+const  addAboutPageTransitionButtons= () => {
 
     let clickHoldButton = document.getElementById('cta--click--container--two');
     clickHoldButton.classList.add('shown');
+
+    let clickHoldButtonTwo = document.getElementById('cta--click--container--two--about');
+    clickHoldButtonTwo.classList.add('shown');
 
 }
 
 // Function that does the opposite of the above function, it makes the 'Client Page' Button invisible whenever the user is on the About Page
 // - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
 // About Page Releated
-const removeClientPageClickHoldButton = () => {
+const removeAboutPageTransitionButtons = () => {
 
     let clickHoldButton = document.getElementById('cta--click--container--two');
     clickHoldButton.classList.remove('shown');
+
+    let clickHoldButtonTwo = document.getElementById('cta--click--container--two--about');
+    clickHoldButtonTwo.classList.remove('shown');
 
 }
 
 // Function which will add the 'Contact Page' message so that it doesn't appear in any other page but the Client page
 // - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
 // Client Page Related
-const  addContactPageClickHoldButton= () => {
+const  addClientPageTransitionButtons= () => {
 
     let clickHoldButton = document.getElementById('cta--click--container--three');
     clickHoldButton.classList.add('shown');
+
+    let clickHoldButtonTwo = document.getElementById('cta--click--container--two--client');
+    clickHoldButtonTwo.classList.add('shown');
 
 }
 
 // Function that does the opposite of the above function, it makes the 'Contact Page' Button invisible whenever the user is on the Client Page
 // - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
 // Client Page Releated
-const removeContactPageClickHoldButton = () => {
+const removeClientPageTransitionButtons = () => {
 
     let clickHoldButton = document.getElementById('cta--click--container--three');
+    clickHoldButton.classList.remove('shown');
+
+    let clickHoldButtonTwo = document.getElementById('cta--click--container--two--client');
+    clickHoldButtonTwo.classList.remove('shown');
+
+}
+
+// Function which will add the 'Client Page' button so that it doesn't appear in any other page but the Contact page
+// - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
+// Contact Page Related
+const  addContactPageTransitionButtons= () => {
+
+    let clickHoldButton = document.getElementById('cta--click--container--two--contact');
+    clickHoldButton.classList.add('shown');
+
+}
+
+// Function that does the opposite of the above function, it makes the 'Client Page' Button invisible whenever the user is on the Contact Page
+// - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
+// Contact Page Releated
+const removeContactPageTransitionButtons = () => {
+
+    let clickHoldButton = document.getElementById('cta--click--container--two--contact');
     clickHoldButton.classList.remove('shown');
 
 }
@@ -3532,7 +3604,7 @@ const toggleMenuAnimation = () => {
             // Shows the Legal Terms text at the bottom of the page
             setTimeout(() => {
                 addLegalTermsText();
-            }, CLICK_HOLD_VISIBILITY_DELAY);
+            }, DOM_VISIBILITY_SHORT_DELAY);
 
             // Makes the menu page visible
             // setTextAnimationTimers('menuPage');
@@ -3563,9 +3635,9 @@ const toggleMenuAnimation = () => {
             // Remove the Click & Hold / About Page Button that's showing in the Home Page
             removeClickHoldButton();
             // Remove the 'Client Page' button that's showing on the About Page
-            removeClientPageClickHoldButton();
+            removeAboutPageTransitionButtons();
             // Removes the 'Contact' page button usually shown on Client page
-            removeContactPageClickHoldButton();
+            removeClientPageTransitionButtons();
 
         // We're keeping it this way because after we click back on it the only place we should be able
         // to go is the homePage
@@ -3596,7 +3668,7 @@ const toggleMenuAnimation = () => {
 
             setTimeout(() => {
                 addClickHoldButton();
-            }, CLICK_HOLD_VISIBILITY_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
+            }, DOM_VISIBILITY_SHORT_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
 
 
         } else if (pageShown === 'aboutPage') {
@@ -3906,13 +3978,32 @@ const toggleFAQPage = (pageShown) => {
     if (pageShown === 'faqPage') {
 
         setTimeout(() => {
-            document.getElementById('faqPageContainer').classList.add('showing')
+            document.getElementById('faqPageContainer').classList.add('showing');
+            document.getElementById('pageMainTextCharacter1').classList.add('animated');
+            document.getElementById('pageMainTextCharacter2').classList.add('animated');
+            document.getElementById('pageMainTextCharacter3').classList.add('animated');
+            document.getElementById('pageMainTextCharacter4').classList.add('animated');
+            document.getElementById('pageMainTextCharacter5').classList.add('animated');
+            document.getElementById('pageMainTextCharacter6').classList.add('animated');
+            document.getElementById('pageMainTextCharacter7').classList.add('animated');
+            document.getElementById('faqPageTempText1').classList.add('shown');
+            document.getElementById('faqPageTempText2').classList.add('shown');
+
         }, 1700);
 
     } else if (pageShown !== 'faqPage') {
 
         setTimeout(() => {
-            document.getElementById('faqPageContainer').classList.remove('showing')
+            document.getElementById('faqPageContainer').classList.remove('showing');
+            document.getElementById('pageMainTextCharacter1').classList.remove('animated');
+            document.getElementById('pageMainTextCharacter2').classList.remove('animated');
+            document.getElementById('pageMainTextCharacter3').classList.remove('animated');
+            document.getElementById('pageMainTextCharacter4').classList.remove('animated');
+            document.getElementById('pageMainTextCharacter5').classList.remove('animated');
+            document.getElementById('pageMainTextCharacter6').classList.remove('animated');
+            document.getElementById('pageMainTextCharacter7').classList.remove('animated');
+            document.getElementById('faqPageTempText1').classList.remove('shown');
+            document.getElementById('faqPageTempText2').classList.remove('shown');
         }, 250);
 
     }
@@ -5036,6 +5127,9 @@ const initializeEventListeners = () => {
     // document.getElementById('cta--click--container').addEventListener('mouseenter', modifyNoisyCircle); // Not currently used
     document.getElementById('cta--click--container').addEventListener('click', goToAboutPageFromHome);
     document.getElementById('cta--click--container--two').addEventListener('click', goToClientPageFromAbout);
+    document.getElementById('cta--click--container--two--about').addEventListener('click', goToHomeFromAbout);
+    document.getElementById('cta--click--container--two--client').addEventListener('click', goToAboutFromClient);
+    document.getElementById('cta--click--container--two--contact').addEventListener('click', goToClientFromContact);
     document.getElementById('cta--click--container--three').addEventListener('click', goToContactPageFromClient);
     document.getElementById('privacy--click--text').addEventListener('click', showLegalTermsPage);
     // document.getElementById('loading-page').addEventListener('animationend', loadingPageEndTransitions)
