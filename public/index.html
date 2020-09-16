@@ -2502,6 +2502,17 @@
 				font-weight: 500;
 				max-width: 600px;
 				margin-top: 0px;
+				opacity: 0;
+			}
+
+			#aboutPageMainText {
+				transform: translateY(15px);
+				transition: all 0.2s ease-in 0.5s;
+			}
+
+			#aboutPageMainText.animated {
+				transform: translateY(-15px);
+				opacity: 1;
 			}
 
 			.aboutPageSubText {
@@ -2517,7 +2528,53 @@
 				max-width: 600px;
 				text-align: justify;
 				line-height: 25px;
+				/* opacity: 1; */
 			}
+
+			#aboutPageSubText1 {
+				transform: translateY(15px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.6s;
+			}
+
+			#aboutPageSubText2 {
+				transform: translateY(15px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.75s;
+			}
+
+			#aboutPageSubText3 {
+				transform: translateY(15px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.9s;
+			}
+
+			#aboutPageSubText4 {
+				transform: translateY(15px);
+				opacity: 0;
+				transition: all 0.2s ease-in 1.05s;
+			}
+
+			#aboutPageSubText1.animated {
+				opacity: 1;
+				transform: translateY(-15px);
+			}
+
+			#aboutPageSubText2.animated {
+				opacity: 1;
+				transform: translateY(-15px);
+			}
+
+			#aboutPageSubText3.animated {
+				opacity: 1;
+				transform: translateY(-15px);
+			}
+
+			#aboutPageSubText4.animated {
+				opacity: 1;
+				transform: translateY(-15px);
+			}
+
 
 			/* Same as above but doesn't have as much margin on the top */
 			.aboutPageSubTextII {
@@ -2550,9 +2607,15 @@
 				position: relative;
 				top: 30;
 				left: -150px;
-				transform: rotate(-90deg);
 				background-color: transparent;
 				z-index: 5000;
+				opacity: 0;
+				transition: opacity 0.2s ease-in 0.4s;
+				transform: rotate(-90deg);
+			}
+
+			#aboutRotatedText.animated {
+				opacity: 1;
 			}
 			
 			.aboutGeneralTextContainer {
@@ -3144,26 +3207,26 @@
 						<div class='aboutPageSubTitleContainerI'>
 
 							<div class='aboutPageExperimentalContainer' id='aboutPageExperimentalContainer'>
-									<p class='aboutRotatedText'>
+									<p class='aboutRotatedText' id='aboutRotatedText'>
 										About
 									</p>
 									<div class='aboutGeneralTextContainer'>
-										<p class='aboutPageMainText'>
+										<p class='aboutPageMainText' id='aboutPageMainText'>
 											Samarra & Co. is a creative and digital agency that shapes bespoke experiences.
 										</p>
-										<p class='aboutPageSubText'>
+										<p class='aboutPageSubText' id='aboutPageSubText1' >
 											Based in New York City, Paris, and Cairo, Samarra & Co. started as an art collective and satirical magazine in Paris back in 2019.
 										</p>
-										<p class='aboutPageSubTextII'>
+										<p class='aboutPageSubTextII' id='aboutPageSubText2' >
 											What started as a print publication disseminated through the narrow streets of Paris quickly became a digital one. One flutter of a butterfly's wings later,
 											we decided to expand across the Atlantic Ocean and the Sahara Desert to collaborate with artists, fashion brands, hospitality groups, startups, corporations, and other
 											creative agencies in order to bring their ideas to light.
 										</p>
-										<p class='aboutPageSubTextII'>
+										<p class='aboutPageSubTextII' id='aboutPageSubText3' >
 											Because we believe that there's an unmet need for originality and quality engineering in the Middle East, our focus is currently on creating unique artistic experiences 
 											and helping small-to-medium sized startups grow in that region.
 										</p>
-										<p class='aboutPageSubTextII'>
+										<p class='aboutPageSubTextII' id='aboutPageSubText4' >
 											Perfectionism and creativity drive everything we do, from the advertising campaigns that we lead, to the applications that we create, and the companies that we fund.
 										</p>
 									</div>

@@ -8,6 +8,9 @@ let beetleObject,
     light1, 
     clock;
 
+// Raycaster-related variables
+let raycaster, raycasterMouse;
+
 // Other Beetle Objects
 let iceBeetleObject;
 let greyBeetleObject;
@@ -346,20 +349,6 @@ const switchContent = () => {
     // DOM.links.
 }
 
-// --------------------------------------------------------------------------------
-
-// Water effect
-
-// let water = new Water();
-
-// console.log('Water is ', water);
-
-
-
-
-// --------------------------------------------------------------------------------
-
-
 
 
 // Web Audio API related variables
@@ -453,7 +442,20 @@ document.body.appendChild(stats.domElement);
 clock = new THREE.Clock();
 
 
-// ------------------------------------------------
+// --------------------------------------------------------------------------------
+
+// RAYCASTER-RELATED FUNCTIONS
+
+const initializeRaycaster = () => {
+    raycaster = new THREE.Raycaster();
+    raycasterMouse = new THREE.Vector2();
+}
+
+initializeRaycaster();
+
+// --------------------------------------------------------------------------------
+
+
 
 /*
  * Post Processing part of the code
@@ -1681,6 +1683,17 @@ const onDocumentMouseMove = (event) => {
 }
 
 
+// Tracks Normalized Mouse Move
+
+const onNormalizedMouseMove = (event) => {
+
+    console.log('Normalized Mouse Move')
+	raycasterMouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	raycasterMouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    
+}
+
+
 
 
 const onMouseDown = () => {
@@ -1753,6 +1766,9 @@ const removeCurrentBeetleObject = () => {
 document.addEventListener( 'mousedown', onMouseDown, false );
 // Mouse move used here in order to track the mouse position within the page
 document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+document.addEventListener( 'mousemove', onNormalizedMouseMove, false );
+
+
 
 // Event listener for the menu click
 
@@ -3846,20 +3862,34 @@ const toggleAboutPage = (pageShown) => {
     
     console.log('TOGGLING THE ABOUT PAGE FINALLY ')
 
+    // If we are moving towards the About Page and landing on it
     if (pageShown === 'aboutPage') {
 
         // Add the elements towards the end of the transition
         // Slower than the time out below
         setTimeout(() => {
-            document.getElementById('aboutPageTitleContainer').classList.toggle('showing')
+            document.getElementById('aboutPageTitleContainer').classList.toggle('showing');
+            document.getElementById('aboutPageMainText').classList.add('animated');
+            document.getElementById('aboutRotatedText').classList.add('animated');
+            document.getElementById('aboutPageSubText1').classList.add('animated');
+            document.getElementById('aboutPageSubText2').classList.add('animated');
+            document.getElementById('aboutPageSubText3').classList.add('animated');
+            document.getElementById('aboutPageSubText4').classList.add('animated');
         }, 1700);
 
+    // If we are moving away from the About page and staying away from it
     } else if (pageShown !== 'aboutPage') {
 
-        console.log('Now we ARE HIDING THE ACTUAL ABOUT PAGE')
         // Remove the elements very quickly
         setTimeout(() => {
-            document.getElementById('aboutPageTitleContainer').classList.toggle('showing')
+            document.getElementById('aboutPageTitleContainer').classList.toggle('showing');
+            document.getElementById('aboutPageMainText').classList.remove('animated');
+            document.getElementById('aboutRotatedText').classList.remove('animated');
+            document.getElementById('aboutPageSubText1').classList.remove('animated');
+            document.getElementById('aboutPageSubText2').classList.remove('animated');
+            document.getElementById('aboutPageSubText3').classList.remove('animated');
+            document.getElementById('aboutPageSubText4').classList.remove('animated');
+            
         }, 250);
 
     }
@@ -5256,11 +5286,48 @@ let animate = function () {
         particlesMesh.position.z += (mouseY + particlesMesh.position.y) * 0.1;
     }
 
+    // About Page - Related Effect
+
+    // For now, the plane will only slightly rotate from left to right
+    if (pageShown === 'aboutPage') {
+        blackRockPlaneMesh.rotation.y = mouseX / 200;
+
+        // if (mouseY > 1 || mouseY < -1) {
+        //     console.log('Mouse Y divided is', mouseY / 2000)
+        //     blackRockPlaneMesh.rotation.x = (mouseY / 2000);
+        // }
+
+    }
+    // Test
+    // console.log('Current page shown is', pageShown);
+    // console.log('Mouse X', mouseX, ' and Mouse Y', mouseY);
 
     // Update Controls
     // Commented out since we're not using #controls anymore
 
     controls.update();
+
+    // Raycaster related code
+
+    // Update the picking ray with the camera and mouse position
+	raycaster.setFromCamera( raycasterMouse, camera );
+
+	// calculate objects intersecting the picking ray
+	var intersects = raycaster.intersectObjects( scene.children );
+
+	for ( var i = 0; i < intersects.length; i++ ) {
+
+        // console.log('Intersects', intersects);
+		// intersects[ i ].object.material.color.set( 0xff0000 );
+
+    }
+    
+    let secondIntersect = raycaster.intersectObject(blackMarbleBeetleObject);
+
+    for ( var i = 0; i < secondIntersect.length; i++ ) {
+        console.log('Second intersects', secondIntersect);
+    }
+
 
     // Update stats
     stats.update();
