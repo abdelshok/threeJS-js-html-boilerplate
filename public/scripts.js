@@ -4309,12 +4309,15 @@ const myRepeatFunction = (event) => {
     console.log('Inner HTML', elapsedTime);
 }
 
+// GLOBAL VARIABLE
+
 const showContactMenu = (event) => {
+
+    formShowing = !formShowing;
 
     // First we set the formShowing boolean to true - we use it later in the hideForm but more importantly
     // in the transition-related events that will reset the transition delays for the two divs to be their
     // initial value
-    formShowing = true;
 
     console.log('Contact menu #contactMenu is supposed to be shown');
     console.log('Event fired is ', event);
@@ -4336,11 +4339,36 @@ const showContactMenu = (event) => {
         formSubTitleElement.innerHTML = "Tell us more about your project and how we can help.";
     }
 
-    // We hide the general options and the initial presentation of the contact page 
-    document.getElementById('contactPageOptions').classList.toggle('hidden');
+    if (formShowing === true) {
+        // We hide the general options and the initial presentation of the contact page 
+        document.getElementById('contactPageOptions').classList.add('hidden');
 
-    // We display the form associated to the question / option that is clicked by the user
-    document.getElementById('contactPageOptionsTwo').classList.toggle('showing');
+        // Remove the shown class from all the correct DOM elements
+        // document.getElementById('contactPageTitleID').classList.remove('shown');
+        // document.getElementById('contactPageSubTitleID').classList.remove('shown');
+        // document.getElementById('firstOptionContainer').classList.remove('shown');
+        // document.getElementById('secondOptionContainer').classList.remove('shown');
+        // document.getElementById('thirdOptionContainer').classList.remove('shown');
+        // document.getElementById('samarraContactPageTitle').classList.remove('shown');
+
+        // We display the form associated to the question / option that is clicked by the user
+        document.getElementById('contactPageOptionsTwo').classList.add('showing');
+
+    } else if (formShowing === false) {
+
+        document.getElementById('contactPageOptions').classList.remove('hidden');
+
+        // Add 'shown' class to all the targeted elements so that the animations display properly
+        // document.getElementById('contactPageTitleID').classList.add('shown');
+        // document.getElementById('contactPageSubTitleID').classList.add('shown');
+        // document.getElementById('firstOptionContainer').classList.add('shown');
+        // document.getElementById('secondOptionContainer').classList.add('shown');
+        // document.getElementById('thirdOptionContainer').classList.add('shown');
+        // document.getElementById('samarraContactPageTitle').classList.add('shown');
+        
+        document.getElementById('contactPageOptionsTwo').classList.remove('showing');
+
+    }
 }
 
 // #form #contactPage
