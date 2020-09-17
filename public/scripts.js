@@ -1767,7 +1767,7 @@ const removeCurrentBeetleObject = () => {
 document.addEventListener( 'mousedown', onMouseDown, false );
 // Mouse move used here in order to track the mouse position within the page
 document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-document.addEventListener( 'mousemove', onNormalizedMouseMove, false );
+// document.addEventListener( 'mousemove', onNormalizedMouseMove, false );
 
 
 
@@ -3216,7 +3216,7 @@ const toggleGeneralPageTransition = (event) => {
             // Adds the Legal Terms text
             setTimeout(() => {
                 addLegalTermsText();
-            }, DOM_VISIBILITY_SHORT_DELAY);
+            }, DOM_VISIBILITY_LONG_DELAY);
 
             // Remove the Click & Hold Button if we're moving away from the Home Page
             removeClickHoldButton();
@@ -3465,6 +3465,83 @@ const removeLegalTermsText = () => {
     let legalTermsText = document.getElementById('privacy--click--container');
     legalTermsText.classList.remove('shown');
 
+    // Change Delay Durations to make sure it disappears quickly
+
+    document.getElementById('mainMenuLegalTextCharacter1').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter2').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter3').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter4').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter5').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter6').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter7').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter8').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter9').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter10').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter11').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter12').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter13').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter14').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter15').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter16').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter17').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter18').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter19').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter20').style.transitionDelay = '0s';
+    document.getElementById('mainMenuLegalTextCharacter21').style.transitionDelay = '0s';
+
+    // Toggle the class
+
+    document.getElementById('mainMenuLegalTextCharacter1').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter2').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter3').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter4').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter5').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter6').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter7').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter8').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter9').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter10').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter11').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter12').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter13').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter14').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter15').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter16').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter17').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter18').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter19').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter20').classList.remove('shown');
+    document.getElementById('mainMenuLegalTextCharacter21').classList.remove('shown');
+
+
+    // Reset the delays of the different spans
+
+    setTimeout(() => {
+        let delay = 0.1;
+        let startDelay = 1.3
+        document.getElementById('mainMenuLegalTextCharacter1').style.transitionDelay = '2.4s';
+        document.getElementById('mainMenuLegalTextCharacter2').style.transitionDelay = '2.3s';
+        document.getElementById('mainMenuLegalTextCharacter3').style.transitionDelay = '2.2s';
+        document.getElementById('mainMenuLegalTextCharacter4').style.transitionDelay = '2.1s';
+        document.getElementById('mainMenuLegalTextCharacter5').style.transitionDelay = '2s';
+        document.getElementById('mainMenuLegalTextCharacter6').style.transitionDelay = '1.9s';
+        document.getElementById('mainMenuLegalTextCharacter7').style.transitionDelay = '1.8s';
+        document.getElementById('mainMenuLegalTextCharacter8').style.transitionDelay = '1.7s';
+        document.getElementById('mainMenuLegalTextCharacter9').style.transitionDelay = '1.5s';
+        document.getElementById('mainMenuLegalTextCharacter10').style.transitionDelay = '1.4s';
+        document.getElementById('mainMenuLegalTextCharacter11').style.transitionDelay = '1.3s';
+        document.getElementById('mainMenuLegalTextCharacter12').style.transitionDelay = '1.4s';
+        document.getElementById('mainMenuLegalTextCharacter13').style.transitionDelay = '1.5s';
+        document.getElementById('mainMenuLegalTextCharacter14').style.transitionDelay = '1.7s';
+        document.getElementById('mainMenuLegalTextCharacter15').style.transitionDelay = '1.8s';
+        document.getElementById('mainMenuLegalTextCharacter16').style.transitionDelay = '1.9s';
+        document.getElementById('mainMenuLegalTextCharacter17').style.transitionDelay = '2s';
+        document.getElementById('mainMenuLegalTextCharacter18').style.transitionDelay = '2.1s';
+        document.getElementById('mainMenuLegalTextCharacter19').style.transitionDelay = '2.2s';
+        document.getElementById('mainMenuLegalTextCharacter20').style.transitionDelay = '2.3s';
+        document.getElementById('mainMenuLegalTextCharacter21').style.transitionDelay = '2.4s';
+    }, 2000)
+
 }
 
 
@@ -3475,6 +3552,28 @@ const addLegalTermsText = () => {
 
     let legalTermsText = document.getElementById('privacy--click--container');
     legalTermsText.classList.add('shown');
+
+    document.getElementById('mainMenuLegalTextCharacter1').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter2').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter3').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter4').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter5').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter6').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter7').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter8').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter9').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter10').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter11').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter12').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter13').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter14').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter15').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter16').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter17').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter18').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter19').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter20').classList.add('shown');
+    document.getElementById('mainMenuLegalTextCharacter21').classList.add('shown');
 
 }
 
@@ -3604,7 +3703,7 @@ const toggleMenuAnimation = () => {
             // Shows the Legal Terms text at the bottom of the page
             setTimeout(() => {
                 addLegalTermsText();
-            }, DOM_VISIBILITY_SHORT_DELAY);
+            }, DOM_VISIBILITY_LONG_DELAY);
 
             // Makes the menu page visible
             // setTextAnimationTimers('menuPage');
@@ -3833,6 +3932,8 @@ const toggleMenuPage = (pageShown) => {
 
         setTimeout(() => {
 
+            // Menu Elements are the options shown to the user to navigate through the website
+            // In this case, 'Home', 'About', 'Clients', and 'Contact'
             document.getElementById('menuElements').style.visibility = 'visible';
             document.getElementById('menuElements').style.visibility = 'visible';
             document.getElementById('menuElementOne').style.visibility = 'visible';
@@ -4033,9 +4134,9 @@ const toggleContactPage = (pageShown) => {
             document.getElementById('secondOptionContainer').classList.add('shown');
             document.getElementById('thirdOptionContainer').classList.add('shown');
             document.getElementById('samarraContactPageTitle').classList.add('shown');
-            document.getElementById('newYorkOfficeID').classList.add('shown');
-            document.getElementById('newYorkOfficeEmailID').classList.add('shown');
-            document.getElementById('newYorkOfficePhoneID').classList.add('shown');
+            document.getElementById('contactPageNewYorkOfficeID').classList.add('shown');
+            document.getElementById('contactPageNewYorkOfficeEmailID').classList.add('shown');
+            document.getElementById('contactPageNewYorkOfficePhoneID').classList.add('shown');
             document.getElementById('parisOfficeID').classList.add('shown');
             document.getElementById('parisOfficeEmailID').classList.add('shown');
             document.getElementById('parisOfficePhoneID').classList.add('shown');
@@ -4057,9 +4158,9 @@ const toggleContactPage = (pageShown) => {
             document.getElementById('secondOptionContainer').classList.remove('shown');
             document.getElementById('thirdOptionContainer').classList.remove('shown');
             document.getElementById('samarraContactPageTitle').classList.remove('shown');
-            document.getElementById('newYorkOfficeID').classList.remove('shown');
-            document.getElementById('newYorkOfficeEmailID').classList.remove('shown');
-            document.getElementById('newYorkOfficePhoneID').classList.remove('shown');
+            document.getElementById('contactPageNewYorkOfficeID').classList.remove('shown');
+            document.getElementById('contactPageNewYorkOfficeEmailID').classList.remove('shown');
+            document.getElementById('contactPageNewYorkOfficePhoneID').classList.remove('shown');
             document.getElementById('parisOfficeID').classList.remove('shown');
             document.getElementById('parisOfficeEmailID').classList.remove('shown');
             document.getElementById('parisOfficePhoneID').classList.remove('shown');
@@ -4239,6 +4340,18 @@ const toggleAddressElements = (pageShown) => {
             setTimeout(() => {
                 document.getElementById('address-information-left').classList.toggle('showing');
                 document.getElementById('address-information-right').classList.toggle('showing');
+                document.getElementById('menuPageNewYorkOfficeID1').classList.add('shown');
+                document.getElementById('menuPageNewYorkOfficeStreetID').classList.add('shown');
+                document.getElementById('menuPageNewYorkOfficeZipID').classList.add('shown');
+                document.getElementById('menuPageNewYorkOfficeID2').classList.add('shown');
+                document.getElementById('menuPageNewYorkOfficeEmailID').classList.add('shown');
+                document.getElementById('menuPageNewYorkOfficePhoneID').classList.add('shown');
+                document.getElementById('menuPageParisOfficeID1').classList.add('shown');
+                document.getElementById('menuPageParisOfficeStreetID').classList.add('shown');
+                document.getElementById('menuPageParisOfficeZipID').classList.add('shown');
+                document.getElementById('menuPageParisOfficeID2').classList.add('shown');
+                document.getElementById('menuPageParisOfficeEmailID').classList.add('shown');
+                document.getElementById('menuPageParisOfficePhoneID').classList.add('shown');
 
             }, 1700)
 
@@ -4249,6 +4362,18 @@ const toggleAddressElements = (pageShown) => {
             setTimeout(() => {
                 document.getElementById('address-information-left').classList.toggle('showing');
                 document.getElementById('address-information-right').classList.toggle('showing');
+                document.getElementById('menuPageNewYorkOfficeID1').classList.remove('shown');
+                document.getElementById('menuPageNewYorkOfficeStreetID').classList.remove('shown');
+                document.getElementById('menuPageNewYorkOfficeZipID').classList.remove('shown');
+                document.getElementById('menuPageNewYorkOfficeID2').classList.remove('shown');
+                document.getElementById('menuPageNewYorkOfficeEmailID').classList.remove('shown');
+                document.getElementById('menuPageNewYorkOfficePhoneID').classList.remove('shown');
+                document.getElementById('menuPageParisOfficeID1').classList.remove('shown');
+                document.getElementById('menuPageParisOfficeStreetID').classList.remove('shown');
+                document.getElementById('menuPageParisOfficeZipID').classList.remove('shown');
+                document.getElementById('menuPageParisOfficeID2').classList.remove('shown');
+                document.getElementById('menuPageParisOfficeEmailID').classList.remove('shown');
+                document.getElementById('menuPageParisOfficePhoneID').classList.remove('shown');
 
             }, 200)
 
@@ -4568,6 +4693,22 @@ const clearAllInputs = () => {
     phoneNumberTextMoved = false;
     companyNameTextMoved = false;
     emailTextMoved = false;
+
+    // Clear the color of the inputs
+
+    lastNameInput.classList.remove('inputError');
+    firstNameInput.classList.remove('inputError');
+    emailInput.classList.remove('inputError');
+    phoneNumberInput.classList.remove('inputError');
+    companyNameInput.classList.remove('inputError');
+    messageInput.classList.remove('inputError');
+
+
+    lastNameActualInput.classList.remove('inputError');
+    firstNameActualInput.classList.remove('inputError');
+    emailActualInput.classList.remove('inputError');
+    phoneNumberActualInput.classList.remove('inputError');
+    companyNameActualInput.classList.remove('inputError');
 
 }
 
@@ -5185,7 +5326,7 @@ const initializeEventListeners = () => {
     document.getElementById('cta--click--container--two--client').addEventListener('click', goToAboutFromClient);
     document.getElementById('cta--click--container--two--contact').addEventListener('click', goToClientFromContact);
     document.getElementById('cta--click--container--three').addEventListener('click', goToContactPageFromClient);
-    document.getElementById('privacy--click--text').addEventListener('click', showLegalTermsPage);
+    document.getElementById('privacy--click--container').addEventListener('click', showLegalTermsPage);
     // document.getElementById('loading-page').addEventListener('animationend', loadingPageEndTransitions)
     // document.getElementById('loading-page').addEventListener('click', testClick);
 

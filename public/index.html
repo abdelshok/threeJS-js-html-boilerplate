@@ -33,6 +33,9 @@
 				font-size: 62.5%;
 			}
 
+			:root {
+				--legal-text-delay: 0.1s;
+			}
 
 			/* #toThink #toDo: user selection on the contents within the body is actually prevented. Should you keep it? */
 			body { 
@@ -1046,6 +1049,140 @@
 			#address-line-right-two-zero.animated {
 				animation: slideContactLineBar 0.45s ease-in 2.1s forwards;
 			}
+
+			/* Animation for New York Contact Info on Menu Page  */
+
+			#menuPageNewYorkOfficeID1 {
+				opacity: 0;
+				transition: opacity 0.15s ease-in 0.4s;
+			}
+
+			#menuPageNewYorkOfficeStreetID {
+				opacity: 0;
+				transition: opacity 0.15s ease-in 0.55s;
+			}
+
+
+			#menuPageNewYorkOfficeZipID {
+				opacity: 0;
+				transition: opacity 0.15s ease-in 0.7s;
+			}
+
+
+			#menuPageNewYorkOfficeID2 {
+				opacity: 0;
+				transition: opacity 0.15s ease-in 0.85s;
+			}
+
+
+			#menuPageNewYorkOfficeEmailID {
+				opacity: 0;
+				transition: opacity 0.15s ease-in 1s;
+			}
+
+
+			#menuPageNewYorkOfficePhoneID {
+				opacity: 0;
+				transition: opacity 0.15s ease-in 1.15s;
+			}
+
+
+			#menuPageNewYorkOfficeID1.shown {
+				opacity: 1;
+			}
+
+			#menuPageNewYorkOfficeStreetID.shown {
+				opacity: 1;
+			}
+
+
+			#menuPageNewYorkOfficeZipID.shown {
+				opacity: 1;
+			}
+
+
+			#menuPageNewYorkOfficeID2.shown {
+				opacity: 1;
+			}
+
+
+			#menuPageNewYorkOfficeEmailID.shown {
+				opacity: 1;
+			}
+
+
+			#menuPageNewYorkOfficePhoneID.shown {
+				opacity: 1;
+			}
+
+			/* END */
+			
+			/* Animation for Paris Contact Information on Menu Page */
+
+			#menuPageParisOfficeID1 {
+				opacity: 0;
+				transition: opacity 0.15s ease-in 0.4s;
+			}
+
+			#menuPageParisOfficeStreetID {
+				opacity: 0;
+				transition: opacity 0.15s ease-in 0.55s;
+			}
+
+
+			#menuPageParisOfficeZipID {
+				opacity: 0;
+				transition: opacity 0.15s ease-in 0.7s;
+			}
+
+
+			#menuPageParisOfficeID2 {
+				opacity: 0;
+				transition: opacity 0.15s ease-in 0.85s;
+			}
+
+
+			#menuPageParisOfficeEmailID {
+				opacity: 0;
+				transition: opacity 0.15s ease-in 1s;
+			}
+
+
+			#menuPageParisOfficePhoneID {
+				opacity: 0;
+				transition: opacity 0.15s ease-in 1.15s;
+			}
+
+
+			#menuPageParisOfficeID1.shown {
+				opacity: 1;
+			}
+
+			#menuPageParisOfficeStreetID.shown {
+				opacity: 1;
+			}
+
+
+			#menuPageParisOfficeZipID.shown {
+				opacity: 1;
+			}
+
+
+			#menuPageParisOfficeID2.shown {
+				opacity: 1;
+			}
+
+
+			#menuPageParisOfficeEmailID.shown {
+				opacity: 1;
+			}
+
+
+			#menuPageParisOfficePhoneID.shown {
+				opacity: 1;
+			}
+
+			/* END */
 
 			#address-line-right-two-one {
 				height: 0px;
@@ -2468,12 +2605,10 @@
 				transform: translateX(-50%);
 				background-color: transparent;
 				z-index: 3000;
-				display: none;
 				visibility: hidden;
 			}
 
 			.privacy--click--container.shown {
-				display: block;
 				visibility: visible;
 			}
 
@@ -2488,6 +2623,276 @@
 				letter-spacing: 1px;
 				text-align: center;
 			}
+
+			.privacy--click--container:hover .mainMenuLegalTextCharacter {
+				color: white;
+			}
+
+			.privacy--click--container:hover #mainMenuLegalTextCharacter1 {
+				color: white;
+			}
+
+
+			.mainMenuLegalTextCharacter {
+				font-family: Montserrat, sans-serif;
+				color: #9c9b9b;
+				font-weight: 600;
+				font-size: 11px;
+				background-color: transparent;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				text-align: center;
+				display: inline-block;
+				margin-top: 0px;
+				margin-bottom: 0px;
+				margin-right: -2px;
+				margin-left: 0px;
+				z-index: 5000;
+			}
+
+
+			#mainMenuLegalTextCharacter11 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 1.3s;
+			}
+
+			#mainMenuLegalTextCharacter10 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 1.4s;
+			}
+
+			#mainMenuLegalTextCharacter12 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 1.4s;
+			}
+
+			#mainMenuLegalTextCharacter9 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 1.5s;
+			}
+
+			#mainMenuLegalTextCharacter13 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 1.5s;
+			}
+
+			#mainMenuLegalTextCharacter8 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 1.7s;
+			}
+
+
+			#mainMenuLegalTextCharacter14 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 1.7s;
+			}
+
+
+			#mainMenuLegalTextCharacter7 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 1.8s;
+			}
+
+			#mainMenuLegalTextCharacter15 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 1.8s;
+			}
+
+			#mainMenuLegalTextCharacter6 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 1.9s;
+			}
+
+			#mainMenuLegalTextCharacter16 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 1.9s;
+			}
+
+
+			#mainMenuLegalTextCharacter5 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 2s;
+			}
+
+			#mainMenuLegalTextCharacter17 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 2s;
+			}
+
+
+			#mainMenuLegalTextCharacter4 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 2.1s;
+			}
+
+			#mainMenuLegalTextCharacter18 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 2.1s;
+			}
+
+			#mainMenuLegalTextCharacter3 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 2.2s;
+			}
+
+			#mainMenuLegalTextCharacter19 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 2.2s;
+			}
+
+
+			#mainMenuLegalTextCharacter2 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 2.3s;
+			}
+
+			#mainMenuLegalTextCharacter20 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 2.3s;
+			}
+
+			#mainMenuLegalTextCharacter1 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 2.4s;
+			}
+
+			#mainMenuLegalTextCharacter21 {
+				opacity: 0;
+				/* transform: translateY(7px); */
+				transition: opacity var(--legal-text-delay) ease-in 2.4s;
+			}
+
+			/* Animate all the characters */
+
+
+			#mainMenuLegalTextCharacter10.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter11.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter9.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter12.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter8.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter13.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter7.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter14.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+
+			#mainMenuLegalTextCharacter6.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter15.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter5.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter16.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter4.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter17.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter3.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter18.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter2.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter19.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter1.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter20.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+			#mainMenuLegalTextCharacter21.shown {
+				opacity: 1;
+				/* transform: translateY(-7px); */
+			}
+
+
+			/*  End  */
 
 			.privacy--click--text:hover {
 				color: rgb(255,255,255,1);;
@@ -3001,17 +3406,17 @@
 				opacity: 1;
 			}
 
-			#newYorkOfficeID {
+			#contactPageNewYorkOfficeID {
 				opacity: 0;
 				transition: all 0.2s ease-in 0.8s;
 			}
 
-			#newYorkOfficeEmailID {
+			#contactPageNewYorkOfficeEmailID {
 				opacity: 0;
 				transition: all 0.2s ease-in 0.9s;
 			}
 
-			#newYorkOfficePhoneID {
+			#contactPageNewYorkOfficePhoneID {
 				opacity: 0;
 				transition: all 0.2s ease-in 1s;
 			}
@@ -3032,15 +3437,15 @@
 			}
 
 
-			#newYorkOfficeID.shown {
+			#contactPageNewYorkOfficeID.shown {
 				opacity: 1;
 			}
 
-			#newYorkOfficeEmailID.shown {
+			#contactPageNewYorkOfficeEmailID.shown {
 				opacity: 1;
 			}
 
-			#newYorkOfficePhoneID.shown {
+			#contactPageNewYorkOfficePhoneID.shown {
 				opacity: 1;
 			}
 
@@ -3296,9 +3701,32 @@
 				<!-- MAIN MENU PAGE - Button gets shown at bottom of Main Menu to display the legal terms. -->
 
 				<div class='privacy--click--container' id='privacy--click--container'>
-					<p class='privacy--click--text' id='privacy--click--text'>
-						Legal Terms
-					</p>
+					<!-- <p class='privacy--click--text' id='privacy--click--text'>
+						Legal Terms & Privacy
+					</p> -->
+					<div>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter1'> L </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter2'> e </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter3'> g </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter4'> a </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter5'> l </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter6'> &nbsp </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter7'> T </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter8'> e </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter9'> r </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter10'> m</span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter11'> s </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter12'> &nbsp </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter13'> & </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter14'> &nbsp </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter15'> P </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter16'> r </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter17'> i </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter18'> v </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter19'> a </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter20'> c </span>
+						<span class='mainMenuLegalTextCharacter' id='mainMenuLegalTextCharacter21'> y </span>
+					</div>
 				</div>
 
 				<!-- Samarra Logo -->
@@ -3341,9 +3769,9 @@
 						 </div>
 						<div class='address-details'>
 							<div class='address-details-inside'>
-								<p class='address-title'> New York Head Office </p>
-								<p class='address-street'> 84 Berry Street </p>
-								<p class='address-street'> Brooklyn, NY 11211 </p>
+								<p class='address-title' id='menuPageNewYorkOfficeID1'> New York Head Office </p>
+								<p class='address-street' id='menuPageNewYorkOfficeStreetID'> 84 Berry Street </p>
+								<p class='address-street' id='menuPageNewYorkOfficeZipID'> Brooklyn, NY 11211 </p>
 							</div>
 						</div>
 					</div>
@@ -3353,9 +3781,9 @@
 						</div>
 						<div class='address-details'>
 							<div class='address-details-inside'>
-								<p class='address-title'>  Contact </p>
-								<p class='address-street'> hello@samarra.co </p>
-								<p class='address-street'> +1-917-938-6889 </p>
+								<p class='address-title' id='menuPageNewYorkOfficeID2'>  Contact </p>
+								<p class='address-street' id='menuPageNewYorkOfficeEmailID'> hello@samarra.co </p>
+								<p class='address-street' id='menuPageNewYorkOfficePhoneID'> +1-917-938-6889 </p>
 							</div>
 						</div>
 					</div>
@@ -3366,9 +3794,9 @@
 					<div class='address-item-right samarra-text'>
 						<div class='address-details-right samarra-text'>
 							<div class='address-details-inside samarra-text'>
-								<p class='address-title-right samarra-text'> Paris Office </p>
-								<p class='address-street-right samarra-text'> 84 Avenue De la Bourdonnais </p>
-								<p class='address-street-right samarra-text'> 75006 Paris, France </p>
+								<p class='address-title-right samarra-text' id='menuPageParisOfficeID1'> Paris Office </p>
+								<p class='address-street-right samarra-text'  id='menuPageParisOfficeStreetID'> 84 Avenue De la Bourdonnais </p>
+								<p class='address-street-right samarra-text'  id='menuPageParisOfficeZipID'> 75006 Paris, France </p>
 							</div>
 						</div>
 						<div class='address-line-right samarra-text' id='address-line-right'> 
@@ -3378,9 +3806,9 @@
 					<div class='address-item-right samarra-text'>
 						<div class='address-details-right samarra-text'>
 							<div class='address-details-inside samarra-text'>
-								<p class='address-title-right samarra-text'>  Contact</p>
-								<p class='address-street-right samarra-text'> bonjour@samarra.co </p>
-								<p class='address-street-right samarra-text'> +33 1 45 28 32 24 </p>
+								<p class='address-title-right samarra-text'  id='menuPageParisOfficeID2'>  Contact</p>
+								<p class='address-street-right samarra-text'  id='menuPageParisOfficeEmailID'> bonjour@samarra.co </p>
+								<p class='address-street-right samarra-text'  id='menuPageParisOfficePhoneID'> +33 1 45 28 32 24 </p>
 							</div>
 						</div>
 						<div class='address-line-right samarra-text' id='address-line-right'> 
@@ -3533,9 +3961,9 @@
 								<div class='address-item-right-two samarra-text'>
 									<div class='address-details-right samarra-text'>
 										<div class='address-details-inside samarra-text'>
-											<p class='address-title-right samarra-text' id='newYorkOfficeID'> New York Head Office </p>
-											<p class='address-street-right samarra-text' id='newYorkOfficeEmailID'> hello@samarra.co </p>
-											<p class='address-street-right samarra-text' id='newYorkOfficePhoneID'> 917-938-6889 </p>
+											<p class='address-title-right samarra-text' id='contactPageNewYorkOfficeID'> New York Head Office </p>
+											<p class='address-street-right samarra-text' id='contactPageNewYorkOfficeEmailID'> hello@samarra.co </p>
+											<p class='address-street-right samarra-text' id='contactPageNewYorkOfficePhoneID'> 917-938-6889 </p>
 										</div>
 									</div>
 									<div class='address-line-right samarra-text'>
