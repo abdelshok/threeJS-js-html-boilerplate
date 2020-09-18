@@ -1689,11 +1689,28 @@ const onDocumentMouseMove = (event) => {
 
 // Tracks Normalized Mouse Move
 
+let hoveringElement = false;
+
 const onActualMouseMove = (event) => {
 
 	realMouseX = event.clientX;
     realMouseY = event.clientY;
-    console.log('Actual Mouse Move X', realMouseX, ' and Y: ', realMouseY);
+    // console.log('Actual Mouse Move X', realMouseX, ' and Y: ', realMouseY);
+
+    let imageElement = document.getElementById('venereMaisCourtoisContainer')
+    // let hoveringElement = imageElement.classList.contains('shown');
+    
+    if (hoveringElement) {
+        // console.log('Hovering element', hoveringElement);
+        imageElement.style.top = realMouseY + 'px';
+        imageElement.style.left = realMouseX + 20 + 'px';
+        imageElement.style.opacity = 1;
+        // imageElement.classList.add('shown');
+        imageElement.style.visibility = 'visible';
+    } else { 
+        imageElement.style.opacity = 0;
+        imageElement.style.visibility = 'hidden';
+    }
 
     
 }
@@ -5272,20 +5289,27 @@ const modifyNoisyCircle = () => {
 
 const showVenereMaisCourtois = () => {
 
-    console.log('Trying to show magazine');
-    let imageEl = document.getElementById('venereMaisCourtoisContainer');
-    console.log('Mouse Y', mouseY);
-    console.log('mouse X', mouseX);
-    imageEl.style.top = realMouseY + 'px';
-    imageEl.style.left = realMouseX + 'px';
-    imageEl.classList.add('shown');
+    // console.log('Trying to show magazine');
+    // let imageElement = document.getElementById('venereMaisCourtoisContainer');
+    // console.log('Mouse Y', mouseY);
+    // console.log('mouse X', mouseX);
+    // imageElement.style.top = realMouseY - 100 + 'px';
+    // imageElement.style.left = realMouseX + 'px';
+    // imageElement.classList.add('shown');
+
+    hoveringElement = true;
 
 }
 
 const hideVenereMaisCourtois = () => {
 
-    let imageEl = document.getElementById('venereMaisCourtoisContainer');
-    imageEl.classList.remove('shown');
+    // console.log('HIDE VENERE MAIS COURTOIS')
+    // let imageEl = document.getElementById('venereMaisCourtoisContainer');
+    // imageEl.style.opacity = 0;
+    // imageEl.classList.remove('shown');
+
+    hoveringElement = false;
+
 
 }
 

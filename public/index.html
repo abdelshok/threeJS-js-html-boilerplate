@@ -670,11 +670,23 @@
 				}
 			}
 
-			/* @keyframes left-cta-animation {
+			@keyframes vmc-animation {
 				0% {
-
+					color: rgb(255,255,255, 0.7);
 				}
-			} */
+				25% {
+					color: rgb(255,255,255, 1);
+				}
+				50% {
+					color: rgb(255,255,255, 0.7);
+				}
+				75% {
+					color: rgb(255,255,255, 1);
+				}
+				100% {
+					color: rgb(255,255,255, 0.7);
+				}
+			}
 
 			.soundwave-description {
 				position: absolute;
@@ -3463,9 +3475,11 @@
 			}
 
 			#venereMaisCourtois {
-				color: rgb(255, 255, 255, 1);
+				color: rgb(255, 255, 255, 0.7);
 				z-index: 5000;
 				pointer-events: auto;
+				background-color: transparent;
+				animation: vmc-animation 10s ease-in infinite;
 			}
 
 			.venereMaisCourtoisContainer {
@@ -4144,8 +4158,8 @@
 											Although we've decided to stop the printing and publication of our beloved magazine, it's creation led us to collaborate with numerous French actors, musicians, journalists, and 
 											authors. In the process, our collective grew to include a team of talented graphic designers, software engineers, sound producers, film directors, and advertisers, which became the foundation of
 											Samarra & Co. Our troupe is now spread out between North America, Western Europe, and the Middle East, and has expanded to include street artists, sculptors, and other types of creatives.
-											Our goal is to increase the standard for digital artistic expression throughout these three continents. In a foolhardy attempt to do so, we collaborate with artists, fashion brands, hospitality groups, 
-											startups, corporations, and other agencies in order to bring their creative ideas to light.
+											Our goal is to increase the standard for digital expression throughout these three continents. In a foolhardy attempt to do so, we collaborate with artists, fashion brands, hospitality groups, 
+											startups, corporations, and other agencies in order to bring their ideas to light.
 										</p>
 										<p class='aboutPageSubTextII' id='aboutPageSubText3' >
 											Currently, our main focus is to create unique artistic experiences and help small-to-medium sized startups grow across the entire MENA (Middle-East North Africa) region, with a focus on
