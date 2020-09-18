@@ -11,6 +11,9 @@ let beetleObject,
 // Raycaster-related variables
 let raycaster, raycasterMouse;
 
+// Real Mouse position
+let realMouseX, realMouseY;
+
 // Other Beetle Objects
 let iceBeetleObject;
 let greyBeetleObject;
@@ -1686,11 +1689,12 @@ const onDocumentMouseMove = (event) => {
 
 // Tracks Normalized Mouse Move
 
-const onNormalizedMouseMove = (event) => {
+const onActualMouseMove = (event) => {
 
-    console.log('Normalized Mouse Move')
-	raycasterMouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-	raycasterMouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+	realMouseX = event.clientX;
+    realMouseY = event.clientY;
+    console.log('Actual Mouse Move X', realMouseX, ' and Y: ', realMouseY);
+
     
 }
 
@@ -1767,7 +1771,7 @@ const removeCurrentBeetleObject = () => {
 document.addEventListener( 'mousedown', onMouseDown, false );
 // Mouse move used here in order to track the mouse position within the page
 document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-// document.addEventListener( 'mousemove', onNormalizedMouseMove, false );
+document.addEventListener( 'mousemove', onActualMouseMove, false );
 
 
 
@@ -2482,7 +2486,7 @@ const toggleSoundWave = (e) => {
     classList8.toggle('paused');
     classList9.toggle('paused');
 
-    console.log('MUSIC PLAYING IS', musicPlaying);
+    console.log('Before button was clicked, music was playing:', musicPlaying);
 
     // For now the music will play forever until the user stops it
     if (isSongFinished === true) {
@@ -2514,6 +2518,8 @@ const toggleSoundWave = (e) => {
 
         // Ensures thatvoice control is deactivated and doesn't keep track of what the user is saying
         deactivateVoiceControl();
+
+        console.log('Is Music Playing now?', musicPlaying);
 
         // This ensures that the voice control elements are shown and hidden correctly
         
@@ -5264,6 +5270,25 @@ const modifyNoisyCircle = () => {
 
 }
 
+const showVenereMaisCourtois = () => {
+
+    console.log('Trying to show magazine');
+    let imageEl = document.getElementById('venereMaisCourtoisContainer');
+    console.log('Mouse Y', mouseY);
+    console.log('mouse X', mouseX);
+    imageEl.style.top = realMouseY + 'px';
+    imageEl.style.left = realMouseX + 'px';
+    imageEl.classList.add('shown');
+
+}
+
+const hideVenereMaisCourtois = () => {
+
+    let imageEl = document.getElementById('venereMaisCourtoisContainer');
+    imageEl.classList.remove('shown');
+
+}
+
 const initializeEventListeners = () => {
     document.getElementById('plus-sign-container').addEventListener('mouseenter', showLanguagesText);
     document.getElementById('plus-sign-container').addEventListener('mouseleave', hideLanguagesText);
@@ -5329,6 +5354,9 @@ const initializeEventListeners = () => {
     document.getElementById('privacy--click--container').addEventListener('click', showLegalTermsPage);
     // document.getElementById('loading-page').addEventListener('animationend', loadingPageEndTransitions)
     // document.getElementById('loading-page').addEventListener('click', testClick);
+
+    document.getElementById('venereMaisCourtois').addEventListener('mouseover', showVenereMaisCourtois)
+    document.getElementById('venereMaisCourtois').addEventListener('mouseleave', hideVenereMaisCourtois)
 
 
 }

@@ -3138,6 +3138,7 @@
 				transform: translateY(15px);
 				opacity: 0;
 				transition: all 0.2s ease-in 0.6s;
+				pointer-events: none;
 			}
 
 			#aboutPageSubText2 {
@@ -3461,8 +3462,27 @@
 				opacity: 1;
 			}
 
+			#venereMaisCourtois {
+				color: rgb(255, 255, 255, 1);
+				z-index: 5000;
+				pointer-events: auto;
+			}
 
-			
+			.venereMaisCourtoisContainer {
+				position: absolute;
+				height: 20px;
+				top: -100px;
+				left: -100px;
+				z-index: 10000;
+			}
+
+			#venereMaisCourtoisContainer {
+				opacity: 0;
+			}
+
+			#venereMaisCourtoisContainer.shown {
+				opacity: 1;
+			}
 			
 			
 		</style>
@@ -3575,8 +3595,13 @@
 				</div>	 -->
 			</div>
 
+
 			<div class='pages'>
-	
+
+				<!-- Venere Mais Courtois Image -->
+				<div class='venereMaisCourtoisContainer' id='venereMaisCourtoisContainer'>
+					<img src='/assets/venereMaisCourtois.jpg' alt='Venere Mais Courtois French Magazine' height='300' />
+				</div>
 
 				<!-- Cursor Elements -->
 				<div class="cursor cursor--small" id='cursor--small'></div>
@@ -4113,16 +4138,18 @@
 											Samarra & Co. is a creative and digital agency that shapes bespoke experiences.
 										</p>
 										<p class='aboutPageSubText' id='aboutPageSubText1' >
-											Based in New York City, Paris, and Cairo, Samarra & Co. started as an art collective and satirical magazine, named 'Vénère mais Courtois', in Paris back in 2019.
+											Based in New York City, Paris, and Jeddah, Samarra & Co. started as a art collective and satirical magazine entitled <span id='venereMaisCourtois'> 'Vénère mais Courtois' </span>disseminated through the narrow streets of Paris in 2019.
 										</p>
 										<p class='aboutPageSubTextII' id='aboutPageSubText2' >
-											What started as a print publication disseminated through the narrow streets of Paris quickly became a digital one. One flutter of a butterfly's wings later,
-											we decided to expand across the Atlantic Ocean and the Sahara Desert to collaborate with artists, fashion brands, hospitality groups, startups, corporations, and other
-											creative agencies in order to bring their ideas to light.
+											Although we've decided to stop the printing and publication of our beloved magazine, it's creation led us to collaborate with numerous French actors, musicians, journalists, and 
+											authors. In the process, our collective grew to include a team of talented graphic designers, software engineers, sound producers, film directors, and advertisers, which became the foundation of
+											Samarra & Co. Our troupe is now spread out between North America, Western Europe, and the Middle East, and has expanded to include street artists, sculptors, and other types of creatives.
+											Our goal is to increase the standard for digital artistic expression throughout these three continents. In a foolhardy attempt to do so, we collaborate with artists, fashion brands, hospitality groups, 
+											startups, corporations, and other agencies in order to bring their creative ideas to light.
 										</p>
 										<p class='aboutPageSubTextII' id='aboutPageSubText3' >
-											Because we believe that there's an unmet need for originality and quality engineering in the Middle East, our focus is currently on creating unique artistic experiences 
-											and helping small-to-medium sized startups grow in that region.
+											Currently, our main focus is to create unique artistic experiences and help small-to-medium sized startups grow across the entire MENA (Middle-East North Africa) region, with a focus on
+											Morocco, Egypt, Saudi Arabia, the United Arab Emirates, Lebanon, Turkey, and the West Bank.
 										</p>
 										<p class='aboutPageSubTextII' id='aboutPageSubText4' >
 											Perfectionism and creativity drive everything we do, from the advertising campaigns that we lead, to the applications that we create, and the companies that we fund.
