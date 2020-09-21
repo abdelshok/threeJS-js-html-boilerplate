@@ -73,6 +73,10 @@ let source;
 let isSongFinished = false;
 let musicStartedPlaying = false;
 
+// Language Related
+
+let frenchLanguageHovered;
+
 // Contact Page Related Variables
 
 let formShowing = false;
@@ -1702,18 +1706,29 @@ const onActualMouseMove = (event) => {
     // let hoveringElement = imageElement.classList.contains('shown');
     
     if (hoveringElement) {
-        console.log('Hovering element', hoveringElement);
+        // console.log('Hovering element', hoveringElement);
         imageElement.style.top = realMouseY + 'px';
         imageElement.style.left = realMouseX + 20 + 'px';
         imageElement.style.opacity = 1;
         // imageElement.classList.add('shown');
         imageElement.style.visibility = 'visible';
     } else { 
-        console.log('Hovering element', hoveringElement);
+        // console.log('Hovering element', hoveringElement);
         imageElement.style.opacity = 0;
         imageElement.style.visibility = 'hidden';
     }
 
+    // if (frenchLanguageHovered === true) {
+    //     console.log('Hovering over french language button');
+    //     // innerCursor.style.webkitTransitionDuration = '1s';
+    //     // innerCursor.style.transitionDelay = '0s';
+    //     // innerCursor.style.transform = 'scale(3,3)';
+    //     innerCursor.style.backgroundColor = '#ff8282';
+    // } else {
+    //     innerCursor.style.width = '5px';
+    //     innerCursor.style.height = '5px';
+    //     innerCursor.style.backgroundColor = '#ffffff';
+    // }
     
 }
 
@@ -2017,6 +2032,8 @@ const initCursor = () => {
     innerCursor.style.transform = `translate(${clientX}px, ${clientY}px)`;
     // Transform the inner cursor to the current mouse position
     // Use requestAnimationFrame for smotth perfromance
+    
+
 }
 
 const updateCursor = () => {
@@ -2650,7 +2667,7 @@ let pageTransitionPlaying = false;
 const showLanguagesText = () => {
     let toggleLanguageElement = document.getElementById('plus-sign-description');
     toggleLanguageElement.style.visibility = 'visible';
-    toggleLanguageElement.style.transform = 'translateX(48px)';
+    // toggleLanguageElement.style.transform = 'translateX(48px)';
     toggleLanguageElement.style.opacity = '1';
     // toggleLanguageElement.style.transitionProperty = 'ease-out';
 }
@@ -2658,7 +2675,7 @@ const showLanguagesText = () => {
 const hideLanguagesText = () => {
     let toggleLanguageElement = document.getElementById('plus-sign-description');
     toggleLanguageElement.style.visibility = 'hidden';
-    toggleLanguageElement.style.transform = 'translateX(-16px)';
+    // toggleLanguageElement.style.transform = 'translateX(-16px)';
     toggleLanguageElement.style.opacity = '0';
     // toggleLanguageElement.style.transitionProperty = 'ease-in';
     // toggleLanguageChoices();
@@ -5555,6 +5572,17 @@ const revertBackToAboutText = () => {
 }
 
 
+// These two functions are used to track whether the user is hovering over the French option or not
+
+const userHoverOverFrench = () => {
+    frenchLanguageHovered = true;
+}
+
+
+const userNotHoverOverFrench = () => {
+    frenchLanguageHovered = false;
+}
+
 const initializeEventListeners = () => {
     document.getElementById('plus-sign-container').addEventListener('mouseenter', showLanguagesText);
     document.getElementById('plus-sign-container').addEventListener('mouseleave', hideLanguagesText);
@@ -5626,6 +5654,12 @@ const initializeEventListeners = () => {
 
     document.getElementById('expertiseButtonContainer').addEventListener('click', showExpertiseText);
     document.getElementById('aboutButtonContainer').addEventListener('click', hideExpertiseText);
+
+    // Language Related
+
+    document.getElementById('languageOne').addEventListener('mouseenter', userHoverOverFrench);
+    document.getElementById('languageOne').addEventListener('mouseleave', userNotHoverOverFrench);
+
 
 }
 
