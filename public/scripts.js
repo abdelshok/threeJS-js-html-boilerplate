@@ -5329,18 +5329,18 @@ const hideVenereMaisCourtois = () => {
 const showExpertiseText = () => {
 
     // Hide the 'About' text & the button that leads us to the Expertise information
-    document.getElementById('aboutPageExperimentalContainer').classList.add('hidden');
+    // document.getElementById('aboutPageExperimentalContainer').classList.add('hidden');
     document.getElementById('expertiseButtonContainer').classList.remove('shown');
 
     // Remove the classes from the 'About' page text to allow for the animations to be triggered later
-    setTimeout(() => {
-        document.getElementById('aboutPageMainText').classList.remove('animated');
-        document.getElementById('aboutRotatedText').classList.remove('animated');
-        document.getElementById('aboutPageSubText1').classList.remove('animated');
-        document.getElementById('aboutPageSubText2').classList.remove('animated');
-        document.getElementById('aboutPageSubText3').classList.remove('animated');
-        document.getElementById('aboutPageSubText4').classList.remove('animated');
-    }, 2000)
+    // setTimeout(() => {
+    document.getElementById('aboutPageMainText').classList.remove('animated');
+    document.getElementById('aboutRotatedText').classList.remove('animated');
+    document.getElementById('aboutPageSubText1').classList.remove('animated');
+    document.getElementById('aboutPageSubText2').classList.remove('animated');
+    document.getElementById('aboutPageSubText3').classList.remove('animated');
+    document.getElementById('aboutPageSubText4').classList.remove('animated');
+    // }, 1600)
 
     // Show the 'Expertise' text
     // document.getElementById('aboutPageExpertiseContainer').classList.add('shown');
@@ -5484,6 +5484,7 @@ const hideExpertiseText = () => {
 
 
 }
+
 
 const initializeEventListeners = () => {
     document.getElementById('plus-sign-container').addEventListener('mouseenter', showLanguagesText);
