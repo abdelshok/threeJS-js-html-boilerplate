@@ -80,8 +80,9 @@ let formShowing = false;
 // let lightIntensityDivider = 33; // Nina Simone
 // let lightIntensityDivider = 29; // Nina Simone
 // let lightIntensityDivider = 25; // Trap Beldi
+let lightIntensityDivider = 20;
 // let lightIntensityDivider = 8; // Not enough anymore for Erik Satie
-let lightIntensityDivider = 7; // Better for Erik Satie
+// let lightIntensityDivider = 7; // Better for Erik Satie
 
 let planeGeometry, planeTexture, planeMaterial, planeMesh;
 
@@ -1701,13 +1702,14 @@ const onActualMouseMove = (event) => {
     // let hoveringElement = imageElement.classList.contains('shown');
     
     if (hoveringElement) {
-        // console.log('Hovering element', hoveringElement);
+        console.log('Hovering element', hoveringElement);
         imageElement.style.top = realMouseY + 'px';
         imageElement.style.left = realMouseX + 20 + 'px';
         imageElement.style.opacity = 1;
         // imageElement.classList.add('shown');
         imageElement.style.visibility = 'visible';
     } else { 
+        console.log('Hovering element', hoveringElement);
         imageElement.style.opacity = 0;
         imageElement.style.visibility = 'hidden';
     }
@@ -1835,12 +1837,13 @@ const BELDI_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/ISSAM+
 const RUNAWAY_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Kanye+West+-+Runaway+(Video+Version)+ft.+Pusha+T.mp3';
 const TEST_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/trapBeldiShort.mp3';
 const ENFANCE_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/VIDEOCLUB+-+Enfance+80+(Clip+Officiel).mp3';
+const FAMOUS_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Octavian-Famous.mp3'
 
 let songBuffer, analyser;
 
 // Function called when the user clicks on the SoundWave button on the bottom right when the song has finished
 const playSong = () => {
-    window.fetch(ERIK_URL)
+    window.fetch(LUDO_URL)
     .then(response => response.arrayBuffer())
     .then(arrayBuffer => 
         // Creates a short audio asset stored in memory, created from an audio file
@@ -1885,7 +1888,7 @@ const playSong = () => {
 // Not necessary to play the #music on load
 
 // window.onload = () => {
-//     window.fetch(ERIK_URL)
+//     window.fetch(LUDO_URL)
 //     .then(response => response.arrayBuffer())
 //     .then(arrayBuffer => 
 //         // Creates a short audio asset stored in memory, created from an audio file
@@ -3407,6 +3410,9 @@ const  addAboutPageTransitionButtons= () => {
     let clickHoldButtonTwo = document.getElementById('cta--click--container--two--about');
     clickHoldButtonTwo.classList.add('shown');
 
+    let expertiseButton = document.getElementById('expertiseButtonContainer');
+    expertiseButton.classList.add('shown');
+
 }
 
 // Function that does the opposite of the above function, it makes the 'Client Page' Button invisible whenever the user is on the About Page
@@ -3419,6 +3425,9 @@ const removeAboutPageTransitionButtons = () => {
 
     let clickHoldButtonTwo = document.getElementById('cta--click--container--two--about');
     clickHoldButtonTwo.classList.remove('shown');
+
+    let expertiseButton = document.getElementById('expertiseButtonContainer');
+    expertiseButton.classList.remove('shown');
 
 }
 
@@ -4066,7 +4075,7 @@ const toggleAboutPage = (pageShown) => {
         // Add the elements towards the end of the transition
         // Slower than the time out below
         setTimeout(() => {
-            document.getElementById('aboutPageTitleContainer').classList.toggle('showing');
+            document.getElementById('aboutPageTitleContainer').classList.add('showing');
             document.getElementById('aboutPageMainText').classList.add('animated');
             document.getElementById('aboutRotatedText').classList.add('animated');
             document.getElementById('aboutPageSubText1').classList.add('animated');
@@ -4080,7 +4089,7 @@ const toggleAboutPage = (pageShown) => {
 
         // Remove the elements very quickly
         setTimeout(() => {
-            document.getElementById('aboutPageTitleContainer').classList.toggle('showing');
+            document.getElementById('aboutPageTitleContainer').classList.remove('showing');
             document.getElementById('aboutPageMainText').classList.remove('animated');
             document.getElementById('aboutRotatedText').classList.remove('animated');
             document.getElementById('aboutPageSubText1').classList.remove('animated');
@@ -5287,7 +5296,7 @@ const modifyNoisyCircle = () => {
 
 }
 
-const showVenereMaisCourtois = () => {
+const showVenereMaisCourtois = (event) => {
 
     // console.log('Trying to show magazine');
     // let imageElement = document.getElementById('venereMaisCourtoisContainer');
@@ -5296,6 +5305,8 @@ const showVenereMaisCourtois = () => {
     // imageElement.style.top = realMouseY - 100 + 'px';
     // imageElement.style.left = realMouseX + 'px';
     // imageElement.classList.add('shown');
+
+    console.log('Mouse Event for Over', event.target);
 
     hoveringElement = true;
 
@@ -5309,6 +5320,167 @@ const hideVenereMaisCourtois = () => {
     // imageEl.classList.remove('shown');
 
     hoveringElement = false;
+
+
+}
+
+// Function that hides the 'About' text and shows the expertise Text
+
+const showExpertiseText = () => {
+
+    // Hide the 'About' text & the button that leads us to the Expertise information
+    document.getElementById('aboutPageExperimentalContainer').classList.add('hidden');
+    document.getElementById('expertiseButtonContainer').classList.remove('shown');
+
+    // Remove the classes from the 'About' page text to allow for the animations to be triggered later
+    setTimeout(() => {
+        document.getElementById('aboutPageMainText').classList.remove('animated');
+        document.getElementById('aboutRotatedText').classList.remove('animated');
+        document.getElementById('aboutPageSubText1').classList.remove('animated');
+        document.getElementById('aboutPageSubText2').classList.remove('animated');
+        document.getElementById('aboutPageSubText3').classList.remove('animated');
+        document.getElementById('aboutPageSubText4').classList.remove('animated');
+    }, 2000)
+
+    // Show the 'Expertise' text
+    // document.getElementById('aboutPageExpertiseContainer').classList.add('shown');
+    document.getElementById('aboutRotatedText2').classList.add('shown');
+    document.getElementById('expertiseGroupTitle1').classList.add('shown');
+    document.getElementById('expertiseGroupTitle2').classList.add('shown');
+    document.getElementById('expertiseGroupTitle3').classList.add('shown');
+    document.getElementById('expertiseGroupTitle4').classList.add('shown');
+    
+    let expertiseOneElements = document.getElementsByClassName('expertiseText1');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseOneDivs = Array.prototype.forEach.call(expertiseOneElements, function(element){
+        console.log('Expertise One element', element);
+        element.classList.add('shown')
+      });
+
+
+    let expertiseTwoElements = document.getElementsByClassName('expertiseText2');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseTwoDivs = Array.prototype.forEach.call(expertiseTwoElements, function(element){
+        console.log('Expertise One element', element);
+        element.classList.add('shown')
+    });
+  
+    let expertiseThreeElements = document.getElementsByClassName('expertiseText3');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseThreeDivs = Array.prototype.forEach.call(expertiseThreeElements, function(element){
+        element.classList.add('shown')
+      });
+
+
+    let expertiseFourElements = document.getElementsByClassName('expertiseText4');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseFourDivs = Array.prototype.forEach.call(expertiseFourElements, function(element){
+        element.classList.add('shown')
+    });
+  
+  
+    let expertiseFiveElements = document.getElementsByClassName('expertiseText5');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseFiveDivs = Array.prototype.forEach.call(expertiseFiveElements, function(element){
+        element.classList.add('shown')
+      });
+
+
+    let expertiseSixElements = document.getElementsByClassName('expertiseText6');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseSixDivs = Array.prototype.forEach.call(expertiseSixElements, function(element){
+        element.classList.add('shown')
+    });
+  
+    document.getElementById('aboutButtonContainer').classList.add('shown');
+
+
+}
+
+// Function that hides the 'About' text and shows the expertise Text
+
+const hideExpertiseText = () => {
+
+    console.log('Hide Expertise Text')
+
+    // Hide the 'Expertise' text
+    // document.getElementById('aboutPageExpertiseContainer').classList.remove('shown');
+    document.getElementById('aboutRotatedText2').classList.remove('shown');
+    document.getElementById('expertiseGroupTitle1').classList.remove('shown');
+    document.getElementById('expertiseGroupTitle2').classList.remove('shown');
+    document.getElementById('expertiseGroupTitle3').classList.remove('shown');
+    document.getElementById('expertiseGroupTitle4').classList.remove('shown');
+    
+    let expertiseOneElements = document.getElementsByClassName('expertiseText1');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseOneDivs = Array.prototype.forEach.call(expertiseOneElements, function(element){
+        console.log('Expertise One element', element);
+        element.classList.remove('shown')
+      });
+
+
+    let expertiseTwoElements = document.getElementsByClassName('expertiseText2');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseTwoDivs = Array.prototype.forEach.call(expertiseTwoElements, function(element){
+        console.log('Expertise One element', element);
+        element.classList.remove('shown')
+    });
+  
+    let expertiseThreeElements = document.getElementsByClassName('expertiseText3');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseThreeDivs = Array.prototype.forEach.call(expertiseThreeElements, function(element){
+        element.classList.remove('shown')
+      });
+
+
+    let expertiseFourElements = document.getElementsByClassName('expertiseText4');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseFourDivs = Array.prototype.forEach.call(expertiseFourElements, function(element){
+        element.classList.remove('shown')
+    });
+  
+  
+    let expertiseFiveElements = document.getElementsByClassName('expertiseText5');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseFiveDivs = Array.prototype.forEach.call(expertiseFiveElements, function(element){
+        element.classList.remove('shown')
+      });
+
+
+    let expertiseSixElements = document.getElementsByClassName('expertiseText6');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseSixDivs = Array.prototype.forEach.call(expertiseSixElements, function(element){
+        element.classList.remove('shown')
+    });
+  
+    document.getElementById('aboutButtonContainer').classList.remove('shown');
+
+
+    // SHow About Page Text - After delay set by setTimeout to ensure that all the expertise related
+    // text disappears from the page
+
+    setTimeout(() => {
+        document.getElementById('aboutPageExperimentalContainer').classList.remove('hidden');
+        document.getElementById('expertiseButtonContainer').classList.add('shown');
+        document.getElementById('aboutPageMainText').classList.add('animated');
+        document.getElementById('aboutRotatedText').classList.add('animated');
+        document.getElementById('aboutPageSubText1').classList.add('animated');
+        document.getElementById('aboutPageSubText2').classList.add('animated');
+        document.getElementById('aboutPageSubText3').classList.add('animated');
+        document.getElementById('aboutPageSubText4').classList.add('animated');
+    }, 1900)
 
 
 }
@@ -5379,9 +5551,11 @@ const initializeEventListeners = () => {
     // document.getElementById('loading-page').addEventListener('animationend', loadingPageEndTransitions)
     // document.getElementById('loading-page').addEventListener('click', testClick);
 
-    document.getElementById('venereMaisCourtois').addEventListener('mouseover', showVenereMaisCourtois)
-    document.getElementById('venereMaisCourtois').addEventListener('mouseleave', hideVenereMaisCourtois)
+    document.getElementById('venereMaisCourtois').addEventListener('mouseenter', showVenereMaisCourtois);
+    document.getElementById('venereMaisCourtois').addEventListener('mouseleave', hideVenereMaisCourtois);
 
+    document.getElementById('expertiseButtonContainer').addEventListener('click', showExpertiseText);
+    document.getElementById('aboutButtonContainer').addEventListener('click', hideExpertiseText);
 
 }
 
@@ -5631,7 +5805,7 @@ let animate = function () {
 
     // For now, the plane will only slightly rotate from left to right
     if (pageShown === 'aboutPage') {
-        blackRockPlaneMesh.rotation.y = mouseX / 200;
+        blackRockPlaneMesh.rotation.y = mouseX / 150;
 
         // if (mouseY > 1 || mouseY < -1) {
         //     console.log('Mouse Y divided is', mouseY / 2000)

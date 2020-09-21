@@ -659,11 +659,23 @@
 			@keyframes cta-bottom-animation {
 				0% {
 					width: 30px;
-					background-color: white;
+					background-color: rgb(255, 255, 255, 0.6);
 				}
 				3% {
 					width: 45px;
 					background-color: rgb(255, 255, 255, 0.6);
+				}
+				100% {
+					width: 45px;
+				}
+			}
+
+			@keyframes cta-right-animation {
+				0% {
+					width: 35px;
+				}
+				3% {
+					width: 45px;
 				}
 				100% {
 					width: 45px;
@@ -1483,7 +1495,7 @@
 			.aboutPageLeft {
 				width: 50%;
 				display: flex;
-				background-color: red;
+				background-color: transparent;
 			}
 
 
@@ -1579,7 +1591,6 @@
 
 			.expertiseGroupTitle {
 				color: #B8B8B8;
-				opacity: 1;
 				visibility: visible;
 				letter-spacing: 0.5px;
 				font-family: 'Montserrat', 'Times', sans-serif;
@@ -1588,6 +1599,48 @@
 				text-transform: uppercase;
 				font-weight: 300;
 				margin-top: 0px;
+				transition: opacity 0.2s ease-in 0s;
+			}
+
+
+			#expertiseGroupTitle1 {
+				opacity: 0;
+				transition: opacity 0.2s ease-in 1.4s;
+			}
+
+			#expertiseGroupTitle2 {
+				opacity: 0;
+				transition: opacity 0.2s ease-in 1.4s;
+			}
+
+			#expertiseGroupTitle3 {
+				opacity: 0;
+				transition: opacity 0.2s ease-in 1.4s;
+			}
+
+			#expertiseGroupTitle4 {
+				opacity: 0;
+				transition: opacity 0.2s ease-in 1.4s;
+			}
+
+			#expertiseGroupTitle1.shown {
+				opacity: 1;
+				transition: opacity 0.2s ease-in 0.55s;
+			}
+
+			#expertiseGroupTitle2.shown {
+				opacity: 1;
+				transition: opacity 0.2s ease-in 0.55s;
+			}
+
+			#expertiseGroupTitle3.shown {
+				opacity: 1;
+				transition: opacity 0.2s ease-in 0.55s;
+			}
+
+			#expertiseGroupTitle4.shown {
+				opacity: 1;
+				transition: opacity 0.2s ease-in 0.55s;
 			}
 
 			.expertiseText {
@@ -1599,6 +1652,66 @@
 				display: block;
 				font-size: 1.3rem;
 				background-color: transparent;
+			}
+
+			.expertiseText1 {
+				opacity: 0;
+				transition: opacity 0.2s ease-in 1.2s;
+			}
+
+			.expertiseText2 {
+				opacity: 0;
+				transition: opacity 0.2s ease-in 1s;
+			}
+
+			.expertiseText3 {
+				opacity: 0;
+				transition: opacity 0.2s ease-in 0.8s;
+			}
+
+			.expertiseText4 {
+				opacity: 0;
+				transition: opacity 0.2s ease-in 0.6s;
+			}
+
+			.expertiseText5 {
+				opacity: 0;
+				transition: opacity 0.2s ease-in 0.4s;
+			}
+
+			.expertiseText6 {
+				opacity: 0;
+				transition: opacity 0.2s ease-in 0.2s;
+			}
+
+			.expertiseText1.shown {
+				opacity: 1;
+				transition: opacity 0.2s ease-in 0.75s;
+			}
+
+			.expertiseText2.shown {
+				opacity: 1;
+				transition: opacity 0.2s ease-in 0.95s;
+			}
+
+			.expertiseText3.shown {
+				opacity: 1;
+				transition: opacity 0.2s ease-in 1.15s;
+			}
+
+			.expertiseText4.shown {
+				opacity: 1;
+				transition: opacity 0.2s ease-in 1.35s;
+			}
+
+			.expertiseText5.shown {
+				opacity: 1;
+				transition: opacity 0.2s ease-in 1.55s;
+			}
+
+			.expertiseText6.shown {
+				opacity: 1;
+				transition: opacity 0.2s ease-in 1.75s;
 			}
 
 
@@ -3007,11 +3120,13 @@
 				padding-bottom: 50px; */
 				background-color: transparent;
 				display: flex;
-				flex-direction: column;
+				flex-direction: row;
 				justify-content: center;
 				align-items: center;
-				overflow: scroll;
+				overflow-x: scroll;
 				height: 100%;
+				position: relative;
+				pointer-events: none;
 			}
 
 			.aboutPageLeftContainerII {
@@ -3030,14 +3145,34 @@
 			} */ */
 
 			#aboutPageExperimentalContainer {
-				background-color: orange;
-				position: relative;
+				background-color: transparent;
+				position: absolute;
+				display: flex;
+				visibility: visible;
 				/* justify-content: center;
 				align-items: center; */
+				transition: opacity 0.4s ease-in 0s;
+			}
+
+			#aboutPageExperimentalContainer.hidden {
+				opacity: 0;
+				visibility: hidden;
+				transition: opacity 0.4s ease-in 0s;
+			}
+
+			#aboutPageExpertiseContainer {
+				background-color: transparent;
+				position: absolute;
+				opacity: 1;
+				/* transition: opacity 0.05s ease-in 0s; */
+			}
+
+			#aboutPageExpertiseContainer.shown {
+				opacity: 1;
 			}
 
 			.aboutExperimentalContainer {
-				background-color: orange;
+				background-color: transparent;
 				position: relative;
 			}
 
@@ -3230,6 +3365,32 @@
 				transform: rotate(-90deg);
 			}
 
+			.aboutRotatedText2 {
+				font-family: Montserrat, sans-serif;
+				color: white;
+				font-size: 4.5rem;
+				display: inline-block;
+				background-color: transparent;
+				text-transform: uppercase;
+				text-align: center;
+				font-weight: 800;
+				margin-right: 25px;
+				margin-top: 0px;
+				margin-bottom: 0px;
+				position: relative;
+				top: 30;
+				left: -150px;
+				background-color: transparent;
+				z-index: 5000;
+				opacity: 0;
+				transition: opacity 0.2s ease-in 1.6s; 
+				transform: rotate(-90deg);
+			}
+
+			#aboutRotatedText2.shown {
+				opacity: 1;
+				transition: opacity 0.2s ease-in 0.35s;
+			}
 
 			#aboutRotatedText.animated {
 				opacity: 1;
@@ -3237,6 +3398,43 @@
 			
 			.aboutGeneralTextContainer {
 				margin-left: 50px;
+				pointer-events: none;
+			}
+
+			.aboutExpertiseTextContainer {
+				margin-left: 100px;
+				pointer-events: none;
+				display: flex;
+				flex-direction: column;
+			}
+
+			.aboutExpertiseContainerRow1 {
+				height: 50%;
+				background-color: transparent;
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				margin-bottom: 50px;
+				align-items: center;
+			}
+
+
+			.aboutExpertiseContainerRow2 {
+				height: 50%;
+				background-color: transparent;
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+			}
+
+			.aboutExpertiseCell {
+				display: inline-block;
+				background-color: transparent;
+				width: auto;
+				height: 100%;
+				margin-right: 50px;
+				min-width: 230px;
 			}
 
 			.pageMainText {
@@ -3476,7 +3674,7 @@
 
 			#venereMaisCourtois {
 				color: rgb(255, 255, 255, 0.7);
-				z-index: 5000;
+				z-index: 15000;
 				pointer-events: auto;
 				background-color: transparent;
 				animation: vmc-animation 10s ease-in infinite;
@@ -3496,6 +3694,109 @@
 
 			#venereMaisCourtoisContainer.shown {
 				opacity: 1;
+			}
+
+			.expertiseButtonContainer { 
+				position: absolute;
+				right: 60;
+				top: 50%;
+				background-color: transparent;
+				opacity: 0;
+				transition: opacity 0.4s ease-in 0s; 
+			}
+			/* The transition for the expertiseButtonContainer is aligned with the transitions for the 
+			cta--click--container--two--about and the cta--click--container--two--client
+			 */
+
+			.expertiseButtonContainer.shown {
+				visibility: visible;
+				opacity: 1;
+				transition: opacity 0.4s ease-in 1.25s;
+			}
+
+			/* Initially hidden from the page */
+			.aboutButtonContainer {
+				position: absolute;
+				left: 60;
+				top: 50%;
+				opacity: 0;
+				transition: opacity 0.4s ease-in 1.25s;
+			}
+			/* Transition delay is related to the last transition delay of expertiseText6 */
+
+			/* Shown to the page */
+
+			.aboutButtonContainer.shown {
+				opacity: 1;
+				transition: opacity 0.4s ease-in 1.7s;
+			}
+			
+			.cta--click--large--text-right {
+				position: relative;
+				font-family: Montserrat, sans-serif;
+				color: rgb(255, 255, 255, 0.6);
+				font-weight: 600;
+				font-size: 11px;
+				background-color: transparent;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				text-align: center;
+				pointer-events: auto;
+				/* writing-mode: vertical-lr;
+				text-orientation: upright; */
+			}
+
+			.cta--click--large--text-right:hover {
+				color: rgb(255, 255, 255, 1);
+			}
+
+			.cta--click--large--text-right::after {
+				content: '';
+				position: absolute;
+				right: -60px;
+				width: 0px;
+				height: 1px;
+				background-color: white;
+				top: 50%;
+				animation: cta-right-animation 4s linear 3s infinite alternate;
+				transition: width 0.4s ease-in 1.25s;
+			}
+
+			.cta--click--large--text-right.shown::after {
+				width: 35px;
+			}
+
+			.cta--click--large--text-left {
+				position: relative;
+				font-family: Montserrat, sans-serif;
+				color: rgb(255, 255, 255, 0.6);
+				font-weight: 600;
+				font-size: 11px;
+				background-color: transparent;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				text-align: center;
+				pointer-events: auto;
+			}
+
+			.cta--click--large--text-left:hover {
+				color: rgb(255, 255, 255, 1);
+			}
+
+			.cta--click--large--text-left::after {
+				content: '';
+				position: absolute;
+				left: -60px;
+				width: 0px;
+				height: 1px;
+				background-color: white;
+				top: 50%;
+				animation: cta-right-animation 4s linear 3s infinite alternate;
+				transition: width 0.4s ease-in 1.25s;
+			}
+
+			.cta--click--large--text-left.shown::after {
+				width: 35px;
 			}
 			
 			
@@ -3771,12 +4072,12 @@
 				<!-- Samarra Logo -->
 
 				<!-- Logo Center -->
-				<div class='company-logo-two samarra-text' id='company-logo-two'>
+				<!-- <div class='company-logo-two samarra-text' id='company-logo-two'>
 					<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96.08 297.75" height='290'>
 						<circle cx="48.04" cy="48.04" r="46.54" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:3px"/>
 						<polyline points="25.14 138.9 70.2 138.9 70.2 221.47 25.14 221.47 25.14 296.25 70.2 296.25" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:3px"/>
 					</svg>
-				</div>
+				</div> -->
 
 				
 				<!-- Logo Left  -->
@@ -4143,6 +4444,7 @@
 					<div class='aboutPageSubContainer'>
 						<div class='aboutPageSubTitleContainerI'>
 
+							<!-- Start of Experimental Contianer -->
 							<div class='aboutPageExperimentalContainer' id='aboutPageExperimentalContainer'>
 									<p class='aboutRotatedText' id='aboutRotatedText'>
 										About
@@ -4152,23 +4454,155 @@
 											Samarra & Co. is a creative and digital agency that shapes bespoke experiences.
 										</p>
 										<p class='aboutPageSubText' id='aboutPageSubText1' >
-											Based in New York City, Paris, and Jeddah, Samarra & Co. started as a art collective and satirical magazine entitled <span id='venereMaisCourtois'> 'Vénère mais Courtois' </span>disseminated through the narrow streets of Paris in 2019.
+											Based in New York City, Paris, and Jeddah, Samarra & Co. started as an art collective and satirical newspaper entitled <span id='venereMaisCourtois'> 'Vénère mais Courtois' </span> disseminated through the narrow streets of Paris in 2019.
 										</p>
 										<p class='aboutPageSubTextII' id='aboutPageSubText2' >
-											Although we've decided to stop the printing and publication of our beloved magazine, it's creation led us to collaborate with numerous French actors, musicians, journalists, and 
-											authors. In the process, our collective grew to include a team of talented graphic designers, software engineers, sound producers, film directors, and advertisers, which became the foundation of
-											Samarra & Co. Our troupe is now spread out between North America, Western Europe, and the Middle East, and has expanded to include street artists, sculptors, and other types of creatives.
-											Our goal is to increase the standard for digital expression throughout these three continents. In a foolhardy attempt to do so, we collaborate with artists, fashion brands, hospitality groups, 
-											startups, corporations, and other agencies in order to bring their ideas to light.
+											Although we've decided to cease the printing and publication of our beloved newspaper, it's creation led us to collaborate with numerous French actors, musicians, journalists, and 
+											authors. In the process, our collective grew to include a team of talented graphic designers, software engineers, journalists, sound producers, film directors, and advertisers, which became the foundation of
+											Samarra & Co. 
+											<!-- Now divided between across three continents, our group has expanded to include street artists, musicians, and other types of creators, and our goal slightly shifted.
+											Express our youth, creativity, and rebellious spirit through these new digital and physical mediums. In a foolhardy attempt to do so, we work with artists, fashion brands,
+											hospitality groups, startups, corporations, and other agencies in order to bring their ideas to light. -->
 										</p>
 										<p class='aboutPageSubTextII' id='aboutPageSubText3' >
-											Currently, our main focus is to create unique artistic experiences and help small-to-medium sized startups grow across the entire MENA (Middle-East North Africa) region, with a focus on
+											Our current interest is to create unique artistic experiences across the Middle-East and help small-to-medium sized startups in the region grow their entrepreneurial endeavors. Our main areas of focus are
 											Morocco, Egypt, Saudi Arabia, the United Arab Emirates, Lebanon, Turkey, and the West Bank.
 										</p>
 										<p class='aboutPageSubTextII' id='aboutPageSubText4' >
 											Perfectionism and creativity drive everything we do, from the advertising campaigns that we lead, to the applications that we create, and the companies that we fund.
 										</p>
 									</div>
+							</div>
+							<!-- End of Experimental Container -->
+
+							<!-- Beginning of Expertise Container  -->
+							<div class='' id='aboutPageExpertiseContainer'>
+								<p class='aboutRotatedText2' id='aboutRotatedText2' >
+									Expertise
+								</p>
+								<div class='aboutExpertiseTextContainer'>
+									<div class='aboutExpertiseContainerRow1'>
+										<div class='aboutExpertiseCell'>
+											<div class='expertiseGroup'>
+												<p class='expertiseGroupTitle' id='expertiseGroupTitle1' >
+													 Strategy 
+												</p>
+												<p class='expertiseText expertiseText1'>
+													Branding
+												</p>
+												<p class='expertiseText expertiseText2'>
+													Copywriting
+												</p>
+												<p class='expertiseText expertiseText3'>
+													Tone Of Voice
+												</p>
+												<p class='expertiseText expertiseText4'>
+													Digital In-Store
+												</p>
+												<p class='expertiseText expertiseText5'>
+													Creative Strategy
+												</p>
+												<p class='expertiseText expertiseText6'>
+													Innovative Digital Concepts
+												</p>
+											</div>
+										</div>
+										<div class='aboutExpertiseCell'>
+											<div class='expertiseGroup'>
+												<p class='expertiseGroupTitle' id='expertiseGroupTitle2'>
+													Creative & Design
+												</p>
+												<p class='expertiseText expertiseText1'>
+													Illustration
+												</p>
+												<p class='expertiseText expertiseText2'>
+													Art Direction
+												</p>
+												<p class='expertiseText expertiseText3'>
+													2D & 3D Animation
+												</p>
+												<p class='expertiseText  expertiseText4'>
+													User Experience Design
+												</p>
+												<p class='expertiseText expertiseText5'>
+													Photo & Video Production
+												</p>
+												<p class='expertiseText expertiseText6'>
+													User Interface & Interactive Design
+												</p>
+				
+											</div>
+										</div>
+									</div>
+									<div class='aboutExpertiseContainerRow2'>
+
+										<div class='aboutExpertiseCell'>
+											<div class='expertiseGroup'>
+												<p class='expertiseGroupTitle' id='expertiseGroupTitle3' >
+													Technology
+												</p>
+												<p class='expertiseText expertiseText1'>
+													Creative Development
+												</p>
+												<p class='expertiseText expertiseText2'>
+													Back-end Development
+
+												</p>
+												<p class='expertiseText expertiseText3'>
+													Front-end Development
+												</p>
+												<p class='expertiseText expertiseText4'>
+													Search Engine Optimization
+												</p>
+												<p class='expertiseText expertiseText5'>
+													Mobile Application Development
+												</p>
+												<p class='expertiseText expertiseText6'>
+													Cloud Applications & Architecture
+												</p>
+											</div>
+										</div>
+
+										<div class='aboutExpertiseCell'>
+											<div class='expertiseGroup'>
+												<p class='expertiseGroupTitle' id='expertiseGroupTitle4' >
+													Security
+												</p>
+												<p class='expertiseText expertiseText1'>
+													Hosting
+												</p>
+												<p class='expertiseText expertiseText2'>
+													Compliance
+												</p>
+												<p class='expertiseText expertiseText3'>
+													Redundancy
+												</p>
+												<p class='expertiseText expertiseText4'>
+													Dashboard Setup
+												</p>
+												<p class='expertiseText expertiseText5'>
+													Log Management
+												</p>
+												<p class='expertiseText expertiseText6'>
+													Vendor Management
+												</p>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							
+							<div class='expertiseButtonContainer' id='expertiseButtonContainer'>
+								<p class='cta--click--large--text-right'>
+									Expertise
+								</p>
+							</div>
+
+							<div class='aboutButtonContainer' id='aboutButtonContainer'>
+								<p class='cta--click--large--text-left'>
+									About
+								</p>
 							</div>
 						</div>
 					</div>
