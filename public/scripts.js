@@ -3041,10 +3041,12 @@ const toggleGeneralPageTransition = (event) => {
 
     
         } else if (oldPageShown === 'aboutPage') {
-            console.log('now passing through about page');
-            console.log('OLD PAGE SHOWN IS ', oldPageShown)
+
             // If we pass an empty string, it removes the elements from the 'aboutPage'
             toggleAboutPage('');
+            // Removes the 'Expertise' related text 
+            revertBackToAboutText();
+
         } else if (oldPageShown === 'contactPage') {
 
             // Make sure that the vertical lines next to the contact information disappear from the contact page with a delay
@@ -3654,7 +3656,8 @@ const toggleMenuAnimation = () => {
 
         } else if (oldPageShown === 'aboutPage') {
 
-            toggleAboutPage('')
+            toggleAboutPage('');
+            revertBackToAboutText();
 
         } else if (oldPageShown === 'faqPage') {
             
@@ -5481,6 +5484,72 @@ const hideExpertiseText = () => {
         document.getElementById('aboutPageSubText3').classList.add('animated');
         document.getElementById('aboutPageSubText4').classList.add('animated');
     }, 1900)
+
+}
+
+// Same as the function above
+// The purpose is to hide the 'Expertise' text when a user either clicks on the menu @toggleMenuAnimation
+// OR clicks on the top / bottom navigation buttons 'Home' or 'Client' which triggers @toggleGeneralPageTransition
+
+const revertBackToAboutText = () => {
+
+    // Hide the 'Expertise' text
+    // document.getElementById('aboutPageExpertiseContainer').classList.remove('shown');
+    document.getElementById('aboutRotatedText2').classList.remove('shown');
+    document.getElementById('expertiseGroupTitle1').classList.remove('shown');
+    document.getElementById('expertiseGroupTitle2').classList.remove('shown');
+    document.getElementById('expertiseGroupTitle3').classList.remove('shown');
+    document.getElementById('expertiseGroupTitle4').classList.remove('shown');
+    
+    let expertiseOneElements = document.getElementsByClassName('expertiseText1');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseOneDivs = Array.prototype.forEach.call(expertiseOneElements, function(element){
+        console.log('Expertise One element', element);
+        element.classList.remove('shown')
+      });
+
+
+    let expertiseTwoElements = document.getElementsByClassName('expertiseText2');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseTwoDivs = Array.prototype.forEach.call(expertiseTwoElements, function(element){
+        console.log('Expertise One element', element);
+        element.classList.remove('shown')
+    });
+  
+    let expertiseThreeElements = document.getElementsByClassName('expertiseText3');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseThreeDivs = Array.prototype.forEach.call(expertiseThreeElements, function(element){
+        element.classList.remove('shown')
+      });
+
+
+    let expertiseFourElements = document.getElementsByClassName('expertiseText4');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseFourDivs = Array.prototype.forEach.call(expertiseFourElements, function(element){
+        element.classList.remove('shown')
+    });
+  
+  
+    let expertiseFiveElements = document.getElementsByClassName('expertiseText5');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseFiveDivs = Array.prototype.forEach.call(expertiseFiveElements, function(element){
+        element.classList.remove('shown')
+      });
+
+
+    let expertiseSixElements = document.getElementsByClassName('expertiseText6');
+    // console.log('Expertise text one array', expertiseTextOneArray);
+
+    let expertiseSixDivs = Array.prototype.forEach.call(expertiseSixElements, function(element){
+        element.classList.remove('shown')
+    });
+  
+    document.getElementById('aboutButtonContainer').classList.remove('shown');
 
 
 }
