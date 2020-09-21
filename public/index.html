@@ -3389,22 +3389,23 @@
 				font-family: Montserrat, sans-serif;
 				color: white;
 				font-size: 4.5rem;
-				display: inline-block;
-				background-color: orange;
+				display: block;
 				text-transform: uppercase;
 				text-align: center;
 				font-weight: 800;
-				margin-right: 25px;
+				/* margin-right: 25px; */
 				margin-top: 0px;
-				margin-bottom: 0px;
+				margin-bottom: 100px;
 				position: relative;
-				top: 30;
-				left: -150px;
+				/* top: 30;
+				left: -150px; */
 				background-color: transparent;
 				z-index: 5000;
 				opacity: 0;
 				transition: opacity 0.2s ease-in 1.8s; 
-				transform: rotate(-90deg);
+				/* transform: rotate(-90deg); */
+				/* writing-mode: vertical-lr;
+				text-orientation: upright; */
 			}
 
 			#aboutRotatedText2.shown {
@@ -3423,7 +3424,7 @@
 			}
 
 			.aboutExpertiseTextContainer {
-				margin-left: 70px;
+				/* margin-left: 70px; */
 				pointer-events: none;
 				display: flex;
 				flex-direction: column;
@@ -3437,6 +3438,7 @@
 				flex-direction: row;
 				margin-bottom: 50px;
 				align-items: center;
+				justify-content: space-between;
 			}
 
 
@@ -3447,6 +3449,7 @@
 				display: flex;
 				flex-direction: row;
 				align-items: center;
+				justify-content: space-around;
 			}
 
 			.aboutExpertiseCell {
@@ -3454,8 +3457,11 @@
 				background-color: transparent;
 				width: auto;
 				height: 100%;
-				margin-right: 50px;
+				/* margin-right: 50px; */
 				min-width: 230px;
+				margin: 40px;
+				margin-top: 0px;
+				margin-bottom: 20px;
 			}
 
 			.pageMainText {
@@ -4478,16 +4484,20 @@
 											Based in New York City, Paris, and Jeddah, Samarra & Co. started as an art collective and satirical newspaper entitled <span id='venereMaisCourtois'> 'Vénère mais Courtois' </span> disseminated through the narrow streets of Paris in 2019.
 										</p>
 										<p class='aboutPageSubTextII' id='aboutPageSubText2' >
-											Although we've decided to cease the printing and publication of our beloved newspaper, it's creation led us to collaborate with numerous French actors, musicians, journalists, and 
+											Although we've decided to cease the printing and publication of our beloved newspaper, it's creation led us to collaborate with various French actors, musicians, journalists, and 
 											authors. In the process, our collective grew to include a team of talented graphic designers, software engineers, journalists, sound producers, film directors, and advertisers, which became the foundation of
 											Samarra & Co. 
 											<!-- Now divided between across three continents, our group has expanded to include street artists, musicians, and other types of creators, and our goal slightly shifted.
 											Express our youth, creativity, and rebellious spirit through these new digital and physical mediums. In a foolhardy attempt to do so, we work with artists, fashion brands,
 											hospitality groups, startups, corporations, and other agencies in order to bring their ideas to light. -->
 										</p>
-										<p class='aboutPageSubTextII' id='aboutPageSubText3' >
+										<!-- <p class='aboutPageSubTextII' id='aboutPageSubText3' >
 											Our current interest is to create unique artistic experiences across the Middle-East and help small-to-medium sized startups in the region grow their entrepreneurial endeavors. Our main areas of focus are
 											Morocco, Egypt, Saudi Arabia, the United Arab Emirates, Lebanon, Turkey, and the West Bank.
+										</p> -->
+										<p class='aboutPageSubTextII' id='aboutPageSubText3' >
+											Our current focus is to help early-stage startups, medium-sized companies, and multinational corporations create unique artistic experiences and grow their entrepreneurial endeavors. Our main areas of focus are
+											Egypt, Saudi Arabia, the United Arab Emirates, Lebanon, and Turkey.
 										</p>
 										<p class='aboutPageSubTextII' id='aboutPageSubText4' >
 											Perfectionism and creativity drive everything we do, from the advertising campaigns that we lead, to the applications that we create, and the companies that we fund.
@@ -4503,35 +4513,12 @@
 								</p>
 								<div class='aboutExpertiseTextContainer'>
 									<div class='aboutExpertiseContainerRow1'>
-										<div class='aboutExpertiseCell'>
-											<div class='expertiseGroup'>
-												<p class='expertiseGroupTitle' id='expertiseGroupTitle1' >
-													 Strategy 
-												</p>
-												<p class='expertiseText expertiseText1'>
-													Branding
-												</p>
-												<p class='expertiseText expertiseText2'>
-													Copywriting
-												</p>
-												<p class='expertiseText expertiseText3'>
-													Tone Of Voice
-												</p>
-												<p class='expertiseText expertiseText4'>
-													Digital In-Store
-												</p>
-												<p class='expertiseText expertiseText5'>
-													Creative Strategy
-												</p>
-												<p class='expertiseText expertiseText6'>
-													Innovative Digital Concepts
-												</p>
-											</div>
-										</div>
+
 										<div class='aboutExpertiseCell'>
 											<div class='expertiseGroup'>
 												<p class='expertiseGroupTitle' id='expertiseGroupTitle2'>
-													Creative & Design
+													Creative 
+													<!-- & Design -->
 												</p>
 												<p class='expertiseText expertiseText1'>
 													Illustration
@@ -4551,11 +4538,8 @@
 												<p class='expertiseText expertiseText6'>
 													User Interface & Interactive Design
 												</p>
-				
 											</div>
 										</div>
-									</div>
-									<div class='aboutExpertiseContainerRow2'>
 
 										<div class='aboutExpertiseCell'>
 											<div class='expertiseGroup'>
@@ -4580,6 +4564,36 @@
 												</p>
 												<p class='expertiseText expertiseText6'>
 													Cloud Applications & Architecture
+												</p>
+											</div>
+										</div>
+
+
+									</div>
+									<div class='aboutExpertiseContainerRow2'>
+
+										<div class='aboutExpertiseCell'>
+											<div class='expertiseGroup'>
+												<p class='expertiseGroupTitle' id='expertiseGroupTitle1' >
+													 Strategy 
+												</p>
+												<p class='expertiseText expertiseText1'>
+													Branding
+												</p>
+												<p class='expertiseText expertiseText2'>
+													Copywriting
+												</p>
+												<p class='expertiseText expertiseText3'>
+													Tone Of Voice
+												</p>
+												<p class='expertiseText expertiseText4'>
+													Digital In-Store
+												</p>
+												<p class='expertiseText expertiseText5'>
+													Creative Strategy
+												</p>
+												<p class='expertiseText expertiseText6'>
+													Innovative Digital Concepts
 												</p>
 											</div>
 										</div>

@@ -84,9 +84,9 @@ let formShowing = false;
 // let lightIntensityDivider = 33; // Nina Simone
 // let lightIntensityDivider = 29; // Nina Simone
 // let lightIntensityDivider = 25; // Trap Beldi
-let lightIntensityDivider = 20;
+// let lightIntensityDivider = 20;
 // let lightIntensityDivider = 8; // Not enough anymore for Erik Satie
-// let lightIntensityDivider = 7; // Better for Erik Satie
+let lightIntensityDivider = 7; // Better for Erik Satie
 
 let planeGeometry, planeTexture, planeMaterial, planeMesh;
 
@@ -1858,7 +1858,7 @@ let songBuffer, analyser;
 
 // Function called when the user clicks on the SoundWave button on the bottom right when the song has finished
 const playSong = () => {
-    window.fetch(LUDO_URL)
+    window.fetch(ERIK_URL)
     .then(response => response.arrayBuffer())
     .then(arrayBuffer => 
         // Creates a short audio asset stored in memory, created from an audio file
@@ -1903,7 +1903,7 @@ const playSong = () => {
 // Not necessary to play the #music on load
 
 // window.onload = () => {
-//     window.fetch(LUDO_URL)
+//     window.fetch(ERIK_URL)
 //     .then(response => response.arrayBuffer())
 //     .then(arrayBuffer => 
 //         // Creates a short audio asset stored in memory, created from an audio file
