@@ -260,7 +260,8 @@ const showClickMessageToRemoveLoadingPage = () => {
     // Remove the delay too so that it actually disappears faster - if the delay of 2s, which is written in the CSS rules, stays, then the transition
     // delay takes way too much time to disappear. 
     document.getElementById('loadingPage--normalText').style.transitionDelay = '0s';
-    document.getElementById('loadingPage--normalText').style.webkitTransitionDuration = '0.25s';
+    document.getElementById('loadingPage--normalText').style.webkitTransitionDuration = '0.15s';
+    document.getElementById('loadingPage--normalText').style.transitionDuration = '0.15s';
 
     document.getElementById('loadingPage--normalText').classList.remove('shown');
     
@@ -1317,11 +1318,11 @@ const changeBeetleToWhiteMarble = () => {
 // X Marble Texture Change
 // Used in FAQ page
 
-const changeBeetleToRedMarble = () => {
+const changeBeetleToDarkGreyMarble = () => {
 
     let material;
 
-    textureLoader.load(RELATIVE_URL + 'ice.jpg', (texture) => {
+    textureLoader.load(RELATIVE_URL + 'greyMarble5.jpg', (texture) => {
         // immediately use the texture for material creation
         material = new THREE.MeshPhongMaterial( { map: texture } );
         // let objLoader = new THREE.OBJLoader();
@@ -1586,7 +1587,7 @@ const createInitialBeetleObjects = async () => {
     // About Page Beetle
     changeBeetleToWhiteMarble();
     // FAQ Page Beetle 
-    changeBeetleToRedMarble();
+    changeBeetleToDarkGreyMarble();
 
     // The functions above are asynchronous so none of these work 
     // blackMarbleBeetleObject.visible = false;
@@ -5949,7 +5950,7 @@ let animate = function () {
 
     // For now, the plane will only slightly rotate from left to right
     if (pageShown === 'aboutPage') {
-        blackRockPlaneMesh.rotation.y = mouseX / 150;
+        blackRockPlaneMesh.rotation.y = mouseX / 100; // Previously 120 & 160
 
         // if (mouseY > 1 || mouseY < -1) {
         //     console.log('Mouse Y divided is', mouseY / 2000)

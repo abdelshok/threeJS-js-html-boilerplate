@@ -241,7 +241,7 @@
 				cursor: none;
 				background-color: transparent;
 				visibility: block;
-				transition: all 0.3s ease-in 0.35s;
+				transition: all 0.2s ease-in 0.3s;
 				max-width: 154px;
 				z-index: 5000;
 				position: absolute;
@@ -1252,6 +1252,10 @@
 				display: inline-block;
 				width: auto;
 				height: auto;
+				-youbkit-user-select: text;   
+				-moz-user-select: text;	   
+				-ms-user-select: text;		
+				user-select: text;			
 			}
 
 			.address-details-right {
@@ -1259,11 +1263,19 @@
 				height: auto;
 				width: auto;
 				background-color: transparent;
-			}
+				-youbkit-user-select: text;   
+				-moz-user-select: text;	   
+				-ms-user-select: text;		
+				user-select: text;					
+				}
 
 			.address-details-inside {
 				display: flex;
 				flex-direction: column;
+				-youbkit-user-select: text;   
+				-moz-user-select: text;	   
+				-ms-user-select: text;		
+				user-select: text;		
 			}
 
 			.address-title {
@@ -1757,6 +1769,7 @@
 				flex-direction: column;
 				opacity: 0;
 				visibility: hidden;
+				pointer-events: none;
 				transition: opacity 0.2s ease, visibility 0.2s ease;
 			}
 
@@ -1764,6 +1777,7 @@
 			.contactPageContainer.showing {
 				opacity: 1;
 				visibility: visible;
+				pointer-events: auto;
 			}
 
 			.contactPageDetails {
@@ -2010,11 +2024,11 @@
 			/* More complicated selectors */
 
 			#askAQuestionArrow{
-				transition: all 0.2s ease-in;
+				transition: all 0.1s ease-in;
 			}
 
 			#submitFormArrow {
-				transition: all 0.2s ease-in;
+				transition: all 0.1s ease-in;
 			}
 
 			#goBackArrow {
@@ -2046,7 +2060,7 @@
 			}
 
 			#startProjectArrow {
-				transition: all 0.2s ease-in;
+				transition: all 0.1s ease-in;
 			}
 
 			#startProject:hover + #startProjectArrow {
@@ -2055,7 +2069,7 @@
 
 
 			#joinTeamArrow {
-				transition: all 0.2s ease-in;
+				transition: all 0.1s ease-in;
 			}
 
 			#joinTeam:hover + #joinTeamArrow {
@@ -4616,7 +4630,7 @@
 											Based in New York City, Paris, and Jeddah, Samarra & Co. started as an art collective and satirical newspaper entitled <span id='venereMaisCourtois'> 'Vénère mais Courtois' </span> disseminated through the narrow streets of Paris in 2019.
 										</p>
 										<p class='aboutPageSubTextII' id='aboutPageSubText2' >
-											Although we've decided to cease the printing and publication of our beloved newspaper, it's creation led us to collaborate with various French actors, musicians, journalists, and 
+											Although we've decided to cease the printing and publication of our beloved newspaper, it's creation led us to collaborate with various French actors, musicians, and 
 											authors. In the process, our collective grew to include a team of talented graphic designers, software engineers, journalists, sound producers, film directors, and advertisers, which became the foundation of
 											Samarra & Co. 
 											<!-- Now divided between across three continents, our group has expanded to include street artists, musicians, and other types of creators, and our goal slightly shifted.
@@ -4628,8 +4642,9 @@
 											Morocco, Egypt, Saudi Arabia, the United Arab Emirates, Lebanon, Turkey, and the West Bank.
 										</p> -->
 										<p class='aboutPageSubTextII' id='aboutPageSubText3' >
-											Our current focus is to help early-stage startups, medium-sized companies, and multinational corporations create unique artistic experiences and grow their entrepreneurial endeavors. Our main areas of focus are
-											Egypt, Saudi Arabia, the United Arab Emirates, Lebanon, and Turkey.
+											Our current focus is to help early-stage startups and multinational corporations develop unique creative experiences and grow their entrepreneurial endeavors. We also like to collaborate with artists, musicians, fashion brands, hospitality groups,and media companies 
+											in order to bring their most subversive ideas to light.
+											<!-- Our main areas of focus are Egypt, Saudi Arabia, the United Arab Emirates, Lebanon, and Turkey. -->
 										</p>
 										<p class='aboutPageSubTextII' id='aboutPageSubText4' >
 											Perfectionism and creativity drive everything we do, from the advertising campaigns that we lead, to the applications that we create, and the companies that we fund.
@@ -4864,12 +4879,12 @@
 					<div class='faqPageDescriptionTextContainer samarra-text'>
 							<div class='faqPageLeftDescriptionContainer samarra-text'>
 								<p class='faqPageTempText' id='faqPageTempText1'>
-									New client list currently being updated.
+									Our new client list is being updated.
 								</p>
 							</div>
 							<div class='faqPageRightDescriptionContainer'>
 								<p class='faqPageTempText' id='faqPageTempText2'>
-									New client list currently being updated.
+									Our new client list is being updated.
 								</p>
 							</div>
 					</div>
