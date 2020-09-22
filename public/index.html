@@ -202,7 +202,7 @@
 				text-align: center;
 				opacity: 0;
 				visibility: block;
-				transition: all 0.5s ease-in 2s;
+				transition: all 1s ease-in 2s;
 				max-width: 155px;
 				position: absolute;
 				top: 0;
@@ -1877,6 +1877,7 @@
 				background-color: transparent;
 				padding-left: 15px;
 				padding-right: 15px;
+				visibility: inherit;
 			}
 
 
@@ -1934,10 +1935,12 @@
 				transform: translateY(-50px);
 				z-index: 2000;
 				/* min-height: 510px; */
+				visibility: hidden;
 			}
 
 			.contactPageOptionsTwo.showing {
 				opacity: 1;
+				visibility: visible;
 				/* transform: translateY(-50px); */
 				z-index: 2200;
 			}
@@ -3601,6 +3604,90 @@
 				opacity: 1;
 			}
 
+			/* Contact Page Related */
+
+			#contactPageMainTextCharacter1 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.7s;
+			}
+
+			#contactPageMainTextCharacter2 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.6s;
+			}
+
+			#contactPageMainTextCharacter3 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.5s;
+			}
+
+			#contactPageMainTextCharacter4 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.4s;
+			}
+
+			#contactPageMainTextCharacter5 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.5s;
+			}
+
+			#contactPageMainTextCharacter6 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.6s;
+			}
+
+			#contactPageMainTextCharacter7 {
+				transform: translateY(7px);
+				opacity: 0;
+				transition: all 0.2s ease-in 0.7s;
+			}
+
+
+			#contactPageMainTextCharacter1.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+			}
+
+			#contactPageMainTextCharacter2.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+				
+			}
+
+			#contactPageMainTextCharacter3.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+			}
+
+			#contactPageMainTextCharacter4.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+				
+			}
+
+			#contactPageMainTextCharacter5.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+			}
+
+			#contactPageMainTextCharacter6.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+			}
+
+			#contactPageMainTextCharacter7.animated {
+				transform: translateY(-7px);
+				opacity: 1;
+			}
+
+			/* End of Contact Page Related */
+
 			#contactPageTitleID {
 				transform: translateY(10px);
 				opacity: 0;
@@ -4208,9 +4295,32 @@
 
 				<div class='contactPageContainer samarra-text'  id='contactPageContainer'>
 					<div class='contactPageTitleContainer samarra-text' >
-						<h1 class='titleText samarra-text' id='samarraContactPageTitle'>
+						<!-- <h1 class='titleText samarra-text' id='samarraContactPageTitle'>
 							Samarra & Co.
-						</h1>
+						</h1> -->
+						<div>
+							<span class='pageMainTextCharacter' id='contactPageMainTextCharacter1'>
+								C
+							</span>
+							<span class='pageMainTextCharacter' id='contactPageMainTextCharacter2'>
+								O
+							</span>
+							<span class='pageMainTextCharacter' id='contactPageMainTextCharacter3'>
+								N
+							</span>
+							<span class='pageMainTextCharacter' id='contactPageMainTextCharacter4'>
+								T
+							</span>
+							<span class='pageMainTextCharacter' id='contactPageMainTextCharacter5'>
+								A
+							</span>
+							<span class='pageMainTextCharacter' id='contactPageMainTextCharacter6'>
+								C
+							</span>
+							<span class='pageMainTextCharacter' id='contactPageMainTextCharacter7'>
+								T
+							</span>
+						</div>
 					</div>
 					<div class='contactPageDetails'>
 						<div class='contactPageLeftContainer'>

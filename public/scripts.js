@@ -3845,6 +3845,17 @@ const animateContactLines = () => {
     document.getElementById('address-line-left-two-one').classList.add('animated');
     document.getElementById('address-line-right-two-one').classList.add('animated');
 
+}
+
+// Function that removes the line that shows with the contact
+
+const removeContactLines = () => {
+
+    console.log('REMOVING CONTACT LINES MAIN MENU');
+    document.getElementById('address-line-left-two-zero').classList.remove('animated');
+    document.getElementById('address-line-right-two-zero').classList.remove('animated');
+    document.getElementById('address-line-left-two-one').classList.remove('animated');
+    document.getElementById('address-line-right-two-one').classList.remove('animated');
 
 }
 
@@ -4159,6 +4170,8 @@ const toggleFAQPage = (pageShown) => {
             document.getElementById('pageMainTextCharacter7').classList.remove('animated');
             document.getElementById('faqPageTempText1').classList.remove('shown');
             document.getElementById('faqPageTempText2').classList.remove('shown');
+
+            
         }, 250);
 
     }
@@ -4185,13 +4198,21 @@ const toggleContactPage = (pageShown) => {
             document.getElementById('firstOptionContainer').classList.add('shown');
             document.getElementById('secondOptionContainer').classList.add('shown');
             document.getElementById('thirdOptionContainer').classList.add('shown');
-            document.getElementById('samarraContactPageTitle').classList.add('shown');
+            // document.getElementById('samarraContactPageTitle').classList.add('shown');
             document.getElementById('contactPageNewYorkOfficeID').classList.add('shown');
             document.getElementById('contactPageNewYorkOfficeEmailID').classList.add('shown');
             document.getElementById('contactPageNewYorkOfficePhoneID').classList.add('shown');
             document.getElementById('parisOfficeID').classList.add('shown');
             document.getElementById('parisOfficeEmailID').classList.add('shown');
             document.getElementById('parisOfficePhoneID').classList.add('shown');
+
+            document.getElementById('contactPageMainTextCharacter1').classList.add('animated');
+            document.getElementById('contactPageMainTextCharacter2').classList.add('animated');
+            document.getElementById('contactPageMainTextCharacter3').classList.add('animated');
+            document.getElementById('contactPageMainTextCharacter4').classList.add('animated');
+            document.getElementById('contactPageMainTextCharacter5').classList.add('animated');
+            document.getElementById('contactPageMainTextCharacter6').classList.add('animated');
+            document.getElementById('contactPageMainTextCharacter7').classList.add('animated');
         }, 1700)
 
         setTimeout(() => {
@@ -4209,13 +4230,25 @@ const toggleContactPage = (pageShown) => {
             document.getElementById('firstOptionContainer').classList.remove('shown');
             document.getElementById('secondOptionContainer').classList.remove('shown');
             document.getElementById('thirdOptionContainer').classList.remove('shown');
-            document.getElementById('samarraContactPageTitle').classList.remove('shown');
+            // document.getElementById('samarraContactPageTitle').classList.remove('shown');
             document.getElementById('contactPageNewYorkOfficeID').classList.remove('shown');
             document.getElementById('contactPageNewYorkOfficeEmailID').classList.remove('shown');
             document.getElementById('contactPageNewYorkOfficePhoneID').classList.remove('shown');
             document.getElementById('parisOfficeID').classList.remove('shown');
             document.getElementById('parisOfficeEmailID').classList.remove('shown');
             document.getElementById('parisOfficePhoneID').classList.remove('shown');
+
+            document.getElementById('address-line-right-two-two').classList.remove('animated');
+            document.getElementById('address-line-right-two-three').classList.remove('animated');
+
+
+            document.getElementById('contactPageMainTextCharacter1').classList.remove('animated');
+            document.getElementById('contactPageMainTextCharacter2').classList.remove('animated');
+            document.getElementById('contactPageMainTextCharacter3').classList.remove('animated');
+            document.getElementById('contactPageMainTextCharacter4').classList.remove('animated');
+            document.getElementById('contactPageMainTextCharacter5').classList.remove('animated');
+            document.getElementById('contactPageMainTextCharacter6').classList.remove('animated');
+            document.getElementById('contactPageMainTextCharacter7').classList.remove('animated');
         }, 250);
 
     }
