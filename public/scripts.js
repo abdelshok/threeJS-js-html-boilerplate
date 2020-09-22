@@ -5369,6 +5369,9 @@ const showExpertiseText = () => {
     document.getElementById('expertiseGroupTitle2').classList.add('shown');
     document.getElementById('expertiseGroupTitle3').classList.add('shown');
     document.getElementById('expertiseGroupTitle4').classList.add('shown');
+    document.getElementById('expertiseGroupTitle5').classList.add('shown');
+    document.getElementById('expertiseGroupTitle6').classList.add('shown');
+
     
     let expertiseOneElements = document.getElementsByClassName('expertiseText1');
     // console.log('Expertise text one array', expertiseTextOneArray);
@@ -5436,6 +5439,8 @@ const hideExpertiseText = () => {
     document.getElementById('expertiseGroupTitle2').classList.remove('shown');
     document.getElementById('expertiseGroupTitle3').classList.remove('shown');
     document.getElementById('expertiseGroupTitle4').classList.remove('shown');
+    document.getElementById('expertiseGroupTitle5').classList.remove('shown');
+    document.getElementById('expertiseGroupTitle6').classList.remove('shown');
     
     let expertiseOneElements = document.getElementsByClassName('expertiseText1');
     // console.log('Expertise text one array', expertiseTextOneArray);
@@ -5517,6 +5522,8 @@ const revertBackToAboutText = () => {
     document.getElementById('expertiseGroupTitle2').classList.remove('shown');
     document.getElementById('expertiseGroupTitle3').classList.remove('shown');
     document.getElementById('expertiseGroupTitle4').classList.remove('shown');
+    document.getElementById('expertiseGroupTitle5').classList.remove('shown');
+    document.getElementById('expertiseGroupTitle6').classList.remove('shown');
     
     let expertiseOneElements = document.getElementsByClassName('expertiseText1');
     // console.log('Expertise text one array', expertiseTextOneArray);
