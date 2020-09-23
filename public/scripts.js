@@ -42,6 +42,9 @@ let whiteMarbleBeetleObject;
 let greyMarbleBeetleObject;
 let redPinkMarbleBeetleObject;
 
+let currentBeetleObject; // The beetle object displayed on the page will be assigned (by reference obviously) to this variable
+                         // this will ensure that we can always turn off the visibility and turn it back on on the right page
+
 // Constants that controls the delay at which meshes' visibility gets changed
 let MESH_VISIBILITY_DELAY = 1100;
 let DOM_VISIBILITY_SHORT_DELAY = 200;
@@ -55,6 +58,7 @@ let isBeetleWireframe = false;
 let stats;
 
 let currentMenuIcon = 'menuIcon';
+let beetleColor = 'black';
 
 // Loading Page Related Variables
 
@@ -92,6 +96,8 @@ let planeGeometry, planeTexture, planeMaterial, planeMesh;
 
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
+let dynamicWindowWidth = window.innerWidth;
+let dynamicWindowHeight = window.innerHeight;
 
 // Voice Control related constants
 
@@ -807,7 +813,12 @@ const createBlackMarbleBeetle = () => {
 
             // Make invisible
             blackMarbleBeetleObject.visible = true;
+            
+            // We assign the object to the currentBeetleObject variable in order to be able to acces sit later on and change the visibility
+            // back on when the width or height of the window changes sizes.
+            currentBeetleObject = blackMarbleBeetleObject;
 
+            // Evidently, we add the obejct to the scene. 
             scene.add(blackMarbleBeetleObject);
 
 
@@ -826,7 +837,6 @@ const createBlackMarbleBeetle = () => {
             // blackMarbleBeetleObject.add(pivotPoint2);
             // pivotPoint2.add(spotLight);
 
-            console.log('BLACK BEETLE OBJECT CREATED', blackMarbleBeetleObject);
             // beetleObject.visible = false;
         });
 
@@ -1988,6 +1998,11 @@ let windowHeight = window.innerHeight;
 
 window.onresize = function () {
 
+    // Update the global variables that we are going to use in order to track whether we need to remove
+    // the beetle from the page when the beetle is too small
+    dynamicWindowWidth = window.innerWidth;
+    dynamicWindowHeight = window.innerHeight;
+
     let width = window.innerWidth;
     let height = window.innerHeight;
 
@@ -2707,9 +2722,13 @@ const removeThreeJSMeshes = () => {
 // Functions that is called to change the visibility of the different meshes depending
 // on the page that is passed
 
+// There are 5 pages total: 1. Home 2. About 3. Client 4. Contact 5. Main Menu
+
 const changeMeshVisibility = (currentPage) => {
 
     console.log('MESH VISIBILITY CALLED WITH CURRENT PAGE', currentPage);
+
+    // 1. Home Page - First page that gets displayed to the user
 
     if (currentPage === 'homePage') {
 
@@ -2727,13 +2746,19 @@ const changeMeshVisibility = (currentPage) => {
 
         // Make correct beetle meshe visible
         blackMarbleBeetleObject.visible = true;
+
+        // We re-assign the variable currentBeetleObject to the correct one (for the purpose) of turning on the visibility back 
+        // on if it is necessary later on
+        currentBeetleObject = blackMarbleBeetleObject;
+
         // Make correct plane visible
         planeMesh.visible = true;
 
         // Don't forget to change the light intensity
-        let beetleColor = 'black';
+        beetleColor = 'black';
         changeLightIntensity(beetleColor);
 
+    // 5. Menu Page -- Page that gets displayed 
     } else if (currentPage === 'menuPage') {
 
         // Old Meshes
@@ -2768,7 +2793,7 @@ const changeMeshVisibility = (currentPage) => {
         // darkGreenPlaneMesh.visible = true;
 
         // // Don't forget to change the light intensity
-        // let beetleColor = 'grey';
+        // beetleColor = 'grey';
         // changeLightIntensity(beetleColor);
 
         // New Meshes
@@ -2792,12 +2817,19 @@ const changeMeshVisibility = (currentPage) => {
 
         // Make correct beetle meshe visible
         whiteMarbleBeetleObject.visible = true;
+
+        // We re-assign the variable currentBeetleObject to the correct one (for the purpose) of turning on the visibility back 
+        // on if it is necessary later on
+        currentBeetleObject = whiteMarbleBeetleObject;
+
         // Make correct plane visible
         blackWavePlaneMesh.visible = true;
 
         // Don't forget to change the light intensity
-        let beetleColor = 'white';
+        beetleColor = 'white';
         changeLightIntensity(beetleColor);
+
+    // 2. About Page 
 
     } else if (currentPage === 'aboutPage') {
 
@@ -2828,7 +2860,7 @@ const changeMeshVisibility = (currentPage) => {
         // blackRockPlaneMesh.visible = true;
 
         // // Don't forget to change the light intensity
-        // let beetleColor = 'white';
+        // beetleColor = 'white';
         // changeLightIntensity(beetleColor);
 
         // New Meshes
@@ -2865,10 +2897,11 @@ const changeMeshVisibility = (currentPage) => {
 
 
         // Don't forget to change the light intensity
-        let beetleColor = 'grey';
+        beetleColor = 'grey';
         changeLightIntensity(beetleColor);
 
 
+    // 4. Contact Page
     } else if (currentPage === 'contactPage') {
 
         console.log('Showing CONTACT PAGE NOW VISIBILITY CHANGE')
@@ -2897,18 +2930,20 @@ const changeMeshVisibility = (currentPage) => {
 
         // Make correct beetle meshe visible
         blueMarbleBeetleObject.visible = true;
-        // greyMarbleBeetleObject.visible = true;
 
-        // console.log('BLUE MARBLE BEETLE LOADED', blueMarbleBeetleObject);
+        // We re-assign the variable currentBeetleObject to the correct one (for the purpose) of turning on the visibility back 
+        // on if it is necessary later on
+        currentBeetleObject = blueMarbleBeetleObject;
 
         // Make correct plane visible
         blackRockPlaneMeshTwo.visible = true;
         // planeMesh.visible = true;
 
         // Don't forget to change the light intensity
-        let beetleColor = 'lightBlue';
+        beetleColor = 'lightBlue';
         changeLightIntensity(beetleColor);
  
+    // 4. Client Page - Currently called faqPage
     } else if (currentPage === 'faqPage') {
 
         // Ensure that the incorrect beetle meshes are invisible
@@ -2925,14 +2960,20 @@ const changeMeshVisibility = (currentPage) => {
 
         // Make correct beetle meshe visible
         redPinkMarbleBeetleObject.visible = true;
+
+        // We re-assign the variable currentBeetleObject to the correct one (for the purpose) of turning on the visibility back 
+        // on if it is necessary later on
+        currentBeetleObject = redPinkMarbleBeetleObject;
+
         // Make correct plane visible
         xPlaneMesh.visible = true;
 
 
         // Don't forget to change the light intensity
-        let beetleColor = 'grey';
+        beetleColor = 'grey';
         changeLightIntensity(beetleColor);
 
+    // 6. Counts as a 6th page - Shows all the legal & privacy notices
     } else if (currentPage === 'legalPage') {
         
         // In the case that we are facing the legal page, then we hide all of the different beetles
@@ -3119,7 +3160,6 @@ const toggleGeneralPageTransition = (event) => {
                 id = 'menuElementSix';
 
             }
-
 
         }
     
@@ -5866,16 +5906,27 @@ let animate = function () {
         averageFrequency = average(frequencyData);
         averageDomain = average(domainData);
         // console.log('Average frequency', averageFrequency);
+        
+        // console.log('Average Frequency', averageFrequency);
+        // console.log('Light intensity divider', lightIntensityDivider);
+        // console.log('Computed Intensity ', averageFrequency / lightIntensityDivider);
+        // console.log('Is music playing', musicPlaying)
     }
 
     // If there is an average frequency, then it must not be equal to 0, therefore we make sure that the intensity of the actual spotlight is related
     // to the average frequency of the music that is playi
     // #music #toBeFinished
-    // if (isSongFinished === false) {
-        spotLight.intensity = averageFrequency === 0 ? 2 : averageFrequency / lightIntensityDivider;
-    // } else if (isSongFinished === true) {
-    //     spotLight.intensity = 3.8;
-    // }
+    if (musicPlaying === true) {
+        spotLight.intensity = averageFrequency === 0 ? 3 : averageFrequency / lightIntensityDivider;
+    } else if (musicPlaying === false) {
+        // If the beetle color is white then we decrease the spotlight intensity because the specular reflection is too high
+        spotLight.intensity = beetleColor === 'white' ? 2 : 3;
+    }
+
+    // console.log('Spotlight Intensity', spotLight.intensity);
+    // console.log('Music Playing', musicPlaying)
+    // console.log('Beetle Color', beetleColor);
+
     // spotLightTwo.intensity = averageFrequency === 0 ? 2 : averageFrequency / 20;
     // spotLightThree.intensity = averageFrequency === 0 ? 2 : averageFrequency / 20;
 
@@ -5908,6 +5959,50 @@ let animate = function () {
     // Updates Lines
     // #lines
     // updateLines();
+
+    // Window Width & Height tracker in order to remove the beetle when the window is too small
+    console.log('Dynamic window height', dynamicWindowHeight);
+    console.log('Dynamic window width', dynamicWindowWidth);
+
+    // If the window width is too small, either on desktop or on mobile device, we have to make sure to remove the beetle object
+    // in order to make the text more legible throughout the website
+    if (dynamicWindowWidth <= 500 || dynamicWindowHeight <= 700) {
+
+        // initiateTransitionAnimation();
+
+        if (blackMarbleBeetleObject !== undefined) {
+            blackMarbleBeetleObject.visible = false;
+        };
+
+        if (blueMarbleBeetleObject !== undefined) {
+            blueMarbleBeetleObject.visible = false;
+        };
+
+        if (whiteMarbleBeetleObject !== undefined) {
+            whiteMarbleBeetleObject.visible = false;
+        };
+
+        if (greyMarbleBeetleObject !== undefined) {
+            greyMarbleBeetleObject.visible = false;
+        };
+
+        if (redPinkMarbleBeetleObject !== undefined) {
+            redPinkMarbleBeetleObject.visible = false;
+        };
+
+    } else {
+        
+        // The whole reason that we kept re-assigning the currentBeetleObject variable to the different beetleObjects that populate the scene in @changMeshVisibility
+        // and @createBlackMarbleBeetle is so that when the window increases back in size, we automatically show the beetle with the correct texture
+
+        // The second condition here, which ensures that the pageShown is not the 'aboutPage', makes it that the beetle is never shown if the user is on the aboutPage
+        if (currentBeetleObject !== undefined && pageShown !== 'aboutPage') {
+
+            // initiateTransitionAnimation();
+
+            currentBeetleObject.visible = true;
+        }
+    }
 
     // Make sure to update cursor
     updateCursor();
