@@ -2755,8 +2755,20 @@ const changeMeshVisibility = (currentPage) => {
         planeMesh.visible = true;
 
         // Don't forget to change the light intensity
-        beetleColor = 'black';
-        changeLightIntensity(beetleColor);
+
+        // We create a set time out in order to give the time for the animation to start before we redefine the beetle color
+        // This is done becasue in the requestAnimationFrame, we make the beetle visible as soon as the beetleColor is changed to anything
+        // that isn't 'white' (so here 'black' counts). This means that without the setTimeout, the beetle would be directly made 
+        // visible after one of the navigation buttons is clicked, which isn't the way it's supposed to appear. It' supposed to appear after
+        // the actual animation started - in this case 400ms should be enough, but it might need to be longer than that 
+
+        console.log('Changing the color of the beetle because @changeMeshVisibility is clicked');
+
+        setTimeout(() => {
+            beetleColor = 'black';
+            changeLightIntensity(beetleColor);
+        }, 400)
+
 
     // 5. Menu Page -- Page that gets displayed 
     } else if (currentPage === 'menuPage') {
@@ -2792,10 +2804,6 @@ const changeMeshVisibility = (currentPage) => {
         // // Make correct plane visible
         // darkGreenPlaneMesh.visible = true;
 
-        // // Don't forget to change the light intensity
-        // beetleColor = 'grey';
-        // changeLightIntensity(beetleColor);
-
         // New Meshes
 
         // Ensure that the incorrect beetle meshes are invisible
@@ -2826,8 +2834,11 @@ const changeMeshVisibility = (currentPage) => {
         blackWavePlaneMesh.visible = true;
 
         // Don't forget to change the light intensity
-        beetleColor = 'white';
-        changeLightIntensity(beetleColor);
+        // Same logic as in the above if loop, we use a set time out in order to ensure that the beetle object desn't appear too quickly
+        setTimeout(() => {
+            beetleColor = 'white';
+            changeLightIntensity(beetleColor);
+        }, 600);
 
     // 2. About Page 
 
@@ -2863,6 +2874,9 @@ const changeMeshVisibility = (currentPage) => {
         // beetleColor = 'white';
         // changeLightIntensity(beetleColor);
 
+        // Set the beetle color to 'none' in order to ensure that the beetle object isn't shown when we click away from the 'About' page
+        beetleColor = 'none';
+
         // New Meshes
 
         console.log('Entering if loop of Mesh Visibility of menuPage')
@@ -2896,9 +2910,10 @@ const changeMeshVisibility = (currentPage) => {
         blackRockPlaneMesh.visible = true;
 
 
+        // Commented out because we are not adding any Beetle anymore to the About page
         // Don't forget to change the light intensity
-        beetleColor = 'grey';
-        changeLightIntensity(beetleColor);
+        // beetleColor = 'grey';
+        // changeLightIntensity(beetleColor);
 
 
     // 4. Contact Page
@@ -2987,6 +3002,13 @@ const changeMeshVisibility = (currentPage) => {
 
         // We don't actually change the Plane Geometry or Texture of the plane, so unlike the above conditions,
         // in this case, we do nothing. 
+
+        // Same logic as in the if loop for the 'aboutPage'
+        // We ensure that beetleColor is set to none & throw a setTimeout in order to ensure that the beetle doesn't get displayed
+        // too quickly - which it will because the code in the requestAnimationFrame will turn the visibility of the beetle object
+        // to 'true' if it detects that the beetleColor is black, lightBlue, grey, or white.
+        beetleColor = 'none';
+
 
     }
 
@@ -4312,6 +4334,7 @@ const toggleLegalPage = (pageShown) => {
             document.getElementById('legalPage').style.opacity = 1;
             document.getElementById('legalPage').style.visibility = 'visible';
             document.getElementById('legalPage').style.display = 'flex';
+            document.getElementById('legalPage').style.pointerEvents = 'auto';
         }, 1700);
 
 
@@ -4323,6 +4346,7 @@ const toggleLegalPage = (pageShown) => {
             document.getElementById('legalPage').style.opacity = 0;
             document.getElementById('legalPage').style.visibility = 'hidden'; 
             document.getElementById('legalPage').style.display = 'none';
+            document.getElementById('legalPage').style.pointerEvents = 'none';
         }, 400);
 
     }
@@ -5961,8 +5985,8 @@ let animate = function () {
     // updateLines();
 
     // Window Width & Height tracker in order to remove the beetle when the window is too small
-    console.log('Dynamic window height', dynamicWindowHeight);
-    console.log('Dynamic window width', dynamicWindowWidth);
+    // console.log('Dynamic window height', dynamicWindowHeight);
+    // console.log('Dynamic window width', dynamicWindowWidth);
 
     // If the window width is too small, either on desktop or on mobile device, we have to make sure to remove the beetle object
     // in order to make the text more legible throughout the website
@@ -5996,11 +6020,14 @@ let animate = function () {
         // and @createBlackMarbleBeetle is so that when the window increases back in size, we automatically show the beetle with the correct texture
 
         // The second condition here, which ensures that the pageShown is not the 'aboutPage', makes it that the beetle is never shown if the user is on the aboutPage
-        if (currentBeetleObject !== undefined && pageShown !== 'aboutPage') {
+        console.log('Current Beetle Color is', beetleColor);
+
+        if (currentBeetleObject !== undefined && pageShown !== 'aboutPage' && pageShown !== 'legalPage') {
 
             // initiateTransitionAnimation();
-
-            currentBeetleObject.visible = true;
+            if (beetleColor === 'black' || beetleColor === 'white' || beetleColor === 'lightBlue' || beetleColor === 'grey') {
+                currentBeetleObject.visible = true;
+            }
         }
     }
 

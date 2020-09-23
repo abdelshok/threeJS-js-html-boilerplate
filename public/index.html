@@ -1390,6 +1390,7 @@
 			.faqPageContainer.showing {
 				opacity: 1;
 				visibility: visible;
+				pointer-events: auto;
 			}
 
 			.aboutPageLeftContainer  {
@@ -3084,7 +3085,8 @@
 				background-color: transparent;
 				overflow-y: scroll;
 				display: flex;
-				justify-content: center;;
+				justify-content: center;
+				pointer-events: none;
 			}
 
 			.legalPageTextContainer {
@@ -3460,6 +3462,10 @@
 			.aboutGeneralTextContainer {
 				margin-left: 50px;
 				pointer-events: none;
+				-youbkit-user-select: text;   
+				-moz-user-select: text;	   
+				-ms-user-select: text;		
+				user-select: text;	
 			}
 
 			.aboutExpertiseTextContainer {
