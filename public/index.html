@@ -152,16 +152,81 @@
 				left: 0;
 			}
 
+			#homePage {
+				width: 100vw;
+				height: 100vh;
+				background-color: transparent;
+				position: relative;
+				opacity: 1;
+				visibility: visible;
+				display: flex;
+				justify-content: center;
+			}
+
 			#titleOne {
 				background-color: transparent;
 				position: absolute;
 				margin-top: 250px;
-				width: 100%;
+				width: auto;
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				z-index: 100;
 			}
+
+			@media (max-width: 700px) {
+
+				/* Makes sure that the 'Pause' or 'Play' text appears upright if the window width is smaller */
+				#soundwave-description {
+					writing-mode: vertical-rl;
+					/* text-orientation: upright; */
+					top: -90px;
+					right: 13px;
+					letter-spacing: 3px;
+				}
+
+			}
+
+			@media(max-width: 600px) {
+
+				.cta--click--container::after {
+					content: none;
+					/* display: none; */
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container::before {
+					content: none;
+					/* display: none; */
+					opacity: 0;
+					visibility: hidden;
+				}
+
+
+			}
+
+			@media (max-width: 500px) { 
+
+				#homePage {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+
+				#titleOne {
+					margin-top: 0px;
+					position: relative;
+				}
+				 
+				/* Gets rid of the lines before & after the navigation buttons */
+
+
+				/* Makes the Sound Wave smaller */
+
+
+			 }
+
 
 			#titleLoadingPage {
 				background-color: transparent;
@@ -274,7 +339,15 @@
 				font-style: normal;
 				font-weight: 500;
 				/* letter-spacing: 2px; */
+				opacity: 1;
+				/* transition: 0.2s ease-in 0.25s; */
 			}
+
+			/* .titleText.showing {
+				opacity: 1;
+				transition: 0.2s ease-in 0.5s; 
+			} */
+			/* Delay set to 0.5s because @toggleHomePage has a set time out of 1700 and transition animation lasts 2000ms, which makes it appear 200ms after animation ends */
 
 			.aboutTitleText {
 				font-size: 30px;
@@ -355,7 +428,7 @@
 				align-items: center;
 				position: absolute;
 				right: 45px;
-				top: 45px;
+				top: 55px;
 				/* background-color: red;
 				opacity: 0.5; */
 			}
@@ -703,8 +776,8 @@
 
 			.soundwave-description {
 				position: absolute;
-				right: 50;
-				top: 20;
+				right: 80;
+				top: 50%;
 				width: auto;
 				background: transparent;
 				font-size: 1.4rem;
@@ -715,13 +788,13 @@
 				text-transform: uppercase;
 				visibility: hidden;
 				opacity: 0;
-				transition: 0.5s ease;
+				transition: 0.2s ease-in;
 			}
 
 			.plus-sign-description {
 				position: absolute;
 				left: 50;
-				top: 25;
+				top: 40;
 				width: auto;
 				background: transparent;
 				font-size: 1.4rem;
@@ -4280,7 +4353,7 @@
 
 					<!-- Main Headline of the Main Page -->
 					<div id='titleOne' class='samarra-text'>
-						<h1 class='titleText content-item' data-splitting> <span id='companyName'> Samarra & Co. </span> <br> Digital Solutions, <br> Creative, Innovative, <br> One of a Kind </h1>
+						<h1 class='titleText content-item' data-splitting id='titleText'> <span id='companyName'> Samarra & Co. </span> <br> Digital Solutions, <br> Creative, Innovative, <br> One of a Kind </h1>
 					</div>
 	
 				</div>

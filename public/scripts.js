@@ -128,9 +128,9 @@ let loadingGraphicalSceneFinished = false;
  *
  */
 
-// const splitItems = Splitting();
+const splitItems = Splitting();
 
-// console.log('Split Items are', splitItems);
+console.log('Split Items are', splitItems);
 
 
 // --------------------------------------------------------------------------------
@@ -1615,7 +1615,7 @@ createInitialBeetleObjects();
 
 const changeLightIntensity = (marbleColor) => {
 
-    console.log(`lightIntensityDivider modified to color ${marbleColor}`);
+    // console.log(`lightIntensityDivider modified to color ${marbleColor}`);
 
     if (marbleColor === 'white') {
         lightIntensityDivider = 14;
@@ -2221,7 +2221,7 @@ const changeCursorColorToWhite = () => {
     // Find the center of the link element and set stuckX and stuckY to these, so that we can set the position of the noisy circle more easily
     const handleMouseEnter = (e) => {
 
-        console.log('Mouse entering a button area');
+        // console.log('Mouse entering a button area');
 
         const navItem = e.currentTarget;
         const navItemBox = navItem.getBoundingClientRect();
@@ -2595,14 +2595,14 @@ const toggleSoundWave = (e) => {
 const showMusicText = () => {
     let toggleSoundTextElement = document.getElementById('soundwave-description');
     toggleSoundTextElement.style.visibility = 'visible';
-    toggleSoundTextElement.style.transform = 'translateX(-20px)';
+    // toggleSoundTextElement.style.transform = 'translateX(-20px)';
     toggleSoundTextElement.style.opacity = '1';
 }
 
 const hideMusicText = () => {
     let toggleSoundTextElement = document.getElementById('soundwave-description');
     toggleSoundTextElement.style.visibility = 'hidden';
-    toggleSoundTextElement.style.transform = 'translateX(10px)';
+    // toggleSoundTextElement.style.transform = 'translateX(10px)';
     toggleSoundTextElement.style.opacity = '0';
 }
 
@@ -2676,11 +2676,15 @@ let pageTransitionPlaying = false;
 
 
 const showLanguagesText = () => {
-    let toggleLanguageElement = document.getElementById('plus-sign-description');
-    toggleLanguageElement.style.visibility = 'visible';
-    // toggleLanguageElement.style.transform = 'translateX(48px)';
-    toggleLanguageElement.style.opacity = '1';
-    // toggleLanguageElement.style.transitionProperty = 'ease-out';
+
+    // Only show the 'Languages' text on the right of the Plus sign if the width of the page is too small
+    if (dynamicWindowWidth > 700) {
+        let toggleLanguageElement = document.getElementById('plus-sign-description');
+        toggleLanguageElement.style.visibility = 'visible';
+        // toggleLanguageElement.style.transform = 'translateX(48px)';
+        toggleLanguageElement.style.opacity = '1';
+        // toggleLanguageElement.style.transitionProperty = 'ease-out';
+    }
 }
 
 const hideLanguagesText = () => {
@@ -3174,7 +3178,7 @@ const toggleGeneralPageTransition = (event) => {
     
             // Make sure we add the Click & Hold Button that's shown on Home/Intro page
             setTimeout(() => {
-                addClickHoldButton();
+                addAboutPageNavButtonAtBottom();
             }, DOM_VISIBILITY_SHORT_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
 
             // Removes the legal terms text at bottom of main menu
@@ -3212,7 +3216,7 @@ const toggleGeneralPageTransition = (event) => {
             // Removes the legal terms text at bottom of main menu
             removeLegalTermsText();
             // Remove Home page related buttons
-            removeClickHoldButton();
+            removeAboutPageNavButtonAtBottom();
             // Removes Client Page related buttons
             removeClientPageTransitionButtons();
             // Remove Contact page related buttons
@@ -3245,7 +3249,7 @@ const toggleGeneralPageTransition = (event) => {
             removeLegalTermsText();
 
             // Remove Home Page related buttons
-            removeClickHoldButton();
+            removeAboutPageNavButtonAtBottom();
             // Remove About page related buttons
             removeAboutPageTransitionButtons();
             // Remove Contact page related buttons
@@ -3276,7 +3280,7 @@ const toggleGeneralPageTransition = (event) => {
             removeLegalTermsText();
 
             // Remove Home page related buttons
-            removeClickHoldButton();
+            removeAboutPageNavButtonAtBottom();
             // Remove About page related buttons
             removeAboutPageTransitionButtons();
             // Removes the 'Contact' page button usually shown on Client page
@@ -3311,7 +3315,7 @@ const toggleGeneralPageTransition = (event) => {
             }, DOM_VISIBILITY_LONG_DELAY);
 
             // Remove the Click & Hold Button if we're moving away from the Home Page
-            removeClickHoldButton();
+            removeAboutPageNavButtonAtBottom();
             // Remove About page related buttons
             removeAboutPageTransitionButtons();
             // Removes Client page related buttons
@@ -3347,7 +3351,7 @@ const toggleGeneralPageTransition = (event) => {
             // Removes the legal terms text at bottom of main menu
             removeLegalTermsText();
             // Remove the Click & Hold Button if we're moving away from the Home Page
-            removeClickHoldButton();
+            removeAboutPageNavButtonAtBottom();
             // Remove the 'Client Page' Button at the bottom of the About page 
             removeAboutPageTransitionButtons();
             // Removes the 'Contact' page button usually shown on Client page
@@ -3446,7 +3450,7 @@ const goToContactPageFromClient = () => {
 // - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
 // Home Page Related
 
-const removeClickHoldButton = () => {
+const removeAboutPageNavButtonAtBottom = () => {
 
     let clickHoldButton = document.getElementById('cta--click--container');
     clickHoldButton.classList.add('hidden');
@@ -3456,7 +3460,7 @@ const removeClickHoldButton = () => {
 // Function that does the opposite of the above function, it makes the Click & Hold Button visible whenever the user is on the About Page
 // - Used in @toggleGeneralPageTransition function & most likely in @toggleMenuAnimation function
 // Home Page Releated
-const addClickHoldButton = () => {
+const addAboutPageNavButtonAtBottom = () => {
 
     let clickHoldButton = document.getElementById('cta--click--container');
     clickHoldButton.classList.remove('hidden');
@@ -3813,7 +3817,7 @@ const toggleMenuAnimation = () => {
 
 
             // Remove the Click & Hold / About Page Button that's showing in the Home Page
-            removeClickHoldButton();
+            removeAboutPageNavButtonAtBottom();
             // Remove the 'Client Page' button that's showing on the About Page
             removeAboutPageTransitionButtons();
             // Removes the 'Contact' page button usually shown on Client page
@@ -3849,7 +3853,7 @@ const toggleMenuAnimation = () => {
             }, 300);
 
             setTimeout(() => {
-                addClickHoldButton();
+                addAboutPageNavButtonAtBottom();
             }, DOM_VISIBILITY_SHORT_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
 
 
@@ -4102,6 +4106,7 @@ const toggleHomePage = (pageShown) => {
         setTimeout(() => {
             document.getElementById('homePage').style.opacity = 1;
             document.getElementById('homePage').style.visibility = 'visible';
+            document.getElementById('titleText').classList.add('showing');
         }, 1700);
 
 
@@ -4111,7 +4116,8 @@ const toggleHomePage = (pageShown) => {
         // Ensures that the title doesn't disappear directly when the actual animation is initiated
         setTimeout(() => {
             document.getElementById('homePage').style.opacity = 0;
-            document.getElementById('homePage').style.visibility = 'hidden';      
+            document.getElementById('homePage').style.visibility = 'hidden';  
+            document.getElementById('titleText').classList.remove('showing');
         }, 340);
 
     }
