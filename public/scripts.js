@@ -68,7 +68,7 @@ let initialPageLoadingBarFullyLoaded = false;
 // Depending on which one we're in, the relative path to the different files will differ
 
 // let environment = 'prod';
-let environment = 'dev';
+let environment = 'prod';
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
 
 // Web Audio API-related Variables
