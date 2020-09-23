@@ -2726,7 +2726,7 @@ const removeThreeJSMeshes = () => {
 
 const changeMeshVisibility = (currentPage) => {
 
-    console.log('MESH VISIBILITY CALLED WITH CURRENT PAGE', currentPage);
+    console.log('@changeMeshViz called with ', currentPage);
 
     // 1. Home Page - First page that gets displayed to the user
 
@@ -2761,8 +2761,6 @@ const changeMeshVisibility = (currentPage) => {
         // that isn't 'white' (so here 'black' counts). This means that without the setTimeout, the beetle would be directly made 
         // visible after one of the navigation buttons is clicked, which isn't the way it's supposed to appear. It' supposed to appear after
         // the actual animation started - in this case 400ms should be enough, but it might need to be longer than that 
-
-        console.log('Changing the color of the beetle because @changeMeshVisibility is clicked');
 
         setTimeout(() => {
             beetleColor = 'black';
@@ -2879,8 +2877,6 @@ const changeMeshVisibility = (currentPage) => {
 
         // New Meshes
 
-        console.log('Entering if loop of Mesh Visibility of menuPage')
-
         // Ensure that the incorrect beetle meshes are invisible
         // greyMarbleBeetleObject.visible = false;
         blueMarbleBeetleObject.visible = false;
@@ -2918,8 +2914,6 @@ const changeMeshVisibility = (currentPage) => {
 
     // 4. Contact Page
     } else if (currentPage === 'contactPage') {
-
-        console.log('Showing CONTACT PAGE NOW VISIBILITY CHANGE')
 
         // Ensure that the incorrect beetle meshes are invisible
         greyMarbleBeetleObject.visible = false;
@@ -4048,6 +4042,9 @@ const changePageShown = (newPageShown) => {
 
 const toggleMenuPage = (pageShown) => {
 
+    // console.log('Adding / hiding the DOM elements of the #menuPage - we inside the @function now');
+
+
     if (pageShown === 'menuPage') {
 
         // Toggle Address 
@@ -4092,8 +4089,6 @@ const toggleMenuPage = (pageShown) => {
 
     } else if (pageShown !== 'menuPage') {
 
-
-        console.log('menu page is being deleted so we removing the different elements')
         // This ensures that when we're moving awa from the actual menu page, we turn it off accordingly
 
         // Toggle Address 
@@ -4161,7 +4156,7 @@ const toggleHomePage = (pageShown) => {
 
 const toggleAboutPage = (pageShown) => {
     
-    console.log('TOGGLING THE ABOUT PAGE FINALLY ')
+    // console.log('Adding / hiding the DOM elements of the #aboutPage - we inside the @function now');
 
     // If we are moving towards the About Page and landing on it
     if (pageShown === 'aboutPage') {
@@ -4247,11 +4242,11 @@ const toggleFAQPage = (pageShown) => {
 const toggleContactPage = (pageShown) => {
 
 
-    console.log('Toggling the #contactPage - we inside the function now');
+    // console.log('Adding / hiding the DOM elements of the #contactPage - we inside the @function now');
 
     if (pageShown === 'contactPage') {
 
-        // Addd the elements towards the end of the page transition 
+        // Add the elements towards the end of the page transition 
         // Slower than the time out below it because we need it to appear after the transition is over
 
         setTimeout(() => {
@@ -4286,6 +4281,7 @@ const toggleContactPage = (pageShown) => {
     } else if (pageShown !== 'contactPage') {
 
         // Remove the elements very quickly
+
         setTimeout(() => {
             document.getElementById('contactPageContainer').classList.toggle('showing')
             document.getElementById('contactPageTitleID').classList.remove('shown');
@@ -6020,7 +6016,7 @@ let animate = function () {
         // and @createBlackMarbleBeetle is so that when the window increases back in size, we automatically show the beetle with the correct texture
 
         // The second condition here, which ensures that the pageShown is not the 'aboutPage', makes it that the beetle is never shown if the user is on the aboutPage
-        console.log('Current Beetle Color is', beetleColor);
+        // console.log('Current Beetle Color is', beetleColor);
 
         if (currentBeetleObject !== undefined && pageShown !== 'aboutPage' && pageShown !== 'legalPage') {
 
@@ -6094,7 +6090,7 @@ let animate = function () {
     // Update the picking ray with the camera and mouse position
 	raycaster.setFromCamera( raycasterMouse, camera );
 
-	// calculate objects intersecting the picking ray
+	// Calculate objects intersecting the picking ray
 	var intersects = raycaster.intersectObjects( scene.children );
 
 	for ( var i = 0; i < intersects.length; i++ ) {
