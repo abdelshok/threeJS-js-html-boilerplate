@@ -68,7 +68,7 @@ let initialPageLoadingBarFullyLoaded = false;
 // Depending on which one we're in, the relative path to the different files will differ
 
 // let environment = 'prod';
-let environment = 'prod';
+let environment = 'dev';
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
 
 // Web Audio API-related Variables
@@ -108,14 +108,6 @@ let DIRECTIONS_VOICE_SHOWN = false;
 
 let pageShown = 'homePage';
 
-let listOfPages = {
-    'homePage': true,
-    'menuPage': false,
-    'aboutPage': false,
-    'contactPage': false,
-    'clientsPage': false,
-}
-
 let PAGE_FIRST_LOADED = false;
 let MUSIC_PLAYING = false;
 let musicPlaying = true; // That's the one actually used
@@ -136,9 +128,9 @@ let loadingGraphicalSceneFinished = false;
  *
  */
 
-const splitItems = Splitting();
+// const splitItems = Splitting();
 
-console.log('Split Items are', splitItems);
+// console.log('Split Items are', splitItems);
 
 
 // --------------------------------------------------------------------------------
@@ -284,7 +276,7 @@ const showClickMessageToRemoveLoadingPage = () => {
 
 const removeInitialLoadingPage = () => {
 
-    console.log('WE ARE REMOVING LOADING PAGE')
+    // console.log('Removing initial loading page')
 
     if (initialPageLoadingBarFullyLoaded === true) {
 
@@ -1318,7 +1310,7 @@ const changeBeetleToWhiteMarble = () => {
             // whiteMarbleBeetleObject.add(pivotPoint2);
             // pivotPoint2.add(spotLight);
 
-            console.log('WHITE BEETLE OBJECT LOADED');
+            // console.log('White Beetle Object loaded');
         });
 
     });
@@ -1435,7 +1427,7 @@ const changeBeetleToGreyMarble = () => {
             // greyMarbleBeetleObject.add(pivotPoint2);
             // pivotPoint2.add(spotLight);
 
-            console.log('GREY BEETLE OBJECT LOADED')
+            // console.log('Grey Beetle Object Loaded')
         });
 
     });
@@ -1514,8 +1506,6 @@ const changeBeetleToBlueMarble = () => {
             // Make the beetle invisible upon page initial loading
             blueMarbleBeetleObject.visible = false;
 
-            console.log('BLUE MARBLE OBJECT BEING CREATED', blueMarbleBeetleObject);
-
             scene.add(blueMarbleBeetleObject);
 
             // Associate the light to the pivot point once again
@@ -1527,7 +1517,7 @@ const changeBeetleToBlueMarble = () => {
             // blueMarbleBeetleObject.add(pivotPoint2);
             // pivotPoint2.add(spotLight);
 
-            console.log('BLUE BEETLE OBJECT LOADED')
+            // console.log('Blue Beetle Object loaded')
         });
     });
     
@@ -1625,7 +1615,7 @@ createInitialBeetleObjects();
 
 const changeLightIntensity = (marbleColor) => {
 
-    console.log('#lightIntensity changed for color', marbleColor);
+    console.log(`lightIntensityDivider modified to color ${marbleColor}`);
 
     if (marbleColor === 'white') {
         lightIntensityDivider = 14;
@@ -1744,11 +1734,11 @@ const onActualMouseMove = (event) => {
 }
 
 
-
-
+// #toBeDeleted
 const onMouseDown = () => {
 
-    console.log('Audio context state general', audioContext.state);
+    // console.log('Audio context state general', audioContext.state);
+
     // if (audioContext.state === 'running') {
     //     console.log('Audio Context is running');
     //     audioContext.suspend().then(() => {
@@ -2034,7 +2024,7 @@ const innerCursor = document.querySelector(".cursor--small");
 
 const initCursor = () => {
 
-    console.log('Calling init cursor in order to move the cursor fucking position to the right place');
+    // console.log('@initCursor called in order to move the cursor position to the right place');
 
     // Add listener to track the current mouse position, which constantly updates the two variables that are in the global scope
     document.addEventListener("mousemove", e => {
@@ -2042,8 +2032,8 @@ const initCursor = () => {
         clientY = e.clientY;
     })
 
-    console.log('Client X is', clientX);
-    console.log('Client Y is', clientY);
+    // console.log('Client X for cursor is', clientX);
+    // console.log('Client Y for cursor is', clientY);
 
     innerCursor.style.transform = `translate(${clientX}px, ${clientY}px)`;
     // Transform the inner cursor to the current mouse position
@@ -2057,7 +2047,6 @@ const updateCursor = () => {
 }
 
 initCursor();
-
 
 /*
  * Cursor Animations II : Setting up the Circle on Canvas
@@ -2231,7 +2220,9 @@ const changeCursorColorToWhite = () => {
 
     // Find the center of the link element and set stuckX and stuckY to these, so that we can set the position of the noisy circle more easily
     const handleMouseEnter = (e) => {
-        console.log('Mouse entered');
+
+        console.log('Mouse entering a button area');
+
         const navItem = e.currentTarget;
         const navItemBox = navItem.getBoundingClientRect();
         stuckX = Math.round(navItemBox.left + navItemBox.width / 2);
@@ -2241,8 +2232,11 @@ const changeCursorColorToWhite = () => {
 
     // Reset isStuck on MouseLeave
     const handleMouseLeave = (e) => {
-        console.log('Is Stuck is', isStuck);
+
+        // console.log(`Mouse was stuck on button ${isStuck}`);
+
         isStuck = false;
+
     }
 
     // Add Event Listeners to all .Link class items
@@ -2283,7 +2277,9 @@ const initiateContactPageHovers = () => {
 
         // Find the center of the link element and set stuckX and stuckY to these, so that we can set the position of the noisy circle more easily
         const handleMouseEnter = (e) => {
-            console.log('Mouse entered');
+
+            // console.log('Circle cursor entering area of corner buttons or arrow');
+
             const navItem = e.currentTarget;
             const navItemBox = navItem.getBoundingClientRect();
             stuckX = Math.round(navItemBox.left + navItemBox.width / 2);
@@ -2293,17 +2289,18 @@ const initiateContactPageHovers = () => {
     
         // Reset isStuck on MouseLeave
         const handleMouseLeave = (e) => {
-            console.log('Is Stuck is', isStuck);
+
+            // console.log(`Circle cursor was stuck to one of the buttons ${isStuck}`);
+
             isStuck = false;
         }
 
         const arrowItem = document.querySelectorAll('.arrowContainer');
 
-
-        console.log('ARROW ITEM ARE #arrowItem', arrowItem);
-
         arrowItem.forEach(item => {
-            console.log('Adding event listeners to #arrowItem ')
+
+            // console.log('Adding event listeners to #arrowItem ');
+
             item.addEventListener("mouseenter", handleMouseEnter);
             item.addEventListener("mouseleave", handleMouseLeave);
         })
@@ -2596,7 +2593,6 @@ const toggleSoundWave = (e) => {
 }
 
 const showMusicText = () => {
-    console.log('Mouse entered to show music')
     let toggleSoundTextElement = document.getElementById('soundwave-description');
     toggleSoundTextElement.style.visibility = 'visible';
     toggleSoundTextElement.style.transform = 'translateX(-20px)';
@@ -2604,7 +2600,6 @@ const showMusicText = () => {
 }
 
 const hideMusicText = () => {
-    console.log('Mouse left to show music')
     let toggleSoundTextElement = document.getElementById('soundwave-description');
     toggleSoundTextElement.style.visibility = 'hidden';
     toggleSoundTextElement.style.transform = 'translateX(10px)';
@@ -2726,7 +2721,7 @@ const removeThreeJSMeshes = () => {
 
 const changeMeshVisibility = (currentPage) => {
 
-    console.log('@changeMeshViz called with ', currentPage);
+    // console.log(`changeMeshVisibility function called with  ${currentPage}`);
 
     // 1. Home Page - First page that gets displayed to the user
 
@@ -3022,7 +3017,6 @@ const animateContactLinesContactPage = () => {
 
 const removeContactInfoLinesMainMenu = () => {
 
-    console.log('REMOVING CONTACT INFORMATION LINES MAIN MENU')
     document.getElementById('address-line-left-two-zero').classList.remove('animated');
     document.getElementById('address-line-right-two-zero').classList.remove('animated');
     document.getElementById('address-line-left-two-one').classList.remove('animated');
@@ -3067,15 +3061,12 @@ const toggleGeneralPageTransition = (event) => {
 
         if (typeof event !== 'string') {
             id = event.target.id;
+            // console.log(`ID of event is ${id}`);
         }
 
-        console.log('EVENT CAUGHT IS', event);
-        console.log('ID caught is', id);
-    
-        console.log('General transition initiated')
-    
-    
-        console.log('Initiating page transition')
+        // console.log(`Argument passed in to @toggleGeneralPageTransition is ${event}`);
+        // console.log('Initiating page transition')
+
         // First we initiate the page transition
         initiateTransitionAnimation();
     
@@ -3091,20 +3082,19 @@ const toggleGeneralPageTransition = (event) => {
         // Second remove, the different elements of the DOM that are displayed
         let oldPageShown = pageShown;
     
-        console.log('Old page shown is', oldPageShown);
+        // console.log('Old page shown is', oldPageShown);
     
         // Toggle DOM elements off accordingly
     
         if (oldPageShown === 'homePage') {
     
             // If we pass an empty string, it removes the elements
-            console.log('Removing elements from the homepage');
+            // console.log('Removing elements from the homepage');
+
             toggleHomePage('')
     
     
         } else if (oldPageShown === 'menuPage') {
-
-            console.log('OLD PAGE SHOWN IS MAIN MENU PAGE')
             
             // Make sure that the vertical lines next to the contact information disappear from the menu page with a delay
             setTimeout(() => {
@@ -3132,8 +3122,8 @@ const toggleGeneralPageTransition = (event) => {
             // Insert removing the different contact page elements here when you get to it
             // By passing this function and all the similar ones above an empty string, we ensure that the DOM elements
             // are correctly removed from the page
-            console.log('We were in the #contactPage and are now removing the elements of the contact page correctly')
             toggleContactPage('')
+
         } else if (oldPageShown === 'faqPage') {
 
             toggleFAQPage('');
@@ -3149,7 +3139,7 @@ const toggleGeneralPageTransition = (event) => {
 
         if (typeof event === 'string') {
 
-            console.log('Received string event in the general page transition');
+            // console.log('Received string event & not DOM element as an argument of @toggleGeneralPageTransition');
             
             if (event === 'aboutPage') {
                 
@@ -3350,8 +3340,6 @@ const toggleGeneralPageTransition = (event) => {
         // Legal Page shown
         } else if (id === 'menuElementSix')  {
 
-            console.log('Menu Element Six');
-
             // Boilerplate functions that need to be called with every condition satisfied
 
             // Change pageShown variable to legalPage
@@ -3387,7 +3375,7 @@ const toggleGeneralPageTransition = (event) => {
 
 const showLegalTermsPage = () => {
 
-    console.log('Test log in order to ensure that @showLegalTermsPage is called');
+    // console.log('Legal & Privacy terms page is about to be toggled - currently in @showLegalTermsPage function');
 
     // Calls the general function with the correct argument in order to remove the incorrect meshes (the white Beetle) 
     // and display the correct HTML DOM elements
@@ -3692,7 +3680,7 @@ const addLegalTermsText = () => {
 // and after that for the correct page to be displayed
 const toggleMenuAnimation = () => {
 
-    console.log('Toggling menuz')
+    // console.log('@toggleMenuAnimation is starting')
 
     // Don't forget to hide the form of the contact page and reset everything
     hideForm();
@@ -3712,8 +3700,8 @@ const toggleMenuAnimation = () => {
         let oldPageShown = pageShown; // pageShown is a global variable, not declared in this scope
 
         // Log in order to track the different steps of the function calls
-        console.log('Starting the #menu Animation')
-        console.log('Old page shown that we moving away from is', oldPageShown);
+
+        console.log(`The previous page we are moving away from is ${oldPageShown}`);
 
         // First Step is to analyze which page is currently being shown and remove the different DOM elements associated to it
 
@@ -3750,24 +3738,16 @@ const toggleMenuAnimation = () => {
         // Second Step is to change the name of the actual page shown and change the hash table so that it displays 
         // the page status correctly
 
-        console.log('AGAIN, the old page shown is', oldPageShown);
 
         if (oldPageShown !== 'menuPage') {
 
-            console.log('Moving towards menuPage - about to call the function that is going to cause the icon change #menuIcon')
+            // console.log('We are going to display the main menu page & call the function @changeMenuIcon to display the correct close icon in the top right');
+
             // Modify the variable to the page currently shown 
             // If the variable is not the menuPage and this button is clicked, then we are aiming to go towards the
             // menuPage - doesn't matter which page we came from
             // We set the new page shown to be equal to menuPage
             pageShown = 'menuPage';
-
-            // Ensure that the Hash of pages, which indicates which page is currently showing is updated correctly
-            // #useless 
-            listOfPages['menuPage'] = true;
-            listOfPages['homePage'] = false;
-            listOfPages['aboutPage'] = false;
-            listOfPages['contactPage'] = false;
-            listOfPages['clientsPage'] = false;
 
             // Make sure to change the menu icon according to what next page will be shown
             changeMenuIcon('menuPage');
@@ -3777,18 +3757,11 @@ const toggleMenuAnimation = () => {
         // return to the previous page or we return to the home page
         // For now, we'll just make it so that we return to the home page (first one) of the application
         } else if (oldPageShown === 'menuPage') {
-            console.log('Page is currently set to ', pageShown, ' #menuIcon')
-            console.log('Moving away from the menuPage - about to call the function that is going to cause the icon change #menuIcon')
+
+            // console.log('We are going to leave the main menu page & call the function @changeMenuIcon with an empty string to display the correct menu icon in the top right');
 
             // Modify the variable to the page currently shown
             pageShown = 'homePage'; // That's actually not the case 
-
-            // Ensure that the Hash of pages, which indicates which page is currently showing is updated correctly
-            listOfPages['homePage'] = true;
-            listOfPages['menuPage'] = false;  
-            listOfPages['aboutPage'] = false;
-            listOfPages['contactPage'] = false;
-            listOfPages['clientsPage'] = false; 
             
             // Make sure to change the menu icon according to what next page will be shown
             changeMenuIcon('');
@@ -3798,13 +3771,12 @@ const toggleMenuAnimation = () => {
         // This part here basically makes sure that the different animations that are necessary to be triggered will be
         // depending on which page you're on for the trigger
 
-        console.log('PAGE SHOWN BOYS IS ', pageShown);
-
         // The text animations here are used in order to actually remove or add the different DOM elements of the page
         // depending on whether we're clicking on the burger menu or not
         // So the idea here is that when we click on the burger menu initially, we are actually moving away and adding to 
         // a page, therefore we need to make sure that we are removing the right things 
 
+        // This code is run in order to decide which DOM elements to show depending on whether we're going to the 'Main Menu' or 'About Pag'e
         if (pageShown === 'menuPage') {
             // Makes the homepage invisible
 
@@ -3881,12 +3853,7 @@ const toggleMenuAnimation = () => {
             }, DOM_VISIBILITY_SHORT_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
 
 
-        } else if (pageShown === 'aboutPage') {
-
-            console.log('PAGE SHOWN RIGHT NOW getting DESTROYED')
-            setTextAnimationTimers('aboutPage')
-
-        };
+        } 
 
     }
 
@@ -3896,7 +3863,8 @@ const toggleMenuAnimation = () => {
 
 const animateContactLines = () => {
 
-    console.log('ADDING CONTACT LINES MAN MENU');
+    // console.log('Animating lines next to the contact information in main menu')
+
     document.getElementById('address-line-left-two-zero').classList.add('animated');
     document.getElementById('address-line-right-two-zero').classList.add('animated');
     document.getElementById('address-line-left-two-one').classList.add('animated');
@@ -3908,7 +3876,8 @@ const animateContactLines = () => {
 
 const removeContactLines = () => {
 
-    console.log('REMOVING CONTACT LINES MAIN MENU');
+    // console.log('Removing lines next to the contact information in main menu')
+
     document.getElementById('address-line-left-two-zero').classList.remove('animated');
     document.getElementById('address-line-right-two-zero').classList.remove('animated');
     document.getElementById('address-line-left-two-one').classList.remove('animated');
@@ -3946,8 +3915,6 @@ const setThreeAnimationTimers = (pageShown) => {
         }, 1000);
 
     } else if (pageShown === 'aboutPage') {
-
-        console.log('Should now remove the meshes of the aboutPage')
 
         setTimeout(() => {
             removePlaneGeometry();
@@ -4030,7 +3997,7 @@ const toggleClientsPageMesh = () => {
 // Changes the page to the correct one
 const changePageShown = (newPageShown) => {
 
-    console.log('Current page shown', newPageShown);
+    console.log(`Changing pageShown variable to ${newPageShown}`);
     pageShown = newPageShown;
 
 }
@@ -4197,7 +4164,7 @@ const toggleAboutPage = (pageShown) => {
 
 const toggleFAQPage = (pageShown) => {
 
-    console.log('TOGGLING THE FAQ PAGE FINALLY');
+    // console.log('Adding / hiding the DOM elements of the #faq/clientPage - we inside the @function now');
 
     if (pageShown === 'faqPage') {
 
@@ -4464,7 +4431,6 @@ const setTextAnimationTimers = (pageShown) => {
 
 const toggleOffAddressElements = () => {
 
-    console.log('toggling address two')
     setTimeout(() => {
         document.getElementById('address-information-left').classList.toggle('showing');
         document.getElementById('address-information-right').classList.toggle('showing');
@@ -4473,10 +4439,13 @@ const toggleOffAddressElements = () => {
 
 }
 
-// Ensures that the address only shows up only when the menu page 
+// Ensures that the address only shows up only when the menu page
+// #toImprove: use remove / add instead of fucking toggle - applies to the function above
+// @toggleOffAddressElements & this one + change the fucking name to make it more precise 
 const toggleAddressElements = (pageShown) => {
 
-    console.log('toggling address one')
+    // console.log('Adding / Removing DOM contact elements through @toggleAddressElements');
+
     // Timeout is shorter for when the homepage shoes again because we need it to disappear quickly
     // since the first part of the animation that translatesY  the white div goes very fast initially
     // very quickly
@@ -4504,7 +4473,6 @@ const toggleAddressElements = (pageShown) => {
     } else if (pageShown !== 'menuPage') {
 
 
-            console.log('finally removing the address elements of the menu page')
             setTimeout(() => {
                 document.getElementById('address-information-left').classList.toggle('showing');
                 document.getElementById('address-information-right').classList.toggle('showing');
@@ -4535,12 +4503,18 @@ const toggleMenuElement = (pageShown) => {
 
 }
 
+// Function that ensures that Samarra & Co. and the color of the cursor change colors when the 
+// generalPageTransition is triggered
+// Two timeouts are involved here. First one to make sure the text is black, and a second to revert the text color to 
+// white if we are back on the homePage, amongst other things
+
+// #toImprove: in this case the name is not clear enough
 const toggleTextColor = (event) => {
 
     // Changes the cursor to black
     changeCursorColorToBlack();
 
-    console.log('Page transition animation just started successfully')
+    // console.log('Page transition text & cursor changes initiated')
 
     ANIMATION_STARTED = true;
     pageTransitionPlaying = true;
@@ -4550,10 +4524,10 @@ const toggleTextColor = (event) => {
     // because of the fact that it's made invisible. So we need to make sure to make it 
     // visibile
 
-    console.log('Page shown is', pageShown)
-
     setTimeout(() => {
-        console.log('Short set time out to get the colors going initiated');
+
+        // console.log('Quickly changing the colors of the text of Samarra & Co.');
+
         document.getElementById('companyName').style.color = 'black';
         document.getElementById('homePage').style.opacity = 1;
         document.getElementById('homePage').style.visibility = 'visible';
@@ -4781,13 +4755,12 @@ const trackTextInputForm = (event) => {
 // Function that is triggered by 1. the Back button at the top of the form when the form is shown & 2. when the menu is clicked while the form is actually showing
 const hideForm = (event) => {
 
+    // console.log('Hiding the contact form with all the user inputs');
 
     // When we hide the form, before we toggle the class to do it successfully, we change the delays of the transitions so that it mirrors the first transition
     // when the user first lands on the contact page
     document.getElementById('contactPageOptions').style.transitionDelay = '0.4s';
     document.getElementById('contactPageOptionsTwo').style.transitionDelay = '0s';
-
-    console.log('Hiding form');
 
     // We hide the form associated to the question / option that is clicked by the user
     document.getElementById('contactPageOptionsTwo').classList.remove('showing');
@@ -4871,6 +4844,9 @@ const resetDelaysContactPage = (event) => {
 // Ensures that the class is toggled back so that .showing isn't on the element. Allows us to re-trigger the animation whenever we click on the actual menu button.
 // This function always runs at the end of the animation
 
+// #toImprove: the name of this function is not very accurate / precise & the way of interacting with the classList below
+// namely the toggle method is awkward
+
 const toggleClassOnAnimation = (event) => {
 
     // Change cursor to white
@@ -4882,8 +4858,6 @@ const toggleClassOnAnimation = (event) => {
 
     // Set it to false again to allow the user to click on the menu button again
     pageTransitionPlaying = false;
-
-    console.log('Animation ended therefore we are ensuring that the class is toggled correctly');
     
     // Toggle the reveal layer
     let revealLayerOne = document.getElementById('reveal--layer');
@@ -5468,24 +5442,19 @@ const showExpertiseText = () => {
 
     
     let expertiseOneElements = document.getElementsByClassName('expertiseText1');
-    // console.log('Expertise text one array', expertiseTextOneArray);
 
     let expertiseOneDivs = Array.prototype.forEach.call(expertiseOneElements, function(element){
-        console.log('Expertise One element', element);
         element.classList.add('shown')
       });
 
 
     let expertiseTwoElements = document.getElementsByClassName('expertiseText2');
-    // console.log('Expertise text one array', expertiseTextOneArray);
 
     let expertiseTwoDivs = Array.prototype.forEach.call(expertiseTwoElements, function(element){
-        console.log('Expertise One element', element);
         element.classList.add('shown')
     });
   
     let expertiseThreeElements = document.getElementsByClassName('expertiseText3');
-    // console.log('Expertise text one array', expertiseTextOneArray);
 
     let expertiseThreeDivs = Array.prototype.forEach.call(expertiseThreeElements, function(element){
         element.classList.add('shown')
@@ -5493,7 +5462,6 @@ const showExpertiseText = () => {
 
 
     let expertiseFourElements = document.getElementsByClassName('expertiseText4');
-    // console.log('Expertise text one array', expertiseTextOneArray);
 
     let expertiseFourDivs = Array.prototype.forEach.call(expertiseFourElements, function(element){
         element.classList.add('shown')
@@ -5501,7 +5469,6 @@ const showExpertiseText = () => {
   
   
     let expertiseFiveElements = document.getElementsByClassName('expertiseText5');
-    // console.log('Expertise text one array', expertiseTextOneArray);
 
     let expertiseFiveDivs = Array.prototype.forEach.call(expertiseFiveElements, function(element){
         element.classList.add('shown')
@@ -5509,7 +5476,6 @@ const showExpertiseText = () => {
 
 
     let expertiseSixElements = document.getElementsByClassName('expertiseText6');
-    // console.log('Expertise text one array', expertiseTextOneArray);
 
     let expertiseSixDivs = Array.prototype.forEach.call(expertiseSixElements, function(element){
         element.classList.add('shown')
@@ -5540,7 +5506,6 @@ const hideExpertiseText = () => {
     // console.log('Expertise text one array', expertiseTextOneArray);
 
     let expertiseOneDivs = Array.prototype.forEach.call(expertiseOneElements, function(element){
-        console.log('Expertise One element', element);
         element.classList.remove('shown')
       });
 
@@ -5549,7 +5514,6 @@ const hideExpertiseText = () => {
     // console.log('Expertise text one array', expertiseTextOneArray);
 
     let expertiseTwoDivs = Array.prototype.forEach.call(expertiseTwoElements, function(element){
-        console.log('Expertise One element', element);
         element.classList.remove('shown')
     });
   
@@ -5623,7 +5587,6 @@ const revertBackToAboutText = () => {
     // console.log('Expertise text one array', expertiseTextOneArray);
 
     let expertiseOneDivs = Array.prototype.forEach.call(expertiseOneElements, function(element){
-        console.log('Expertise One element', element);
         element.classList.remove('shown')
       });
 
@@ -5632,7 +5595,6 @@ const revertBackToAboutText = () => {
     // console.log('Expertise text one array', expertiseTextOneArray);
 
     let expertiseTwoDivs = Array.prototype.forEach.call(expertiseTwoElements, function(element){
-        console.log('Expertise One element', element);
         element.classList.remove('shown')
     });
   
@@ -5782,7 +5744,7 @@ const changeMenuIcon = (nextPage) => {
 
         currentMenuIcon = 'xIcon'
 
-        console.log('Moving towards #menuPage this time, not FROM IT');
+        // console.log('Moving towards the main menu page, so we change the top right icon into an X');
 
         setTimeout(() => {
             document.getElementById('closeButton').classList.add('shown');
@@ -5793,7 +5755,7 @@ const changeMenuIcon = (nextPage) => {
 
         currentMenuIcon = 'menuIcon';
 
-        console.log('Moving away from the #menuPage therefore we change #menuIcon');
+        // console.log('Leaving the Main Menu page therefore we change the Icon at the top to an X');
 
         // Might need to create a timer here that will take care of changing the stroke 
         // of the svg to white momentarily while the actual page transition is being triggered
