@@ -147,7 +147,7 @@
 				background-color: #ff0000;
 				width: 100px;
 				height: 100px;
-				position: absolute;
+				position: fixed;
 				top: 0;
 				left: 0;
 			}
@@ -156,7 +156,7 @@
 				width: 100vw;
 				height: 100vh;
 				background-color: transparent;
-				position: relative;
+				position: absolute;
 				opacity: 1;
 				visibility: visible;
 				display: flex;
@@ -172,6 +172,87 @@
 				justify-content: center;
 				align-items: center;
 				z-index: 100;
+			}
+
+			@media (max-width: 1000px) {
+
+				.cta--click--large--text-right {
+					visibility: hidden;
+					opacity: 0;
+					pointer-events: none;
+				}
+
+				.expertiseButtonContainer {
+					visibility: hidden;
+					opacity: 0;
+					pointer-events: none;
+				}
+
+				.aboutPageMainText {
+					max-width: 550px !important;
+					font-size: 2.5rem !important;
+				}
+
+				.aboutPageSubText {
+					max-width: 550px !important;
+					font-size: 1.3rem !important;
+				}
+
+				.aboutPageSubTextII {
+					max-width: 550px !important;
+					font-size: 1.3rem !important;
+				}
+
+			}
+
+			@media (max-width: 950px) {
+
+				.aboutPageMainText {
+					max-width: 500px !important;
+				}
+
+				.aboutPageSubText {
+					max-width: 500px !important;
+				}
+
+				.aboutPageSubTextII {
+					max-width: 500px !important;
+				}
+
+			}
+
+
+			@media (max-width: 900px) {
+
+				.aboutPageMainText {
+					max-width: 425px !important;
+				}
+
+				.aboutPageSubText {
+					max-width: 425px !important;
+				}
+
+				.aboutPageSubTextII {
+					max-width: 425px !important;
+				}
+
+
+			}
+
+			@media (max-width: 850px) {
+
+				.aboutPageMainText {
+					max-width: 375px !important;
+				}
+
+				.aboutPageSubText {
+					max-width: 375px !important;
+				}
+
+				.aboutPageSubTextII {
+					max-width: 375px !important;
+				}
+
 			}
 
 			@media (max-width: 700px) {
@@ -3280,7 +3361,7 @@
 				flex-direction: row;
 				justify-content: center;
 				align-items: center;
-				overflow-x: scroll;
+				/* overflow-x: scroll; */
 				height: 100%;
 				width: 100%;
 				position: relative;
@@ -3309,7 +3390,10 @@
 				visibility: visible;
 				/* justify-content: center;
 				align-items: center; */
+				overflow-x: hidden;
 				transition: opacity 0.4s ease-in 0s;
+				max-height: 574px;
+				overflow-y: scroll;
 			}
 
 			#aboutPageExperimentalContainer.hidden {
@@ -3354,7 +3438,7 @@
 				height: 100%;
 				background-color: transparent;
 				position: relative;
-				overflow: scroll;
+				overflow: hidden;
 			}
 
 			.aboutPageSubTitleContainerII {
@@ -3570,7 +3654,24 @@
 				-youbkit-user-select: text;   
 				-moz-user-select: text;	   
 				-ms-user-select: text;		
-				user-select: text;	
+				user-select: text;
+				max-height: 500px;
+				overflow-y: scroll;
+				overflow-x: hidden;
+				pointer-events: auto;
+			}
+
+			.aboutGeneralTextContainer::-webkit-scrollbar {
+				width: 5px;
+			}
+
+
+			.aboutGeneralTextContainer::-webkit-scrollbar-track {
+				background: transparent;
+			}
+
+			.aboutGeneralTextContainer::-webkit-scrollbar-thumb {
+				background: transparent;
 			}
 
 			.aboutExpertiseTextContainer {
@@ -3959,7 +4060,7 @@
 
 			.expertiseButtonContainer { 
 				position: absolute;
-				right: 60;
+				right: 60px;
 				top: 50%;
 				background-color: transparent;
 				opacity: 0;
@@ -4003,8 +4104,6 @@
 				letter-spacing: 1px;
 				text-align: center;
 				pointer-events: auto;
-				/* writing-mode: vertical-lr;
-				text-orientation: upright; */
 			}
 
 			.cta--click--large--text-right:hover {
@@ -4753,7 +4852,7 @@
 											Morocco, Egypt, Saudi Arabia, the United Arab Emirates, Lebanon, Turkey, and the West Bank.
 										</p> -->
 										<p class='aboutPageSubTextII' id='aboutPageSubText3' >
-											Our current focus is to help early-stage startups and multinational corporations develop unique creative experiences and grow their entrepreneurial endeavors. We also like to collaborate with artists, musicians, fashion brands, hospitality groups,and media companies 
+											Our current focus is to help early-stage startups and multinational corporations develop unique creative experiences and grow their entrepreneurial endeavors. We also like to collaborate with artists, musicians, fashion brands, hospitality groups, and media companies 
 											in order to bring their most subversive ideas to light.
 											<!-- Our main areas of focus are Egypt, Saudi Arabia, the United Arab Emirates, Lebanon, and Turkey. -->
 										</p>
