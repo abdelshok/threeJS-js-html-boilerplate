@@ -904,6 +904,25 @@
 				}
 			}
 
+			@keyframes small-arrow-animation {
+				0% {
+					transform: translateX(0px);
+				}
+				2.5% {
+					transform: translateX(7px);
+				}
+				5% {
+					transform: translateX(0px);
+				}
+				10% {
+					transform: translateX(7px);
+				}
+				12.5% {
+					transform: translateX(0px);
+				}
+
+			}
+
 			@keyframes vmc-animation {
 				0% {
 					color: rgb(255,255,255, 0.7);
@@ -3888,7 +3907,10 @@
 				font-family: Montserrat, sans-serif;
 				color: rgb(255, 255, 255, 0.6);
 				background-color: transparent;
-				margin-right: 5px;
+				margin-right: 3px;
+				margin-top: 0px;
+				margin-bottom: 0px;
+				left: 5px;
 				/* animation: vmc-animation 10s ease-in infinite; */
 			}	
 
@@ -3915,10 +3937,17 @@
 				color: rgb(255,255,255, 1);
 			}	
 
-			.expertise--button--small--screen--text:hover + #expertise--button--small--screen--text--two {
+			/* .expertise--button--small--screen--text:hover + #about--page--arrow {
 				transform: translateX(7px);
 				color: rgb(255, 255, 255, 1);
-			}	
+			}	 */
+
+			#about--page--arrow {
+				height: 14px;
+				width: 22px;
+				transition: transform 0.2s ease-in;
+				animation: small-arrow-animation 5.5s linear 3s infinite normal;
+			}
 
 			#aboutPageArrowContainer {
 				visibility: inherit;
@@ -5206,9 +5235,12 @@
 										<p class='expertise--button--small--screen--text' id='expertise--button--small--screen--text'>
 											Expertise 
 										</p>
-										<p class='expertise--button--small--screen--text--two' id='expertise--button--small--screen--text--two'>
+										<!-- <p class='expertise--button--small--screen--text--two' id='expertise--button--small--screen--text--two'>
 											> 
-										</p>
+										</p> -->
+										<svg id="about--page--arrow" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120.76 44.7">
+											<polyline points="99.91 3.48 119.38 25.29 99.91 43.98" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:4px"/>
+										</svg>
 										<!-- <div class='arrowContainer arrow-sign-link' id='aboutPageArrowContainer'>
 											<svg id="aboutPageArrow" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.61 41.89">
 												<polyline points="0.75 0.67 20.22 22.47 0.75 41.17" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"/>
