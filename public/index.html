@@ -3475,13 +3475,17 @@
 			}
 
 			.legalPageTextContainer {
-				margin-top: 3%;
+				margin-top: 0px;
 				background-color: transparent;
 				display: flex;
 				align-items: center;
-				max-width: 606px;
+				max-width: min(600px, 60%);
 				flex-direction: column;
-				padding-bottom: 450px;
+				/* padding-bottom: 450px;
+				max-height: 600px; */
+				overflow-y: scroll; 
+				max-height: 80%;
+				margin-top: 125px;
 			}
 
 			.legalPageTitle {
@@ -3492,7 +3496,8 @@
 				width: auto;
 				background-color: transparent;
 				position: relative;
-				margin-bottom: 50px;
+				margin-bottom: 30px;
+				margin-top: 0px;
 				text-transform: uppercase;
 				text-align: center;
 				font-weight: 800;
