@@ -5965,8 +5965,9 @@ let animate = function () {
         // We remove the Blue Marble Beetle displayed on the Contact page earlier than the other beetles because there is more
         // content
         if (blueMarbleBeetleObject !== undefined)  {
-            console.log('BLUE MARBLE BEETLE OBJECT IS NOT UNDEFINED');
-            currentBeetleObject.visible = false;
+            // console.log('BLUE MARBLE BEETLE OBJECT IS NOT UNDEFINED');
+            console.log('Blue Marble Beetle Object', blueMarbleBeetleObject);
+            blueMarbleBeetleObject.visible = false;
         };
 
     }
@@ -5994,7 +5995,7 @@ let animate = function () {
             redPinkMarbleBeetleObject.visible = false;
         };
 
-    } else {
+    } else if (dynamicWindowWidth > 1000 && dynamicWindowHeight > 700) {
         
         // The whole reason that we kept re-assigning the currentBeetleObject variable to the different beetleObjects that populate the scene in @changMeshVisibility
         // and @createBlackMarbleBeetle is so that when the window increases back in size, we automatically show the beetle with the correct texture
