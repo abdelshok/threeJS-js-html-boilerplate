@@ -1723,6 +1723,12 @@
 				animation: slideLoadingPage 0.5s forwards;
 			}
 
+			.loading-page.hiding.deleted {
+				visibility: hidden;
+				opacity: 0;
+				display: none;
+			}
+
 			.aboutPageTitleTextContainer {
 				position: relative;
 				margin-top: 250px;
@@ -3880,9 +3886,9 @@
 				visibility: inherit;
 				pointer-events: inherit;
 				font-family: Montserrat, sans-serif;
-				color: rgb(255, 255, 255, 0.7);
+				color: rgb(255, 255, 255, 0.6);
 				background-color: transparent;
-				animation: vmc-animation 10s ease-in infinite;
+				/* animation: vmc-animation 10s ease-in infinite; */
 			}	
 
 			.expertise--button--small--screen--text:hover {

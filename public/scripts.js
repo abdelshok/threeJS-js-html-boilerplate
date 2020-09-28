@@ -148,7 +148,15 @@ const onCompleteLoading = () => {
     let loadingPageElement = document.getElementById('loading-page');
     loadingPageElement.classList.toggle('hiding');
 
-    let loadingPageText = document.getElementById('loadingPage--normalText')
+    let loadingPageText = document.getElementById('loadingPage--secondNormalText')
+
+    // Hide the text that says 'Click Anywhere in order to Enter' which shows up within the page
+    // if the user decreases the height of browser window
+    setTimeout(() => {
+        console.log('Time out run after the page has complete loading');
+        loadingPageText.classList.remove('shown');
+        // document.getElementById('loading-page').classList.add('deleted');
+    }, 2000)
 
 }
 
@@ -287,6 +295,17 @@ const removeInitialLoadingPage = () => {
             let loadingPageElement = document.getElementById('loading-page');
             loadingPageElement.classList.toggle('hiding');
             loadingPageAnimationFinished = true;
+
+            let loadingPageText = document.getElementById('loadingPage--secondNormalText')
+
+            // Hide the text that says 'Click Anywhere in order to Enter' which shows up within the page
+            // if the user decreases the height of browser window
+            setTimeout(() => {
+                // console.log('Time out run after the page has complete loading');
+                loadingPageText.classList.remove('shown');
+                // document.getElementById('loading-page').classList.add('deleted');
+            }, 2000)
+
         } else if (loadingGraphicalSceneFinished === false) {
             loadingPageAnimationFinished = true;
         }
@@ -4184,8 +4203,7 @@ const toggleFAQPage = (pageShown) => {
             document.getElementById('pageMainTextCharacter6').classList.add('animated');
             document.getElementById('pageMainTextCharacter7').classList.add('animated');
             document.getElementById('faqPageTempText1').classList.add('shown');
-            document.getElementById('faqPageTempText2').classList.add('shown');
-
+            // document.getElementById('faqPageTempText2').classList.add('shown');
         }, 1700);
 
     } else if (pageShown !== 'faqPage') {
@@ -5973,11 +5991,8 @@ let animate = function () {
     
     if (dynamicWindowWidth <= 850 ) {
 
-        console.log('White marble beetle object is not undefined ', whiteMarbleBeetleObject);
-
         // Gets rid of the Beetle in the Main Menu page
         if (whiteMarbleBeetleObject !== undefined) {
-            console.log('Going to hide the whiteMarbleBeetleObject', whiteMarbleBeetleObject);
             whiteMarbleBeetleObject.visible = false;
         };
 
@@ -6005,9 +6020,9 @@ let animate = function () {
             redPinkMarbleBeetleObject.visible = false;
         };
 
-    }  
+    } 
     
-    if (dynamicWindowWidth > 1000 && dynamicWindowHeight > 700) {
+    if (dynamicWindowWidth >= 850 && dynamicWindowHeight > 700) {
         
         // The whole reason that we kept re-assigning the currentBeetleObject variable to the different beetleObjects that populate the scene in @changMeshVisibility
         // and @createBlackMarbleBeetle is so that when the window increases back in size, we automatically show the beetle with the correct texture
@@ -6018,7 +6033,24 @@ let animate = function () {
         if (currentBeetleObject !== undefined && pageShown !== 'aboutPage' && pageShown !== 'legalPage') {
 
             // initiateTransitionAnimation();
-            if (beetleColor === 'black' || beetleColor === 'white' || beetleColor === 'lightBlue' || beetleColor === 'grey') {
+            if (beetleColor === 'black' || beetleColor === 'white' || beetleColor === 'grey') {
+                currentBeetleObject.visible = true;
+            }
+        }
+    } 
+
+    if (dynamicWindowWidth >= 1000 && dynamicWindowHeight > 700) {
+        
+        // The whole reason that we kept re-assigning the currentBeetleObject variable to the different beetleObjects that populate the scene in @changMeshVisibility
+        // and @createBlackMarbleBeetle is so that when the window increases back in size, we automatically show the beetle with the correct texture
+
+        // The second condition here, which ensures that the pageShown is not the 'aboutPage', makes it that the beetle is never shown if the user is on the aboutPage
+        // console.log('Current Beetle Color is', beetleColor);
+
+        if (currentBeetleObject !== undefined && pageShown !== 'aboutPage' && pageShown !== 'legalPage') {
+
+            // initiateTransitionAnimation();
+            if (beetleColor === 'lightBlue' ) {
                 currentBeetleObject.visible = true;
             }
         }
