@@ -3848,7 +3848,7 @@
 			@media (max-width: 850px) {
 
 				.aboutRotatedText {
-					top: -30px;
+					top: 0px;
 					left: 0px;
 					width: 100%;
 					transform: rotate(0deg);
@@ -3888,11 +3888,36 @@
 				font-family: Montserrat, sans-serif;
 				color: rgb(255, 255, 255, 0.6);
 				background-color: transparent;
+				margin-right: 5px;
 				/* animation: vmc-animation 10s ease-in infinite; */
+			}	
+
+			.expertise--button--small--screen--text--two {
+				display: inline-block;
+				font-size: 11px;
+				font-weight: 600;
+				letter-spacing: 1px;
+				position: relative;
+				text-align: center;
+				text-transform: uppercase;
+				opacity: inherit;
+				visibility: inherit;
+				pointer-events: inherit;
+				font-family: Montserrat, sans-serif;
+				color: rgb(255, 255, 255, 0.6);
+				background-color: transparent;
+				margin-right: 5px;
+				/* animation: vmc-animation 10s ease-in infinite; */
+				transition: transform 0.2s ease-in;
 			}	
 
 			.expertise--button--small--screen--text:hover {
 				color: rgb(255,255,255, 1);
+			}	
+
+			.expertise--button--small--screen--text:hover + #expertise--button--small--screen--text--two {
+				transform: translateX(7px);
+				color: rgb(255, 255, 255, 1);
 			}	
 
 			#aboutPageArrowContainer {
@@ -5181,6 +5206,9 @@
 										<p class='expertise--button--small--screen--text' id='expertise--button--small--screen--text'>
 											Expertise 
 										</p>
+										<p class='expertise--button--small--screen--text--two' id='expertise--button--small--screen--text--two'>
+											> 
+										</p>
 										<!-- <div class='arrowContainer arrow-sign-link' id='aboutPageArrowContainer'>
 											<svg id="aboutPageArrow" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.61 41.89">
 												<polyline points="0.75 0.67 20.22 22.47 0.75 41.17" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"/>
@@ -5193,7 +5221,7 @@
 							<!-- Beginning of Expertise Container  -->
 							<div class='' id='aboutPageExpertiseContainer'>
 								<p class='aboutRotatedText2' id='aboutRotatedText2' >
-									Expertise
+									Expertise 
 								</p>
 								<div class='aboutExpertiseTextContainer'>
 									<div class='aboutExpertiseContainerRow1'>
