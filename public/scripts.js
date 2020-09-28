@@ -5724,6 +5724,11 @@ const initializeEventListeners = () => {
     document.getElementById('expertiseButtonContainer').addEventListener('click', showExpertiseText);
     document.getElementById('aboutButtonContainer').addEventListener('click', hideExpertiseText);
 
+    // Sames as the two above but makes sure that the page transition is attached to the second button that is displayed
+    // when the page width is smaller.
+    document.getElementById('expertise--button--small--screen--text').addEventListener('click', showExpertiseText);
+
+
     // Language Related
 
     document.getElementById('languageOne').addEventListener('mouseenter', userHoverOverFrench);

@@ -203,6 +203,12 @@
 					font-size: 1.3rem !important;
 				}
 
+				.expertise--button--small--screen--container {
+					visibility: visible;
+					opacity: 1;
+					pointer-events: auto;
+				}
+
 			}
 
 			@media (max-width: 950px) {
@@ -268,7 +274,9 @@
 
 			}
 
-			@media(max-width: 600px) {
+			
+			/* Ensures that all the CTA buttons at the top / bottom of every page that allow the user to navigate don't have the lines extending from the left & right --> Saves screen real estate  */
+			@media(max-width: 680px) {
 
 				.cta--click--container::after {
 					content: none;
@@ -284,6 +292,65 @@
 					visibility: hidden;
 				}
 
+				.cta--click--container--two--about::after {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two--about::before {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two::after {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two::before {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two--client::after {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two--client::before {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two--contact::after {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two--contact::before {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--three::after {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--three::before {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
 
 			}
 
@@ -1609,7 +1676,7 @@
 
 			.faqPageDescriptionTextContainer {
 				position: relative;
-				margin-top: 3.5%;
+				margin-top: 2%;
 				width: 100vw;
 				height: 45%;
 				display: flex;
@@ -1641,6 +1708,22 @@
 				justify-content: center;
 				background-color: transparent;
 				align-items: center;
+			}
+
+			.faqPageDescriptionContainer {
+				width: 100%;
+				background-color: transparent;
+				display: flex;
+				justify-content: center;
+			}
+			
+			/* Will ensure that the text is aligned within the page when the beetle disappears  */
+			@media (max-width: 500px) {
+				
+				.faqPageDescriptionContainer {
+					align-items: center;
+				}
+
 			}
 
 			.faqPageTempText {
@@ -2043,7 +2126,7 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				background-color: transparent;
+				background-color: red;
 				padding-left: 15px;
 				padding-right: 15px;
 				visibility: inherit;
@@ -3385,7 +3468,7 @@
 
 			#aboutPageExperimentalContainer {
 				background-color: transparent;
-				position: absolute;
+				position: relative;
 				display: flex;
 				visibility: visible;
 				/* justify-content: center;
@@ -3394,6 +3477,13 @@
 				transition: opacity 0.4s ease-in 0s;
 				max-height: 574px;
 				overflow-y: scroll;
+			}
+
+			@media (max-width: 850px) {
+
+				#aboutPageExperimentalContainer {
+					max-width: 375px;
+				}
 			}
 
 			#aboutPageExperimentalContainer.hidden {
@@ -3598,7 +3688,6 @@
 				color: white;
 				font-size: 4.5rem;
 				display: inline-block;
-				background-color: purple;
 				text-transform: uppercase;
 				text-align: center;
 				font-weight: 800;
@@ -3606,13 +3695,85 @@
 				margin-top: 0px;
 				margin-bottom: 0px;
 				position: relative;
-				top: 30;
-				left: -150px;
+				top: 30; 
+				left: -150px; 
 				background-color: transparent;
 				z-index: 5000;
 				opacity: 0;
 				transform: rotate(-90deg);
 				transition: opacity 0.2s ease-in 1.2s;
+			}
+
+			@media (max-width: 850px) {
+
+				.aboutRotatedText {
+					top: -30px;
+					left: 0px;
+					width: 100%;
+					transform: rotate(0deg);
+				}
+
+				/* The class is defined below - we remove the margin left so that it can be aligned with the 'About' title text at the top */
+
+				.aboutGeneralTextContainer {
+					margin-left: 0px;
+				}
+
+			}
+
+			.expertise--button--small--screen--container  {
+				background-color: transparent;
+				width: 100%;
+				display: flex;
+				justify-content: flex-end;
+				margin-top: 45px;
+				opacity: 0;
+				visibility: hidden;
+				pointer-events: none;
+			}
+
+			.expertise--button--small--screen--text {
+				display: inline-block;
+				font-size: 11px;
+				font-weight: 600;
+				letter-spacing: 1px;
+				position: relative;
+				text-align: center;
+				text-transform: uppercase;
+				opacity: inherit;
+				visibility: inherit;
+				pointer-events: inherit;
+				font-family: Montserrat, sans-serif;
+				color: rgb(255, 255, 255, 0.7);
+				background-color: transparent;
+				animation: vmc-animation 10s ease-in infinite;
+			}	
+
+			.expertise--button--small--screen--text:hover {
+				color: rgb(255,255,255, 1);
+			}	
+
+			#aboutPageArrowContainer {
+				visibility: inherit;
+				opacity: inherit;
+				pointer-events: none;
+				background-color: transparent;
+			}
+
+			@media (max-width: 1000px) {
+
+				.expertise--button--small--screen--container {
+					visibility: visible;
+					opacity: 1;
+					pointer-events: auto;
+				}
+
+				#aboutPageArrowContainer {
+					visibility: visible;
+					opacity: 1;
+					pointer-events: auto;
+				}
+
 			}
 
 			.aboutRotatedText2 {
@@ -3659,6 +3820,18 @@
 				overflow-y: scroll;
 				overflow-x: hidden;
 				pointer-events: auto;
+				background-color: transparent;
+			}
+
+
+			@media (max-width: 850px) {
+
+				/* The class is defined below - we remove the margin left so that it can be aligned with the 'About' title text at the top */
+
+				.aboutGeneralTextContainer {
+					margin-left: 0px;
+				}
+
 			}
 
 			.aboutGeneralTextContainer::-webkit-scrollbar {
@@ -4860,6 +5033,16 @@
 											Perfectionism and creativity drive everything we do, from the advertising campaigns that we lead, to the applications that we create, and the companies that we fund.
 										</p>
 									</div>
+									<div class='expertise--button--small--screen--container'>
+										<p class='expertise--button--small--screen--text' id='expertise--button--small--screen--text'>
+											Expertise 
+										</p>
+										<!-- <div class='arrowContainer arrow-sign-link' id='aboutPageArrowContainer'>
+											<svg id="aboutPageArrow" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.61 41.89">
+												<polyline points="0.75 0.67 20.22 22.47 0.75 41.17" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:2px"/>
+											</svg>
+										</div> -->
+									</div>
 							</div>
 							<!-- End of Experimental Container -->
 
@@ -5087,13 +5270,18 @@
 						</div>
 					</div>
 					<div class='faqPageDescriptionTextContainer samarra-text'>
-							<div class='faqPageLeftDescriptionContainer samarra-text'>
+							<!-- <div class='faqPageLeftDescriptionContainer samarra-text'>
 								<p class='faqPageTempText' id='faqPageTempText1'>
 									Our new client list is being updated.
 								</p>
 							</div>
 							<div class='faqPageRightDescriptionContainer'>
 								<p class='faqPageTempText' id='faqPageTempText2'>
+									Our new client list is being updated.
+								</p>
+							</div> -->
+							<div class='faqPageDescriptionContainer'>
+								<p class='faqPageTempText' id='faqPageTempText1'>
 									Our new client list is being updated.
 								</p>
 							</div>
