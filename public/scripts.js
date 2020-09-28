@@ -5959,7 +5959,18 @@ let animate = function () {
 
     // If the window width is too small, either on desktop or on mobile device, we have to make sure to remove the beetle object
     // in order to make the text more legible throughout the website
-    if (dynamicWindowWidth <= 500 || dynamicWindowHeight <= 700) {
+    
+    if (dynamicWindowWidth <= 1000 ) {
+
+        // We remove the Blue Marble Beetle displayed on the Contact page earlier than the other beetles because there is more
+        // content
+        if (blueMarbleBeetleObject !== undefined)  {
+            console.log('BLUE MARBLE BEETLE OBJECT IS NOT UNDEFINED');
+            currentBeetleObject.visible = false;
+        };
+
+    }
+    else if (dynamicWindowWidth <= 500 || dynamicWindowHeight <= 700) {
 
         // initiateTransitionAnimation();
 
@@ -5967,9 +5978,9 @@ let animate = function () {
             blackMarbleBeetleObject.visible = false;
         };
 
-        if (blueMarbleBeetleObject !== undefined) {
-            blueMarbleBeetleObject.visible = false;
-        };
+        // if (blueMarbleBeetleObject !== undefined) {
+        //     blueMarbleBeetleObject.visible = false;
+        // };
 
         if (whiteMarbleBeetleObject !== undefined) {
             whiteMarbleBeetleObject.visible = false;
