@@ -5966,12 +5966,24 @@ let animate = function () {
         // content
         if (blueMarbleBeetleObject !== undefined)  {
             // console.log('BLUE MARBLE BEETLE OBJECT IS NOT UNDEFINED');
-            console.log('Blue Marble Beetle Object', blueMarbleBeetleObject);
             blueMarbleBeetleObject.visible = false;
         };
 
-    }
-    else if (dynamicWindowWidth <= 500 || dynamicWindowHeight <= 700) {
+    } 
+    
+    if (dynamicWindowWidth <= 850 ) {
+
+        console.log('White marble beetle object is not undefined ', whiteMarbleBeetleObject);
+
+        // Gets rid of the Beetle in the Main Menu page
+        if (whiteMarbleBeetleObject !== undefined) {
+            console.log('Going to hide the whiteMarbleBeetleObject', whiteMarbleBeetleObject);
+            whiteMarbleBeetleObject.visible = false;
+        };
+
+    }  
+    
+    if (dynamicWindowWidth <= 500 || dynamicWindowHeight <= 700) {
 
         // initiateTransitionAnimation();
 
@@ -5983,9 +5995,7 @@ let animate = function () {
         //     blueMarbleBeetleObject.visible = false;
         // };
 
-        if (whiteMarbleBeetleObject !== undefined) {
-            whiteMarbleBeetleObject.visible = false;
-        };
+
 
         if (greyMarbleBeetleObject !== undefined) {
             greyMarbleBeetleObject.visible = false;
@@ -5995,7 +6005,9 @@ let animate = function () {
             redPinkMarbleBeetleObject.visible = false;
         };
 
-    } else if (dynamicWindowWidth > 1000 && dynamicWindowHeight > 700) {
+    }  
+    
+    if (dynamicWindowWidth > 1000 && dynamicWindowHeight > 700) {
         
         // The whole reason that we kept re-assigning the currentBeetleObject variable to the different beetleObjects that populate the scene in @changMeshVisibility
         // and @createBlackMarbleBeetle is so that when the window increases back in size, we automatically show the beetle with the correct texture

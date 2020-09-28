@@ -1026,6 +1026,14 @@
 				height: auto;
 			}
 
+			@media (max-width: 850px) {
+
+				.menuElements {
+					flex-direction: column;
+				}
+
+			}
+
 			.menuElement {
 				font-size: 4.5rem;
 				display: inline-block;
@@ -1079,6 +1087,16 @@
 
 				.menuElement {
 					font-size: 3.3rem;
+				}
+
+			}
+
+			@media (max-width: 850px) {
+
+				.menuElement {
+					font-size: 4.5rem;
+					padding-top: 0px;
+					padding-bottom: 0px;
 				}
 
 			}
@@ -1248,6 +1266,7 @@
 			}
 
 
+
 			.address-information-left.showing {
 				opacity: 1;
 				visibility: visible;
@@ -1257,6 +1276,22 @@
 			.address-information-right.showing {
 				opacity: 1;
 				visibility: visible;
+			}
+
+			@media (max-width: 850px) {
+
+				#address-information-left {
+					visibility: hidden;
+					opacity: 0;
+					pointer-events: none;
+				}
+
+				#address-information-right {
+					visibility: hidden;
+					opacity: 0;
+					pointer-events: none;
+				}
+
 			}
 
 			.address-item {
