@@ -4,9 +4,11 @@
 		<base href = "https://awesome-bhaskara-0ca323.netlify.app/" />
 		<!-- <base href = "http://localhost:8081" /> -->
 		
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<meta name="author" content="" />
+		<meta name="description" content="Creative. Unique. One of a Kind. Samarra & Co. is a multidisciplinary creative studio & investment fund at the intersection of art, design and technology." />
+		<meta name="keywords" content="creative agency, creative studio, digital studio, digital agency, paris, new york, jeddah, riad, saudi arabia, art collective, saudi technology, saudi tech, saudi studio, middle east tech, middle east digital agency, middle east digital studio, dubai digital agency, dubai creative agency, dubai creative studio, uae digital agency, uae software agency, dubai software studio, 3d design middle east, 3d design studio, web development, software engineering, art direction, art direction studio, photography, photography studio, photography studio middle east, marketing agency, marketing agency middle east, marketing agency new york, marketing agency east coast, marketing agency france, marketing agency paris, digital studio paris, digital studio new york, creative studio new york, creative studio paris, creative studio france, samarra & co, samarra & co., samarra creative agency, samarra digital agency, samarra digital studio, awwwards.com, awwwards three.js, samarra design agency, samarra design studio, samarra tech, samarra software engineering, samarra app development, samarra web development, samarra dev" />
+		<meta name="author" content="Samarra & Co." />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 		<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,500&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">		
@@ -19,9 +21,6 @@
 		<!-- For Local Development -->
 		<!-- <link rel="icon" href="/assets/samarraIcon.png"> -->
 
-
-
-
 		<style>
 
 			html {
@@ -29,7 +28,8 @@
 			}
 
 			html, body {
-				height: 100%;
+				height: 100vh;
+				width: 100vw;
 				font-size: 62.5%;
 			}
 
@@ -42,7 +42,7 @@
 				margin: 0; 
 				overflow: hidden;
 				overflow-x: hidden;
-				min-height: 100vh;
+				height: 100%;
 				cursor: none;
 				-youbkit-touch-callout: none; 
 				-youbkit-user-select: none;   
@@ -50,7 +50,6 @@
 				-ms-user-select: none;		
 				user-select: none;
 				min-width: 400px;
-				min-height: 600px;	
 			}
 
 		
@@ -147,21 +146,236 @@
 				background-color: #ff0000;
 				width: 100px;
 				height: 100px;
-				position: absolute;
+				position: fixed;
 				top: 0;
 				left: 0;
+			}
+
+			#homePage {
+				width: 100vw;
+				height: 100vh;
+				background-color: transparent;
+				position: absolute;
+				opacity: 1;
+				visibility: visible;
+				display: flex;
+				justify-content: center;
 			}
 
 			#titleOne {
 				background-color: transparent;
 				position: absolute;
 				margin-top: 250px;
-				width: 100%;
+				width: auto;
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				z-index: 100;
 			}
+
+			#expertise--button--small--screen--container.animated {
+					visibility: visible;
+					opacity: 1;
+					pointer-events: auto;
+					transition: opacity 0.4s ease-in 1.25s, visibility 0.4s ease-in 1.25s;
+			}
+
+
+			@media (max-width: 1000px) {
+
+				.cta--click--large--text-right {
+					visibility: hidden;
+					opacity: 0;
+					pointer-events: none;
+				}
+
+				.expertiseButtonContainer {
+					visibility: hidden;
+					opacity: 0;
+					pointer-events: none;
+				}
+
+				.aboutPageMainText {
+					max-width: 550px !important;
+					font-size: 2.5rem !important;
+				}
+
+				.aboutPageSubText {
+					max-width: 550px !important;
+					font-size: 1.3rem !important;
+				}
+
+				.aboutPageSubTextII {
+					max-width: 550px !important;
+					font-size: 1.3rem !important;
+				}
+
+			}
+
+			@media (max-width: 950px) {
+
+				.aboutPageMainText {
+					max-width: 500px !important;
+				}
+
+				.aboutPageSubText {
+					max-width: 500px !important;
+				}
+
+				.aboutPageSubTextII {
+					max-width: 500px !important;
+				}
+
+			}
+
+
+			@media (max-width: 900px) {
+
+				.aboutPageMainText {
+					max-width: 425px !important;
+				}
+
+				.aboutPageSubText {
+					max-width: 425px !important;
+				}
+
+				.aboutPageSubTextII {
+					max-width: 425px !important;
+				}
+
+
+			}
+
+			@media (max-width: 850px) {
+
+				.aboutPageMainText {
+					max-width: 375px !important;
+				}
+
+				.aboutPageSubText {
+					max-width: 375px !important;
+				}
+
+				.aboutPageSubTextII {
+					max-width: 375px !important;
+				}
+
+			}
+
+			@media (max-width: 700px) {
+
+				/* Makes sure that the 'Pause' or 'Play' text appears upright if the window width is smaller */
+				#soundwave-description {
+					writing-mode: vertical-rl;
+					/* text-orientation: upright; */
+					top: -90px;
+					right: 13px;
+					letter-spacing: 3px;
+				}
+
+			}
+
+			
+			/* Ensures that all the CTA buttons at the top / bottom of every page that allow the user to navigate don't have the lines extending from the left & right --> Saves screen real estate  */
+			@media(max-width: 680px) {
+
+				.cta--click--container::after {
+					content: none;
+					/* display: none; */
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container::before {
+					content: none;
+					/* display: none; */
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two--about::after {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two--about::before {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two::after {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two::before {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two--client::after {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two--client::before {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two--contact::after {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--two--contact::before {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--three::after {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.cta--click--container--three::before {
+					content: none;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+			}
+
+			@media (max-width: 500px), (max-height: 700px ) { 
+
+				#homePage {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+
+				#titleOne {
+					margin-top: 0px;
+					position: relative;
+				}
+				 
+				/* Gets rid of the lines before & after the navigation buttons */
+
+
+				/* Makes the Sound Wave smaller */
+
+
+			 }
+
 
 			#titleLoadingPage {
 				background-color: transparent;
@@ -190,7 +404,7 @@
 				height: 2px;
 				position: absolute;
 				background-color: white;
-				animation: slideLoadingBar 10s forwards;
+				animation: slideLoadingBar 5s ease-in 0s forwards;
 			}
 
 			.loadingPage--normalText {
@@ -274,7 +488,15 @@
 				font-style: normal;
 				font-weight: 500;
 				/* letter-spacing: 2px; */
+				opacity: 1;
+				/* transition: 0.2s ease-in 0.25s; */
 			}
+
+			/* .titleText.showing {
+				opacity: 1;
+				transition: 0.2s ease-in 0.5s; 
+			} */
+			/* Delay set to 0.5s because @toggleHomePage has a set time out of 1700 and transition animation lasts 2000ms, which makes it appear 200ms after animation ends */
 
 			.aboutTitleText {
 				font-size: 30px;
@@ -355,7 +577,7 @@
 				align-items: center;
 				position: absolute;
 				right: 45px;
-				top: 45px;
+				top: 55px;
 				/* background-color: red;
 				opacity: 0.5; */
 			}
@@ -505,7 +727,7 @@
 				width: 45px;
 				height: auto;
 				position: absolute;
-				bottom: 45px;
+				bottom: 25px;
 				right: 45px;
 				background: transparent;
 				z-index: 3000;
@@ -683,6 +905,25 @@
 				}
 			}
 
+			@keyframes small-arrow-animation {
+				0% {
+					transform: translateX(0px);
+				}
+				2.5% {
+					transform: translateX(7px);
+				}
+				5% {
+					transform: translateX(0px);
+				}
+				10% {
+					transform: translateX(7px);
+				}
+				12.5% {
+					transform: translateX(0px);
+				}
+
+			}
+
 			@keyframes vmc-animation {
 				0% {
 					color: rgb(255,255,255, 0.7);
@@ -703,8 +944,8 @@
 
 			.soundwave-description {
 				position: absolute;
-				right: 50;
-				top: 20;
+				right: 80;
+				top: 50%;
 				width: auto;
 				background: transparent;
 				font-size: 1.4rem;
@@ -715,13 +956,13 @@
 				text-transform: uppercase;
 				visibility: hidden;
 				opacity: 0;
-				transition: 0.5s ease;
+				transition: 0.2s ease-in;
 			}
 
 			.plus-sign-description {
 				position: absolute;
 				left: 50;
-				top: 25;
+				top: 40;
 				width: auto;
 				background: transparent;
 				font-size: 1.4rem;
@@ -746,7 +987,7 @@
 			.plus-sign-container {
 				position: absolute;
 				left: 30px;
-				bottom: 35px;
+				bottom: 15px;
 				background: transparent;
 				display: flex;
 				z-index: 3000;
@@ -787,6 +1028,15 @@
 				width: 100vw;
 				display: flex;
 			}
+/* 
+			@media (max-width: 850px) {
+
+				.menuPage {
+					align-items: center;
+					justify-content: center;
+				}
+
+			} */
 
 			.menuElements {
 				background-color: transparent;
@@ -803,6 +1053,19 @@
 				text-align: center;
 				counter-reset: menu 0;
 				height: auto;
+			}
+
+			@media (max-width: 850px) {
+
+				.menuElements {
+					flex-direction: column;
+					top: 24%;
+					/* position: relative; */
+					/* top: 0%;
+					left: 0%; */
+					/* transform: translateX(0%); */
+				}
+
 			}
 
 			.menuElement {
@@ -828,6 +1091,48 @@
 		
 				/* transform: translateY(20px);
 				transition: translateY 1s ease 1.2s; */
+			}
+
+			@media (max-width: 1200px) {
+				
+				.menuElement {
+					font-size: 4rem;
+				}
+
+			}
+
+			@media (max-width: 1100px) {
+
+				.menuElement {
+					font-size: 3.8rem;
+				}
+
+			}
+
+			@media (max-width: 1000px) {
+
+				.menuElement {
+					font-size: 3.5rem;
+				}
+
+			}
+
+			@media (max-width: 900px) {
+
+				.menuElement {
+					font-size: 3.3rem;
+				}
+
+			}
+
+			@media (max-width: 850px) {
+
+				.menuElement {
+					font-size: 4.5rem;
+					padding-top: 0px;
+					padding-bottom: 0px;
+				}
+
 			}
 
 			.menuElement::before {
@@ -933,7 +1238,46 @@
 				display: block;
 				visibility: visible;
 				width: 180px;
+				background-color: transparent;
 			}
+
+			@media (max-width: 800px) {
+
+				.company-logo {
+					width: 170px;
+					background-color: transparent;
+				}
+
+			}
+
+			@media (max-width: 700px) {
+
+				.company-logo {
+					width: 160px;
+					background-color: transparent;
+				}
+
+			}
+
+
+			@media (max-width: 650px) {
+
+				.company-logo {
+					width: 150px;
+					background-color: transparent;
+				}
+
+			}
+
+			@media (max-width: 600px) {
+
+				.company-logo {
+					width: 140px;
+					background-color: transparent;
+				}
+
+			}
+
 
 			#company-logo-two {
 				position: absolute;
@@ -995,6 +1339,7 @@
 			}
 
 
+
 			.address-information-left.showing {
 				opacity: 1;
 				visibility: visible;
@@ -1004,6 +1349,22 @@
 			.address-information-right.showing {
 				opacity: 1;
 				visibility: visible;
+			}
+
+			@media (max-width: 850px) {
+
+				#address-information-left {
+					visibility: hidden;
+					opacity: 0;
+					pointer-events: none;
+				}
+
+				#address-information-right {
+					visibility: hidden;
+					opacity: 0;
+					pointer-events: none;
+				}
+
 			}
 
 			.address-item {
@@ -1421,6 +1782,12 @@
 				animation: slideLoadingPage 0.5s forwards;
 			}
 
+			.loading-page.hiding.deleted {
+				visibility: hidden;
+				opacity: 0;
+				display: none;
+			}
+
 			.aboutPageTitleTextContainer {
 				position: relative;
 				margin-top: 250px;
@@ -1455,7 +1822,7 @@
 
 			.faqPageDescriptionTextContainer {
 				position: relative;
-				margin-top: 3.5%;
+				margin-top: 2%;
 				width: 100vw;
 				height: 45%;
 				display: flex;
@@ -1487,6 +1854,22 @@
 				justify-content: center;
 				background-color: transparent;
 				align-items: center;
+			}
+
+			.faqPageDescriptionContainer {
+				width: 100%;
+				background-color: transparent;
+				display: flex;
+				justify-content: center;
+			}
+			
+			/* Will ensure that the text is aligned within the page when the beetle disappears  */
+			@media (max-width: 500px) {
+				
+				.faqPageDescriptionContainer {
+					align-items: center;
+				}
+
 			}
 
 			.faqPageTempText {
@@ -1808,6 +2191,55 @@
 				align-items: center;
 				height: auto;
 				min-height: 361px;
+			}
+			
+			@media (max-width: 1000px) {
+				
+				.contactPageLeftContainer {
+					width: 0%;
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				.contactPageRightContainer {
+					width: 100%;
+					justify-content: center;
+				}
+
+				#contactPageNewYorkOfficeEmailID {
+					text-align: center;
+				}
+
+				#contactPageNewYorkOfficeID {
+					text-align: center;
+				}
+
+				#contactPageNewYorkOfficePhoneID {
+					text-align: center;
+				}
+
+				#parisOfficeEmailID {
+					text-align: center;
+				}
+
+				#parisOfficeID {
+					text-align: center;
+				}
+
+				#parisOfficePhoneID {
+					text-align: center;
+				}
+
+				#address-line-right-two-two {
+					opacity: 0;
+					visibility: hidden;
+				}
+
+				#address-line-right-two-three {
+					opacity: 0;
+					visibility: hidden;
+				}
+
 			}
 
 			.contactPageTitle {
@@ -2439,7 +2871,7 @@
 
 			.cta--click--container {
 				position: absolute;
-				bottom: 45px;
+				bottom: 25px;
 				left: 50%;
 				transform: translateX(-50%);
 				background-color: transparent;
@@ -2456,7 +2888,7 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: rgb(255,255,255,0.6);
+				background-color: rgb(255,255,255,0.7);
 				display: block;
 				left: -60px;
 				content: '';
@@ -2469,13 +2901,37 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: rgb(255,255,255,0.6);
+				background-color: rgb(255,255,255,0.7);
 				display: block;
 				right: -60px;
 				content: '';
 				animation: cta-bottom-animation 4s linear 3s infinite alternate;
 			}
 
+			.cta--click--container:hover > #cta--click--text--about {
+				color: rgb(255, 255, 255, 1);
+			}
+
+
+			.cta--click--container--two--about:hover > #cta--click--text--home {
+				color: rgb(255, 255, 255, 1);
+			}
+
+			.cta--click--container--two:hover > #cta--click--text--clients {
+				color: rgb(255, 255, 255, 1);
+			}
+
+			.cta--click--container--two--client:hover > #cta--click--text--about--2 {
+				color: rgb(255, 255, 255, 1);
+			}
+
+			.cta--click--container--three:hover > #cta--click--text--contact {
+				color: rgb(255, 255, 255, 1);
+			}
+
+			.cta--click--container--two--contact:hover > #cta--click--text--clients--2 {
+				color: rgb(255, 255, 255, 1);
+			}
 
 			.cta--click--container:hover::after {
 				background-color: rgb(255,255,255, 1);
@@ -2490,7 +2946,7 @@
 			 */
 			.cta--click--container--two {
 				position: absolute;
-				bottom: 45px;
+				bottom: 25px;
 				left: 50%;
 				transform: translateX(-50%);
 				background-color: transparent;
@@ -2511,7 +2967,7 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: rgb(255,255,255,0.6);
+				background-color: rgb(255,255,255,0.7);
 				display: block;
 				left: -60px;
 				content: '';
@@ -2524,7 +2980,7 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: rgb(255,255,255,0.6);
+				background-color: rgb(255,255,255,0.7);
 				display: block;
 				right: -60px;
 				content: '';
@@ -2566,7 +3022,7 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: rgb(255,255,255,0.6);
+				background-color: rgb(255,255,255,0.7);
 				display: block;
 				left: -60px;
 				content: '';
@@ -2579,7 +3035,7 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: rgb(255,255,255,0.6);
+				background-color: rgb(255,255,255,0.7);
 				display: block;
 				right: -60px;
 				content: '';
@@ -2620,7 +3076,7 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: rgb(255,255,255,0.6);
+				background-color: rgb(255,255,255,0.7);
 				display: block;
 				left: -60px;
 				content: '';
@@ -2633,7 +3089,7 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: rgb(255,255,255,0.6);
+				background-color: rgb(255, 255, 255, 0.7);
 				display: block;
 				right: -60px;
 				content: '';
@@ -2654,7 +3110,7 @@
 
 			.cta--click--container--three {
 				position: absolute;
-				bottom: 45px;
+				bottom: 25px;
 				left: 50%;
 				transform: translateX(-50%);
 				background-color: transparent;
@@ -2674,7 +3130,7 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: rgb(255,255,255,0.6);
+				background-color: rgb(255, 255, 255, 0.7);
 				display: block;
 				left: -60px;
 				content: '';
@@ -2687,7 +3143,7 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: rgb(255,255,255,0.6);
+				background-color: rgb(255, 255, 255, 0.7);
 				display: block;
 				right: -60px;
 				content: '';
@@ -2728,7 +3184,7 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: rgb(255,255,255,0.6);
+				background-color: rgb(255, 255, 255, 0.7);
 				display: block;
 				left: -60px;
 				content: '';
@@ -2741,7 +3197,7 @@
 				top: 50%;
 				height: 1px;
 				width: 30px;
-				background-color: rgb(255,255,255,0.6);
+				background-color: rgb(255, 255, 255, 0.7);
 				display: block;
 				right: -60px;
 				content: '';
@@ -2761,7 +3217,7 @@
 			.cta--click--text {
 				position: relative;
 				font-family: Montserrat, sans-serif;
-				color: rgb(255, 255, 255, 0.9);
+				color: rgb(255, 255, 255, 0.7);
 				font-weight: 600;
 				font-size: 11px;
 				background-color: transparent;
@@ -2774,9 +3230,17 @@
 				color: rgb(255, 255, 255, 1);
 			}
 
+			/* Make sure that when the container of the cta--click--text is hovered  */
+
+			.cta--click--text:hover .cta--click--text {
+				color: rgb(255, 255, 255, 1);
+			}
+
+			/* End  */
+
 			.privacy--click--container {
 				position: absolute; 
-				bottom: 45px;
+				bottom: 35px;
 				left: 50%;
 				transform: translateX(-50%);
 				background-color: transparent;
@@ -3090,13 +3554,17 @@
 			}
 
 			.legalPageTextContainer {
-				margin-top: 3%;
+				margin-top: 0px;
 				background-color: transparent;
 				display: flex;
 				align-items: center;
-				max-width: 606px;
+				max-width: min(600px, 60%);
 				flex-direction: column;
-				padding-bottom: 450px;
+				/* padding-bottom: 450px;
+				max-height: 600px; */
+				overflow-y: scroll; 
+				max-height: 80%;
+				margin-top: 125px;
 			}
 
 			.legalPageTitle {
@@ -3107,7 +3575,8 @@
 				width: auto;
 				background-color: transparent;
 				position: relative;
-				margin-bottom: 50px;
+				margin-bottom: 30px;
+				margin-top: 0px;
 				text-transform: uppercase;
 				text-align: center;
 				font-weight: 800;
@@ -3175,7 +3644,7 @@
 				flex-direction: row;
 				justify-content: center;
 				align-items: center;
-				overflow-x: scroll;
+				/* overflow-x: scroll; */
 				height: 100%;
 				width: 100%;
 				position: relative;
@@ -3199,12 +3668,22 @@
 
 			#aboutPageExperimentalContainer {
 				background-color: transparent;
-				position: absolute;
+				position: relative;
 				display: flex;
 				visibility: visible;
 				/* justify-content: center;
 				align-items: center; */
+				overflow-x: hidden;
 				transition: opacity 0.4s ease-in 0s;
+				max-height: 574px;
+				overflow-y: scroll;
+			}
+
+			@media (max-width: 850px) {
+
+				#aboutPageExperimentalContainer {
+					max-width: 375px;
+				}
 			}
 
 			#aboutPageExperimentalContainer.hidden {
@@ -3249,7 +3728,7 @@
 				height: 100%;
 				background-color: transparent;
 				position: relative;
-				overflow: scroll;
+				overflow: hidden;
 			}
 
 			.aboutPageSubTitleContainerII {
@@ -3409,7 +3888,6 @@
 				color: white;
 				font-size: 4.5rem;
 				display: inline-block;
-				background-color: purple;
 				text-transform: uppercase;
 				text-align: center;
 				font-weight: 800;
@@ -3417,14 +3895,116 @@
 				margin-top: 0px;
 				margin-bottom: 0px;
 				position: relative;
-				top: 30;
-				left: -150px;
+				top: 30; 
+				left: -150px; 
 				background-color: transparent;
 				z-index: 5000;
 				opacity: 0;
 				transform: rotate(-90deg);
 				transition: opacity 0.2s ease-in 1.2s;
 			}
+
+			@media (max-width: 850px) {
+
+				.aboutRotatedText {
+					top: 0px;
+					left: 0px;
+					width: 100%;
+					transform: rotate(0deg);
+				}
+
+				/* The class is defined below - we remove the margin left so that it can be aligned with the 'About' title text at the top */
+
+				.aboutGeneralTextContainer {
+					margin-left: 0px;
+					top: 0px;
+				}
+
+			}
+
+			.expertise--button--small--screen--container  {
+				background-color: transparent;
+				width: 100%;
+				display: flex;
+				justify-content: flex-end;
+				margin-top: 65px;
+				opacity: 0;
+				visibility: hidden;
+				pointer-events: none;
+				transition: opacity 0.2s ease-in 0.2s, visible 0.4s ease-in 0.2s;
+			}
+
+			.expertise--button--small--screen--text {
+				display: inline-block;
+				font-size: 11px;
+				font-weight: 600;
+				letter-spacing: 1px;
+				position: relative;
+				text-align: center;
+				text-transform: uppercase;
+				opacity: inherit;
+				visibility: inherit;
+				pointer-events: inherit;
+				font-family: Montserrat, sans-serif;
+				color: rgb(255, 255, 255, 0.6);
+				background-color: transparent;
+				margin-right: 3px;
+				margin-top: 0px;
+				margin-bottom: 0px;
+				left: 5px;
+				/* animation: vmc-animation 10s ease-in infinite; */
+			}	
+
+			.expertise--button--small--screen--text--two {
+				display: inline-block;
+				font-size: 11px;
+				font-weight: 600;
+				letter-spacing: 1px;
+				position: relative;
+				text-align: center;
+				text-transform: uppercase;
+				opacity: inherit;
+				visibility: inherit;
+				pointer-events: inherit;
+				font-family: Montserrat, sans-serif;
+				color: rgb(255, 255, 255, 0.6);
+				background-color: transparent;
+				margin-right: 5px;
+				/* animation: vmc-animation 10s ease-in infinite; */
+				transition: transform 0.2s ease-in;
+			}	
+
+			.expertise--button--small--screen--text:hover {
+				color: rgb(255,255,255, 1);
+			}	
+
+			/* .expertise--button--small--screen--text:hover + #about--page--arrow {
+				transform: translateX(7px);
+				color: rgb(255, 255, 255, 1);
+			}	 */
+
+			#about--page--arrow {
+				height: 14px;
+				width: 22px;
+				transition: transform 0.2s ease-in;
+				animation: small-arrow-animation 5.5s linear 3s infinite normal;
+			}
+
+			#aboutPageArrowContainer {
+				visibility: visible;
+				opacity: 1;
+				pointer-events: none;
+				background-color: transparent;
+				transition: all 0.5s ease-in 2.5s;
+			}
+
+
+			#aboutPageArrowContainer.animated {
+					visibility: visible;
+					opacity: 1;
+					pointer-events: auto;
+			}
+
 
 			.aboutRotatedText2 {
 				font-family: Montserrat, sans-serif;
@@ -3454,25 +4034,98 @@
 				transition: opacity 0.2s ease-in 1.6s;
 			}
 
+			@media (max-width: 1250px) {
+
+				.aboutRotatedText2 {
+					margin-bottom: 75px;
+				}
+
+			}
+
+			@media (max-width: 950px) {
+
+				.aboutRotatedText2 {
+					margin-bottom: 50px;
+				}
+
+			}
+
 			#aboutRotatedText.animated {
 				opacity: 1;
 				transition: opacity 0.2s ease-in 0.4s;
 			}
 			
 			.aboutGeneralTextContainer {
+				position: relative;
 				margin-left: 50px;
 				pointer-events: none;
 				-youbkit-user-select: text;   
 				-moz-user-select: text;	   
 				-ms-user-select: text;		
-				user-select: text;	
+				user-select: text;
+				max-height: 500px;
+				overflow-y: scroll;
+				overflow-x: hidden;
+				pointer-events: auto;
+				background-color: transparent;
+				top: 30px;
+			}
+
+
+			@media (max-width: 850px) {
+
+				/* The class is defined below - we remove the margin left so that it can be aligned with the 'About' title text at the top */
+
+				.aboutGeneralTextContainer {
+					margin-left: 0px;
+				}
+
+			}
+
+			.aboutGeneralTextContainer::-webkit-scrollbar {
+				width: 5px;
+			}
+
+
+			.aboutGeneralTextContainer::-webkit-scrollbar-track {
+				background: transparent;
+			}
+
+			.aboutGeneralTextContainer::-webkit-scrollbar-thumb {
+				background: transparent;
 			}
 
 			.aboutExpertiseTextContainer {
 				/* margin-left: 70px; */
 				pointer-events: none;
-				display: flex;
-				flex-direction: column;
+				display: grid;
+				/* flex-direction: column; */
+				background-color: transparent;
+				grid-template-columns: 33% 33% 33%;
+				grid-template-rows: 50% 50%;
+				max-height: 472px;
+				overflow-y: scroll;
+			}
+
+			@media (max-width: 1250px) {
+
+				.aboutExpertiseTextContainer {
+					/* grid-template-columns: 50% 50%;
+					grid-template-rows: 50% 50% 50%; */
+					/* overflow-y: scroll; */
+					grid-template-rows:    repeat(3, 200px);
+					grid-template-columns: repeat(2, 1fr);
+				}
+
+			}
+
+			@media (max-width: 950px) {
+
+				.aboutExpertiseTextContainer {
+					grid-template-rows: repeat(6, 200px);
+					grid-template-columns: repeat(1, 1fr);
+				}
+
 			}
 
 			.aboutExpertiseContainerRow1 {
@@ -3854,7 +4507,7 @@
 
 			.expertiseButtonContainer { 
 				position: absolute;
-				right: 60;
+				right: 60px;
 				top: 50%;
 				background-color: transparent;
 				opacity: 0;
@@ -3890,7 +4543,7 @@
 			.cta--click--large--text-right {
 				position: relative;
 				font-family: Montserrat, sans-serif;
-				color: rgb(255, 255, 255, 0.6);
+				color: rgb(255, 255, 255, 0.7);
 				font-weight: 600;
 				font-size: 11px;
 				background-color: transparent;
@@ -3898,8 +4551,6 @@
 				letter-spacing: 1px;
 				text-align: center;
 				pointer-events: auto;
-				/* writing-mode: vertical-lr;
-				text-orientation: upright; */
 			}
 
 			.cta--click--large--text-right:hover {
@@ -3925,7 +4576,7 @@
 			.cta--click--large--text-left {
 				position: relative;
 				font-family: Montserrat, sans-serif;
-				color: rgb(255, 255, 255, 0.6);
+				color: rgb(255, 255, 255, 0.7);
 				font-weight: 600;
 				font-size: 11px;
 				background-color: transparent;
@@ -3964,6 +4615,9 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js"></script>
 		<script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js"></script>
+
+
 		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Blotter/0.1.0/materials/liquidDistortMaterial.js" integrity="sha512-rvYwlDPzd/lRzBvegx4gYYSywGV31gBq2dTL80HdKMzJ3EdfIbQXNbxbHSdfgf52L+tk9F2dRvUtvZYAvXNFPA==" crossorigin="anonymous"></script>		 -->
 		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Blotter/0.1.0/blotter.min.js" integrity="sha512-Na4qwz8+Hb6JAVf8zFKtPri3XX/Z9/drSpFQuA9hUDnSYLFuu+GU0sfyDYw0SIUkvo/gSw//hCW/CjFJmIIc4Q==" crossorigin="anonymous"></script> -->
 
@@ -3976,14 +4630,10 @@
 		<script src="/public/assets/stats.js"></script>
 		<script src="/public/scripts.js" type="module" ></script>
 
-		<!-- <script src="/public/assets/Water.js"></script>
-		<script src="/public/assets/DigitalGlitch.js" type="module"></script>
-		<script src="/public/assets/GlitchPass.js" type="module"></script> -->
-
 		 <!-- For Local Development -->
 		 <!-- Blotter.js not currently used -->
-
-		<!-- <script src="assets/OrbitControls.js"></script>
+<!-- 
+		<script src="assets/OrbitControls.js"></script>
 		<script src="assets/OBJLoader.js"></script>
 		<script src="assets/MTLLoader.js"></script>
 		<script src="assets/postprocessing.min.js" ></script>
@@ -4070,17 +4720,9 @@
 			<div class='pages'>
 
 				<!-- Venere Mais Courtois Image -->
-
-				<!-- Production -->
 				<div class='venereMaisCourtoisContainer' id='venereMaisCourtoisContainer'>
-					<img src='/public/assets/venereMaisCourtois.jpg' alt='Venere Mais Courtois French Magazine' height='300' />
-				</div>
-
-				<!-- Dev Environment -->
-
-				<!-- <div class='venereMaisCourtoisContainer' id='venereMaisCourtoisContainer'>
 					<img src='/assets/venereMaisCourtois.jpg' alt='Venere Mais Courtois French Magazine' height='300' />
-				</div> -->
+				</div>
 
 				<!-- Cursor Elements -->
 				<div class="cursor cursor--small" id='cursor--small'></div>
@@ -4155,7 +4797,7 @@
 
 				<!-- HOME PAGE - This button gets shown at bottom of Home Page -->
 				<div class='cta--click--container' id='cta--click--container'>
-					<p class='cta--click--text' id='cta--click--text'>
+					<p class='cta--click--text' id='cta--click--text--about'>
 						About
 					</p>
 				</div>
@@ -4163,13 +4805,13 @@
 				<!-- ABOUT PAGE - These two buttons get shown in the About page -->
 
 				<div class='cta--click--container--two--about' id='cta--click--container--two--about'>
-					<p class='cta--click--text' id='cta--click--text'>
+					<p class='cta--click--text' id='cta--click--text--home'>
 						Home
 					</p>
 				</div>
 
 				<div class='cta--click--container--two' id='cta--click--container--two'>
-					<p class='cta--click--text' id='cta--click--text'>
+					<p class='cta--click--text' id='cta--click--text--clients'>
 						Clients
 					</p>
 				</div>
@@ -4179,13 +4821,13 @@
 				<!-- CLIENT PAGE - Button gets shown at bottom of Client page -->
 
 				<div class='cta--click--container--two--client' id='cta--click--container--two--client'>
-					<p class='cta--click--text' id='cta--click--text'>
+					<p class='cta--click--text' id='cta--click--text--about--2'>
 						About
 					</p>
 				</div>
 
 				<div class='cta--click--container--three' id='cta--click--container--three'>
-					<p class='cta--click--text' id='cta--click--text'>
+					<p class='cta--click--text' id='cta--click--text--contact'>
 						Contact
 					</p>
 				</div>
@@ -4195,7 +4837,7 @@
 				<!-- CONTACT PAGE - Button shown at the top of the Contact page -->
 
 				<div class='cta--click--container--two--contact' id='cta--click--container--two--contact'>
-					<p class='cta--click--text' id='cta--click--text'>
+					<p class='cta--click--text' id='cta--click--text--clients--2'>
 						Clients
 					</p>
 				</div>
@@ -4246,9 +4888,9 @@
 				
 				<!-- Logo Left  -->
 				<div class='company-logo samarra-text'>
-					<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240.21 70" width="180">
+					<svg id="samarra--company--logo--id" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240.21 70" >
 						<polyline points="200.71 18.04 200.7 48.54 144.81 48.52 144.83 18.02 94.21 17.99 94.2 48.49" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
-						<circle cx="33" cy="33" r="31.5" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:3px"/>
+						<circle cx="33" cy="33" r="31.5" style="fill:none;stroke: #fff;stroke-miterlimit:10;stroke-width:3px"/>
 					</svg>
 				</div>
 
@@ -4256,7 +4898,7 @@
 
 					<!-- Main Headline of the Main Page -->
 					<div id='titleOne' class='samarra-text'>
-						<h1 class='titleText content-item' data-splitting> <span id='companyName'> Samarra & Co. </span> <br> Digital Solutions, <br> Creative, Innovative, <br> One of a Kind </h1>
+						<h1 class='titleText content-item' data-splitting id='titleText'> <span id='companyName'> Samarra & Co. </span> <br> Digital Solutions, <br> Creative, Innovative, <br> One of a Kind </h1>
 					</div>
 	
 				</div>
@@ -4656,7 +5298,7 @@
 											Morocco, Egypt, Saudi Arabia, the United Arab Emirates, Lebanon, Turkey, and the West Bank.
 										</p> -->
 										<p class='aboutPageSubTextII' id='aboutPageSubText3' >
-											Our current focus is to help early-stage startups and multinational corporations develop unique creative experiences and grow their entrepreneurial endeavors. We also like to collaborate with artists, musicians, fashion brands, hospitality groups,and media companies 
+											Our current focus is to help early-stage startups and multinational corporations develop unique creative experiences and grow their entrepreneurial endeavors. We also like to collaborate with artists, fashion brands, hospitality groups, and media companies 
 											in order to bring their most subversive ideas to light.
 											<!-- Our main areas of focus are Egypt, Saudi Arabia, the United Arab Emirates, Lebanon, and Turkey. -->
 										</p>
@@ -4664,16 +5306,24 @@
 											Perfectionism and creativity drive everything we do, from the advertising campaigns that we lead, to the applications that we create, and the companies that we fund.
 										</p>
 									</div>
+									<div class='expertise--button--small--screen--container' id='expertise--button--small--screen--container'>
+										<p class='expertise--button--small--screen--text' id='expertise--button--small--screen--text'>
+											Expertise 
+										</p>
+										<svg id="about--page--arrow" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120.76 44.7">
+											<polyline points="99.91 3.48 119.38 25.29 99.91 43.98" style="fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:5px"/>
+										</svg>
+									</div>
 							</div>
 							<!-- End of Experimental Container -->
 
 							<!-- Beginning of Expertise Container  -->
 							<div class='' id='aboutPageExpertiseContainer'>
 								<p class='aboutRotatedText2' id='aboutRotatedText2' >
-									Expertise
+									Expertise 
 								</p>
-								<div class='aboutExpertiseTextContainer'>
-									<div class='aboutExpertiseContainerRow1'>
+								<div class='aboutExpertiseTextContainer' id='aboutExpertiseTextContainer'>
+									<!-- <div class='aboutExpertiseContainerRow1'> -->
 
 										<div class='aboutExpertiseCell'>
 											<div class='expertiseGroup'>
@@ -4690,15 +5340,14 @@
 												<p class='expertiseText expertiseText3'>
 													Art Direction
 												</p>
-	
 												<p class='expertiseText expertiseText4'>
-													2D & 3D Animation
+													Interactive Design
 												</p>
 												<p class='expertiseText expertiseText5'>
-													Photo & Video Production
+													2D & 3D Animation
 												</p>
 												<p class='expertiseText expertiseText6'>
-													User Interface & Interactive Design
+													Photo & Video Production
 												</p>
 											</div>
 										</div>
@@ -4757,8 +5406,8 @@
 										</div>
 
 
-									</div>
-									<div class='aboutExpertiseContainerRow2'>
+									<!-- </div> -->
+									<!-- <div class='aboutExpertiseContainerRow2'> -->
 
 										<div class='aboutExpertiseCell'>
 											<div class='expertiseGroup'>
@@ -4835,12 +5484,10 @@
 												<p class='expertiseText expertiseText6'>
 													Audience Research & Insight
 												</p>
-	
-
 											</div>
 										</div>
 
-									</div>
+									<!-- </div> -->
 								</div>
 							</div>
 							
@@ -4891,13 +5538,18 @@
 						</div>
 					</div>
 					<div class='faqPageDescriptionTextContainer samarra-text'>
-							<div class='faqPageLeftDescriptionContainer samarra-text'>
+							<!-- <div class='faqPageLeftDescriptionContainer samarra-text'>
 								<p class='faqPageTempText' id='faqPageTempText1'>
 									Our new client list is being updated.
 								</p>
 							</div>
 							<div class='faqPageRightDescriptionContainer'>
 								<p class='faqPageTempText' id='faqPageTempText2'>
+									Our new client list is being updated.
+								</p>
+							</div> -->
+							<div class='faqPageDescriptionContainer'>
+								<p class='faqPageTempText' id='faqPageTempText1'>
 									Our new client list is being updated.
 								</p>
 							</div>
