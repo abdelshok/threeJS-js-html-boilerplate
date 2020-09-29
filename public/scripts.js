@@ -5649,7 +5649,12 @@ const hideExpertiseText = () => {
         document.getElementById('aboutPageSubText2').classList.add('animated');
         document.getElementById('aboutPageSubText3').classList.add('animated');
         document.getElementById('aboutPageSubText4').classList.add('animated');
-        document.getElementById('expertise--button--small--screen--container').classList.add('animated');
+
+        // Only show the Expertise Button at the bottom if the page is below a certain width
+        if (dynamicWindowWidth < 1000) {
+            document.getElementById('expertise--button--small--screen--container').classList.add('animated');
+        };
+        
     }, 1900)
 
 }
