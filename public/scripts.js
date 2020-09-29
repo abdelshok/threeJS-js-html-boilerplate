@@ -6210,7 +6210,7 @@ let animate = function () {
 
     }  
     
-    if (dynamicWindowWidth <= 500 || dynamicWindowHeight <= 700) {
+    if (dynamicWindowWidth <= 501 || dynamicWindowHeight <= 700) {
 
         // initiateTransitionAnimation();
 
@@ -6221,7 +6221,6 @@ let animate = function () {
         // if (blueMarbleBeetleObject !== undefined) {
         //     blueMarbleBeetleObject.visible = false;
         // };
-
 
 
         if (greyMarbleBeetleObject !== undefined) {
