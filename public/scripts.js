@@ -491,10 +491,10 @@ document.body.appendChild( renderer.domElement );
 
 // #controls not used anymore so we comment them out 
 
-// let controls = new THREE.OrbitControls(camera, renderer.domElement);
-// controls.enableDamping = true;
-// controls.dampingFactor = 0.25;
-// controls.enableZoom = true;
+let controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.25;
+controls.enableZoom = true;
 
 
 // Sets the stats at the top left of the page so that we can test the frame rate per second of the website as we develop it
@@ -6335,7 +6335,7 @@ let animate = function () {
     // Update Controls
     // Commented out since we're not using #controls anymore
 
-    // controls.update();
+    controls.update();
 
     // Raycaster related code
 
