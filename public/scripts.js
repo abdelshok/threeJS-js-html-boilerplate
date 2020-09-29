@@ -133,8 +133,42 @@ let loadingGraphicalSceneFinished = false;
 
 const splitItems = Splitting();
 
-console.log('Split Items are', splitItems);
+// console.log('Split Items are', splitItems);
 
+
+// --------------------------------------------------------------------------------
+
+/*
+ * Mobile Detect Script that will split the characters of the DOM elements
+ *
+ *
+ */
+
+let detector;
+let isUserDesktop;
+
+const initializeMobileDetector = () => {
+    detector = new MobileDetect(window.navigator.userAgent)
+    console.log('Detector initialized', detector);
+    let isMobile = detector.mobile();
+    let isTablet = detector.tablet();
+    let phone = detector.tablet();
+    let userAgent = detector.userAgent();
+    console.log('Mobile: ', isMobile);
+    console.log('User Agent is: ', userAgent);
+
+    if (isMobile !== null || isTablet !== null || phone !== null) {
+
+        isUserDesktop = false;
+
+    } else {
+        
+        isUserDesktop = true;
+    }
+}
+
+
+initializeMobileDetector();
 
 // --------------------------------------------------------------------------------
 
@@ -219,8 +253,14 @@ loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
     document.getElementById('loadingPage--whiteLoadingBar').classList.add('loading');
 
     // Makes sure to also trigger the directions that tell the user to turn up their volume
-    document.getElementById('loadingPage--normalText').classList.add('shown');
 
+    let loadingPageFirstText = document.getElementById('loadingPage--normalText');
+
+    if (isUserDesktop === false) {
+        loadingPageFirstText.innerHTML = 'Please use your desktop for the full experience';
+    }
+
+    document.getElementById('loadingPage--normalText').classList.add('shown');
 
 }
 
@@ -265,19 +305,22 @@ loadingManager.onError = (url) => {
 
 const showClickMessageToRemoveLoadingPage = () => {
 
-    // Moves & hides the text that tells the user to 'Turn on the volume'
-    // Remove the delay too so that it actually disappears faster - if the delay of 2s, which is written in the CSS rules, stays, then the transition
-    // delay takes way too much time to disappear. 
-    document.getElementById('loadingPage--normalText').style.transitionDelay = '0s';
-    document.getElementById('loadingPage--normalText').style.webkitTransitionDuration = '0.15s';
-    document.getElementById('loadingPage--normalText').style.transitionDuration = '0.15s';
+    // Only remove the first type of text & show the second command if user is using a desktop browser
+    if (isUserDesktop === true) {
+        document.getElementById('loadingPage--secondNormalText').classList.add('shown');
+        initialPageLoadingBarFullyLoaded = true;
 
-    document.getElementById('loadingPage--normalText').classList.remove('shown');
-    
-    // Shows & moves up the text that tells the user to click
-    document.getElementById('loadingPage--secondNormalText').classList.add('shown');
+        // Moves & hides the text that tells the user to 'Turn on the volume'
+        // Remove the delay too so that it actually disappears faster - if the delay of 2s, which is written in the CSS rules, stays, then the transition
+        // delay takes way too much time to disappear. 
+        document.getElementById('loadingPage--normalText').style.transitionDelay = '0s';
+        document.getElementById('loadingPage--normalText').style.webkitTransitionDuration = '0.15s';
+        document.getElementById('loadingPage--normalText').style.transitionDuration = '0.15s';
 
-    initialPageLoadingBarFullyLoaded = true;
+        document.getElementById('loadingPage--normalText').classList.remove('shown');
+        
+    }
+
 
 
 }
@@ -307,7 +350,7 @@ const removeInitialLoadingPage = () => {
                 // console.log('Time out run after the page has complete loading');
                 loadingPageText.classList.remove('shown');
                 // document.getElementById('loading-page').classList.add('deleted');
-            }, 2000)
+            }, 0);
 
         } else if (loadingGraphicalSceneFinished === false) {
             loadingPageAnimationFinished = true;
@@ -5494,6 +5537,7 @@ const showExpertiseText = () => {
 
     // Make the pointer events of the container none so that the user can actually scroll the expertise text 
     document.getElementById('aboutExpertiseTextContainer').style.pointerEvents = 'auto';
+    document.getElementById('aboutExpertiseTextContainer').style.overflowY = 'scroll';
 
     // Hide the 'About' text & the button that leads us to the Expertise information
     // document.getElementById('aboutPageExperimentalContainer').classList.add('hidden');
@@ -5576,7 +5620,8 @@ const hideExpertiseText = () => {
     // console.log('Hide Expertise Text')
 
     // Make the pointer events of the container none so that the user can actually scroll the description page
-    document.getElementById('aboutExpertiseTextContainer').style.pointerEvents = 'none';
+    document.getElementById('aboutExpertiseTextContainer').style.pointerEvents = 'none !important';
+    document.getElementById('aboutExpertiseTextContainer').style.overflowY = 'hidden';
 
     // Hide the 'Expertise' text
     // document.getElementById('aboutPageExpertiseContainer').classList.remove('shown');
@@ -5654,7 +5699,7 @@ const hideExpertiseText = () => {
         if (dynamicWindowWidth < 1000) {
             document.getElementById('expertise--button--small--screen--container').classList.add('animated');
         };
-        
+
     }, 1900)
 
 }
