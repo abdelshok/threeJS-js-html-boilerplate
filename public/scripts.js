@@ -508,7 +508,7 @@ const createStats = () => {
 // Add Stats to the page
 stats = createStats();
 
-if (env === 'dev') {
+if (environment === 'dev') {
     document.body.appendChild(stats.domElement);
 }
 
