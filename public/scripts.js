@@ -6233,7 +6233,7 @@ let animate = function () {
 
     } 
     
-    if (dynamicWindowWidth >= 500 && dynamicWindowHeight > 700) {
+    if (dynamicWindowWidth > 501 && dynamicWindowHeight > 700) {
         
         // The whole reason that we kept re-assigning the currentBeetleObject variable to the different beetleObjects that populate the scene in @changMeshVisibility
         // and @createBlackMarbleBeetle is so that when the window increases back in size, we automatically show the beetle with the correct texture
