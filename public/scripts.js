@@ -262,7 +262,7 @@ loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
     let loadingPageFirstText = document.getElementById('loadingPage--normalText');
 
     if (isUserDesktop === false) {
-        loadingPageFirstText.innerHTML = 'Please use your desktop for the full experience';
+        loadingPageFirstText.innerHTML = 'Please use your desktop to receive a full experience';
     }
 
     document.getElementById('loadingPage--normalText').classList.add('shown');
