@@ -5925,6 +5925,7 @@ const initializeEventListeners = () => {
     // document.getElementById('loading-page').addEventListener('animationend', loadingPageEndTransitions)
 
     // #touchEvents #touch #touchstart
+    document.getElementById('loading-page').addEventListener('touchstart', removeInitialLoadingPage);
     document.getElementById('cta--click--container').addEventListener('touchstart', goToAboutPageFromHome);
     document.getElementById('cta--click--container--two').addEventListener('touchstart', goToClientPageFromAbout);
     document.getElementById('cta--click--container--two--about').addEventListener('touchstart', goToHomeFromAbout);
