@@ -3886,9 +3886,9 @@ const toggleMenuAnimation = () => {
             // We add a set time out in order to avoid that common behavior where the beetle would appear too quickly within
             // the screen
 
-            setTimeout(() => {
+            // setTimeout(() => {
                 pageShown = 'menuPage';
-            }, 500);
+            // }, 500);
 
             // Make sure to change the menu icon according to what next page will be shown
             changeMenuIcon('menuPage');
@@ -3901,9 +3901,9 @@ const toggleMenuAnimation = () => {
 
             // Modify the variable to the page currently shown & make it setTimeout for above reason
 
-            setTimeout(() => {
+            // setTimeout(() => {
                 pageShown = 'homePage'; 
-            }, 500);
+            // }, 500);
             
             // Make sure to change the menu icon according to what next page will be shown
             changeMenuIcon('');
