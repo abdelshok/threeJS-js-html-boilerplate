@@ -68,7 +68,7 @@ let initialPageLoadingBarFullyLoaded = false;
 // Depending on which one we're in, the relative path to the different files will differ
 
 // let environment = 'prod';
-let environment = 'prod';
+let environment = 'dev';
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
 
 // Web Audio API-related Variables
@@ -249,8 +249,13 @@ loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
 
     console.log('Started loading file ', url, '.\n Loaded ', itemsLoaded, ' of ', itemsTotal, ' files');
 
+    console.log('User desktop', isUserDesktop);
+
     // Makes sure to start the loading bar animation as soon as the actual loading manager starts
-    document.getElementById('loadingPage--whiteLoadingBar').classList.add('loading');
+    // & only trigger the loading bar animation if the user is not using a mobile device
+    if (isUserDesktop === true) {
+        document.getElementById('loadingPage--whiteLoadingBar').classList.add('loading');
+    }
 
     // Makes sure to also trigger the directions that tell the user to turn up their volume
 
@@ -3291,8 +3296,13 @@ const toggleGeneralPageTransition = (event) => {
 
 
             changeMenuIcon('')
-            changePageShown('homePage')
             toggleHomePage('homePage');
+
+            // We use a short set time out in order to make the action asynchronous & make sure that the White Beetle doesn't appear directly
+            // when the user clicks on one of the pages from the minimized window of the Main Menu
+            setTimeout(() => {
+                changePageShown('homePage')
+            }, 500)
 
             // App V.1 - Start
             // toggleHomePageMesh();
@@ -3367,7 +3377,12 @@ const toggleGeneralPageTransition = (event) => {
             changeMenuIcon('');
             // The client page is the only one missing elements
             // Might miss elements for a bit since we don't have enough clients to display 
-            changePageShown('faqPage');
+
+            // We use a short set time out in order to make the action asynchronous & make sure that the White Beetle doesn't appear directly
+            // when the user clicks on one of the pages from the minimized window of the Main Menu
+            setTimeout(() => {
+                changePageShown('faqPage')
+            }, 500);
             // Toggling on the DOM elements of the FAQ page
             toggleFAQPage('faqPage');
 
@@ -3396,10 +3411,15 @@ const toggleGeneralPageTransition = (event) => {
             removeClientPageTransitionButtons();
 
             changeMenuIcon('');
-            changePageShown('contactPage');
             toggleContactPage('contactPage');
             // Ensures that the lines next to the contact information are shown
             animateContactLinesContactPage();
+
+                        // We use a short set time out in order to make the action asynchronous & make sure that the White Beetle doesn't appear directly
+            // when the user clicks on one of the pages from the minimized window of the Main Menu
+            setTimeout(() => {
+                changePageShown('contactPage');
+            }, 500);
 
             // App V.1 - Start - We call functions that create the geometries & the Mesh
             // toggleContactPageMesh();
