@@ -6335,7 +6335,7 @@ let animate = function () {
     // Update Controls
     // Commented out since we're not using #controls anymore
 
-    controls.update();
+    // controls.update();
 
     // Raycaster related code
 
