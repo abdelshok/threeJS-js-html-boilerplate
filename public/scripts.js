@@ -507,7 +507,7 @@ const createStats = () => {
 
 // Add Stats to the page
 stats = createStats();
-document.body.appendChild(stats.domElement);
+// document.body.appendChild(stats.domElement);
 
 
 // Clock
