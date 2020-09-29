@@ -108,6 +108,9 @@ let DIRECTIONS_VOICE_SHOWN = false;
 
 let pageShown = 'homePage';
 
+// The alternative is 'expertiseText' --> We use this variable in order to decide whether we show the expertiseButtonContainer DOM element or not
+let typeOfAboutPage = 'descriptionText'
+
 let PAGE_FIRST_LOADED = false;
 let MUSIC_PLAYING = false;
 let musicPlaying = true; // That's the one actually used
@@ -1981,6 +1984,27 @@ const toggleMusicOnOff = () => {
     }
 }
 
+// Function focused on showing the 'Expertise' button text at the bottom of the minimally resized
+// about Page
+
+const showExpertiseButton = () => {
+
+    console.log('Inside @showExpertiseButton function')
+    document.getElementById('expertise--button--small--screen--container').classList.add('animated');  
+    // document.getElementById('aboutPageArrowContainer').classList.add('animated');  
+
+}
+
+
+// The opposite of the above function - ensures that the Expertise button is hidden whenever the browser window
+// width goes above a certain width
+
+const hideExpertiseButton = () => {
+
+    document.getElementById('expertise--button--small--screen--container').classList.remove('animated');  
+
+}
+
 
 // ------------------------------------------------------
 
@@ -2011,6 +2035,16 @@ window.onresize = function () {
     // the beetle from the page when the beetle is too small
     dynamicWindowWidth = window.innerWidth;
     dynamicWindowHeight = window.innerHeight;
+
+    // This keeps track of the window width & displays the 'Expertise' Button at the bottom of the company description when the browser window goes below a certain width
+    // Chose JS over CSS Media Queries because more control over when the button is displayed 
+
+    if (dynamicWindowWidth < 1000 && pageShown === 'aboutPage' && typeOfAboutPage === 'descriptionText') {
+        console.log('Firing showExpertiseButton function')
+        showExpertiseButton();
+    } else if (dynamicWindowWidth >= 1000 && pageShown === 'aboutPage') {
+        hideExpertiseButton();
+    }
 
     let width = window.innerWidth;
     let height = window.innerHeight;
@@ -5440,12 +5474,17 @@ const hideVenereMaisCourtois = () => {
 
 const showExpertiseText = () => {
 
+
+    typeOfAboutPage = 'expertiseText';
+
     // Hide the 'About' text & the button that leads us to the Expertise information
     // document.getElementById('aboutPageExperimentalContainer').classList.add('hidden');
     document.getElementById('expertiseButtonContainer').classList.remove('shown');
 
     // Remove the classes from the 'About' page text to allow for the animations to be triggered later
     // setTimeout(() => {
+    document.getElementById('expertise--button--small--screen--container').classList.remove('animated');
+    // document.getElementById('aboutPageArrowContainer').classList.remove('animated');
     document.getElementById('aboutPageMainText').classList.remove('animated');
     document.getElementById('aboutRotatedText').classList.remove('animated');
     document.getElementById('aboutPageSubText1').classList.remove('animated');
@@ -5514,7 +5553,9 @@ const showExpertiseText = () => {
 
 const hideExpertiseText = () => {
 
-    console.log('Hide Expertise Text')
+
+    typeOfAboutPage = 'descriptionText';
+    // console.log('Hide Expertise Text')
 
     // Hide the 'Expertise' text
     // document.getElementById('aboutPageExpertiseContainer').classList.remove('shown');
@@ -5587,6 +5628,7 @@ const hideExpertiseText = () => {
         document.getElementById('aboutPageSubText2').classList.add('animated');
         document.getElementById('aboutPageSubText3').classList.add('animated');
         document.getElementById('aboutPageSubText4').classList.add('animated');
+        document.getElementById('expertise--button--small--screen--container').classList.add('animated');
     }, 1900)
 
 }
