@@ -4207,6 +4207,12 @@ const toggleAboutPage = (pageShown) => {
             document.getElementById('aboutPageSubText2').classList.add('animated');
             document.getElementById('aboutPageSubText3').classList.add('animated');
             document.getElementById('aboutPageSubText4').classList.add('animated');
+
+            // Ensures that it doesn't show if the window width is below 1000px
+            if (dynamicWindowWidth < 1000) {
+                document.getElementById('expertise--button--small--screen--container').classList.add('animated');
+            }
+
         }, 1700);
 
     // If we are moving away from the About page and staying away from it
@@ -4221,7 +4227,7 @@ const toggleAboutPage = (pageShown) => {
             document.getElementById('aboutPageSubText2').classList.remove('animated');
             document.getElementById('aboutPageSubText3').classList.remove('animated');
             document.getElementById('aboutPageSubText4').classList.remove('animated');
-            
+            document.getElementById('expertise--button--small--screen--container').classList.remove('animated');
         }, 250);
 
     }
