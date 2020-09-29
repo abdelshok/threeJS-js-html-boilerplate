@@ -3261,6 +3261,16 @@ const toggleGeneralPageTransition = (event) => {
         // This is the aboutPage
         } else if (id === 'menuElementTwo') {
 
+            typeOfAboutPage = 'descriptionText';
+
+            // The Expertise Button is shown on resize event if the window is below a certain width, but if the user moves away and comes back without changing 
+            // the window width, then the 'Expertise' button isn't displayed until the user resizes the window
+
+            // This ensures that a check is made in this scenario to display the button properly
+            if (dynamicWindowWidth < 1000) {
+                showExpertiseButton();
+            }
+
             // Make sure we add the 'Client Page' Button that's shown at the bottom of the About page
             setTimeout(() => {
                 addAboutPageTransitionButtons();
@@ -4252,9 +4262,8 @@ const toggleFAQPage = (pageShown) => {
             document.getElementById('pageMainTextCharacter6').classList.remove('animated');
             document.getElementById('pageMainTextCharacter7').classList.remove('animated');
             document.getElementById('faqPageTempText1').classList.remove('shown');
-            document.getElementById('faqPageTempText2').classList.remove('shown');
-
-            
+            // document.getElementById('faqPageTempText2').classList.remove('shown');
+        
         }, 250);
 
     }
@@ -5477,6 +5486,9 @@ const showExpertiseText = () => {
 
     typeOfAboutPage = 'expertiseText';
 
+    // Make the pointer events of the container none so that the user can actually scroll the expertise text 
+    document.getElementById('aboutExpertiseTextContainer').style.pointerEvents = 'auto';
+
     // Hide the 'About' text & the button that leads us to the Expertise information
     // document.getElementById('aboutPageExperimentalContainer').classList.add('hidden');
     document.getElementById('expertiseButtonContainer').classList.remove('shown');
@@ -5556,6 +5568,9 @@ const hideExpertiseText = () => {
 
     typeOfAboutPage = 'descriptionText';
     // console.log('Hide Expertise Text')
+
+    // Make the pointer events of the container none so that the user can actually scroll the description page
+    document.getElementById('aboutExpertiseTextContainer').style.pointerEvents = 'none';
 
     // Hide the 'Expertise' text
     // document.getElementById('aboutPageExpertiseContainer').classList.remove('shown');
