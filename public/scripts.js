@@ -6135,7 +6135,7 @@ let animate = function () {
 
     } 
     
-    if (dynamicWindowWidth >= 850 && dynamicWindowHeight > 700) {
+    if (dynamicWindowWidth >= 500 && dynamicWindowHeight > 700) {
         
         // The whole reason that we kept re-assigning the currentBeetleObject variable to the different beetleObjects that populate the scene in @changMeshVisibility
         // and @createBlackMarbleBeetle is so that when the window increases back in size, we automatically show the beetle with the correct texture
@@ -6143,7 +6143,7 @@ let animate = function () {
         // The second condition here, which ensures that the pageShown is not the 'aboutPage', makes it that the beetle is never shown if the user is on the aboutPage
         // console.log('Current Beetle Color is', beetleColor);
 
-        if (currentBeetleObject !== undefined && pageShown !== 'aboutPage' && pageShown !== 'legalPage') {
+        if (currentBeetleObject !== undefined && pageShown !== 'aboutPage' && pageShown !== 'legalPage' && pageShown !== 'menuPage') {
 
             // initiateTransitionAnimation();
             if (beetleColor === 'black' || beetleColor === 'white' || beetleColor === 'grey') {
@@ -6151,6 +6151,17 @@ let animate = function () {
             }
         }
     } 
+
+    if (dynamicWindowWidth >= 850 && dynamicWindowHeight > 700) {
+
+        if (currentBeetleObject !== undefined && pageShown === 'menuPage') {
+
+            if (beetleColor === 'white') {
+                whiteMarbleBeetleObject.visible = true;
+            }
+        }
+
+    }
 
     if (dynamicWindowWidth >= 1000 && dynamicWindowHeight > 700) {
         
