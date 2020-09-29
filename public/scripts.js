@@ -3883,7 +3883,12 @@ const toggleMenuAnimation = () => {
             // If the variable is not the menuPage and this button is clicked, then we are aiming to go towards the
             // menuPage - doesn't matter which page we came from
             // We set the new page shown to be equal to menuPage
-            pageShown = 'menuPage';
+            // We add a set time out in order to avoid that common behavior where the beetle would appear too quickly within
+            // the screen
+
+            setTimeout(() => {
+                pageShown = 'menuPage';
+            }, 500);
 
             // Make sure to change the menu icon according to what next page will be shown
             changeMenuIcon('menuPage');
@@ -3894,10 +3899,11 @@ const toggleMenuAnimation = () => {
         // For now, we'll just make it so that we return to the home page (first one) of the application
         } else if (oldPageShown === 'menuPage') {
 
-            // console.log('We are going to leave the main menu page & call the function @changeMenuIcon with an empty string to display the correct menu icon in the top right');
+            // Modify the variable to the page currently shown & make it setTimeout for above reason
 
-            // Modify the variable to the page currently shown
-            pageShown = 'homePage'; // That's actually not the case 
+            setTimeout(() => {
+                pageShown = 'homePage'; 
+            }, 500);
             
             // Make sure to change the menu icon according to what next page will be shown
             changeMenuIcon('');
