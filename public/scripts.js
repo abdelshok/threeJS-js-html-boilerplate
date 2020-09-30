@@ -69,7 +69,7 @@ let initialPageLoadingBarFullyLoaded = false;
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'prod';
+let environment = 'dev';
 // let environment = 'dev';
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
 
@@ -514,14 +514,12 @@ let renderer = new THREE.WebGLRenderer({
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-// #controls not used anymore so we comment them out 
+// Never fucking comment out the OrbitControls. You keep forgetting, but they're necessary to get the right angles of the scene.
 
-if (environment === 'dev') {
-    let controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.25;
-    controls.enableZoom = true;
-}
+let controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.25;
+controls.enableZoom = true;
 
 // Sets the stats at the top left of the page so that we can test the frame rate per second of the website as we develop it
 const createStats = () => {
@@ -6564,36 +6562,24 @@ let animate = function () {
     }
 
     // About Page - Related Effect
-
     // For now, the plane will only slightly rotate from left to right
+
     if (pageShown === 'aboutPage') {
+
         blackRockPlaneMesh.rotation.y = mouseX / 100; // Previously 120 & 160
 
-        // if (mouseY > 1 || mouseY < -1) {
-        //     console.log('Mouse Y divided is', mouseY / 2000)
-        //     blackRockPlaneMesh.rotation.x = (mouseY / 2000);
-        // }
-
     }
-    // Test
-    // console.log('Current page shown is', pageShown);
-    // console.log('Mouse X', mouseX, ' and Mouse Y', mouseY);
 
     // Update Controls
-    // Commented out since we're not using #controls anymore
-
+    controls.update();
 
     // Update stats
     if (environment === 'dev') {
-
-        controls.update();
         stats.update();
-
     }
     
     renderer.clear();
     renderer.render(scene, camera);
-    // composer.render(); 
 
 };
 
