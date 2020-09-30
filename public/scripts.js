@@ -2869,7 +2869,7 @@ const createSoundWaveAnimation = () => {
     document.getElementById('wave').addEventListener('mouseleave', hideMusicText);
 
     // #touchEvents #touch #touchstart
-    document.getElementById('wave').addEventListener('touchstart', toggleSoundWave);
+    document.getElementById('wave').addEventListener('touchstart', toggleSoundWave,  {passive: true});
 
 }
 
@@ -6063,8 +6063,8 @@ const initializeEventListeners = () => {
     document.getElementById('closeButton').addEventListener('click', toggleMenuAnimation);
 
     // #touchEvents #touch #touchstart
-    document.getElementById('hamburger').addEventListener('touchstart', toggleMenuAnimation);
-    document.getElementById('closeButton').addEventListener('touchstart', toggleMenuAnimation);
+    document.getElementById('hamburger').addEventListener('touchstart', toggleMenuAnimation,  {passive: true});
+    document.getElementById('closeButton').addEventListener('touchstart', toggleMenuAnimation,  {passive: true});
 
     document.getElementById('reveal--layer').addEventListener("animationstart", toggleTextColor);
     document.getElementById('reveal--layer').addEventListener("animationend", toggleClassOnAnimation);
@@ -6081,14 +6081,14 @@ const initializeEventListeners = () => {
 
     // #touchEvents #touch #touchstart
 
-    document.getElementById('plus-sign-container').addEventListener('touchstart', toggleLanguageChoices);
-    document.getElementById('menuElementOne').addEventListener('touchstart', toggleGeneralPageTransition);
-    document.getElementById('menuElementTwo').addEventListener('touchstart', toggleGeneralPageTransition);
-    document.getElementById('menuElementThree').addEventListener('touchstart', toggleGeneralPageTransition);
-    document.getElementById('menuElementFour').addEventListener('touchstart', toggleGeneralPageTransition);
-    document.getElementById('firstOptionContainer').addEventListener('touchstart', showContactMenu);
-    document.getElementById('secondOptionContainer').addEventListener('touchstart', showContactMenu);
-    document.getElementById('thirdOptionContainer').addEventListener('touchstart', showContactMenu);
+    document.getElementById('plus-sign-container').addEventListener('touchstart', toggleLanguageChoices, {passive: true});
+    document.getElementById('menuElementOne').addEventListener('touchstart', toggleGeneralPageTransition, {passive: true});
+    document.getElementById('menuElementTwo').addEventListener('touchstart', toggleGeneralPageTransition, {passive: true});
+    document.getElementById('menuElementThree').addEventListener('touchstart', toggleGeneralPageTransition, {passive: true});
+    document.getElementById('menuElementFour').addEventListener('touchstart', toggleGeneralPageTransition, {passive: true});
+    document.getElementById('firstOptionContainer').addEventListener('touchstart', showContactMenu, {passive: true});
+    document.getElementById('secondOptionContainer').addEventListener('touchstart', showContactMenu, {passive: true});
+    document.getElementById('thirdOptionContainer').addEventListener('touchstart', showContactMenu, {passive: true});
 
     // document.getElementById('disabilitiesRelatedText').addEventListener('click', activateVoiceControl);
     // document.getElementById('menuElementFive').addEventListener('click', toggleGeneralPageTransition);
@@ -6102,11 +6102,11 @@ const initializeEventListeners = () => {
 
     // #touchEvents #touch #touchstart
 
-    document.getElementById('lastNameInput').addEventListener('touchstart', triggerInputAnimation);
-    document.getElementById('firstNameInput').addEventListener('touchstart', triggerInputAnimation);
-    document.getElementById('emailInput').addEventListener('touchstart', triggerInputAnimation);
-    document.getElementById('phoneNumberInput').addEventListener('touchstart', triggerInputAnimation);
-    document.getElementById('companyNameInput').addEventListener('touchstart', triggerInputAnimation);
+    document.getElementById('lastNameInput').addEventListener('touchstart', triggerInputAnimation, {passive: true});
+    document.getElementById('firstNameInput').addEventListener('touchstart', triggerInputAnimation, {passive: true});
+    document.getElementById('emailInput').addEventListener('touchstart', triggerInputAnimation, {passive: true});
+    document.getElementById('phoneNumberInput').addEventListener('touchstart', triggerInputAnimation, {passive: true});
+    document.getElementById('companyNameInput').addEventListener('touchstart', triggerInputAnimation, {passive: true});
 
     document.getElementById('lastNameActualInput').addEventListener('focus', triggerTextRiseAnimation);
     document.getElementById('firstNameActualInput').addEventListener('focus', triggerTextRiseAnimation);
@@ -6120,8 +6120,8 @@ const initializeEventListeners = () => {
 
     // #touchEvents #touch #touchstart
 
-    document.getElementById('goBackElement').addEventListener('touchstart', hideForm);
-    document.getElementById('submitFormButton').addEventListener('touchstart', validateForm);
+    document.getElementById('goBackElement').addEventListener('touchstart', hideForm, {passive: true});
+    document.getElementById('submitFormButton').addEventListener('touchstart', validateForm, {passive: true});
 
 
     // Makes sure the text and border go back to white when the input is selected
@@ -6159,7 +6159,7 @@ const initializeEventListeners = () => {
             console.log('Speech recognition listening', speechRecognitionListening);
         }
 
-    });
+    }, {passive: true});
 
     // Ensures the loading page is removed once the animation for the actual loading bar is finished
     document.getElementById('loadingPage--whiteLoadingBar').addEventListener('animationend', showClickMessageToRemoveLoadingPage);
@@ -6178,14 +6178,14 @@ const initializeEventListeners = () => {
     // document.getElementById('loading-page').addEventListener('animationend', loadingPageEndTransitions)
 
     // #touchEvents #touch #touchstart
-    document.getElementById('loading-page').addEventListener('touchstart', removeInitialLoadingPage);
-    document.getElementById('cta--click--container').addEventListener('touchstart', goToAboutPageFromHome);
-    document.getElementById('cta--click--container--two').addEventListener('touchstart', goToClientPageFromAbout);
-    document.getElementById('cta--click--container--two--about').addEventListener('touchstart', goToHomeFromAbout);
-    document.getElementById('cta--click--container--two--client').addEventListener('touchstart', goToAboutFromClient);
-    document.getElementById('cta--click--container--two--contact').addEventListener('touchstart', goToClientFromContact);
-    document.getElementById('cta--click--container--three').addEventListener('touchstart', goToContactPageFromClient);
-    document.getElementById('privacy--click--container').addEventListener('touchstart', showLegalTermsPage);
+    document.getElementById('loading-page').addEventListener('touchstart', removeInitialLoadingPage, {passive: true});
+    document.getElementById('cta--click--container').addEventListener('touchstart', goToAboutPageFromHome, {passive: true});
+    document.getElementById('cta--click--container--two').addEventListener('touchstart', goToClientPageFromAbout, {passive: true});
+    document.getElementById('cta--click--container--two--about').addEventListener('touchstart', goToHomeFromAbout, {passive: true});
+    document.getElementById('cta--click--container--two--client').addEventListener('touchstart', goToAboutFromClient, {passive: true});
+    document.getElementById('cta--click--container--two--contact').addEventListener('touchstart', goToClientFromContact, {passive: true});
+    document.getElementById('cta--click--container--three').addEventListener('touchstart', goToContactPageFromClient, {passive: true});
+    document.getElementById('privacy--click--container').addEventListener('touchstart', showLegalTermsPage, {passive: true});
 
     document.getElementById('venereMaisCourtois').addEventListener('mouseenter', showVenereMaisCourtois);
     document.getElementById('venereMaisCourtois').addEventListener('mouseleave', hideVenereMaisCourtois);
@@ -6195,8 +6195,8 @@ const initializeEventListeners = () => {
     document.getElementById('aboutButtonContainer').addEventListener('click', hideExpertiseText);
 
     // #touchEvents #touch #touchstart
-    document.getElementById('expertiseButtonContainer').addEventListener('touchstart', showExpertiseText);
-    document.getElementById('aboutButtonContainer').addEventListener('touchstart', hideExpertiseText);
+    document.getElementById('expertiseButtonContainer').addEventListener('touchstart', showExpertiseText, {passive: true});
+    document.getElementById('aboutButtonContainer').addEventListener('touchstart', hideExpertiseText, {passive: true});
 
 
     // Sames as the two above but makes sure that the page transition is attached to the second button that is displayed
@@ -6204,7 +6204,7 @@ const initializeEventListeners = () => {
     document.getElementById('expertise--button--small--screen--text').addEventListener('click', showExpertiseText);
 
     // #touchEvents #touch #touchstart
-    document.getElementById('expertise--button--small--screen--text').addEventListener('touchstart', showExpertiseText);
+    document.getElementById('expertise--button--small--screen--text').addEventListener('touchstart', showExpertiseText, {passive: true});
 
     // Language Related
 
