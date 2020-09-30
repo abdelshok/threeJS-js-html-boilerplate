@@ -539,7 +539,7 @@ if (environment === 'dev') {
 
     stats = createStats();
     document.body.appendChild(stats.domElement);
-    
+
 }
 
 
@@ -6586,7 +6586,9 @@ let animate = function () {
 
 
     // Update stats
-    stats.update();
+    if (environment === 'dev') {
+        stats.update();
+    }
     
     renderer.clear();
     renderer.render(scene, camera);
