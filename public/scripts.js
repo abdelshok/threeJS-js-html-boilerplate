@@ -403,57 +403,6 @@ const removeInitialLoadingPage = () => {
 
 // --------------------------------------------------------------------------------
 
-
-// Split the sentences in different letters
-// Used in order to actual reveal the text with a staggered effect.
-// Not completed, will finish it later 
-
-
-// Get relevant DOM elements
-
-let DOM = {
-    content: {
-        home: {
-            section: document.querySelector('content_item'),
-            get chars() {
-                // return this.section.querySelectorAll('.content_paragraph .word > .char, .whitespace')
-            },
-            isVisible: true,
-        }
-    }
-}
-
-const timelineSettings = {
-    staggerValue: 0.014,
-    charsDuration: 0.5,
-}
-
-const timeline = gsap.timeline({paused: true})
-    .addLabel('start')
-    .staggerTo(DOM.content.home.chars, timelineSettings.charsDuration,  {
-        ease: 'Power3.easeIn',
-        y: '-100%',
-        opacity: 0,
-    }, timelineSettings.staggerValue, 'start')
-    .addLabel('switchtime')
-    // Here we do the switch - toggle between the current class for content sections
-    .add(() => {
-        DOM.content.home.section.classList.toggle('content_item--current')
-    })
-    // Change the body's background color
-    .to(document.body, {
-        duration: 0.8,
-        ease: 'Power1.easeInOut',
-        backgroundColor: '#c3b996'
-    }, 'switchtime-=timelineSettings.charsDuration/4')
-    // Start values for the about section elemenets will animate in 
- 
-const switchContent = () => {
-    // DOM.links.
-}
-
-
-
 // Web Audio API related variables
 let frequencyData, averageFrequency;
 let domainData, averageDomain; // Relates to the waveform of the current audio
