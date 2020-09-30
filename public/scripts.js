@@ -534,10 +534,12 @@ const createStats = () => {
 
 
 // Add Stats to the page
-stats = createStats();
 
 if (environment === 'dev') {
+
+    stats = createStats();
     document.body.appendChild(stats.domElement);
+    
 }
 
 
