@@ -64,12 +64,18 @@ let beetleColor = 'black';
 
 let initialPageLoadingBarFullyLoaded = false;
 
+// ENVIRONMENT VARIABLES
+
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'prod';
+let environment = 'dev';
 // let environment = 'dev';
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
+
+let enableLogging = false;
+
+let imageFormat = 'webp';
 
 // Web Audio API-related Variables
 
@@ -149,13 +155,18 @@ let isUserDesktop;
 
 const initializeMobileDetector = () => {
     detector = new MobileDetect(window.navigator.userAgent)
-    console.log('Detector initialized', detector);
+
     let isMobile = detector.mobile();
     let isTablet = detector.tablet();
     let phone = detector.tablet();
     let userAgent = detector.userAgent();
-    console.log('Mobile: ', isMobile);
-    console.log('User Agent is: ', userAgent);
+
+    if (enableLogging === true) {
+        console.log(`Detector initialized ${detector}`);
+        console.log(`Mobile: ${isMobile}`);
+        console.log(`User Agent is ${userAgent}`);
+    }
+
 
     if (isMobile !== null || isTablet !== null || phone !== null) {
 
@@ -180,7 +191,9 @@ initializeMobileDetector();
 
 const onCompleteLoading = () => {
 
-    console.log('Removing loading screen from the page');
+    if (enableLogging === true) {
+        console.log('Removing loading screen from the page');
+    }
 
     let loadingPageElement = document.getElementById('loading-page');
     loadingPageElement.classList.toggle('hiding');
@@ -190,7 +203,11 @@ const onCompleteLoading = () => {
     // Hide the text that says 'Click Anywhere in order to Enter' which shows up within the page
     // if the user decreases the height of browser window
     setTimeout(() => {
-        console.log('Time out run after the page has complete loading');
+
+        if (enableLogging === true) {
+            console.log('Time out run after the page has complete loading');
+        }
+
         loadingPageText.classList.remove('shown');
         // document.getElementById('loading-page').classList.add('deleted');
     }, 2000)
@@ -247,15 +264,16 @@ let loadingManager = new THREE.LoadingManager();
 
 loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
 
-    console.log('Started loading file ', url, '.\n Loaded ', itemsLoaded, ' of ', itemsTotal, ' files');
-
-    console.log('User desktop', isUserDesktop);
+    if (enableLogging === true) {
+        console.log('Started loading file ', url, '.\n Loaded ', itemsLoaded, ' of ', itemsTotal, ' files');
+        console.log('User desktop', isUserDesktop);
+    };
 
     // Makes sure to start the loading bar animation as soon as the actual loading manager starts
     // & only trigger the loading bar animation if the user is not using a mobile device
     if (isUserDesktop === true) {
         document.getElementById('loadingPage--whiteLoadingBar').classList.add('loading');
-    }
+    };
 
     // Makes sure to also trigger the directions that tell the user to turn up their volume
 
@@ -263,7 +281,7 @@ loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
 
     if (isUserDesktop === false) {
         loadingPageFirstText.innerHTML = 'Please use your desktop for the full experience.';
-    }
+    };
 
     document.getElementById('loadingPage--normalText').classList.add('shown');
 
@@ -273,7 +291,9 @@ loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
 
 loadingManager.onLoad = () => {
 
-    console.log('Loading complete of the file');
+    if (enableLogging === true) {
+        console.log('Loading complete of the file');
+    }
 
     // We add the second variable to ensure that when the animation (the bar reached the end) is finished for the loading page
     // then as soon as the objects are downloaded, the animation for the loading page to be moved up is triggered
@@ -294,7 +314,10 @@ loadingManager.onLoad = () => {
 
 loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
 
-    console.log('Loading file ', url, ' \n Loaded ', itemsLoaded, ' of ', itemsTotal, ' files');
+    if (enableLogging === true) {
+        console.log('Loading file ', url, ' \n Loaded ', itemsLoaded, ' of ', itemsTotal, ' files');
+
+    }
 
 }
 
@@ -302,7 +325,9 @@ loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
 
 loadingManager.onError = (url) => {
 
-    console.log('An error was encountered while loading ', url);
+    if (enableLogging === true) {
+        console.log('An error was encountered while loading ', url);
+    }
 
 }
 
@@ -500,8 +525,6 @@ controls.enableZoom = true;
 // Sets the stats at the top left of the page so that we can test the frame rate per second of the website as we develop it
 const createStats = () => {
     let stats = new Stats();
-    // console.log('Nez stats', new Stats());
-    // console.log('Stats', Stats);
     stats.setMode(0);
     stats.domElement.style.position = 'absolute';
     stats.domElement.style.left = '0';
@@ -526,13 +549,7 @@ clock = new THREE.Clock();
 // --------------------------------------------------------------------------------
 
 // RAYCASTER-RELATED FUNCTIONS
-
-const initializeRaycaster = () => {
-    raycaster = new THREE.Raycaster();
-    raycasterMouse = new THREE.Vector2();
-}
-
-initializeRaycaster();
+// ALL DELETED - IT CAUSED ERRORS 
 
 // --------------------------------------------------------------------------------
 
@@ -854,7 +871,9 @@ const createBlackMarbleBeetle = () => {
     
     let material;
 
-    textureLoader.load(RELATIVE_URL + 'blackMarble2.jpg', (texture) => {
+    let assetURL = imageFormat === 'webp' ? 'blackMarble2.webp' : 'blackMarble2.jpg';
+
+    textureLoader.load(RELATIVE_URL + assetURL, (texture) => {
         material = new THREE.MeshPhongMaterial({ map: texture });
         // objLoader.setMaterials(materials);
         objLoader.setPath(RELATIVE_URL);
@@ -917,7 +936,15 @@ const createBlackMarbleBeetle = () => {
 
 const createPlaneGeometry = () => {
     planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
-    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.jpg');
+
+    let planeTexture;
+    
+    if (imageFormat === 'webp') {
+        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.webp');
+    } else {
+        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.jpg');
+    }
+
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.set(0,-50,0);
@@ -933,7 +960,15 @@ const createPlaneGeometry = () => {
 const createBlackPlaneGeometry = () => {
     // Black Plane that's displayed in the 'About' page
     blackRockPlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
-    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRock.png');
+
+    let planeTexture;
+
+    if (imageFormat === 'webp') {
+        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRockAbout.webp');
+    } else {
+        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRock.png');
+    }
+
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     blackRockPlaneMesh = new THREE.Mesh(blackRockPlaneGeometry, planeMaterial);
     blackRockPlaneMesh.position.set(0,-160,0);
@@ -962,7 +997,15 @@ const createTurquoisePlaneGeometry = () => {
 
 const createBluePlaneGeometry = () => {
     planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
-    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.jpg');
+
+    let planeTexture;
+    
+    if (imageFormat === 'webp') {
+        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.webp');
+    } else {
+        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.jpg');
+    }
+
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     planeMesh.position.set(0,-50,0);
@@ -990,7 +1033,15 @@ const createBlackRockGeometry = () => {
     // Black Plane that's displayed in the 'Contact page - difference between this and the one above
     // is the file type. png vs. jpg.
     blackRockPlaneGeometryTwo = new THREE.PlaneGeometry(2000, 2000, 2000);
-    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRock.jpg');
+
+    let planeTexture;
+    
+    if (imageFormat === 'webp') {
+        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRockContact.webp');
+    } else {
+        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRock.jpg');
+    }
+    
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     blackRockPlaneMeshTwo = new THREE.Mesh(blackRockPlaneGeometryTwo, planeMaterial);
     blackRockPlaneMeshTwo.position.set(0,-250,0);
@@ -998,12 +1049,20 @@ const createBlackRockGeometry = () => {
     scene.add(blackRockPlaneMeshTwo);
 }
 
-// 4. X Rock - Client Page
+// 4. Black & White Rock - Client Page
 
-const createXPlaneGeometry = () => {
+const createWhiteBlackPlaneGeometry = () => {
 
     XPlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
-    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackWhiteRock.jpg');
+
+    let planeTexture;
+    
+    if (imageFormat === 'webp') {
+        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackWhiteRock.webp');
+    } else {
+        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackWhiteRock.jpg');
+    }
+
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     xPlaneMesh = new THREE.Mesh(XPlaneGeometry, planeMaterial);
     xPlaneMesh.position.set(0,-280,0);
@@ -1041,7 +1100,14 @@ const createReversedBlackPlaneGeometry = () => {
 
 const createBlackWavePlaneGeometry = () => {
     blackWavePlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
-    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackWaves.jpg');
+    let planeTexture;
+    
+    if (imageFormat === 'webp') {
+        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackWaves.webp');
+    } else {
+        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackWaves.jpg');
+    }
+
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
     blackWavePlaneMesh = new THREE.Mesh(blackWavePlaneGeometry, planeMaterial);
     blackWavePlaneMesh.position.set(0,-50,0);
@@ -1085,7 +1151,7 @@ const createInitialPlaneGeometries = () => {
     // Home Page Plane
     createPlaneGeometry();
     // Client Page Plane
-    createXPlaneGeometry(); // Currently Grey
+    createWhiteBlackPlaneGeometry(); // Currently Grey
     // 
 
     // About Page
@@ -1289,7 +1355,10 @@ let changeTexture = () => {
 
 // Black Marble Texture Change
 const changeBeetleToBlackMarble = () => {
-    let texture = textureLoader.load(RELATIVE_URL + 'blackMarble2.jpg' );
+
+    let assetURL = imageFormat === 'webp' ? 'blackMarble2.webp' : 'blackMarble2.jpg';
+
+    let texture = textureLoader.load(RELATIVE_URL + assetURL );
     // immediately use the texture for material creation
     let material = new THREE.MeshPhongMaterial( { map: texture } );
     
@@ -1329,11 +1398,6 @@ const changeBeetleToBlackMarble = () => {
 }
 
 
-// #chosen ones
-// kandinsky3
-// kandinsky4
-//
-
 // White Marble Texture Change
 // Used in About Page
 
@@ -1341,7 +1405,9 @@ const changeBeetleToWhiteMarble = () => {
 
     let material;
 
-    textureLoader.load(RELATIVE_URL + 'whiteMarble.jpg', (texture) => {
+    let assetURL = imageFormat === 'webp' ? 'whiteMarble.webp' : 'whiteMarble.jpg';
+
+    textureLoader.load(RELATIVE_URL + assetURL, (texture) => {
         material = new THREE.MeshPhongMaterial( { map: texture } );
 
         // let objLoader = new THREE.OBJLoader();
@@ -1397,7 +1463,9 @@ const changeBeetleToDarkGreyMarble = () => {
 
     let material;
 
-    textureLoader.load(RELATIVE_URL + 'greyMarble5.jpg', (texture) => {
+    let assetURL = imageFormat === 'webp' ? 'greyMarble5copy.webp' : 'greyMarble5.jpg';
+
+    textureLoader.load(RELATIVE_URL + assetURL, (texture) => {
         // immediately use the texture for material creation
         material = new THREE.MeshPhongMaterial( { map: texture } );
         // let objLoader = new THREE.OBJLoader();
@@ -1446,12 +1514,15 @@ const changeBeetleToDarkGreyMarble = () => {
 
 // Grey Marble Texture Change
 // Used in Main Menu Page
+// Not used anymore
 
 const changeBeetleToGreyMarble = () => {
     
     let material;
 
-    textureLoader.load(RELATIVE_URL + 'greyMarble5.jpg', (texture) => {
+    let assetURL = imageFormat === 'webp' ? 'greyMarble5copy.webp' : 'greyMarble5.jpg';
+
+    textureLoader.load(RELATIVE_URL + assetURL, (texture) => {
         // immediately use the texture for material creation
         material = new THREE.MeshPhongMaterial( { map: texture } );
         // let objLoader = new THREE.OBJLoader();
@@ -1548,8 +1619,10 @@ const changeBeetleToBlueMarble = () => {
 
     let material;
 
+    let assetURL = imageFormat === 'webp' ? 'blueMarble3.webp' : 'blueMarble3.jpg';
+
     // let texture = textureLoader.load( RELATIVE_URL + 'brownMarble.jpg' );
-    textureLoader.load(RELATIVE_URL + 'blueMarble3.jpg', (texture) => {
+    textureLoader.load(RELATIVE_URL + assetURL, (texture) => {
         material = new THREE.MeshPhongMaterial( { map: texture } );
 
 
@@ -1740,8 +1813,12 @@ const changeVelocityParticles = (event) => {
     currentClientY = arrayOfCursorPositions[3];
 
     if (previousClientX < currentClientX) {
-        console.log('ClientX is decreasing');
-        console.log(previousClientY, ' is smaller than ', currentClientY);
+
+        if (enableLogging === true) {
+            console.log('ClientX is decreasing');
+            console.log(previousClientY, ' is smaller than ', currentClientY);
+        }
+
         mesh.rotation.z -= 0.05;
     } else if (previousClientX > currentClientX) {
         mesh.rotation.z += 0.05;
@@ -1909,8 +1986,12 @@ const onEnded = () => {
     // Ensures that the sound wave shows 'Play' when the song ends & also that the variable musicPlaying is changed to the boolean false
     // at the end of the song
     toggleSoundWave();
-    console.log('Song finished playing', isSongFinished);
-    console.log('Now we have the choice between playing another song or replaying this one');
+
+    if (enableLogging === true) {
+        console.log(`Song finished playing ${isSongFinished}`);
+        console.log('Now we have the choice between playing another song or replaying this one');
+    }
+
 
 
 }
@@ -1941,8 +2022,11 @@ const playSong = () => {
         audioContext.decodeAudioData(arrayBuffer)
     )
     .then(audioBuffer => {
-        console.log('Audio buffer')
-        console.log(audioBuffer)
+
+        if (enableLogging === true) {
+            console.log(audioBuffer)
+        }
+
         source = audioContext.createBufferSource();
         source.buffer = audioBuffer;
 
@@ -1956,7 +2040,10 @@ const playSong = () => {
 
         source.connect(analyser);
 
-        console.log('Source given is', source);
+        if (enableLogging === true) {
+            console.log('Source given is', source);
+        }
+
         analyser.connect(audioContext.destination);
 
         // Change the analyser data available so that we can access it later on.
@@ -1968,7 +2055,10 @@ const playSong = () => {
         
         // analyser.getByteFrequencyData(frequencyData);
 
-        console.log('Analyser is', analyser);
+        if (enableLogging === true) {
+            console.log('Analyser is', analyser);
+        }
+
         source.start();
     })
 }
@@ -2022,14 +2112,23 @@ const playSong = () => {
 const toggleMusicOnOff = () => {
 
     if (audioContext.state === 'running' && isSongFinished !== true) {
-        console.log('Audio Context is running');
+
+        if (enableLogging === true) {
+            console.log('Audio Context is running');
+        };
+
         audioContext.suspend().then(() => {
-            console.log('It is now paused')
+            console.log('Music is paused')
         })
+
     } else if (audioContext.state === 'suspended' && isSongFinished !== true) {
-        console.log('Audio Context state is suspended');
+
+        if (enableLogging === true) {
+            console.log('Audio Context state is suspended');
+        }
+
         audioContext.resume().then(() => {
-            console.log(`Music is playing now`);
+            console.log(`Music is playing`);
         })
         
     }
@@ -2040,7 +2139,10 @@ const toggleMusicOnOff = () => {
 
 const showExpertiseButton = () => {
 
-    console.log('Inside @showExpertiseButton function')
+    if (enableLogging === true) {
+        console.log('Inside @showExpertiseButton function');
+    }
+
     document.getElementById('expertise--button--small--screen--container').classList.add('animated');  
     // document.getElementById('aboutPageArrowContainer').classList.add('animated');  
 
@@ -2091,7 +2193,11 @@ window.onresize = function () {
     // Chose JS over CSS Media Queries because more control over when the button is displayed 
 
     if (dynamicWindowWidth < 1000 && pageShown === 'aboutPage' && typeOfAboutPage === 'descriptionText') {
-        console.log('Firing showExpertiseButton function')
+
+        if (enableLogging === true) {
+            console.log('Firing showExpertiseButton function');
+        }
+
         showExpertiseButton();
     } else if (dynamicWindowWidth >= 1000 && pageShown === 'aboutPage') {
         hideExpertiseButton();
@@ -2511,7 +2617,10 @@ const createLineTwo = (particleOne, particleTwo) => {
         lineGeometry.vertices.push(particleOne);
         lineGeometry.vertices.push(particleTwo);
 
-        console.log('Particle one position is', particleOne.position)
+        if (enableLogging === true) {
+            console.log('Particle one position is', particleOne.position);
+        }
+
         lineGeometry.dynamic = true;
 
         particleOne.neighborCount += 1;
@@ -2532,7 +2641,10 @@ const updateLines = () => {
     // lineGroup.geometry.verticesNeedUpdate = true;
 
     let lineArrayLength = lineArray.length;
-    console.log('Line array length', lineArrayLength);
+
+    if (enableLogging === true) {
+        console.log('Line array length', lineArrayLength);
+    }
 
     for (let i=0; i<lineArray.length; i++) {
         let currentLine = lineArray[i];
@@ -2608,7 +2720,10 @@ let numberOfBars = 9;
 let soundWaveArray = [];
 
 const toggleSoundWave = (e) => {
-    console.log('Sound wave clicked');
+
+    if (enableLogging === true) {
+        console.log('Sound wave clicked');
+    }
  
     let soundWaveElement1 = document.getElementById(`Line_1`);
     let soundWaveElement2 = document.getElementById(`Line_2`);
@@ -2640,7 +2755,9 @@ const toggleSoundWave = (e) => {
     classList8.toggle('paused');
     classList9.toggle('paused');
 
-    console.log('Before button was clicked, music was playing:', musicPlaying);
+    if (enableLogging === true) {
+        console.log('Before button was clicked, music was playing:', musicPlaying);
+    }
 
     // For now the music will play forever until the user stops it
     if (isSongFinished === true) {
@@ -2653,7 +2770,11 @@ const toggleSoundWave = (e) => {
     }
 
     if (musicPlaying === true) {
-        console.log('Sound Wave Description clicked while music is playing');
+
+        if (enableLogging === true) {
+            console.log('Sound Wave Description clicked while music is playing');
+        }
+
         document.getElementById('soundwave-description').innerHTML = 'Play';
         musicPlaying = false;
 
@@ -2661,19 +2782,27 @@ const toggleSoundWave = (e) => {
         // is actually for people with disabilities
         toggleVoiceControl();
 
-        console.log('Is Music Playing now?', musicPlaying);
+        if (enableLogging === true) {
+            console.log('Is Music Playing now?', musicPlaying);
+        }
 
     // If music is not playing, then we ensure that the boolean is switched to true while also making 
     // sure that the text disappears correctly.
     } else {
-        console.log('Going through the second music playing false NOW')
+
+        if (enableLogging === true) {
+            console.log('Going through the second music playing false Now');
+        }
+
         document.getElementById('soundwave-description').innerHTML = 'Pause';
         musicPlaying = true;
 
         // Ensures thatvoice control is deactivated and doesn't keep track of what the user is saying
         deactivateVoiceControl();
 
-        console.log('Is Music Playing now?', musicPlaying);
+        if (enableLogging === true) {
+            console.log(`Is Music Playing now? ${musicPlaying}`);
+        }
 
         // This ensures that the voice control elements are shown and hidden correctly
         
@@ -2809,7 +2938,9 @@ const hideLanguagesText = () => {
 
 const removeThreeJSMeshes = () => {
 
-    console.log('Currently removing three JS meshes of ', pageShown)
+    if (enableLogging === true) {
+        console.log(`Currently removing three JS meshes of ${pageShown}`)
+    }
 
     setTimeout(() => {
         
@@ -3154,7 +3285,9 @@ const toggleGeneralPageTransition = (event) => {
 
     hideForm();
     
-    console.log('General transition triggered')
+    if (enableLogging === true) {
+        console.log('General transition triggered');
+    }
 
     let id;
 
@@ -3455,7 +3588,10 @@ const toggleGeneralPageTransition = (event) => {
             // Remove Contact page related buttons
             removeContactPageTransitionButtons();
 
-            console.log('Running towards Menu Page again')
+            if (enableLogging === true) {
+                console.log('Running towards Menu Page again');
+            }
+
             // if (currentMenuIcon !== 'menuIcon') {
             changeMenuIcon('menuPage');
             // }
@@ -3837,7 +3973,9 @@ const toggleMenuAnimation = () => {
 
         // Log in order to track the different steps of the function calls
 
-        console.log(`The previous page we are moving away from is ${oldPageShown}`);
+        if (enableLogging === true) {
+            console.log(`The previous page we are moving away from is ${oldPageShown}`);
+        }
 
         // First Step is to analyze which page is currently being shown and remove the different DOM elements associated to it
 
@@ -3859,7 +3997,10 @@ const toggleMenuAnimation = () => {
 
         } else if (oldPageShown === 'faqPage') {
             
-            console.log('No toggle set to remove nonexistent elements of the client page');
+            if (enableLogging === true) {
+                console.log('No toggle set to remove nonexistent elements of the client page');
+            }
+
             toggleFAQPage('');
 
         } else if (oldPageShown === 'contactPage') {
@@ -4097,7 +4238,9 @@ const toggleMenuPageMesh = () => {
 
 const toggleAboutPageMesh = () => {
 
-    console.log('Toggling the about page mesh');
+    if (enableLogging === true) {
+        console.log('Toggling the about page mesh');
+    }
 
     setTimeout(() => {
         const beetleColor = 'white';
@@ -4110,7 +4253,9 @@ const toggleAboutPageMesh = () => {
 
 const toggleContactPageMesh = () => {
 
-    console.log('Toggling the contact page mesh');
+    if (enableLogging === true) {
+        console.log('Toggling the contact page mesh');
+    }
 
     setTimeout(() => {
         const beetleColor = 'lightBlue'
@@ -4124,7 +4269,9 @@ const toggleContactPageMesh = () => {
 
 const toggleClientsPageMesh = () => {
 
-    console.log('Toggling the Clients page Mesh');
+    if (enableLogging === true) {
+        console.log('Toggling the Clients page Mesh');
+    }
     
     setTimeout(() => {
         const beetleColor = 'black'
@@ -4139,7 +4286,10 @@ const toggleClientsPageMesh = () => {
 // Changes the page to the correct one
 const changePageShown = (newPageShown) => {
 
-    console.log(`Changing pageShown variable to ${newPageShown}`);
+    if (enableLogging === true) {
+        console.log(`Changing pageShown variable to ${newPageShown}`);
+    }
+
     pageShown = newPageShown;
 
 }
@@ -4435,7 +4585,10 @@ const toggleContactPage = (pageShown) => {
 
 const toggleLegalPage = (pageShown) => {
 
-    console.log('Toggling the legal page');
+    
+    if (enableLogging === true) {
+        console.log('Toggling the legal page');
+    }
 
     // If it is the homePage, then we toggle these elements on
     if (pageShown === 'legalPage') {
@@ -4467,8 +4620,12 @@ const toggleLegalPage = (pageShown) => {
 // Function & Event listener attached to the text area for resizing
 
 const OnInput = (event) => {
-    console.log('Input is being added to text area')
-    console.log('Element event', event);
+
+    if (enableLogging === true) {
+        console.log('Input is being added to text area');
+        console.log('Element event', event);
+    }
+
     const element = event.srcElement;
     element.style.height = 'auto';
     element.style.height = (element.scrollHeight) + 'px';
@@ -4565,7 +4722,9 @@ const setTextAnimationTimers = (pageShown) => {
 
     } else if (pageShown === 'aboutPage') {
 
-        console.log('TOGGLIGN THE ABOUT PAGE')
+        if (enableLogging === true) {
+            console.log('Toggling the about page');
+        }
 
         setTimeout(() => {
             document.getElementById('aboutPageTitleContainer').classList.toggle('showing')
@@ -4582,7 +4741,6 @@ const toggleOffAddressElements = () => {
     setTimeout(() => {
         document.getElementById('address-information-left').classList.toggle('showing');
         document.getElementById('address-information-right').classList.toggle('showing');
-
     }, 200)
 
 }
@@ -4693,13 +4851,21 @@ const toggleTextColor = (event) => {
 }
 
 const makeTitleTextWhite = () => {
-    console.log('Animation ended')
+
+    if (enableLogging === true) {
+        console.log('Animation ended');
+    }
+
     document.getElementById('companyName').style.color = 'white';
 }
 
 const myRepeatFunction = (event) => {
     let elapsedTime = "Elapsed time: " + event.elapsedTime;
-    console.log('Inner HTML', elapsedTime);
+
+    if (enableLogging === true) {
+        console.log('Inner HTML', elapsedTime);
+    }
+
 }
 
 // GLOBAL VARIABLE
@@ -4712,8 +4878,10 @@ const showContactMenu = (event) => {
     // in the transition-related events that will reset the transition delays for the two divs to be their
     // initial value
 
-    console.log('Contact menu #contactMenu is supposed to be shown');
-    console.log('Event fired is ', event);
+    if (enableLogging === true) {
+        console.log('Contact menu #contactMenu is supposed to be shown');
+        console.log('Event fired is ', event);
+    }
 
     const id = event.target.id;
 
@@ -4784,8 +4952,6 @@ let firstNameInputError = false,
 
 const validateForm = () => {
 
-    console.log('Form Is Being')
-
     const lastNameElement = document.getElementById('lastNameActualInput');
     const firstNameElement=  document.getElementById('firstNameActualInput');
     const emailElement=  document.getElementById('emailActualInput');
@@ -4849,7 +5015,9 @@ const validateForm = () => {
 
 const trackTextInputForm = (event) => {
 
-    console.log('Tracking text input form by USER');
+    if (enableLogging === true) {
+        console.log('Tracking text input form by User');
+    }
 
     const lastNameText = document.getElementById('lastNameInput');
     const firstNameText=  document.getElementById('firstNameInput');
@@ -4866,7 +5034,9 @@ const trackTextInputForm = (event) => {
 
     const inputID = event.target.id;
 
-    console.log('INPUT ID OF EVENT IS', inputID);
+    if (enableLogging === true) {
+        console.log('INPUT ID OF EVENT IS', inputID);
+    }
 
     if (inputID === 'firstNameActualInput') {
 
@@ -5058,10 +5228,14 @@ let USER_DECIDED_TO_DEACTIVATE = false;
 
 const triggerEndOfSpeechRecognition = () => {
 
-    console.log('Speech recognition service has disconnected successfully');
     // We reset it to 0 so that next time the user actually talks to the speech recognition API we know which index we're at
     // and where to get the latest actual command given
-    console.log('DID USER DECIDE TO DEACTIVATE', USER_DECIDED_TO_DEACTIVATE);
+
+    if (enableLogging === true) {
+        console.log('Speech recognition service has disconnected successfully');
+        console.log('DID USER DECIDE TO DEACTIVATE', USER_DECIDED_TO_DEACTIVATE);
+    }
+
     CURRENT_SPEECH_SESSION_COUNTER = 0;
 
     if (USER_DECIDED_TO_DEACTIVATE === false) {
@@ -5079,7 +5253,9 @@ const triggerEndOfSpeechRecognition = () => {
 
 const triggerStartOfSpeechRecognition = () => {
 
-    console.log('Speech recognition service has started successfully');
+    if (enableLogging === true) {
+        console.log('Speech recognition service has started successfully');
+    }
 
 }
 
@@ -5100,7 +5276,11 @@ let speechRecognitionListening = false;
 
 // Check if it's not undefined and initialize if it is accesible to this browser
 if (typeof SpeechRecognition !== 'undefined') {
-    console.log('Speech Recognition API is compatible with this browser')
+    
+    if (enableLogging === true) {
+        console.log('Speech Recognition API is compatible with this browser')
+    }
+
     recognition = new SpeechRecognition;
     recognition.continuous = true;
     recognition.interimResults = false;
@@ -5110,7 +5290,10 @@ if (typeof SpeechRecognition !== 'undefined') {
 } else if (typeof SpeechRecognition === 'undefined') {
     const voiceControlElement = document.getElementById('voiceControlText');
     voiceControlElement.innerHTML = 'Voice Control not available in this browser';
-    console.log('Voice control #voiceControl is not available in this browser');
+
+    if (enableLogging === true) {
+        console.log('Voice control #voiceControl is not available in this browser');
+    }
 
 }
 // Event that triggers the speech to text recognition when the voice control is clicked 
@@ -5119,26 +5302,38 @@ const stopSpeechRecognition = () => {
     recognition.stop();
 
     // Don't forget to change the boolean to false so the text can appear afterwards
-    
-    console.log('Speech recognition listening', speechRecognitionListening);
-    console.log('#Recognition #recognition stopped');
-    console.log('Recognition stopped')
+    if (enableLogging === true) {
+        console.log('Speech recognition listening', speechRecognitionListening);
+        console.log('#Recognition #recognition stopped');
+        console.log('Recognition stopped')
+    }
+
 }
 
 const startSpeechRecognition = () => {
 
     console.log('Starting speech recognition')
     if (speechRecognitionListening === false) {
-        console.log('TOGGLING THE VOICE CONTROL DIRECTIONS');
+
+        if (enableLogging === true) {
+            console.log('TOGGLING THE VOICE CONTROL DIRECTIONS');
+        };
+
         toggleVoiceControlDirections();
     }
     recognition.start();
-    console.log('Listening ')
+
+    if (enableLogging === true) {
+        console.log('Listening.')
+    }
+
 }
 
 const onSpeechRecognitionResult = (event) => {
-    console.log('Event of results of recognition is', event);
 
+    if (enableLogging === true) {
+        console.log('Event of results of recognition is', event);
+    }
 
     // Function returns an object that has the transcript of the user's speech, a confidence percentage of how accurate it is, and a boolean isFinal that 
     // indicates whether it is the last sentence mentioned by the user
@@ -5151,15 +5346,22 @@ const onSpeechRecognitionResult = (event) => {
     // of inactivity, which means that it'll be easier for us to track all the commands through an array
     arrayOfUserCommands.push(finalResultObject);
 
-    console.log('Array of user commands', arrayOfUserCommands);
+    if (enableLogging === true) {
+        console.log('Array of user commands', arrayOfUserCommands);
+    }
 
     let finalCommand = arrayOfUserCommands[VOICE_RESULTS_COUNTER];
-    console.log('VOICE RESULTS COUNTER', VOICE_RESULTS_COUNTER);
+
+    if (enableLogging === true) {
+        console.log('VOICE RESULTS COUNTER', VOICE_RESULTS_COUNTER);
+    }
 
     // Increment the counter every time so we know what's the index of the last element
     VOICE_RESULTS_COUNTER += 1;
 
-    console.log('Final Command Given by User', finalCommand)
+    if (enableLogging === true) {
+        console.log('Final Command Given by User', finalCommand);
+    }
 
     // Only trigger the analysis of the speech when the boolean returns true & if the confidence level is above 85%;
     if (finalResultObject.isFinal === true && finalResultObject.confidence > 0.65) {
@@ -5222,16 +5424,23 @@ const extractTextFromSpeech = (event) => {
     // VOICE_RESULTS_COUNTER = counts the amount of commands given to the SpeechRecognition API. Used to keep track of the different indices of the
     // results so that we can access them every time
     let resultObject = event.results[CURRENT_SPEECH_SESSION_COUNTER][0];
-    console.log('Last result object', resultObject);
+
+    if (enableLogging === true) {
+        console.log('Last result object', resultObject);
+    }
     // Tells you if this event is the final speech given by the user
     let resultObjectFinal = event.results[CURRENT_SPEECH_SESSION_COUNTER].isFinal;
 
-    console.log('Current speech session counter is', CURRENT_SPEECH_SESSION_COUNTER);
+    if (enableLogging === true) {
+        console.log('Current speech session counter is', CURRENT_SPEECH_SESSION_COUNTER);
+    }
 
     // Increment the counter for the current session
     CURRENT_SPEECH_SESSION_COUNTER += 1;
 
-    console.log('Result object is', resultObject);
+    if (enableLogging === true) {
+        console.log('Result object is', resultObject);
+    }
 
     let finalResult = {
         speech: resultObject.transcript,
@@ -5239,18 +5448,26 @@ const extractTextFromSpeech = (event) => {
         isFinal: resultObjectFinal,
     }
 
-    console.log('final result', finalResult)
+    if (enableLogging === true) {
+        console.log('final result', finalResult)
+        console.log('Analyzing presence of string through index')
+    }
 
-    console.log('Analyzing presence of string through index')
 
     const { speech } = finalResult;
 
     let isStringPresent = speech.indexOf('deactivate voice control');
 
-    console.log('Is string present within speech', isStringPresent);
+    if (enableLogging === true) {
+        console.log('Is string present within speech', isStringPresent);
+    }
 
     if (finalResult.isFinal === true ) {
-        console.log('Object of speech results', finalResult);
+
+        if (enableLogging === true) {
+            console.log('Object of speech results', finalResult);
+        }
+
         return finalResult;
     }
 
@@ -5282,11 +5499,15 @@ let phoneNumberTextMoved = false;
 
 const triggerInputAnimation = (event) => {
 
-    console.log('Event triggered by input', event);
+    if (enableLogging === true) {
+        console.log('Event triggered by input', event);
+    }
 
     const inputName = event.target.id;
 
-    console.log('Input name is', inputName)
+    if (enableLogging === true) {
+        console.log('Input name is', inputName)
+    }
 
     const lastNameActualInput =  document.getElementById('lastNameActualInput').value;
     const firstNameActualInput =  document.getElementById('firstNameActualInput').value;
@@ -5294,9 +5515,11 @@ const triggerInputAnimation = (event) => {
     const phoneNumberActualInput =  document.getElementById('phoneNumberActualInput').value;
     const companyNameActualInput =  document.getElementById('companyNameActualInput').value;
 
-    console.log('Last Name Actual Input', lastNameActualInput);
-    console.log('First Name Actual Input', firstNameActualInput);
-    console.log('Email Actual Input', emailActualInput);
+    if (enableLogging === true) {
+        console.log('Last Name Actual Input', lastNameActualInput);
+        console.log('First Name Actual Input', firstNameActualInput);
+        console.log('Email Actual Input', emailActualInput);
+    }
 
     if (inputName === 'lastNameInput') {
 
@@ -5346,11 +5569,15 @@ const triggerInputAnimation = (event) => {
 
 const triggerTextRiseAnimation = (event) => {
 
-    console.log('ELEMENT FOCUSED THROUGH TABBING');
+    if (enableLogging === true) {
+        console.log('ELEMENT FOCUSED THROUGH TABBING');
+    }
 
     const inputName = event.target.id;
 
-    console.log('Input name is', inputName)
+    if (enableLogging === true) {
+        console.log('Input name is', inputName)
+    }
 
     const lastNameActualInput =  document.getElementById('lastNameActualInput').value;
     const firstNameActualInput =  document.getElementById('firstNameActualInput').value;
@@ -5402,14 +5629,20 @@ const triggerTextRiseAnimation = (event) => {
 
 const analyzeSpeech = (speechResultObject) => {
 
-    console.log('About to analyzes speech');
-    console.log('Object given to analyzer is', speechResultObject);
+    if (enableLogging === true) {
+        console.log('About to analyzes speech');
+        console.log('Object given to analyzer is', speechResultObject);    
+    }
 
     let { speech } = speechResultObject;
     speech = speech.toLowerCase();
     speech = speech.trim();
-    console.log('Speech is NOW', speech);
-    console.log('Speech extracted is', speech);
+
+    if (enableLogging === true) {
+        console.log('Speech is NOW', speech);
+        console.log('Speech extracted is', speech);
+    }
+
 
     const mainMenuSpeech = 'go to main menu';
     const mainMenuSpeech2 = 'main menu';
@@ -5465,23 +5698,20 @@ const analyzeSpeech = (speechResultObject) => {
     // }
 
     let mainMenuFinder = speech.indexOf('main menu');
-    console.log('Main Menu Finder', mainMenuFinder);
-
     let aboutPageFinder = speech.indexOf('about page');
-    console.log('About Page Finder', aboutPageFinder);
-
     let contactPageFinder = speech.indexOf('contact page');
-    console.log('Contact Page Finder', contactPageFinder);
-
     let clientPageFinder = speech.indexOf('client page');
-    console.log('Client Page Finder', clientPageFinder);
-
     let homePageFinder = speech.indexOf('home page');
-    console.log('Home Page 1 Finder', homePageFinder);
-
     let homePageFinder2 = speech.indexOf('homepage');
-    console.log('Home Page 2 Finder', homePageFinder2);
 
+    if (enableLogging === true) {
+        console.log('Main Menu Finder', mainMenuFinder);
+        console.log('About Page Finder', aboutPageFinder);
+        console.log('Contact Page Finder', contactPageFinder);
+        console.log('Client Page Finder', clientPageFinder);
+        console.log('Home Page 1 Finder', homePageFinder);
+        console.log('Home Page 2 Finder', homePageFinder2);
+    };
     
     if (mainMenuFinder != -1) {
         toggleGeneralPageTransition('menuPage');
@@ -5503,20 +5733,27 @@ const analyzeSpeech = (speechResultObject) => {
 
 const testClick = () => {
 
-    console.log('Testing the click of the loading page');
+    if (enableLogging === true) {
+        console.log('Testing the click of the loading page');
+    }
 
 }
 
 const loadingPageEndTransitions = () => {
 
-    console.log('Hiding the direction messages displayed on the initial loading page');
+    if (enableLogging === true) {
+        console.log('Hiding the direction messages displayed on the initial loading page');
+    }
 
 }
 
 // Function that will modify the aspect of the noisy circle
 
 const modifyNoisyCircle = () => {
-    console.log('Hovering the Click & Hold Container ')
+
+    if (enableLogging === true) {
+        console.log('Hovering the Click & Hold Container ')
+    }
     // polygon.radius = 1;
 
     // Not doing anything yet
@@ -5542,7 +5779,7 @@ const showVenereMaisCourtois = (event) => {
     // imageElement.style.left = realMouseX + 'px';
     // imageElement.classList.add('shown');
 
-    console.log('Mouse Event for Over', event.target);
+    // console.log('Mouse Event for Over', event.target);
 
     hoveringElement = true;
 
@@ -5903,7 +6140,11 @@ const initializeEventListeners = () => {
     document.getElementById('disabilitiesRelatedText').addEventListener('click', () => {
         speechRecognitionListening ? stopSpeechRecognition() : startSpeechRecognition();
         speechRecognitionListening = !speechRecognitionListening;
-        console.log('Speech recognition listening', speechRecognitionListening);
+
+        if (enableLogging === true) {
+            console.log('Speech recognition listening', speechRecognitionListening);
+        }
+
     });
 
     // #touchEvents #touch #touchstart
@@ -5911,7 +6152,11 @@ const initializeEventListeners = () => {
     document.getElementById('disabilitiesRelatedText').addEventListener('touchstart', () => {
         speechRecognitionListening ? stopSpeechRecognition() : startSpeechRecognition();
         speechRecognitionListening = !speechRecognitionListening;
-        console.log('Speech recognition listening', speechRecognitionListening);
+
+        if (enableLogging === true) {
+            console.log('Speech recognition listening', speechRecognitionListening);
+        }
+
     });
 
     // Ensures the loading page is removed once the animation for the actual loading bar is finished
@@ -6335,27 +6580,7 @@ let animate = function () {
     // Commented out since we're not using #controls anymore
 
     controls.update();
-
-    // Raycaster related code
-
-    // Update the picking ray with the camera and mouse position
-	raycaster.setFromCamera( raycasterMouse, camera );
-
-	// Calculate objects intersecting the picking ray
-	var intersects = raycaster.intersectObjects( scene.children );
-
-	for ( var i = 0; i < intersects.length; i++ ) {
-
-        // console.log('Intersects', intersects);
-		// intersects[ i ].object.material.color.set( 0xff0000 );
-
-    }
     
-    let secondIntersect = raycaster.intersectObject(blackMarbleBeetleObject);
-
-    for ( var i = 0; i < secondIntersect.length; i++ ) {
-        console.log('Second intersects', secondIntersect);
-    }
 
 
     // Update stats
