@@ -1957,8 +1957,8 @@ const removeCurrentBeetleObject = () => {
 // Mouse down triggers the beetle's wireframe to show instead of the texture
 document.addEventListener('mousedown', onMouseDown, false );
 // Mouse move used here in order to track the mouse position within the page
-document.addEventListener('mousemove', onDocumentMouseMove, false );
-document.addEventListener('mousemove', onActualMouseMove, false );
+document.addEventListener('mousemove', onDocumentMouseMove,  {passive: true} );
+document.addEventListener('mousemove', onActualMouseMove,  {passive: true} );
 
 
 
@@ -2242,7 +2242,7 @@ const initCursor = () => {
     document.addEventListener("mousemove", e => {
         clientX = e.clientX;
         clientY = e.clientY;
-    })
+    },  {passive: true})
 
     // console.log('Client X for cursor is', clientX);
     // console.log('Client Y for cursor is', clientY);
