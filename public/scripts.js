@@ -1,5 +1,7 @@
 // ThreeJS related variables
-let beetleObject, 
+let scene,
+    camera,
+    beetleObject, 
     particles, 
     particlesMesh,
     particleGeometry,  
@@ -78,6 +80,9 @@ let firstBatchOfModelsLoaded = false;
 let source;
 let isSongFinished = false;
 let musicStartedPlaying = false;
+let frequencyData, averageFrequency;
+let domainData, averageDomain; // Relates to the waveform of the current audio
+let audioContext;
 
 // Language Related
 
@@ -405,14 +410,11 @@ const average = (array) => {
 
 // --------------------------------------------------------------------------------
 
-// Web Audio API related variables
-let frequencyData, averageFrequency;
-let domainData, averageDomain; // Relates to the waveform of the current audio
-let audioContext;
+
 
 // Boilerplate code to set a scene, camera, renderer for the ThreeJS project
-let scene = new THREE.Scene();
-let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 2000 );
+scene = new THREE.Scene();
+camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 2000 );
 
 // Camera afar positions used in order to actually look at the Beetle object and the different Mesh's rotations relative to it
 const setCameraTestPosition = () => {
