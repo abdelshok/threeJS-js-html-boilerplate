@@ -604,13 +604,6 @@ let objLoader = new THREE.OBJLoader(loadingManager);
 let axesHelper = new THREE.AxisHelper(1000);
 // scene.add(axesHelper);
 
-// let mtlLoader = new THREE.TextureLoader();
-// mtlLoader.setTexturePath(RELATIVE_URL);
-// mtlLoader.setPath(RELATIVE_URL);
-// mtlLoader.load('blackMarble.jpg', function (materials) {
-
-// materials.preload();
-
 /*
  * Initial Implemntation of the below function
  * We're commenting out the code below, which initially just ran uncontained and we put it in the createBlackMarbleBeetle function below
