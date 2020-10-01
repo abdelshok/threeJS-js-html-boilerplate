@@ -486,69 +486,6 @@ clock = new THREE.Clock();
 
 // --------------------------------------------------------------------------------
 
-// RAYCASTER-RELATED FUNCTIONS
-// ALL DELETED - IT CAUSED ERRORS 
-
-// --------------------------------------------------------------------------------
-
-
-
-/*
- * Post Processing part of the code
- */
-
-// let composer = new POSTPROCESSING.EffectComposer(renderer);
-// composer.addPass(new POSTPROCESSING.RenderPass(scene, camera)); // Renders the main scene for other passes
-
-// const effectPass = new POSTPROCESSING.EffectPass(
-//     camera, 
-//     new POSTPROCESSING.UnrealBloomPass()
-// );
-// effectPass.renderToScreen = true;
-// composer.addPass(effectPass);
-
-// const renderScene = new POSTPROCESSING.RenderPass(scene, camera); 
-
-// let bloomPass = new POSTPROCESSING.BloomEffect();
-// bloomPass.threshold = 0;
-// bloomPass.strength = 1.5;
-// bloomPass.radius = 0;
-
-// const effectPass = new POSTPROCESSING.EffectPass(camera, bloomPass);
-
-// composer = new POSTPROCESSING.EffectComposer(renderer);
-// composer.addPass(renderScene);
-// composer.addPass(bloomPass);
-
-// console.log('Composer createad', composer);
-// console.log('Effect pass created', bloomPass);
-
-
-const bloomOptions = {
-    luminanceThreshold: 89,
-    luminanceSmoothing: 90.5,
-    height: 480
-};
-
-
-// Commenting it out since we're commenting out the script from the index.html file in order to improve the loading performance of the website for Google
-
-// const composer = new POSTPROCESSING.EffectComposer(renderer);
-// composer.addPass(new POSTPROCESSING.RenderPass(scene, camera));
-
-// let glitchPass = new POSTPROCESSING.GlitchEffect();
-// let bloomEffect = new POSTPROCESSING.BloomEffect(bloomOptions);
-
-// const effectPassA = new POSTPROCESSING.EffectPass(camera, bloomEffect);
-// effectPassA.renderToScreen = true;
-
-// glitchPass.renderToScreen = true;
-// composer.addPass(effectPassA);
-
-// Post Processing currently not working
-
-// -------------------------------------------------
-
 // Lights
 
 let keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
@@ -2195,7 +2132,6 @@ window.onresize = function () {
     // camera look at here ?
 
     renderer.setSize( width, height );
-    // composer.setSize( width, height );
     // renderer.render(scene, camera);
 
 };
