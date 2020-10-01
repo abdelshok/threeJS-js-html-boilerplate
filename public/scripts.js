@@ -376,10 +376,16 @@ const removeInitialLoadingPage = () => {
 
 // --------------------------------------------------------------------------------
 
-// Web Audio API related variables
-let frequencyData, averageFrequency;
-let domainData, averageDomain; // Relates to the waveform of the current audio
-let audioContext;
+/*
+ * Helper Functions
+ * Used throughout the application
+ */
+
+
+// Function that creates a random number between the min and max that are passed in
+// Used in @createParticleSystme function
+const rand = (min,max) => min + Math.random()*(max-min)
+
 
 // Function which calculates the average number of an array 
 const average = (array) => {
@@ -395,6 +401,14 @@ const average = (array) => {
     average = average/count;
     return average;
 }
+
+
+// --------------------------------------------------------------------------------
+
+// Web Audio API related variables
+let frequencyData, averageFrequency;
+let domainData, averageDomain; // Relates to the waveform of the current audio
+let audioContext;
 
 // Boilerplate code to set a scene, camera, renderer for the ThreeJS project
 let scene = new THREE.Scene();
@@ -1066,10 +1080,6 @@ const loadRemainingPlaneGeometries = () => {
 
 createInitialPlaneGeometries();
 
-
-// Function that creates a random number between the min and max that are passed in
-// Used in @createParticleSystme function
-const rand = (min,max) => min + Math.random()*(max-min)
 
 // Create particle system
 
