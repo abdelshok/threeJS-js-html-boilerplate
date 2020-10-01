@@ -363,7 +363,6 @@ const removeInitialLoadingPage = () => {
         playSong();
 
         // We also check if the progressiveLoading is enabled. If it is, then we load the remaining assets: Beetles & Plane Geometries
-
         if (enableProgressiveLoading === true) {
 
             loadRemainingPlaneGeometries();
@@ -371,9 +370,9 @@ const removeInitialLoadingPage = () => {
 
         }
 
-    }
+    };
 
-}
+};
 
 // --------------------------------------------------------------------------------
 
@@ -381,9 +380,6 @@ const removeInitialLoadingPage = () => {
 let frequencyData, averageFrequency;
 let domainData, averageDomain; // Relates to the waveform of the current audio
 let audioContext;
-
-// Function that creates a random number between the min and max that are passed in
-const rand = (min,max) => min + Math.random()*(max-min)
 
 // Function which calculates the average number of an array 
 const average = (array) => {
@@ -1071,6 +1067,9 @@ const loadRemainingPlaneGeometries = () => {
 createInitialPlaneGeometries();
 
 
+// Function that creates a random number between the min and max that are passed in
+// Used in @createParticleSystme function
+const rand = (min,max) => min + Math.random()*(max-min)
 
 // Create particle system
 
