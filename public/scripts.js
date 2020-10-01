@@ -7,8 +7,9 @@ let scene,
     particleGeometry,  
     pivotPoint, 
     pivotPoint2, 
-    light1, 
-    clock;
+    light1;
+
+let clock = new THREE.Clock(); // Used in the shader that moves the different particles around
 
 // Real Mouse position
 let realMouseX, realMouseY;
@@ -410,7 +411,10 @@ const average = (array) => {
 
 // --------------------------------------------------------------------------------
 
-
+/*
+ * ThreeJS Set up Functions 
+ *
+ */
 
 // Boilerplate code to set a scene, camera, renderer for the ThreeJS project
 scene = new THREE.Scene();
@@ -428,7 +432,20 @@ const setCameraFinalPosition = () => {
     camera.position.z = 0;
     camera.position.x = 0;
     camera.position.y = 200;
-}   
+}
+
+// Renderer & OrbitControls (which help us move around the scene are set)
+let renderer = new THREE.WebGLRenderer({
+    powerPreference: 'high-performance',
+    antialias: false,
+    stencil: false,
+});
+
+// Never fucking comment out the OrbitControls. You keep forgetting, but they're necessary to get the right angles of the scene.
+let controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.25;
+controls.enableZoom = true;
 
 /*
  * Here we set the Camera into the final position. The Test position is used to check on the particle and light movements from afar
@@ -437,26 +454,15 @@ const setCameraFinalPosition = () => {
 // setCameraTestPosition();
 setCameraFinalPosition();
 
-
-// Renderer & OrbitControls (which help us move around the scene are set)
-
-let renderer = new THREE.WebGLRenderer({
-    powerPreference: 'high-performance',
-    antialias: false,
-    stencil: false,
-});
-
+// Append Renderer to the scene
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-// Never fucking comment out the OrbitControls. You keep forgetting, but they're necessary to get the right angles of the scene.
 
-let controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.25;
-controls.enableZoom = true;
+/*
+ * @createStats function for the FPS (Frames per Second) statistics at the top left of the page
+ */
 
-// Sets the stats at the top left of the page so that we can test the frame rate per second of the website as we develop it
 const createStats = () => {
     let stats = new Stats();
     stats.setMode(0);
@@ -467,7 +473,7 @@ const createStats = () => {
 };
 
 
-// Add Stats to the page
+// Only make the function call if the environment is set to dev so that the Stats element is not shown on the production website 
 
 if (environment === 'dev') {
 
@@ -477,19 +483,13 @@ if (environment === 'dev') {
 }
 
 
-// Clock
-// Used in the shader that moves the different particles around
-clock = new THREE.Clock();
-
-
 // --------------------------------------------------------------------------------
 
-// Lights
+// Three JS - Light Initialization & Set Up 
 
 let keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(30, 100%, 75%)'), 1.0);
 keyLight.position.set(-100, 0, 100);
 keyLight.target.position.set(0, 180, 0)
-
 
 let fillLightOne = new THREE.DirectionalLight(new THREE.Color('hsl(210, 100%, 75%)'), 0.75);
 fillLightOne.position.set(100, 0, 100);
@@ -572,14 +572,13 @@ let spotLightHelperThree = new THREE.SpotLightHelper(spotLightThree);
 
 /*
  * 
- * Fog Element
+ * Three JS - Fog Element
+ * Creates a simple dark blue fog effect that adds more mystery to the atmosphere 
  * 
  */
 
- // Add Fog, set color and add it to the scene.
-// scene.fog = new THREE.FogExp2(0x000000, 0.001);
-// renderer.setClearColor(scene.fog.color);
 
+// Create Fog, set color and add it to the scene.
 scene.fog = new THREE.FogExp2(0x11111f, 0.002);
 renderer.setClearColor(scene.fog.color);
 
