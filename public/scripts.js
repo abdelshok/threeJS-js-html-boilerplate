@@ -735,7 +735,8 @@ const createBlueRockPlaneGeometry = () => {
 }
 
 
-// 2. Black Rock Plane - About Page
+// 2. About Page - Slightly Rugged Black Rock Plane 
+// Won't be commenting these planeGeometry functions below as they behave similarly as the main one @createBlueRockPlaneGeometry
 
 const createBlackPlaneGeometry = () => {
     // Black Plane that's displayed in the 'About' page
@@ -757,48 +758,12 @@ const createBlackPlaneGeometry = () => {
     scene.add(blackRockPlaneMesh);
 }
 
-// Not used anymore
-// V.1
-// 3. Turquoise Rock Plane - Main Menu
-// V.1
 
-const createTurquoisePlaneGeometry = () => {
-    darkGreenPlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
-    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'turquoiseMarble.jpg');
-    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
-    darkGreenPlaneMesh = new THREE.Mesh(darkGreenPlaneGeometry, planeMaterial);
-    darkGreenPlaneMesh.position.set(0,-50,0);
-    darkGreenPlaneMesh.rotation.x =  - (Math.PI / 2);
-
-    scene.add(darkGreenPlaneMesh);
-}
-
-// 1. Blue Ice-Looking Plane - Home Page
-
-const createBluePlaneGeometry = () => {
-    planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
-
-    let planeTexture;
-    
-    if (imageFormat === 'webp') {
-        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.webp');
-    } else {
-        planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.jpg');
-    }
-
-    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
-    planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
-    planeMesh.position.set(0,-50,0);
-    planeMesh.rotation.x =  - (Math.PI / 2);
-
-    scene.add(planeMesh);
-}
-
-// 3. Black Rocky Terrain - Contact Page
+// 3. Contact Page - Black Rocky Terrain 
 
 const createBlackRockGeometry = () => {
-    // Black Plane that's displayed in the 'Contact page - difference between this and the one above
-    // is the file type. png vs. jpg.
+
+    // There are two black rock planes used in this application: blackRockPlaneGeometry & blackRockPlaneGeometryTwo.
     blackRockPlaneGeometryTwo = new THREE.PlaneGeometry(2000, 2000, 2000);
 
     let planeTexture;
@@ -816,7 +781,7 @@ const createBlackRockGeometry = () => {
     scene.add(blackRockPlaneMeshTwo);
 }
 
-// 4. Black & White Rock - Client Page
+// 4. Client Page - Black & White Rock 
 
 const createWhiteBlackPlaneGeometry = () => {
 
@@ -839,8 +804,7 @@ const createWhiteBlackPlaneGeometry = () => {
 }
 
 
-// 5. Main Menu 
-// V.2
+// 5. Main Menu - Black Wave Image
 
 const createBlackWavePlaneGeometry = () => {
     blackWavePlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
@@ -857,33 +821,15 @@ const createBlackWavePlaneGeometry = () => {
     blackWavePlaneMesh.position.set(0,-50,0);
     blackWavePlaneMesh.rotation.x =  - (Math.PI / 2);
     scene.add(blackWavePlaneMesh);
+
 }
  
 
+// General Plane Functions
 
-// Function used to remove the current plane geometry before we change it to something else
-
-const removePlaneGeometry = () => {
-    scene.remove(planeMesh);
-    planeMesh.geometry.dispose();
-    planeMesh.material.dispose();
-    planeMesh = undefined; 
-}
-
-// Function Calls
-
-
-// Not used anymore
-// V.1 of the application --> We load the first plane geometry upon page loading and then load all the other planes one after the other when we decide to switch between pages
-
-// createBlueRockPlaneGeometry();
-
-
-// Used now
-// V.2 of the application, we load all of the different plane geometries (and the beetle objects with the correct textures upon loading) & then changed the visibility in order
+// We load all of the different plane geometries (and the beetle objects with the correct textures upon loading) & then changed the visibility in order
 // to ensure that they are always visible with no lag in between different page transitions
-
-// The two functions below will create the planes & the beetle object upon first page load
+// The two functions below will create the initial plane within the first page load & load the remaining planes after the user enters the website
 
 const createInitialPlaneGeometries = () => {
 
@@ -2602,29 +2548,6 @@ const hideLanguagesText = () => {
     // toggleLanguageChoices();
 }
 
-// This function is used as an intermediate function within the transitions in order to remove the meshes that are existing 
-// and allow us to create new meshes to display visually - in this case, the plane geometry with the rock texture and the differing
-// beetle geometry with the marble textures 
-
-const removeThreeJSMeshes = () => {
-
-    if (enableLogging === true) {
-        console.log(`Currently removing three JS meshes of ${pageShown}`)
-    }
-
-    setTimeout(() => {
-        
-        // Remove plane geometry
-        removePlaneGeometry();
-        
-        // Remove beetle object
-        removeCurrentBeetleObject();
-
-    }, 750)
-
-
-}
-
 
 // Functions that is called to change the visibility of the different meshes depending
 // on the page that is passed
@@ -2984,16 +2907,7 @@ const toggleGeneralPageTransition = (event) => {
         // First we initiate the page transition
         initiateTransitionAnimation();
     
-        // First part we're checking the current page and removing the elements on the page that need to be taken away 
     
-        // App V.1 Start - We remove the geometries / meshes from the scene - so in this case both the plane geometry & the beetle Mesh
-
-        // console.log('Removing meshes')
-        // removeThreeJSMeshes();
-
-        // App V.1 End
-    
-        // Second remove, the different elements of the DOM that are displayed
         let oldPageShown = pageShown;
     
         // console.log('Old page shown is', oldPageShown);
@@ -3110,9 +3024,6 @@ const toggleGeneralPageTransition = (event) => {
                 changePageShown('homePage')
             }, 500)
 
-            // App V.1 - Start
-            // toggleHomePageMesh();
-            // App V.1 - End
 
             // App V.2 - Start
             setTimeout(() => {
@@ -3264,10 +3175,6 @@ const toggleGeneralPageTransition = (event) => {
 
             changePageShown('menuPage');
             toggleMenuPage('menuPage');
-
-            // App V.1 - Start
-            // toggleMenuPageMesh();
-            // App V.1 - End
 
             // App V.2 - Start
             setTimeout(() => {
@@ -3627,9 +3534,6 @@ const toggleMenuAnimation = () => {
     // Only play menu animation if the variable is false - preventing unnecessary re-rendering
     if (pageTransitionPlaying === false) {
 
-        // Removes the current Three JS meshes that are present on screen
-        // removeThreeJSMeshes();
-
         // This triggers the White Page Animation that goes from the bottom to the top o fthe page
         let revealLayerOne = document.getElementById('reveal--layer');
         revealLayerOne.classList.toggle('showing');
@@ -3738,10 +3642,6 @@ const toggleMenuAnimation = () => {
             // Makes the menu page visible
             // setTextAnimationTimers('menuPage');
 
-            // App V.1 - Start
-            // toggleMenuPageMesh();
-            // App V.1 - End
-
             // App V.2
             setTimeout(() => {
                 changeMeshVisibility('menuPage');
@@ -3778,10 +3678,6 @@ const toggleMenuAnimation = () => {
 
             // Makes menu page invisible
             // setTextAnimationTimers('homePage')
-
-            // App V.1 - Start
-            // toggleHomePageMesh();
-            // App V.1 - End
 
             // App V.2
             setTimeout(() => {
@@ -3832,30 +3728,7 @@ const removeContactLines = () => {
 
 }
 
-// FUNCTIONS THAT FOCUS ON CREATING THE MESHES THAT WE NEED 
 
-// Not used anymore
-
-const toggleHomePageMesh = () => {
-
-    setTimeout(() => {
-        createBluePlaneGeometry();
-        changeBeetleToBlackMarble();
-    }, 1000)
-
-}
-
-
-// Not used anymore
-
-const toggleMenuPageMesh = () => {
-
-    setTimeout(() => {
-        createTurquoisePlaneGeometry();
-        changeBeetleToGreyMarble();
-    }, 1000)
-
-}
 
 const toggleAboutPageMesh = () => {
 
