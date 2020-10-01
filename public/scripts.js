@@ -70,12 +70,10 @@ let initialPageLoadingBarFullyLoaded = false;
 // Depending on which one we're in, the relative path to the different files will differ
 
 let environment = 'prod';
-// let environment = 'dev';
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
-
 let enableLogging = false;
-
 let imageFormat = 'webp';
+let enableProgressiveLoading = true;
 
 // Web Audio API-related Variables
 
@@ -200,7 +198,7 @@ const onCompleteLoading = () => {
 
     let loadingPageText = document.getElementById('loadingPage--secondNormalText')
 
-    // Hide the text that says 'Click Anywhere in order to Enter' which shows up within the page
+    // Hides the text that says 'Click Anywhere in order to Enter' which shows up within the page
     // if the user decreases the height of browser window
     setTimeout(() => {
 
@@ -357,6 +355,7 @@ const showClickMessageToRemoveLoadingPage = () => {
 
 // Function that removes the initial loading page after the user clicks on the 'Click to Enter' message displayed the first time a user
 // lands on the website
+// #loadingPage #removeLoadingPage
 
 const removeInitialLoadingPage = () => {
 
@@ -386,10 +385,19 @@ const removeInitialLoadingPage = () => {
             loadingPageAnimationFinished = true;
         }
 
-        // This should take care of it
 
-        // Also now we trigger the music
+        // We trigger the music now that the user has clicked and therefore enabled the Web Audio API to work correctly
         playSong();
+
+        // We also check if the progressiveLoading is enabled. If it is, then we load the remaining assets: Beetles & Plane Geometries
+
+        if (enableProgressiveLoading === true) {
+
+            loadRemainingPlaneGeometries();
+            loadRemainingBeetleModels();
+
+        }
+
 
         // We also make sure to remove the text from the loading page that asks the user to turn on the volume
         // The page cannot be seen but if the user actually minimizes the window vertically, they can see the message show up
@@ -1092,51 +1100,74 @@ const removePlaneGeometry = () => {
 // The two functions below will create the planes & the beetle object upon first page load
 
 const createInitialPlaneGeometries = () => {
+
+    // Home Page Plane
+    createPlaneGeometry();
+
+    // If progressive loading is not enabled then all of the resources need to be loaded at the very beginnign
+
+    if (enableProgressiveLoading === false) {
+        // About Page Plane
+        createBlackPlaneGeometry();
+        // Contact Page Plane 
+        createBlackRockGeometry();
+        // Main Menu
+        createBlackWavePlaneGeometry();
+        // Client Page Plane
+        createWhiteBlackPlaneGeometry(); // Currently Grey
+    }
+
+
+    // Home Page
+    planeMesh.visible = true;
+
+    if (enableProgressiveLoading === false) {
+        // Main Menu Page
+        blackWavePlaneMesh.visible = false;
+        // Contact Page
+        blackRockPlaneMeshTwo.visible = false;
+        // Client / FAQ Page
+        xPlaneMesh.visible = false;
+        // About Page
+        blackRockPlaneMesh.visible = false;
+    }
+
+}
+
+// Function that loads the remaining of the meshes that need to be added to the website - similar to the loadRemainingBeetleModels
+// If enableProgressiveLoading is true then this function will be called in the function that is triggered when the user clicks on the loading
+// page to remove it and enter the website
+
+const loadRemainingPlaneGeometries = () => {
+
+    // Will load all of the plane geometries, except the planeMesh (BlueRock) which is loaded as soon as the website is loaded 
+
     // About Page Plane
     createBlackPlaneGeometry();
     // Contact Page Plane 
     createBlackRockGeometry();
     // Main Menu
     createBlackWavePlaneGeometry();
-    // Home Page Plane
-    createPlaneGeometry();
     // Client Page Plane
     createWhiteBlackPlaneGeometry(); // Currently Grey
-    // 
 
-    // About Page
-    blackRockPlaneMesh.visible = false;
+
     // Main Menu Page
-
-    // V.1 
-    // darkGreenPlaneMesh.visible = false;
-    // V.1
-
-    // V.2
     blackWavePlaneMesh.visible = false;
-
     // Contact Page
     blackRockPlaneMeshTwo.visible = false;
-    // Home Page
-    planeMesh.visible = true;
     // Client / FAQ Page
     xPlaneMesh.visible = false;
-    // Reversed
-    // reversedPlaneMesh.visible = false;
-
-    // Used for testing in order to see how smooth the three js transition is between one plane's visibility turned off and another plane's visibility
-    // turned on
-
-    // setTimeout(() => {
-    //     blackRockPlaneMesh.visible = true;
-    //     planeMesh.visible = false;
-    // }, 15000)
+    // About Page
+    blackRockPlaneMesh.visible = false;
 
 }
 
 // Initial call #initialCall #initialization 
 
 createInitialPlaneGeometries();
+
+
 
 // Create particle system
 
@@ -1674,29 +1705,48 @@ const changeBeetleToDarkGreenMarble = () => {
 
 const createInitialBeetleObjects = async () => {
 
-    // Contact Page Beetle
-    changeBeetleToBlueMarble();
-    // Home Page Beetle
-    createBlackMarbleBeetle();
-    // Main Menu Page Beetle
-    changeBeetleToGreyMarble();
-    // About Page Beetle
-    changeBeetleToWhiteMarble();
-    // FAQ Page Beetle 
-    changeBeetleToDarkGreyMarble();
 
-    // The functions above are asynchronous so none of these work 
-    // blackMarbleBeetleObject.visible = false;
-    // blueMarbleBeetleObject.visible = false;
-    // greyMarbleBeetleObject.visible = false;
-    // blueMarbleBeetleObject.visible = true;
+    // Home Page Beetle - Always called, whether progressiveLoading is enabled or not
+    createBlackMarbleBeetle();
+
+    // This functions are only called if progressive loading is enabled
+    if (enableProgressiveLoading === false) {
+        // Main Menu Page Beetle
+        changeBeetleToGreyMarble();
+        // About Page Beetle
+        changeBeetleToWhiteMarble();
+        // Contact Page Beetle
+        changeBeetleToBlueMarble();
+        // Client Page Beetle 
+        changeBeetleToDarkGreyMarble();
+    }
 
 }
 
-// Call to the function
+
+// Call to the above function in order to load all of the different models into the scene and set their respective visibilities to false so that 
+// they don't show up.
 
 createInitialBeetleObjects();
 
+
+// Function created as an alternative to the above function which initially loads all of the models at once while the loading bar is moving.
+// This function is triggered / called when the suer clicks on the loading page to remove it after the loading bar finishes loading
+// #performanceOptimization #performance
+
+const loadRemainingBeetleModels = async () => {
+
+    // The Home Page Beetle Model is called at the very beginning of the page load so isn't included in this function
+
+    // Main Menu Page Beetle
+    changeBeetleToWhiteMarble();
+    // Contact Page Beetle
+    changeBeetleToBlueMarble();
+    // Client Page Beetle
+    changeBeetleToDarkGreyMarble(); // One of these two needs to go 
+    changeBeetleToGreyMarble(); 
+
+}
 
 // ------------------------------------------------------
 
