@@ -66,7 +66,7 @@ let initialPageLoadingBarFullyLoaded = false;
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'prod';
+let environment = 'dev';
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
 let enableLogging = environment === 'dev' ? true : false;
 let imageFormat = 'webp';
@@ -176,86 +176,6 @@ const initializeMobileDetector = () => {
 
 
 initializeMobileDetector();
-
-// --------------------------------------------------------------------------------
-
-/*
- * Scripts that will run after all the items in the page are loaded
- *
- *
- */
-
-const onCompleteLoading = () => {
-
-    if (enableLogging === true) {
-        console.log('Removing loading screen from the page');
-    }
-
-    let loadingPageElement = document.getElementById('loading-page');
-    loadingPageElement.classList.add('hiding');
-
-    let loadingPageText = document.getElementById('loadingPage--normalText')
-    let loadingPageSecondText = document.getElementById('loadingPage--secondNormalText')
-
-    // Just added on Wed Sep 30 2020 as an attempt to fix the bug that shows 'Please turn on your volume' when user clicks on the 
-    // loading-page element to remove the whole loading page
-    // Doesn't seem to be working
-
-    // loadingPageText.classList.remove('shown');
-    // loadingPageSecondText.classList.remove('shown');
-
-    // Hides the text that says 'Click Anywhere in order to Enter' which shows up within the page
-    // if the user decreases the height of browser window
-    setTimeout(() => {
-
-        if (enableLogging === true) {
-            console.log('Time out run after the page has complete loading');
-        }
-
-        loadingPageText.classList.remove('shown');
-        loadingPageSecondText.classList.remove('shown');
-        // document.getElementById('loading-page').classList.add('deleted');
-    }, 0)
-
-}
-
-
-// Blotter Related Text
-
-const blotterInitialization = () => {
-    // BLOTTER - Example 2
-    let text = new Blotter.Text("observation", {
-        family : "'EB Garamond', serif",
-        size : 27,
-        fill : "#171717",
-        paddingLeft : 40,
-        paddingRight : 40
-    });
-    
-    let material = new Blotter.LiquidDistortMaterial();
-    
-    // Play with the value for uSpeed. Lower values slow
-    // down animation, while higher values speed it up. At
-    // a speed of 0.0, animation is stopped entirely.
-    material.uniforms.uSpeed.value = 0.25;
-    
-    // Try uncommenting the following line to play with
-    // the "volatility" of the effect. Higher values here will
-    // produce more dramatic changes in the appearance of your
-    // text as it animates, but you will likely want to keep
-    // the value below 1.0.
-    //material.uniforms.uVolatility.value = 0.30;
-    
-    let blotter = new Blotter(material, {
-        texts : text
-    });
-    
-    let elem = document.getElementById("distortion-text");
-    var scope = blotter.forText(text);
-    
-    scope.appendTo(elem);
-}
-
 
 // --------------------------------------------------------------------------------
 
