@@ -129,12 +129,10 @@ let loadingGraphicalSceneFinished = false;
 
 /*
  * Scripts that will split the characters of the DOM elements
- *
- *
+ * Currently unused 
  */
 
 // const splitItems = Splitting();
-
 // console.log('Split Items are', splitItems);
 
 
@@ -142,8 +140,6 @@ let loadingGraphicalSceneFinished = false;
 
 /*
  * Mobile Detect Script that will split the characters of the DOM elements
- *
- *
  */
 
 let detector;
@@ -236,7 +232,6 @@ loadingManager.onLoad = () => {
     // then as soon as the objects are downloaded, the animation for the loading page to be moved up is triggered
     if (PAGE_FIRST_LOADED === false && loadingPageAnimationFinished === true) {
         PAGE_FIRST_LOADED = true;
-        // onCompleteLoading();
         loadingGraphicalSceneFinished = true;
     } else if (PAGE_FIRST_LOADED === false && loadingPageAnimationFinished === false) {
         // By doing that, we ensure that when the scene is ready, the variable is changed to true so that when the animation is finished after 10 seconds
@@ -343,18 +338,16 @@ const removeInitialLoadingPage = () => {
             // Sets loadingPageAnimationFinished to true
             loadingPageAnimationFinished = true;
 
-            // 'Click Anywhere to Enter' element shown on the initial loading page 
+            // Removes the 'Click Anywhere to Enter' element shown on the initial loading page 
             let loadingPageSecondText = document.getElementById('loadingPage--secondNormalText')
             loadingPageSecondText.classList.remove('shown');
 
+            // Ensures that the 'Please turn on your volume' text is removed 
             let loadingPageFirstText = document.getElementById('loadingPage--normalText');
             loadingPageFirstText.classList.remove('shown');
 
-            // Hides the text that says 'Click Anywhere in order to Enter' which shows up within the page
-            // if the user decreases the height of browser window
-            // setTimeout(() => {
-            //     loadingPageSecondText.classList.remove('shown');
-            // }, 0);
+            // Both are removed because the loading page is moved up which means that when the user decreases the height
+            // of the page, one of the text would start showing.
 
         } else if (loadingGraphicalSceneFinished === false) {
 
@@ -377,13 +370,6 @@ const removeInitialLoadingPage = () => {
             loadRemainingBeetleModels();
 
         }
-
-
-        // We also make sure to remove the text from the loading page that asks the user to turn on the volume
-        // The page cannot be seen but if the user actually minimizes the window vertically, they can see the message show up
-        // setTimeout(() => {
-        //     document.getElementById('loadingPage--generalText').classList.add('hiddenAgain');
-        // }, 4000);
 
     }
 
