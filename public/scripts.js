@@ -3737,7 +3737,6 @@ const toggleMenuAnimation = () => {
 
             // Makes the menu page visible
             // setTextAnimationTimers('menuPage');
-            // setThreeAnimationTimers('menuPage');
 
             // App V.1 - Start
             // toggleMenuPageMesh();
@@ -3779,7 +3778,6 @@ const toggleMenuAnimation = () => {
 
             // Makes menu page invisible
             // setTextAnimationTimers('homePage')
-            // setThreeAnimationTimers('homePage');
 
             // App V.1 - Start
             // toggleHomePageMesh();
@@ -3833,49 +3831,6 @@ const removeContactLines = () => {
     document.getElementById('address-line-right-two-one').classList.remove('animated');
 
 }
-
-// Not useed anymore
-
-const setThreeAnimationTimers = (pageShown) => {
-
-    if (pageShown === 'menuPage') {
-
-        // Removes the Blue Ice Plane, creates a new black one, removes Black Beetle, creates a Beetle with White Texture
-        setTimeout(() => {
-
-            removePlaneGeometry();
-            createTurquoisePlaneGeometry();
-            removeCurrentBeetleObject();
-            changeBeetleToGreyMarble();
-            changeLightIntensity('white');
-
-        }, 1000);
-
-    } else if (pageShown === 'homePage') {
-
-        // Removes Black Plane, replaces it with the Blue one, removes the White Beetle & replaces it with the default Black one
-
-        setTimeout(() => {
-            removePlaneGeometry();
-            createBluePlaneGeometry();
-            removeCurrentBeetleObject();
-            changeBeetleToBlackMarble();
-            changeLightIntensity('black');
-        }, 1000);
-
-    } else if (pageShown === 'aboutPage') {
-
-        setTimeout(() => {
-            removePlaneGeometry();
-            createBlackPlaneGeometry();
-            removeCurrentBeetleObject();
-            changeBeetleToWhiteMarble();
-            changeLightIntensity('veryLight');
-        }, 1500);
-
-    }
-}
-
 
 // FUNCTIONS THAT FOCUS ON CREATING THE MESHES THAT WE NEED 
 
