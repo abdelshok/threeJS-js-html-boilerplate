@@ -599,83 +599,34 @@ let objLoader = new THREE.OBJLoader(loadingManager);
 
 // ------------------------------------------------
 
+/**
+ * ThreeJS - Axes Helper 
+ * When scene.add(axesHelper) is commented in, the x, y, and z axis of the scene are visible in order to allow us to visualize
+ * the position of the 3D models within the scene better
+ * 
+ */
 
 // Create and set the different Axes #helper #toDelete
 let axesHelper = new THREE.AxisHelper(1000);
 // scene.add(axesHelper);
 
-/*
- * Initial Implemntation of the below function
- * We're commenting out the code below, which initially just ran uncontained and we put it in the createBlackMarbleBeetle function below
- */
-
-
-// let texture = textureLoader.load(RELATIVE_URL + 'blackMarble2.jpg' );
-// // immediately use the texture for material creation
-// // let material = new THREE.MeshPhongMaterial( { map: texture } );
-// // material.emissive('#4d2f78');
-// // console.log('Material has properties', material);
-// let material = new THREE.MeshPhongMaterial({ map: texture });
-
-// let objLoader = new THREE.OBJLoader(loadingManager);
-// // objLoader.setMaterials(materials);
-// objLoader.setPath(RELATIVE_URL);
-// objLoader.load('beetle.obj', function (object) {
-
-
-//     object.traverse(function(node) {
-//         if (node.isMesh) {
-//             node.material = material;
-//             // Output the different meshes that we found 
-//             // console.log('Encountered Mesh', node)
-//         }
-//     })
-
-//     beetleObject = object;
-//     beetleObject.position.y = 100;
-//     beetleObject.rotation.y = 158 * 0.02;
-//     // beetleObject.rotation.z = - (Math.PI / 6)
-//     beetleObject.position.z = 20;
-//     beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.15;
-//     beetleObject.name = 'beetle';
-//     scene.add(beetleObject);
-
-//     // Activate this in order to get it to change colors automatically
-//     // Will later on be set up so that the colors change depending on the actual buttons clicked
-//     // setTimeout(changeTexture, 5000)
-
-
-//     // Associate the light to the Beetle Object as a pivot point
-
-//     pivotPoint = new THREE.Object3D();
-//     beetleObject.add(pivotPoint);
-//     pivotPoint.add(light1);
-
-//     pivotPoint2 = new THREE.Object3D();
-//     beetleObject.add(pivotPoint2);
-//     pivotPoint2.add(spotLight);
-//     // console.log('Pivot point 2', pivotPoint2);
-
-//     // console.log('Pivot point one', pivotPoint)
-// });
-
-// });
-
+// ------------------------------------------------
 
 /*
- * createBlackMarbleBeetle
- * Function designed in order to create black marble beetle and set it on the screen  
+ * @createBlackMarbleBeetle
+ * Function designed in order to create the black marble beetle and set it into the scene
+ * 
  */
 
 const createBlackMarbleBeetle = () => {
     
     let material;
 
+    // Based on the imageFormat value we either choose the file with the nex gen image compression format (webp) or the JPG format
     let assetURL = imageFormat === 'webp' ? 'blackMarble2.webp' : 'blackMarble2.jpg';
 
     textureLoader.load(RELATIVE_URL + assetURL, (texture) => {
         material = new THREE.MeshPhongMaterial({ map: texture });
-        // objLoader.setMaterials(materials);
         objLoader.setPath(RELATIVE_URL);
         objLoader.load('beetle.obj', function (object) {
 
@@ -695,10 +646,10 @@ const createBlackMarbleBeetle = () => {
             blackMarbleBeetleObject.scale.x = blackMarbleBeetleObject.scale.y = blackMarbleBeetleObject.scale.z = 1.15;
             blackMarbleBeetleObject.name = 'beetle';
 
-            // Make invisible
+            // Make the model invisible in the scene
             blackMarbleBeetleObject.visible = true;
             
-            // We assign the object to the currentBeetleObject variable in order to be able to acces sit later on and change the visibility
+            // We assign the object to the currentBeetleObject variable in order to be able to acces it later on (in @requestAnimationFrame and change the visibility
             // back on when the width or height of the window changes sizes.
             currentBeetleObject = blackMarbleBeetleObject;
 
@@ -706,22 +657,20 @@ const createBlackMarbleBeetle = () => {
             scene.add(blackMarbleBeetleObject);
 
 
-
-            // Activate this in order to get it to change colors automatically
-            // Will later on be set up so that the colors change depending on the actual buttons clicked
-            // setTimeout(changeTexture, 5000)
+            // ------------- START ------------- //
 
             // Associate the light to the Beetle Object as a pivot point
 
-            // pivotPoint = new THREE.Object3D();
-            // blackMarbleBeetleObject.add(pivotPoint);
-            // pivotPoint.add(light1);
+            pivotPoint = new THREE.Object3D();
+            blackMarbleBeetleObject.add(pivotPoint);
+            pivotPoint.add(light1);
 
             // pivotPoint2 = new THREE.Object3D();
             // blackMarbleBeetleObject.add(pivotPoint2);
             // pivotPoint2.add(spotLight);
 
-            // beetleObject.visible = false;
+            // ------------- END ------------- //
+
         });
 
     });
@@ -1106,52 +1055,6 @@ const createParticleSystem = () => {
 // Update Particle System
 createParticleSystem();
 
-let textureCounter = 1;
-
-// Not used
-
-let changeTexture = () => {
-
-    // Remove object from Scene
-    let name = 'beetle'
-    let selectedObject = scene.getObjectByName(beetleObject.name);
-    scene.remove( selectedObject );
-    // animate();
- 
-
-    let material = new THREE.MeshNormalMaterial({wireframe: true});
-    // let objLoader = new THREE.OBJLoader();
-    // objLoader.setMaterials(materials);
-    objLoader.setPath(RELATIVE_URL);
-    objLoader.load('beetle.obj', function (object) {
-    
-        object.traverse(function(node) {
-            if (node.isMesh) {
-                node.material = material;
-                // console.log('Encountered Mesh', node)
-            }
-
-        })
-    
-        beetleObject = object;
-        beetleObject.position.y = 100;
-        beetleObject.rotation.y = 158 * 0.02;
-        beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.35;
-
-        scene.add(beetleObject);
-    });
-
-    if (textureCounter === 1) {
-        textureCounter = 2;
-        setTimeout(changeBeetleToGreyMarble, 5000);
-    } else if (textureCounter == 2) {
-        textureCounter = 3;
-        seTimeout(changeBeetleToWhiteMarble, 5000);
-    } else if (textureCounter == 3) {
-        textureCounter = 4;
-        seTimeout(changeBeetleToGreenMarble, 5000);
-    } 
-}
 
 // Black Marble Texture Change
 const changeBeetleToBlackMarble = () => {
@@ -1469,52 +1372,6 @@ const changeBeetleToBlueMarble = () => {
     
 }
 
-
-// Projects Michel Angelo's Creation of Adam's painting onto the Beetle
-// Not used - also wrong names for both the texture & the above description
-
-const changeBeetleToDarkGreenMarble = () => {
-
-    let texture = textureLoader.load( RELATIVE_URL + 'brownMarble.jpg' );
-    // immediately use the texture for material creation
-    let material = new THREE.MeshPhongMaterial( { map: texture } );
-    
-    // let objLoader = new THREE.OBJLoader();
-    // objLoader.setMaterials(materials);
-    objLoader.setPath(RELATIVE_URL);
-    objLoader.load('beetle.obj', function (object) {
-    
-        object.traverse(function(node) {
-            if (node.isMesh) {
-                node.material = material;
-                // console.log('Encountered Mesh', node)
-            }
-
-        })
-    
-        beetleObject = object;
-        beetleObject.name = 'beetle'
-        beetleObject.position.y = 100;
-        beetleObject.rotation.y = 158 * 0.02;
-        beetleObject.position.z = 20;
-        beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.15;
-
-        
-        scene.add(beetleObject);
-        // setTimeout(changeBeetleToGreenMarble, 5000);
-
-        // Associate the light to the pivot point once again
-        pivotPoint = new THREE.Object3D();
-        beetleObject.add(pivotPoint);
-        pivotPoint.add(light1);
-    
-        pivotPoint2 = new THREE.Object3D();
-        beetleObject.add(pivotPoint2);
-        pivotPoint2.add(spotLight);
-    });
-
-
-}
 
 // Application V.1: Initial call that loads the Beetle Geometry with the homepage's correct texture and ensures that it appears on the screen
 
@@ -3340,10 +3197,6 @@ const toggleGeneralPageTransition = (event) => {
             // Toggling on the DOM elements of the FAQ page
             toggleFAQPage('faqPage');
 
-            // App V.1 - Start
-            // toggleClientsPageMesh();
-            // App V.1 - End
-
             // App V.2 - Start
             setTimeout(() => {
                 changeMeshVisibility('faqPage');
@@ -4085,20 +3938,6 @@ const toggleContactPageMesh = () => {
 
 }
 
-const toggleClientsPageMesh = () => {
-
-    if (enableLogging === true) {
-        console.log('Toggling the Clients page Mesh');
-    }
-    
-    setTimeout(() => {
-        const beetleColor = 'black'
-        createGreyGoldPlaneGeometry();
-        changeBeetleToDarkGreenMarble();
-        changeLightIntensity(beetleColor)
-    }, 1000)
-
-}
 
 
 // Changes the page to the correct one
