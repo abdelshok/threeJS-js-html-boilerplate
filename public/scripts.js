@@ -614,7 +614,8 @@ let axesHelper = new THREE.AxisHelper(1000);
 
 /*
  * @createBlackMarbleBeetle
- * Function designed in order to create the black marble beetle and set it into the scene
+ * Function designed in order to create the black marble beetle shown in the Home Page against the ice blue background and set it into the scene
+ * Called in the @createInitialBeetleObjects function which is called as soon as the user lands on samarra.co
  * 
  */
 
@@ -661,9 +662,9 @@ const createBlackMarbleBeetle = () => {
 
             // Associate the light to the Beetle Object as a pivot point
 
-            pivotPoint = new THREE.Object3D();
-            blackMarbleBeetleObject.add(pivotPoint);
-            pivotPoint.add(light1);
+            // pivotPoint = new THREE.Object3D();
+            // blackMarbleBeetleObject.add(pivotPoint);
+            // pivotPoint.add(light1);
 
             // pivotPoint2 = new THREE.Object3D();
             // blackMarbleBeetleObject.add(pivotPoint2);
@@ -681,28 +682,58 @@ const createBlackMarbleBeetle = () => {
 
 // -------------------------------------------------------
 
-// Create Plane Geometry
+/*
+ * @ ThreeJS - Plane Geometries Section 
+ * This section declares the functions that call the different plane geometries that will be displayed across the different pages of the website
+ * Loading of the plane geometries is done in two steps.
+ * Step 1. The BlueRock texture & respective plane geometry is loaded as soon as the user loads the page through @createInitialPlaneGeometries
+ * Step 2. When the page loads and the loading bar terminates, the user is allowed to click on the page to enter the website. When the user does 
+ * so, the remaining functions (for the various black rock plane geometries / background) are loaded 
+ * These functions were divided into two steps in order to decrease the initial network load, decrease the blocking time, accelerate the time to 
+ * first paint, and therefore generally increase the performance of the website in terms of Google LightHouse
+ * 
+ */
 
-const createPlaneGeometry = () => {
+
+// 1. Home Page - Blue Rock Plane Geometry 
+
+const createBlueRockPlaneGeometry = () => {
+    
+    // Loads a new Plane Geometry with the inputted sizing
     planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
 
     let planeTexture;
     
+    // Depending on the imageFormat declared at the top, TextureLoader method will load in visually identical files with different image formatting.
+    // Current imageFormat is set to 'webp', which is a next generation image format developed by Google that averages 30% more compression than JPEG
+    // image files (and files of other formats such as PNG, which unlike JPG, but similar to WEBP, have an alpha channel which allows them to include
+    // transparency).
+
+    // In this case, webp has achieved from 10% to 90% more compression for the different images used as textures in the website. This led to reduction
+    // of about 10MB for initial page load, which is an enormous network payload.
     if (imageFormat === 'webp') {
         planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.webp');
     } else {
         planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blueRock.jpg');
     }
 
+    // Create Plane Material by loading the above texture
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
+
+    // Create the Mesh - it takes the geometry that we created and adds the material to it
     planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+
+    // We set the mesh within the ThreeJS scene
     planeMesh.position.set(0,-50,0);
+
+    // We rotate it slightly (90deg) across the x-axis in order for us to see it from above (the camera is higher on the Y-axis pointing down at the center
+    // of the scene, which has coordinates (0, 0, 0))
     planeMesh.rotation.x =  - (Math.PI / 2);
-    // planeMesh.visible = false;
 
     // Add Plane Mesh to the scene
     scene.add(planeMesh);
 }
+
 
 // 2. Black Rock Plane - About Page
 
@@ -763,19 +794,6 @@ const createBluePlaneGeometry = () => {
     scene.add(planeMesh);
 }
 
-// Not Used
-
-const createRockyTerrainGeometry = () => {
-    planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
-    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'rockyTerrain.jpg');
-    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
-    planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
-    planeMesh.position.set(0,-50,0);
-    planeMesh.rotation.x =  - (Math.PI / 2);
-    scene.add(planeMesh);
-}
-
-
 // 3. Black Rocky Terrain - Contact Page
 
 const createBlackRockGeometry = () => {
@@ -821,29 +839,6 @@ const createWhiteBlackPlaneGeometry = () => {
 }
 
 
-// Not used
-const createGreyGoldPlaneGeometry = () => {
-    planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
-    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'greyMarble5.jpg');
-    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
-    planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
-    planeMesh.position.set(0,-50,0);
-    planeMesh.rotation.x =  - (Math.PI / 2);
-    scene.add(planeMesh);
-}
-
-const createReversedBlackPlaneGeometry = () => {
-    // Black Plane that's displayed in the 'About' page
-    reversedPlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
-    planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRock.png');
-    planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
-    reversedPlaneMesh = new THREE.Mesh(reversedPlaneGeometry, planeMaterial);
-    reversedPlaneMesh.position.set(0,-48,0);
-    reversedPlaneMesh.rotation.x = (Math.PI / 2);
-
-    scene.add(reversedPlaneMesh);
-}
-
 // 5. Main Menu 
 // V.2
 
@@ -881,7 +876,7 @@ const removePlaneGeometry = () => {
 // Not used anymore
 // V.1 of the application --> We load the first plane geometry upon page loading and then load all the other planes one after the other when we decide to switch between pages
 
-// createPlaneGeometry();
+// createBlueRockPlaneGeometry();
 
 
 // Used now
@@ -893,7 +888,7 @@ const removePlaneGeometry = () => {
 const createInitialPlaneGeometries = () => {
 
     // Home Page Plane
-    createPlaneGeometry();
+    createBlueRockPlaneGeometry();
 
     // If progressive loading is not enabled then all of the resources need to be loaded at the very beginnign
 
