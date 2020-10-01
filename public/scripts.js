@@ -8,9 +8,6 @@ let beetleObject,
     light1, 
     clock;
 
-// Raycaster-related variables
-let raycaster, raycasterMouse;
-
 // Real Mouse position
 let realMouseX, realMouseY;
 
@@ -69,11 +66,12 @@ let initialPageLoadingBarFullyLoaded = false;
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'prod';
+let environment = 'dev';
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
-let enableLogging = false;
+let enableLogging = environment === 'dev' ? true : false;
 let imageFormat = 'webp';
 let enableProgressiveLoading = true;
+let firstBatchOfModelsLoaded = false;
 
 // Web Audio API-related Variables
 
@@ -160,7 +158,7 @@ const initializeMobileDetector = () => {
     let userAgent = detector.userAgent();
 
     if (enableLogging === true) {
-        console.log(`Detector initialized ${detector}`);
+        console.log(`Mobile & OS Detector initialized ${detector}`);
         console.log(`Mobile: ${isMobile}`);
         console.log(`User Agent is ${userAgent}`);
     }
@@ -194,9 +192,17 @@ const onCompleteLoading = () => {
     }
 
     let loadingPageElement = document.getElementById('loading-page');
-    loadingPageElement.classList.toggle('hiding');
+    loadingPageElement.classList.add('hiding');
 
-    let loadingPageText = document.getElementById('loadingPage--secondNormalText')
+    let loadingPageText = document.getElementById('loadingPage--normalText')
+    let loadingPageSecondText = document.getElementById('loadingPage--secondNormalText')
+
+    // Just added on Wed Sep 30 2020 as an attempt to fix the bug that shows 'Please turn on your volume' when user clicks on the 
+    // loading-page element to remove the whole loading page
+    // Doesn't seem to be working
+
+    // loadingPageText.classList.remove('shown');
+    // loadingPageSecondText.classList.remove('shown');
 
     // Hides the text that says 'Click Anywhere in order to Enter' which shows up within the page
     // if the user decreases the height of browser window
@@ -207,8 +213,9 @@ const onCompleteLoading = () => {
         }
 
         loadingPageText.classList.remove('shown');
+        loadingPageSecondText.classList.remove('shown');
         // document.getElementById('loading-page').classList.add('deleted');
-    }, 2000)
+    }, 0)
 
 }
 
@@ -267,21 +274,33 @@ loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
         console.log('User desktop', isUserDesktop);
     };
 
-    // Makes sure to start the loading bar animation as soon as the actual loading manager starts
-    // & only trigger the loading bar animation if the user is not using a mobile device
-    if (isUserDesktop === true) {
-        document.getElementById('loadingPage--whiteLoadingBar').classList.add('loading');
-    };
 
-    // Makes sure to also trigger the directions that tell the user to turn up their volume
+    // The variable firstBatchOfModelsLoaded is initially set to false. This allows the first text to show on the loading screen 'Please turn on your volume'
+    // When the user then triggers the @removeInitialLoadingPage function after the loading bar finished loading, all the other models are loaded, which triggers
+    // this function once again.
+    // If we didn't switch firstBatchOfModelsLoaded to true in @removeInitialLoadingPage, it would make the 'Please turn on your volume' text reappear unnecessarily
+    if (firstBatchOfModelsLoaded === false) {
+        // Makes sure to start the loading bar animation as soon as the actual loading manager starts
+        // & only trigger the loading bar animation if the user is not using a mobile device
+        if (isUserDesktop === true ) {
+            document.getElementById('loadingPage--whiteLoadingBar').classList.add('loading');
+        };
 
-    let loadingPageFirstText = document.getElementById('loadingPage--normalText');
+        // 'Please turn on your volume'
+        let loadingPageFirstText = document.getElementById('loadingPage--normalText');
 
-    if (isUserDesktop === false) {
-        loadingPageFirstText.innerHTML = 'Please use your desktop for the full experience.';
-    };
+        // If it is detected while all the items are loading that the user is using a mobile or tablet device then we quickly change the text of the element
+        // in order to notify the user that they should be using a desktop device.
+        if (isUserDesktop === false) {
+            loadingPageFirstText.innerHTML = 'Please use your desktop for the full experience.';
+        };
 
-    document.getElementById('loadingPage--normalText').classList.add('shown');
+        // When the loading of the beetle model and the plane geometry starts, we add this class in order for the 'Please turn on your volume' text to appear
+        // at the bottom of the loading page 
+
+        loadingPageFirstText.classList.add('shown');
+    }
+    
 
 }
 
@@ -329,23 +348,32 @@ loadingManager.onError = (url) => {
 
 }
 
-// Function that is triggered when the #loadingBar #animation ends, which triggers the loading page to be completely removed from the page
+// Function that is triggered when the #loadingBar #animation ends, which triggers the black loading page covering the screen to be completely removed from 
+// the page
 
 const showClickMessageToRemoveLoadingPage = () => {
 
-    // Only remove the first type of text & show the second command if user is using a desktop browser
+    // Only remove 'Please turn on your volume' & show the second command 'Click anywhere to enter' if the user is using a desktop browser
     if (isUserDesktop === true) {
-        document.getElementById('loadingPage--secondNormalText').classList.add('shown');
-        initialPageLoadingBarFullyLoaded = true;
 
+        if (enableLogging === true) {
+            console.log('Removing the loading page first text element & adding the second one');
+        }
+
+
+        // First
         // Moves & hides the text that tells the user to 'Turn on the volume'
         // Remove the delay too so that it actually disappears faster - if the delay of 2s, which is written in the CSS rules, stays, then the transition
         // delay takes way too much time to disappear. 
         document.getElementById('loadingPage--normalText').style.transitionDelay = '0s';
         document.getElementById('loadingPage--normalText').style.webkitTransitionDuration = '0.15s';
         document.getElementById('loadingPage--normalText').style.transitionDuration = '0.15s';
-
         document.getElementById('loadingPage--normalText').classList.remove('shown');
+
+        // Second
+        // Now that the 'Turn on your volume' text is removed, we show the 'Click Anywhere to Enter' element onto the screen 
+        document.getElementById('loadingPage--secondNormalText').classList.add('shown');
+        initialPageLoadingBarFullyLoaded = true;
         
     }
 
@@ -353,11 +381,27 @@ const showClickMessageToRemoveLoadingPage = () => {
 
 }
 
+
+/*
+ * Scripts that will run after all of the initial resources (Black Marble Texture, Beetle Model, Plane Geometry, BlueRock Texture) in the page are loaded
+ * - Acivated: when the user clicks on the loading page after the loading bar has finished loading 
+ * - Associated to: 'loading-page' element's click event listener
+ * - Side-effects:
+ * 
+ * 1. Remove the loading page
+ * 2. Remove the loading page text so that it doesn't appear if the user changes the size of the window vertically
+ * 3. Play the song through the Web Audio API
+ * 4. If progressive loading is activated, which it should be to reduce network payload, also load the remaining plane geometries, models, and textures
+ */
+
+
 // Function that removes the initial loading page after the user clicks on the 'Click to Enter' message displayed the first time a user
 // lands on the website
 // #loadingPage #removeLoadingPage
 
 const removeInitialLoadingPage = () => {
+
+    firstBatchOfModelsLoaded = true;
 
     // console.log('Removing initial loading page')
 
@@ -367,21 +411,37 @@ const removeInitialLoadingPage = () => {
         // that leads it to be translateY to the top
 
         if (loadingGraphicalSceneFinished === true)  {
+            
+            if (enableLogging === true) {
+                console.log('Loading graphical scene finished ', loadingGraphicalSceneFinished)
+            }
+
+            // Initiate the upwards animation that removes the loading page
             let loadingPageElement = document.getElementById('loading-page');
-            loadingPageElement.classList.toggle('hiding');
+            loadingPageElement.classList.add('hiding');
+
+            // Sets loadingPageAnimationFinished to true
             loadingPageAnimationFinished = true;
 
-            let loadingPageText = document.getElementById('loadingPage--secondNormalText')
+            // 'Click Anywhere to Enter' element shown on the initial loading page 
+            let loadingPageSecondText = document.getElementById('loadingPage--secondNormalText')
+            loadingPageSecondText.classList.remove('shown');
 
-            // Hide the text that says 'Click Anywhere in order to Enter' which shows up within the page
+            let loadingPageFirstText = document.getElementById('loadingPage--normalText');
+            loadingPageFirstText.classList.remove('shown');
+
+            // Hides the text that says 'Click Anywhere in order to Enter' which shows up within the page
             // if the user decreases the height of browser window
-            setTimeout(() => {
-                // console.log('Time out run after the page has complete loading');
-                loadingPageText.classList.remove('shown');
-                // document.getElementById('loading-page').classList.add('deleted');
-            }, 0);
+            // setTimeout(() => {
+            //     loadingPageSecondText.classList.remove('shown');
+            // }, 0);
 
         } else if (loadingGraphicalSceneFinished === false) {
+
+            if (enableLogging === true) {
+                console.log('Loading graphical scene finished ', loadingGraphicalSceneFinished)
+            }
+
             loadingPageAnimationFinished = true;
         }
 
@@ -401,9 +461,9 @@ const removeInitialLoadingPage = () => {
 
         // We also make sure to remove the text from the loading page that asks the user to turn on the volume
         // The page cannot be seen but if the user actually minimizes the window vertically, they can see the message show up
-        setTimeout(() => {
-            document.getElementById('loadingPage--generalText').classList.add('hiddenAgain');
-        }, 4000);
+        // setTimeout(() => {
+        //     document.getElementById('loadingPage--generalText').classList.add('hiddenAgain');
+        // }, 4000);
 
     }
 
@@ -6164,7 +6224,6 @@ const initializeEventListeners = () => {
 
 
     document.getElementById('loading-page').addEventListener('click', removeInitialLoadingPage);
-    // document.getElementById('cta--click--container').addEventListener('mouseenter', modifyNoisyCircle); // Not currently used
     document.getElementById('cta--click--container').addEventListener('click', goToAboutPageFromHome);
     document.getElementById('cta--click--container--two').addEventListener('click', goToClientPageFromAbout);
     document.getElementById('cta--click--container--two--about').addEventListener('click', goToHomeFromAbout);
@@ -6172,8 +6231,12 @@ const initializeEventListeners = () => {
     document.getElementById('cta--click--container--two--contact').addEventListener('click', goToClientFromContact);
     document.getElementById('cta--click--container--three').addEventListener('click', goToContactPageFromClient);
     document.getElementById('privacy--click--container').addEventListener('click', showLegalTermsPage);
+
+    // Unused
     // document.getElementById('loading-page').addEventListener('click', testClick);
-    // document.getElementById('loading-page').addEventListener('animationend', loadingPageEndTransitions)
+    // document.getElementById('loading-page').addEventListener('animationend', loadingPageEndTransitions);
+    // document.getElementById('cta--click--container').addEventListener('mouseenter', modifyNoisyCircle);
+
 
     // #touchEvents #touch #touchstart
     document.getElementById('loading-page').addEventListener('touchstart', removeInitialLoadingPage, {passive: true});
