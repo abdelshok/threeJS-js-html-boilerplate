@@ -587,80 +587,15 @@ renderer.setClearColor(scene.fog.color);
 
 /*
  * 
- * Cloud Plane & Background
+ * Three JS - Loaders
+ * Initialized for all the textures
  * 
  */
-
-let cloudParticles = [];
-let cloud;
-let lightning;
 
 // Loader for the Smoke that will represent the different clouds
 let textureLoader = new THREE.TextureLoader(loadingManager);
 // Loader for all the different objects in the scene
 let objLoader = new THREE.OBJLoader(loadingManager);
-
-// textureLoader.load(RELATIVE_URL + 'smoke.png', (texture) => {
-    // texture.wrapS = THREE.RepeatWrapping;
-    // texture.wrapT = THREE.RepeatWrapping;
-//     let cloudGeometry = new THREE.PlaneBufferGeometry(1500, 1500);
-//     let cloudMaterial = new THREE.MeshLambertMaterial({
-//         map: texture,
-//         transparent: true,
-//     })
-//     let cloudMaterialTwo = new THREE.MeshBasicMaterial({
-//         color: 0x0000ff, 
-//         wireframe: true
-//     })
-
-//     for (let p=0; p<3; p++) {
-//         cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
-//         cloud.position.set(
-//            0,
-//             -50,
-//             0,
-//         );
-//         cloud.rotation.x = - (Math.PI / 2);
-//         // cloud.rotation.y = -0.12
-//         cloud.rotation.z = -0.12;
-//         cloud.material.opacity = 0.6;
-//         cloudParticles.push(cloud);
-//         // Clouds currently not working so we will actually hide them from the scene for now
-//         // scene.add(cloud);
-
-
-//     }
-// })
-
-// Function that animates the Cloud Plane Geometry
-
-const animateCloud = () => {
-    cloud.rotation.z += 0.002;
-}
-
-const createLightForCloud = () => {
-    lightning = new THREE.PointLight(0x062d89, 100, 400 ,1.7);
-    lightning.position.set(0,-200,0);
-    let sphereSize = 10;
-    let pointLightHelper= new THREE.PointLightHelper(lightning, sphereSize);
-    scene.add(lightning);
-    scene.add(pointLightHelper)
-}
-
-
-// createLightForCloud();
-
-const animateLightning = () => {
-    if(Math.random() > 0.93 || lightning.power > 100) {
-        if(lightning.power < 100) 
-          lightning.position.set(
-            Math.random()*400,
-            -200,
-            Math.random()*400,
-          );
-        lightning.power = 50 + Math.random() * 500;
-      }
-}
 
 // ------------------------------------------------
 
@@ -1176,28 +1111,6 @@ const createParticleSystem = () => {
 }
 
 // Update Particle System
-
-
-// Animation loop for particles
-
-const createSmokeSystem = () => {
-    let smokeTexture = new THREE.TextureLoader().load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/95637/Smoke-Element.png');
-    let smokeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: smokeTexture, transparent: true});
-    let smokeGeo = new THREE.PlaneGeometry(300,300);
-    let smokeParticles = [];
-
-
-    for (p = 0; p < 150; p++) {
-        var particle = new THREE.Mesh(smokeGeo,smokeMaterial);
-        particle.position.set(Math.random()*500-250,Math.random()*500-250,Math.random()*1000-100);
-        particle.rotation.z = Math.random() * 360;
-        scene.add(particle);
-        smokeParticles.push(particle);
-    }
-}
-
-// createSmokeSystem()
-
 createParticleSystem();
 
 let textureCounter = 1;
@@ -6336,8 +6249,6 @@ let animate = function () {
     // }
 
     // Cloud Animation
-    // animateCloud();
-    // animateLightning();
 
     // Updates Lines
     // #lines
