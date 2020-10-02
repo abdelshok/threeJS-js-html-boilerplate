@@ -22,13 +22,7 @@ let whiteBeetleObject;
 // Plane Geometries - We're declaring them as global variables so that they can be accessible across different functions - may constitute a memory leak in the JS heap 
 // Will look into that later #optimization
 
-let blackRockPlaneGeometry;
-let darkGreenPlaneGeometry;
-let blackRockPlaneGeometryTwo;
-let XPlaneGeometry;
-let reversedPlaneGeometry;
-let blackWavePlaneGeometry;
-
+let blueRockPlaneMesh;
 let blackRockPlaneMesh;
 let darkGreenPlaneMesh;
 let blackRockPlaneMeshTwo;
@@ -99,8 +93,6 @@ let formShowing = false;
 // let lightIntensityDivider = 20;
 // let lightIntensityDivider = 8; // Not enough anymore for Erik Satie
 let lightIntensityDivider = 7; // Better for Erik Satie
-
-let planeGeometry, planeTexture, planeMaterial, planeMesh;
 
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
@@ -698,12 +690,12 @@ const createBlackMarbleBeetle = () => {
 // 1. Home Page - Blue Rock Plane Geometry 
 
 const createBlueRockPlaneGeometry = () => {
-    
+
+    let planeTexture, planeMaterial, planeGeometry;
+
     // Loads a new Plane Geometry with the inputted sizing
     planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
 
-    let planeTexture;
-    
     // Depending on the imageFormat declared at the top, TextureLoader method will load in visually identical files with different image formatting.
     // Current imageFormat is set to 'webp', which is a next generation image format developed by Google that averages 30% more compression than JPEG
     // image files (and files of other formats such as PNG, which unlike JPG, but similar to WEBP, have an alpha channel which allows them to include
@@ -721,28 +713,30 @@ const createBlueRockPlaneGeometry = () => {
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
 
     // Create the Mesh - it takes the geometry that we created and adds the material to it
-    planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+    blueRockPlaneMesh = new THREE.Mesh(planeGeometry, planeMaterial);
 
     // We set the mesh within the ThreeJS scene
-    planeMesh.position.set(0,-50,0);
+    blueRockPlaneMesh.position.set(0,-50,0);
 
     // We rotate it slightly (90deg) across the x-axis in order for us to see it from above (the camera is higher on the Y-axis pointing down at the center
     // of the scene, which has coordinates (0, 0, 0))
-    planeMesh.rotation.x =  - (Math.PI / 2);
+    blueRockPlaneMesh.rotation.x =  - (Math.PI / 2);
 
     // Add Plane Mesh to the scene
-    scene.add(planeMesh);
+    scene.add(blueRockPlaneMesh);
 }
 
 
 // 2. About Page - Slightly Rugged Black Rock Plane 
-// Won't be commenting these planeGeometry functions below as they behave similarly as the main one @createBlueRockPlaneGeometry
+// Won't be commenting these plane geometry functions below as they behave similarly as the main one @createBlueRockPlaneGeometry
 
 const createBlackPlaneGeometry = () => {
-    // Black Plane that's displayed in the 'About' page
-    blackRockPlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
 
-    let planeTexture;
+    let planeTexture, planeMaterial, planeGeometry;
+
+    // Black Plane that's displayed in the 'About' page
+    planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
+
 
     if (imageFormat === 'webp') {
         planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRockAbout.webp');
@@ -751,7 +745,7 @@ const createBlackPlaneGeometry = () => {
     }
 
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
-    blackRockPlaneMesh = new THREE.Mesh(blackRockPlaneGeometry, planeMaterial);
+    blackRockPlaneMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     blackRockPlaneMesh.position.set(0,-160,0);
     blackRockPlaneMesh.rotation.x =  - (Math.PI / 2);
 
@@ -763,10 +757,9 @@ const createBlackPlaneGeometry = () => {
 
 const createBlackRockGeometry = () => {
 
-    // There are two black rock planes used in this application: blackRockPlaneGeometry & blackRockPlaneGeometryTwo.
-    blackRockPlaneGeometryTwo = new THREE.PlaneGeometry(2000, 2000, 2000);
+    let planeTexture, planeMaterial, planeGeometry;
 
-    let planeTexture;
+    planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
     
     if (imageFormat === 'webp') {
         planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackRockContact.webp');
@@ -775,7 +768,7 @@ const createBlackRockGeometry = () => {
     }
     
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
-    blackRockPlaneMeshTwo = new THREE.Mesh(blackRockPlaneGeometryTwo, planeMaterial);
+    blackRockPlaneMeshTwo = new THREE.Mesh(planeGeometry, planeMaterial);
     blackRockPlaneMeshTwo.position.set(0,-250,0);
     blackRockPlaneMeshTwo.rotation.x =  - (Math.PI / 2);
     scene.add(blackRockPlaneMeshTwo);
@@ -785,9 +778,9 @@ const createBlackRockGeometry = () => {
 
 const createWhiteBlackPlaneGeometry = () => {
 
-    XPlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
+    let planeTexture, planeMaterial, planeGeometry;
 
-    let planeTexture;
+    planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
     
     if (imageFormat === 'webp') {
         planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackWhiteRock.webp');
@@ -796,7 +789,7 @@ const createWhiteBlackPlaneGeometry = () => {
     }
 
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
-    xPlaneMesh = new THREE.Mesh(XPlaneGeometry, planeMaterial);
+    xPlaneMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     xPlaneMesh.position.set(0,-280,0);
     xPlaneMesh.rotation.x =  - (Math.PI / 2);
     scene.add(xPlaneMesh);
@@ -807,8 +800,10 @@ const createWhiteBlackPlaneGeometry = () => {
 // 5. Main Menu - Black Wave Image
 
 const createBlackWavePlaneGeometry = () => {
-    blackWavePlaneGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
-    let planeTexture;
+
+    let planeTexture, planeMaterial, planeGeometry;
+
+    planeGeometry = new THREE.PlaneGeometry(2000, 2000, 2000);
     
     if (imageFormat === 'webp') {
         planeTexture = new THREE.TextureLoader().load(RELATIVE_URL + 'blackWaves.webp');
@@ -817,7 +812,7 @@ const createBlackWavePlaneGeometry = () => {
     }
 
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
-    blackWavePlaneMesh = new THREE.Mesh(blackWavePlaneGeometry, planeMaterial);
+    blackWavePlaneMesh = new THREE.Mesh(planeGeometry, planeMaterial);
     blackWavePlaneMesh.position.set(0,-50,0);
     blackWavePlaneMesh.rotation.x =  - (Math.PI / 2);
     scene.add(blackWavePlaneMesh);
@@ -851,7 +846,7 @@ const createInitialPlaneGeometries = () => {
 
 
     // Home Page
-    planeMesh.visible = true;
+    blueRockPlaneMesh.visible = true;
 
     if (enableProgressiveLoading === false) {
         // Main Menu Page
@@ -872,7 +867,7 @@ const createInitialPlaneGeometries = () => {
 
 const loadRemainingPlaneGeometries = () => {
 
-    // Will load all of the plane geometries, except the planeMesh (BlueRock) which is loaded as soon as the website is loaded 
+    // Will load all of the plane geometries, except the blueRockPlaneMesh (BlueRock) which is loaded as soon as the website is loaded 
 
     // About Page Plane
     createBlackPlaneGeometry();
@@ -1019,10 +1014,9 @@ createParticleSystem();
  */
 
 
-// White Marble Texture Change
-// Used in About Page
+// @createWhiteMarbleBeetle - Creates White Marble Beetle model used in the Main Menu page
 
-const changeBeetleToWhiteMarble = () => {
+const createWhiteMarbleBeetle = () => {
 
     let material;
 
@@ -1308,7 +1302,7 @@ const createInitialBeetleObjects = async () => {
         // Main Menu Page Beetle
         changeBeetleToGreyMarble();
         // About Page Beetle
-        changeBeetleToWhiteMarble();
+        createWhiteMarbleBeetle();
         // Contact Page Beetle
         changeBeetleToBlueMarble();
         // Client Page Beetle 
@@ -1333,7 +1327,7 @@ const loadRemainingBeetleModels = async () => {
     // The Home Page Beetle Model is called at the very beginning of the page load so isn't included in this function
 
     // Main Menu Page Beetle
-    changeBeetleToWhiteMarble();
+    createWhiteMarbleBeetle();
     // Contact Page Beetle
     changeBeetleToBlueMarble();
     // Client Page Beetle
@@ -1381,7 +1375,7 @@ const connectPivotToBeetle = () => {
 }
 
 // De-activate this so that it doesn't switch it to black directly
-// setTimeout(changeBeetleToWhiteMarble, 10000);
+// setTimeout(createWhiteMarbleBeetle, 10000);
 
 // Detect different actions
 
@@ -2501,7 +2495,7 @@ const changeMeshVisibility = (currentPage) => {
         currentBeetleObject = blackMarbleBeetleObject;
 
         // Make correct plane visible
-        planeMesh.visible = true;
+        blueRockPlaneMesh.visible = true;
 
         // Don't forget to change the light intensity
 
@@ -2538,12 +2532,12 @@ const changeMeshVisibility = (currentPage) => {
         // // Ensure that the incorrect planes are invisible too
         // blackRockPlaneMesh.visible = false;
         // blackRockPlaneMeshTwo.visible = false;
-        // planeMesh.visible = false;
+        // blueRockPlaneMesh.visible = false;
         // xPlaneMesh.visible = false;
 
         // // console.log('BLACK PLANE MESH', blackRockPlaneMesh);
         // // console.log('BLACK PLANE MESH 2', blackRockPlaneMeshTwo);
-        // // console.log('PLANE MESH', planeMesh);
+        // // console.log('PLANE MESH', blueRockPlaneMesh);
 
         // // Make correct beetle meshe visible
         // // blueMarbleBeetleObject.visible = true;
@@ -2561,7 +2555,7 @@ const changeMeshVisibility = (currentPage) => {
 
         // Ensure that the incorrect planes are invisible too
         blackRockPlaneMeshTwo.visible = false;
-        planeMesh.visible = false;
+        blueRockPlaneMesh.visible = false;
         blackRockPlaneMesh.visible = false;
         xPlaneMesh.visible = false;
 
@@ -2603,7 +2597,7 @@ const changeMeshVisibility = (currentPage) => {
 
         // // Ensure that the incorrect planes are invisible too
         // blackRockPlaneMeshTwo.visible = false;
-        // planeMesh.visible = false;
+        // blueRockPlaneMesh.visible = false;
         // darkGreenPlaneMesh.visible = false;
         // xPlaneMesh.visible = false;
 
@@ -2636,7 +2630,7 @@ const changeMeshVisibility = (currentPage) => {
 
         // Ensure that the incorrect planes are invisible too
         blackRockPlaneMeshTwo.visible = false;
-        planeMesh.visible = false; // Ice Mesh from Hoe Page
+        blueRockPlaneMesh.visible = false; // Ice Mesh from Hoe Page
         xPlaneMesh.visible = false;
         blackWavePlaneMesh.visible = false;
 
@@ -2646,7 +2640,7 @@ const changeMeshVisibility = (currentPage) => {
 
         // console.log('BLACK PLANE MESH', blackRockPlaneMesh);
         // console.log('BLACK PLANE MESH 2', blackRockPlaneMeshTwo);
-        // console.log('PLANE MESH', planeMesh);
+        // console.log('PLANE MESH', blueRockPlaneMesh);
 
         // Make correct beetle meshe visible
         // blueMarbleBeetleObject.visible = true;
@@ -2677,12 +2671,12 @@ const changeMeshVisibility = (currentPage) => {
 
         // Ensure that the incorrect planes are invisible too
         blackRockPlaneMesh.visible = false;
-        planeMesh.visible = false;
+        blueRockPlaneMesh.visible = false;
         blackWavePlaneMesh.visible = false;
         xPlaneMesh.visible = false;
         // blackRockPlaneMeshTwo.visible = false;
 
-        // console.log('PLANE MESH', planeMesh);
+        // console.log('PLANE MESH', blueRockPlaneMesh);
         // console.log('BLACK PLANE', blackRockPlaneMesh);
         // console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
 
@@ -2695,7 +2689,7 @@ const changeMeshVisibility = (currentPage) => {
 
         // Make correct plane visible
         blackRockPlaneMeshTwo.visible = true;
-        // planeMesh.visible = true;
+        // blueRockPlaneMesh.visible = true;
 
         // Don't forget to change the light intensity
         beetleColor = 'lightBlue';
@@ -2714,7 +2708,7 @@ const changeMeshVisibility = (currentPage) => {
         blackRockPlaneMesh.visible = false;
         blackWavePlaneMesh.visible = false;
         blackRockPlaneMeshTwo.visible = false;
-        planeMesh.visible = false;
+        blueRockPlaneMesh.visible = false;
 
         // Make correct beetle meshe visible
         redPinkMarbleBeetleObject.visible = true;
@@ -3658,7 +3652,7 @@ const toggleAboutPageMesh = () => {
     setTimeout(() => {
         const beetleColor = 'white';
         createBlackPlaneGeometry();
-        changeBeetleToWhiteMarble();
+        createWhiteMarbleBeetle();
         changeLightIntensity(beetleColor)
     }, 1000)
 
