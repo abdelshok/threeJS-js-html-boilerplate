@@ -899,6 +899,14 @@ const loadRemainingPlaneGeometries = () => {
 
 createInitialPlaneGeometries();
 
+// -----------------------------------------------------
+
+/**
+ * 
+ * ThreeJS - Particle System Related Code
+ * What are fucking particles? The white dots that are moving across the scene to give the impression that it is underwater
+ * 
+ */
 
 // Create particle system
 
@@ -993,53 +1001,22 @@ const createParticleSystem = () => {
     scene.add(particlesMesh);
 }
 
-// Update Particle System
+// Create the particle system and render it into the scene
 createParticleSystem();
 
+// -----------------------------------------------------
 
-// Black Marble Texture Change
-const changeBeetleToBlackMarble = () => {
-
-    let assetURL = imageFormat === 'webp' ? 'blackMarble2.webp' : 'blackMarble2.jpg';
-
-    let texture = textureLoader.load(RELATIVE_URL + assetURL );
-    // immediately use the texture for material creation
-    let material = new THREE.MeshPhongMaterial( { map: texture } );
-    
-    // let objLoader = new THREE.OBJLoader();
-    // objLoader.setMaterials(materials);
-    objLoader.setPath(RELATIVE_URL);
-    objLoader.load('beetle.obj', function (object) {
-    
-        object.traverse(function(node) {
-            if (node.isMesh) {
-                node.material = material;
-                // console.log('Encountered Mesh', node)
-            }
-
-        })
-    
-        beetleObject = object;
-        beetleObject.name = 'beetle'
-        beetleObject.position.y = 100;
-        beetleObject.rotation.y = 158 * 0.02;
-        beetleObject.position.z = 20;
-        beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.15;
-
-        
-        scene.add(beetleObject);
-        // setTimeout(changeBeetleToGreenMarble, 5000);
-
-        // Associate the light to the pivot point once again
-        pivotPoint = new THREE.Object3D();
-        beetleObject.add(pivotPoint);
-        pivotPoint.add(light1);
-    
-        pivotPoint2 = new THREE.Object3D();
-        beetleObject.add(pivotPoint2);
-        pivotPoint2.add(spotLight);
-    });
-}
+/*
+ * @ ThreeJS - Beetle Models Section 
+ * This section declares the functions that call the different beetle objects that will be displayed across the different pages of the website
+ * Loading of the beetle objects is done in two steps.
+ * Step 1. The Black Marble texture & beetle model is loaded as soon as the user loads the page through @createInitialBeetleObjects
+ * Step 2. When the page loads and the loading bar terminates, the user is allowed to click on the page to enter the website. When the user does 
+ * so, the remaining functions (for the various beetles) are loaded 
+ * These functions were divided into two steps in order to decrease the initial network load, decrease the blocking time, accelerate the time to 
+ * first paint, and therefore generally increase the performance of the website in terms of Google LightHouse
+ * 
+ */
 
 
 // White Marble Texture Change
@@ -1501,62 +1478,6 @@ const onActualMouseMove = (event) => {
 }
 
 
-// #toBeDeleted
-const onMouseDown = () => {
-
-    // console.log('Audio context state general', audioContext.state);
-
-    // if (audioContext.state === 'running') {
-    //     console.log('Audio Context is running');
-    //     audioContext.suspend().then(() => {
-    //         console.log('It is now paused')
-    //     })
-    // } else if (audioContext.state === 'suspended') {
-    //     console.log('Audio Context state is suspended');
-    //     audioContext.resume().then(() => {
-    //         console.log(`Music is playing now`);
-    //     })
-        
-    // }
-
-    // Comment this out to prevent the Marble texture to change and from the different wireframes to show
-
-    // if (isBeetleWireframe === false) {
-    //     console.log('On Document Mouse move Two called')
-    //     isBeetleWireframe = true;
-    //     removeCurrentBeetleObject();
-    
-    //     let material = new THREE.MeshNormalMaterial({wireframe: true});
-    //     let objLoader = new THREE.OBJLoader();
-    //     // objLoader.setMaterials(materials);
-    //     objLoader.setPath(RELATIVE_URL);
-    //     objLoader.load('beetle.obj', function (object) {
-        
-    //         object.traverse(function(node) {
-    //             if (node.isMesh) {
-    //                 node.material = material;
-    //                 console.log('Encountered Mesh', node)
-    //             }
-    
-    //         })
-        
-    //         beetleObject = object;
-    //         beetleObject.name = 'beetle'
-    //         beetleObject.position.y = 100;
-    //         beetleObject.rotation.y = 158 * 0.02;
-    //         beetleObject.scale.x = beetleObject.scale.y = beetleObject.scale.z = 1.35;
-
-    //         scene.add(beetleObject);
-    //     });
-    //     isBeetleWireframe = false;
-    //     setTimeout(() => {
-    //         changeBeetleToBlackMarble();
-    //     }, 3000)
-    // }
-    
-
-}
-
 const removeCurrentBeetleObject = () => {
     // let name = 'beetle'
     // let selectedObject = scene.getObjectByName(beetleObject.name);
@@ -1569,8 +1490,6 @@ const removeCurrentBeetleObject = () => {
 
 // Event Listeners for the page
 
-// Mouse down triggers the beetle's wireframe to show instead of the texture
-document.addEventListener('mousedown', onMouseDown, false );
 // Mouse move used here in order to track the mouse position within the page
 document.addEventListener('mousemove', onDocumentMouseMove,  {passive: true} );
 document.addEventListener('mousemove', onActualMouseMove,  {passive: true} );
