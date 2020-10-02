@@ -903,7 +903,8 @@ createInitialPlaneGeometries();
  * 
  */
 
-// Create particle system
+
+// @createParticleSystem - Honestly, will do as the name suggests, create a fucking particle system.
 
 const createParticleSystem = () => {
     numParticles = 1000;
@@ -988,10 +989,6 @@ const createParticleSystem = () => {
     particlesMesh.position.y = - 100 / 2;
     // particlesMesh.position.x = 0;
 
-
-    // console.log('particlesMesh is ', particlesMesh)
-    // particlesMesh.sortParticles = true;
-    // particlesMesh.scale.x = particlesMesh.scale.y = particlesMesh.scale.z = 0.01;
 
     scene.add(particlesMesh);
 }
@@ -2165,24 +2162,6 @@ const createLineTwo = (particleOne, particleTwo) => {
 
 }
 
-const updateLines = () => {
-    // lineGroup.matrixAutoUpdate = true;
-    // lineGroup.geometry.verticesNeedUpdate = true;
-
-    let lineArrayLength = lineArray.length;
-
-    if (enableLogging === true) {
-        console.log('Line array length', lineArrayLength);
-    }
-
-    for (let i=0; i<lineArray.length; i++) {
-        let currentLine = lineArray[i];
-        // console.log('Update line', currentLine);
-        lineGroup.verticesNeedUpdate = true;
-        // console.log('Current line geometry', currentLine);
-        currentLine.geometry.verticesNeedUpdate = true;
-    }
-}
 
 // Checks whether there is already a line connection between the two vertices that we pass into it: particle & comparedParticle
 
@@ -5811,16 +5790,11 @@ let animate = function () {
         particlesMesh.position.z = 160;
     }
 
+    // Special Effect 2 - Particles & Music Related
     // Second one here --> Particles get re-assigned when the domain reaches a different level
     // if (averageDomain > 160 ) {
     //     particlesMesh.position.z += 5;
     // }
-
-    // Cloud Animation
-
-    // Updates Lines
-    // #lines
-    // updateLines();
 
     // Window Width & Height tracker in order to remove the beetle when the window is too small
     // console.log('Dynamic window height', dynamicWindowHeight);
@@ -5906,7 +5880,6 @@ let animate = function () {
         // and @createBlackMarbleBeetle is so that when the window increases back in size, we automatically show the beetle with the correct texture
 
         // The second condition here, which ensures that the pageShown is not the 'aboutPage', makes it that the beetle is never shown if the user is on the aboutPage
-        // console.log('Current Beetle Color is', beetleColor);
 
         if (currentBeetleObject !== undefined && pageShown !== 'aboutPage' && pageShown !== 'legalPage') {
 
@@ -5917,10 +5890,9 @@ let animate = function () {
         }
     }
 
-    // Make sure to update cursor
-    updateCursor();
-
-    // Update the light angle when the music is off 
+    // Special Effect - Music Related
+    // I experimented with effects that would take place when the music pauses within the page - might be included later on
+    // Example - Update the light angle when the music is off 
 
     if (musicPlaying === false) {
         // console.log('Music is not playing anymore');
@@ -5954,14 +5926,17 @@ let animate = function () {
         particlesMesh.position.z += (mouseY + particlesMesh.position.y) * 0.1;
     }
 
-    // About Page - Related Effect
-    // For now, the plane will only slightly rotate from left to right
 
+    // Special Effect - Related to the About Page
+    // For now, the mesh on the About Page will only slightly rotate from left to right across the Y axis when the user's mouse horizontally across the screen
     if (pageShown === 'aboutPage') {
 
         blackRockPlaneMesh.rotation.y = mouseX / 100; // Previously 120 & 160
 
     }
+
+    // Make sure to update cursor
+    updateCursor();
 
     // Update Controls
     controls.update();
@@ -5971,6 +5946,7 @@ let animate = function () {
         stats.update();
     }
     
+    // Clear Renderer & re-render to scnee
     renderer.clear();
     renderer.render(scene, camera);
 
