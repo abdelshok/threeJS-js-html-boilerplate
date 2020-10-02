@@ -64,13 +64,32 @@ let initialPageLoadingBarFullyLoaded = false;
 // Depending on which one we're in, the relative path to the different files will differ
 
 let environment = 'dev';
-let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
 let enableLogging = environment === 'dev' ? true : false;
+
+// Function retrieves the CSS-defined variable --transition--speed which represents the speed of the transition triggered
+// in order to navigate between the different pages of the website.
+// Not pure
+const getSpeedOfTransitionAnimation = () => {
+
+    let speed = getComputedStyle(document.documentElement).getPropertyValue('--transition--speed');
+    let speedInMilliseconds = parseFloat(speed.split('s')[0].trim()) * 1000;
+
+    if (enableLogging === true) {
+        // console.log(`Speed detected in the CSS :root is ${speed}`);
+        console.log('Speed detected in the CSS :root is', speedInMilliseconds);
+    }
+
+    return speedInMilliseconds
+
+}
+
+let speedInMilliseconds = getSpeedOfTransitionAnimation();
+let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
 let imageFormat = 'webp';
 let enableProgressiveLoading = true;
 let firstBatchOfModelsLoaded = false;
 let LOADING_PAGE_REMOVED = false;
-let pageTransitionSpeed = 'slow'; // Constants that controls the delay at which meshes' visibility gets changed
+let pageTransitionSpeed = speedInMilliseconds === 2000 ? 'slow' : 'fast'; // Constants that controls the delay at which meshes' visibility gets changed
 let PAGE_TRANSITION_SHORT_DELAY = 200;
 let PAGE_TRANSITION_LONG_DELAY = pageTransitionSpeed === 'fast' ? 700 : 1700; 
 let MESH_VISIBILITY_DELAY = pageTransitionSpeed === 'fast' ? 500 : 1100;
@@ -2460,6 +2479,7 @@ const toggleGeneralPageTransition = (event) => {
     if (MENU_BASED_ANIMATION_STARTED === false) {
 
         MENU_BASED_ANIMATION_STARTED = true;
+        ANIMATION_STARTED = true;
 
 
         // In this function, we're going to take in account the current page that is being shown and use that
@@ -3821,7 +3841,7 @@ const toggleTextColor = (event) => {
 
     // console.log('Page transition text & cursor changes initiated')
 
-    ANIMATION_STARTED = true;
+    // ANIMATION_STARTED = true;
     pageTransitionPlaying = true;
     
 
@@ -5067,7 +5087,10 @@ const initializeEventListeners = () => {
     document.getElementById('hamburger').addEventListener('touchstart', toggleMenuAnimation,  {passive: true});
     document.getElementById('closeButton').addEventListener('touchstart', toggleMenuAnimation,  {passive: true});
 
-    document.getElementById('reveal--layer').addEventListener("animationstart", toggleTextColor);
+    if (pageTransitionSpeed === 'slow') {
+        document.getElementById('reveal--layer').addEventListener("animationstart", toggleTextColor);
+    }
+    
     document.getElementById('reveal--layer').addEventListener("animationend", toggleClassOnAnimation);
 
     document.getElementById('menuElementOne').addEventListener('click', toggleGeneralPageTransition);
@@ -5203,7 +5226,7 @@ const initializeEventListeners = () => {
     document.getElementById('languageOne').addEventListener('mouseleave', userNotHoverOverFrench);
 
     // Scroll related
-    window.addEventListener('wheel', detectUserScroll);
+    // window.addEventListener('wheel', detectUserScroll);
 
 }
 
