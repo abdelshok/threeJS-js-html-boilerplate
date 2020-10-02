@@ -26,7 +26,7 @@ let blueRockPlaneMesh;
 let blackRockPlaneMesh;
 let darkGreenPlaneMesh;
 let blackRockPlaneMeshTwo;
-let xPlaneMesh;
+let whiteBlackPlaneMesh;
 let reversedPlaneMesh;
 let blackWavePlaneMesh;
 
@@ -789,10 +789,10 @@ const createWhiteBlackPlaneGeometry = () => {
     }
 
     planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff, map: planeTexture, transparent: false});
-    xPlaneMesh = new THREE.Mesh(planeGeometry, planeMaterial);
-    xPlaneMesh.position.set(0,-280,0);
-    xPlaneMesh.rotation.x =  - (Math.PI / 2);
-    scene.add(xPlaneMesh);
+    whiteBlackPlaneMesh = new THREE.Mesh(planeGeometry, planeMaterial);
+    whiteBlackPlaneMesh.position.set(0,-280,0);
+    whiteBlackPlaneMesh.rotation.x =  - (Math.PI / 2);
+    scene.add(whiteBlackPlaneMesh);
 
 }
 
@@ -854,7 +854,7 @@ const createInitialPlaneGeometries = () => {
         // Contact Page
         blackRockPlaneMeshTwo.visible = false;
         // Client / FAQ Page
-        xPlaneMesh.visible = false;
+        whiteBlackPlaneMesh.visible = false;
         // About Page
         blackRockPlaneMesh.visible = false;
     }
@@ -884,7 +884,7 @@ const loadRemainingPlaneGeometries = () => {
     // Contact Page
     blackRockPlaneMeshTwo.visible = false;
     // Client / FAQ Page
-    xPlaneMesh.visible = false;
+    whiteBlackPlaneMesh.visible = false;
     // About Page
     blackRockPlaneMesh.visible = false;
 
@@ -2393,7 +2393,7 @@ const changeMeshVisibility = (currentPage) => {
         blackRockPlaneMesh.visible = false;
         blackWavePlaneMesh.visible = false;
         blackRockPlaneMeshTwo.visible = false;
-        xPlaneMesh.visible = false;
+        whiteBlackPlaneMesh.visible = false;
 
         // Make correct beetle meshe visible
         blackMarbleBeetleObject.visible = true;
@@ -2441,7 +2441,7 @@ const changeMeshVisibility = (currentPage) => {
         // blackRockPlaneMesh.visible = false;
         // blackRockPlaneMeshTwo.visible = false;
         // blueRockPlaneMesh.visible = false;
-        // xPlaneMesh.visible = false;
+        // whiteBlackPlaneMesh.visible = false;
 
         // // console.log('BLACK PLANE MESH', blackRockPlaneMesh);
         // // console.log('BLACK PLANE MESH 2', blackRockPlaneMeshTwo);
@@ -2465,7 +2465,7 @@ const changeMeshVisibility = (currentPage) => {
         blackRockPlaneMeshTwo.visible = false;
         blueRockPlaneMesh.visible = false;
         blackRockPlaneMesh.visible = false;
-        xPlaneMesh.visible = false;
+        whiteBlackPlaneMesh.visible = false;
 
         // console.log('LOGGING IN MESH VISIBILITY SECOND LAYER FOR TESTING');
         // console.log('BLACK PLANE MESH TWO', blackRockPlaneMeshTwo);
@@ -2507,12 +2507,7 @@ const changeMeshVisibility = (currentPage) => {
         // blackRockPlaneMeshTwo.visible = false;
         // blueRockPlaneMesh.visible = false;
         // darkGreenPlaneMesh.visible = false;
-        // xPlaneMesh.visible = false;
-
-        // // console.log('LOGGING IN MESH VISIBILITY SECOND LAYER FOR TESTING');
-        // // console.log('BLACK PLANE MESH TWO', blackRockPlaneMeshTwo);
-        // // console.log('BLACK PLANE MESH', blackRockPlaneMesh);
-        // // console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
+        // whiteBlackPlaneMesh.visible = false;
 
         // // Make correct beetle meshe visible
         // whiteMarbleBeetleObject.visible = true;
@@ -2539,21 +2534,14 @@ const changeMeshVisibility = (currentPage) => {
         // Ensure that the incorrect planes are invisible too
         blackRockPlaneMeshTwo.visible = false;
         blueRockPlaneMesh.visible = false; // Ice Mesh from Hoe Page
-        xPlaneMesh.visible = false;
+        whiteBlackPlaneMesh.visible = false;
         blackWavePlaneMesh.visible = false;
 
-        // V.1 
-        // darkGreenPlaneMesh.visible = false;
-        // V.1
-
-        // console.log('BLACK PLANE MESH', blackRockPlaneMesh);
-        // console.log('BLACK PLANE MESH 2', blackRockPlaneMeshTwo);
-        // console.log('PLANE MESH', blueRockPlaneMesh);
 
         // Make correct beetle meshe visible
         // blueMarbleBeetleObject.visible = true;
         // Make correct plane visible
-        // xPlaneMesh.visible = true;
+        // whiteBlackPlaneMesh.visible = true;
         blackRockPlaneMesh.visible = true;
 
 
@@ -2581,7 +2569,7 @@ const changeMeshVisibility = (currentPage) => {
         blackRockPlaneMesh.visible = false;
         blueRockPlaneMesh.visible = false;
         blackWavePlaneMesh.visible = false;
-        xPlaneMesh.visible = false;
+        whiteBlackPlaneMesh.visible = false;
         // blackRockPlaneMeshTwo.visible = false;
 
         // console.log('PLANE MESH', blueRockPlaneMesh);
@@ -2626,7 +2614,7 @@ const changeMeshVisibility = (currentPage) => {
         currentBeetleObject = redPinkMarbleBeetleObject;
 
         // Make correct plane visible
-        xPlaneMesh.visible = true;
+        whiteBlackPlaneMesh.visible = true;
 
 
         // Don't forget to change the light intensity
@@ -4993,52 +4981,12 @@ const loadingPageEndTransitions = () => {
 
 // Function that will modify the aspect of the noisy circle
 
-const modifyNoisyCircle = () => {
-
-    if (enableLogging === true) {
-        console.log('Hovering the Click & Hold Container ')
-    }
-    // polygon.radius = 1;
-
-    // Not doing anything yet
-
-    // const radius = 1;
-    // const segments = 8;
-
-    // polygon = new paper.Path.RegularPolygon(
-    //     new paper.Point(0,0),
-    //     segments,
-    //     radius,
-    // );
-
-}
-
 const showVenereMaisCourtois = (event) => {
-
-    // console.log('Trying to show magazine');
-    // let imageElement = document.getElementById('venereMaisCourtoisContainer');
-    // console.log('Mouse Y', mouseY);
-    // console.log('mouse X', mouseX);
-    // imageElement.style.top = realMouseY - 100 + 'px';
-    // imageElement.style.left = realMouseX + 'px';
-    // imageElement.classList.add('shown');
-
-    // console.log('Mouse Event for Over', event.target);
-
     hoveringElement = true;
-
 }
 
 const hideVenereMaisCourtois = () => {
-
-    // console.log('HIDE VENERE MAIS COURTOIS')
-    // let imageEl = document.getElementById('venereMaisCourtoisContainer');
-    // imageEl.style.opacity = 0;
-    // imageEl.classList.remove('shown');
-
     hoveringElement = false;
-
-
 }
 
 // Function that hides the 'About' text and shows the expertise Text
@@ -5121,7 +5069,6 @@ const showExpertiseText = () => {
   
     document.getElementById('aboutButtonContainer').classList.add('shown');
 
-
 }
 
 // Function that hides the 'About' text and shows the expertise Text
@@ -5193,7 +5140,6 @@ const hideExpertiseText = () => {
     });
   
     document.getElementById('aboutButtonContainer').classList.remove('shown');
-
 
     // SHow About Page Text - After delay set by setTimeout to ensure that all the expertise related
     // text disappears from the page
@@ -5281,9 +5227,7 @@ const revertBackToAboutText = () => {
   
     document.getElementById('aboutButtonContainer').classList.remove('shown');
 
-
 }
-
 
 // These two functions are used to track whether the user is hovering over the French option or not
 
@@ -5291,26 +5235,23 @@ const userHoverOverFrench = () => {
     frenchLanguageHovered = true;
 }
 
-
 const userNotHoverOverFrench = () => {
     frenchLanguageHovered = false;
 }
 
 const initializeEventListeners = () => {
+
     document.getElementById('plus-sign-container').addEventListener('mouseenter', showLanguagesText);
     document.getElementById('plus-sign-container').addEventListener('mouseleave', hideLanguagesText);
-
 
     document.getElementById('hamburger').addEventListener('click', toggleMenuAnimation);
     document.getElementById('closeButton').addEventListener('click', toggleMenuAnimation);
 
-    // #touchEvents #touch #touchstart
     document.getElementById('hamburger').addEventListener('touchstart', toggleMenuAnimation,  {passive: true});
     document.getElementById('closeButton').addEventListener('touchstart', toggleMenuAnimation,  {passive: true});
 
     document.getElementById('reveal--layer').addEventListener("animationstart", toggleTextColor);
     document.getElementById('reveal--layer').addEventListener("animationend", toggleClassOnAnimation);
-
 
     document.getElementById('menuElementOne').addEventListener('click', toggleGeneralPageTransition);
     document.getElementById('menuElementTwo').addEventListener('click', toggleGeneralPageTransition);
@@ -5319,8 +5260,6 @@ const initializeEventListeners = () => {
     document.getElementById('firstOptionContainer').addEventListener('click', showContactMenu);
     document.getElementById('secondOptionContainer').addEventListener('click', showContactMenu);
     document.getElementById('thirdOptionContainer').addEventListener('click', showContactMenu);
-
-    // #touchEvents #touch #touchstart
 
     document.getElementById('menuElementOne').addEventListener('touchstart', toggleGeneralPageTransition, {passive: true});
     document.getElementById('menuElementTwo').addEventListener('touchstart', toggleGeneralPageTransition, {passive: true});
@@ -5332,7 +5271,6 @@ const initializeEventListeners = () => {
 
     // document.getElementById('disabilitiesRelatedText').addEventListener('click', activateVoiceControl);
     // document.getElementById('menuElementFive').addEventListener('click', toggleGeneralPageTransition);
-
 
     document.getElementById('lastNameInput').addEventListener('click', triggerInputAnimation);
     document.getElementById('firstNameInput').addEventListener('click', triggerInputAnimation);
@@ -5354,15 +5292,12 @@ const initializeEventListeners = () => {
     document.getElementById('phoneNumberActualInput').addEventListener('focus', triggerTextRiseAnimation);
     document.getElementById('companyNameActualInput').addEventListener('focus', triggerTextRiseAnimation);
 
-
     document.getElementById('goBackElement').addEventListener('click', hideForm);
     document.getElementById('submitFormButton').addEventListener('click', validateForm);
 
     // #touchEvents #touch #touchstart
-
     document.getElementById('goBackElement').addEventListener('touchstart', hideForm, {passive: true});
     document.getElementById('submitFormButton').addEventListener('touchstart', validateForm, {passive: true});
-
 
     // Makes sure the text and border go back to white when the input is selected
     document.getElementById('lastNameActualInput').addEventListener('input', trackTextInputForm);
@@ -5417,8 +5352,6 @@ const initializeEventListeners = () => {
     // Unused
     // document.getElementById('loading-page').addEventListener('click', testClick);
     // document.getElementById('loading-page').addEventListener('animationend', loadingPageEndTransitions);
-    // document.getElementById('cta--click--container').addEventListener('mouseenter', modifyNoisyCircle);
-
 
     // #touchEvents #touch #touchstart
     document.getElementById('loading-page').addEventListener('touchstart', removeInitialLoadingPage, {passive: true});
@@ -5440,7 +5373,6 @@ const initializeEventListeners = () => {
     // #touchEvents #touch #touchstart
     document.getElementById('expertiseButtonContainer').addEventListener('touchstart', showExpertiseText, {passive: true});
     document.getElementById('aboutButtonContainer').addEventListener('touchstart', hideExpertiseText, {passive: true});
-
 
     // Sames as the two above but makes sure that the page transition is attached to the second button that is displayed
     // when the page width is smaller.
