@@ -2079,27 +2079,6 @@ const hideMusicText = () => {
 
 const createSoundWaveAnimation = () => {
 
-    // let soundWaveArray = [];
-    // let soundWaveElement1 = document.getElementById(`Line_1`).addEventListener("click", toggleSoundWave);
-    // let soundWaveElement2 = document.getElementById(`Line_2`).addEventListener("click", toggleSoundWave);
-    // let soundWaveElement3 = document.getElementById(`Line_3`).addEventListener("click", toggleSoundWave);
-    // let soundWaveElement4 = document.getElementById(`Line_4`).addEventListener("click", toggleSoundWave);
-    // let soundWaveElement5 = document.getElementById(`Line_5`).addEventListener("click", toggleSoundWave);
-    // let soundWaveElement6 = document.getElementById(`Line_6`).addEventListener("click", toggleSoundWave);
-    // let soundWaveElement7 = document.getElementById(`Line_7`).addEventListener("click", toggleSoundWave);
-    // let soundWaveElement8 = document.getElementById(`Line_8`).addEventListener("click", toggleSoundWave);
-    // let soundWaveElement9 = document.getElementById(`Line_9`).addEventListener("click", toggleSoundWave);
-    // soundWaveArray.push(soundWaveElement1);
-    // soundWaveArray.push(soundWaveElement2);
-    // soundWaveArray.push(soundWaveElement3);
-    // soundWaveArray.push(soundWaveElement4);
-    // soundWaveArray.push(soundWaveElement5);
-    // soundWaveArray.push(soundWaveElement6);
-    // soundWaveArray.push(soundWaveElement7);
-    // soundWaveArray.push(soundWaveElement8);
-    // soundWaveArray.push(soundWaveElement9);
-    
-
     document.getElementById('wave').addEventListener('click', toggleSoundWave);
     document.getElementById('wave').addEventListener('mouseenter', showMusicText);
     document.getElementById('wave').addEventListener('mouseleave', hideMusicText);
