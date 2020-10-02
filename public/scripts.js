@@ -63,7 +63,7 @@ let initialPageLoadingBarFullyLoaded = false;
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'prod';
+let environment = 'dev';
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
 let enableLogging = environment === 'dev' ? true : false;
 let imageFormat = 'webp';
@@ -1590,52 +1590,6 @@ const playSong = () => {
     })
 }
 
-
-// Not necessary to play the #music on load
-
-// window.onload = () => {
-//     window.fetch(ERIK_URL)
-//     .then(response => response.arrayBuffer())
-//     .then(arrayBuffer => 
-//         // Creates a short audio asset stored in memory, created from an audio file
-//         // Once put into an AudioBuffer, the audio can be played by being passed
-//         // into AudioBufferSourceNode
-//         audioContext.decodeAudioData(arrayBuffer)
-//     )
-//     .then(audioBuffer => {
-//         console.log('Audio buffer')
-//         console.log(audioBuffer)
-//         source = audioContext.createBufferSource();
-//         source.buffer = audioBuffer;
-
-//         // Make sure that the onEnded function is called when the song ends 
-//         source.onended = onEnded;
-
-//         // Create the analyzer node and connect it between the input
-//         // and the output so that it can provide us with data
-//         // abou the actual sound we have
-//         analyser = audioContext.createAnalyser();
-
-//         source.connect(analyser);
-
-//         console.log('Source given is', source);
-//         analyser.connect(audioContext.destination);
-
-//         // Change the analyser data available so that we can access it later on.
-//         // By default, the analyser will give us frequency data with 1024 data points.
-//         // We can change this by setting the fftSize property.
-//         analyser.fftSize = 64;
-//         frequencyData = new Uint8Array(analyser.frequencyBinCount);
-//         domainData = new Uint8Array(analyser.fftSize); // Uint8Array should be the same length as the fftSize
-        
-//         // analyser.getByteFrequencyData(frequencyData);
-
-//         console.log('Analyser is', analyser);
-//         source.start();
-//     })
-
-// }
-
 const toggleMusicOnOff = () => {
 
     if (audioContext.state === 'running' && isSongFinished !== true) {
@@ -2380,31 +2334,6 @@ const createSoundWaveAnimation = () => {
 }
 
 createSoundWaveAnimation();
-
-
-
-// ------------------------------------------------------
-
-/*
-*
-* Language Animation when clicked
-*
-*/
-
-const toggleLanguageChoices = (languageChoice) => {
-    // document.getElementById('languageOne').classList.toggle('showing');
-    // document.getElementById('languageTwo').classList.toggle('showing');
-    // document.getElementById('language-description').classList.toggle('showing');
-
-}
-
-// Language Animation that removes the languages
-
-const removeLanguageChoices = () => {   
-    document.getElementById('languageOne').classList.remove('showing');
-    document.getElementById('languageTwo').classList.remove('showing');
-}
-
 
 // ------------------------------------------------------
 
@@ -5383,7 +5312,6 @@ const initializeEventListeners = () => {
     document.getElementById('reveal--layer').addEventListener("animationend", toggleClassOnAnimation);
 
 
-    document.getElementById('plus-sign-container').addEventListener('click', toggleLanguageChoices);
     document.getElementById('menuElementOne').addEventListener('click', toggleGeneralPageTransition);
     document.getElementById('menuElementTwo').addEventListener('click', toggleGeneralPageTransition);
     document.getElementById('menuElementThree').addEventListener('click', toggleGeneralPageTransition);
@@ -5394,7 +5322,6 @@ const initializeEventListeners = () => {
 
     // #touchEvents #touch #touchstart
 
-    document.getElementById('plus-sign-container').addEventListener('touchstart', toggleLanguageChoices, {passive: true});
     document.getElementById('menuElementOne').addEventListener('touchstart', toggleGeneralPageTransition, {passive: true});
     document.getElementById('menuElementTwo').addEventListener('touchstart', toggleGeneralPageTransition, {passive: true});
     document.getElementById('menuElementThree').addEventListener('touchstart', toggleGeneralPageTransition, {passive: true});
