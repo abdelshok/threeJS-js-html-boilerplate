@@ -2057,10 +2057,6 @@ const toggleSoundWave = (e) => {
             toggleVoiceControl();
         }
 
-        // Also need to make sure that the speech recognition is stopped
-
-        // If music is not playing and we're trying to play music then we should hide everything tha
-
     }
 
     toggleMusicOnOff();
@@ -3880,7 +3876,6 @@ const myRepeatFunction = (event) => {
 
 }
 
-// GLOBAL VARIABLE
 
 const showContactMenu = (event) => {
 
@@ -3916,44 +3911,21 @@ const showContactMenu = (event) => {
         // We hide the general options and the initial presentation of the contact page 
         document.getElementById('contactPageOptions').classList.add('hidden');
 
-        // Remove the shown class from all the correct DOM elements
-        // document.getElementById('contactPageTitleID').classList.remove('shown');
-        // document.getElementById('contactPageSubTitleID').classList.remove('shown');
-        // document.getElementById('firstOptionContainer').classList.remove('shown');
-        // document.getElementById('secondOptionContainer').classList.remove('shown');
-        // document.getElementById('thirdOptionContainer').classList.remove('shown');
-        // document.getElementById('samarraContactPageTitle').classList.remove('shown');
-
         // We display the form associated to the question / option that is clicked by the user
         document.getElementById('contactPageOptionsTwo').classList.add('showing');
 
     } else if (formShowing === false) {
 
         document.getElementById('contactPageOptions').classList.remove('hidden');
-
-        // Add 'shown' class to all the targeted elements so that the animations display properly
-        // document.getElementById('contactPageTitleID').classList.add('shown');
-        // document.getElementById('contactPageSubTitleID').classList.add('shown');
-        // document.getElementById('firstOptionContainer').classList.add('shown');
-        // document.getElementById('secondOptionContainer').classList.add('shown');
-        // document.getElementById('thirdOptionContainer').classList.add('shown');
-        // document.getElementById('samarraContactPageTitle').classList.add('shown');
         
         document.getElementById('contactPageOptionsTwo').classList.remove('showing');
 
     }
 }
 
-// #form #contactPage
 
-// Function used in order to send the client email to the Samarra email
-
-// Sending the email is taken care of through FormSpree.io, this function will simply be used in order to validate that the correct inputs have been
-// actually filled up
 
 // Variables that will be used and modified by the actual validation form in order to track which inputs have errors and which haven't
-
-// These are actually useless #delete
 
 let firstNameInputError = false, 
     lastNameInputError = false, 
@@ -3961,6 +3933,8 @@ let firstNameInputError = false,
     phoneNumberInputError = false, 
     emailInputError = false, 
     messageInputError = false;
+
+// Function that sends the client's text to the Samarra email
 
 const validateForm = () => {
 
@@ -4047,7 +4021,7 @@ const trackTextInputForm = (event) => {
     const inputID = event.target.id;
 
     if (enableLogging === true) {
-        console.log('INPUT ID OF EVENT IS', inputID);
+        console.log('Input ID of event of @trackTextInputForm', inputID);
     }
 
     if (inputID === 'firstNameActualInput') {
@@ -4085,7 +4059,9 @@ const trackTextInputForm = (event) => {
 // Function that is triggered by 1. the Back button at the top of the form when the form is shown & 2. when the menu is clicked while the form is actually showing
 const hideForm = (event) => {
 
-    // console.log('Hiding the contact form with all the user inputs');
+    if (enableLogging === true) {
+        console.log('Hiding the contact form with all the user inputs'); 
+    }
 
     // When we hide the form, before we toggle the class to do it successfully, we change the delays of the transitions so that it mirrors the first transition
     // when the user first lands on the contact page
@@ -4271,9 +4247,9 @@ const triggerStartOfSpeechRecognition = () => {
 
 }
 
-// Constants
 
 // Attention
+
 // VOICE_RESULTS_COUNTER sometimes is higher than the actual count because the SpeechRecognition API does not run continuously for some reason 
 let VOICE_RESULTS_COUNTER = 0;
 let CURRENT_SPEECH_SESSION_COUNTER = 0;
