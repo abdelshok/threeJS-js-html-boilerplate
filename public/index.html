@@ -37,6 +37,7 @@
 
 			:root {
 				--legal-text-delay: 0.1s;
+				--transition--speed: 2s;
 			}
 
 			/* #toThink #toDo: user selection on the contents within the body is actually prevented. Should you keep it? */
@@ -141,7 +142,7 @@
 			}
 
 			.second--page.showing {
-				animation: slidePage 2s forwards;
+				animation: slidePage var(--transition--speed) forwards;
 			}
 			
 			#overlay {

@@ -42,10 +42,7 @@ let redPinkMarbleBeetleObject;
 let currentBeetleObject; // The beetle object displayed on the page will be assigned (by reference obviously) to this variable
                          // this will ensure that we can always turn off the visibility and turn it back on on the right page
 
-// Constants that controls the delay at which meshes' visibility gets changed
-let MESH_VISIBILITY_DELAY = 1100;
-let DOM_VISIBILITY_SHORT_DELAY = 200;
-let DOM_VISIBILITY_LONG_DELAY = 1700;
+
 
 let numParticles; // Number of particles that will be set in the Mesh of particles animating the ThreeJS project
 let mouseX, mouseY;
@@ -61,18 +58,27 @@ let beetleColor = 'black';
 
 let initialPageLoadingBarFullyLoaded = false;
 
-// ENVIRONMENT VARIABLES
+// GLOBAL ENVIRONMENT VARIABLES
 
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'prod';
+let environment = 'dev';
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
 let enableLogging = environment === 'dev' ? true : false;
 let imageFormat = 'webp';
 let enableProgressiveLoading = true;
 let firstBatchOfModelsLoaded = false;
 let LOADING_PAGE_REMOVED = false;
+let pageTransitionSpeed = 'slow'; // Constants that controls the delay at which meshes' visibility gets changed
+let PAGE_TRANSITION_SHORT_DELAY = 200;
+let PAGE_TRANSITION_LONG_DELAY = pageTransitionSpeed === 'fast' ? 700 : 1700; 
+let MESH_VISIBILITY_DELAY = pageTransitionSpeed === 'fast' ? 500 : 1100;
+let CHANGE_TRANSITION_TEXT_BEFORE_SPEED = pageTransitionSpeed === 'fast' ? 200 : 450;
+let CHANGE_TRANSITION_TEXT_AFTER_SPEED = pageTransitionSpeed === 'fast' ? 950 : 1600;
+
+// Delay used when we set the @slidePage keyframes animation associated with the .second--page element
+// used in the page transitions
 
 // Web Audio API-related Variables
 
@@ -2563,7 +2569,7 @@ const toggleGeneralPageTransition = (event) => {
             // Make sure we add the Click & Hold Button that's shown on Home/Intro page
             setTimeout(() => {
                 addAboutPageNavButtonAtBottom();
-            }, DOM_VISIBILITY_SHORT_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
+            }, PAGE_TRANSITION_SHORT_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
 
             // Removes the legal terms text at bottom of main menu
             removeLegalTermsText();
@@ -2607,7 +2613,7 @@ const toggleGeneralPageTransition = (event) => {
             // Make sure we add the 'Client Page' Button that's shown at the bottom of the About page
             setTimeout(() => {
                 addAboutPageTransitionButtons();
-            }, DOM_VISIBILITY_LONG_DELAY); // 1700 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
+            }, PAGE_TRANSITION_LONG_DELAY); // 1700 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
 
             // Removes the legal terms text at bottom of main menu
             removeLegalTermsText();
@@ -2625,6 +2631,9 @@ const toggleGeneralPageTransition = (event) => {
             setTimeout(() => {
                 changeMeshVisibility('aboutPage');
             }, MESH_VISIBILITY_DELAY);
+
+            // changeMeshVisibility('aboutPage');
+
     
         // This is the FAQ / Client Page
         } else if (id === 'menuElementThree') {
@@ -2632,7 +2641,7 @@ const toggleGeneralPageTransition = (event) => {
             // Make sure we add the Contact Page Button that's shown on Client page
             setTimeout(() => {
                 addClientPageTransitionButtons();
-            }, DOM_VISIBILITY_LONG_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
+            }, PAGE_TRANSITION_LONG_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
 
 
             // Removes the legal terms text at bottom of main menu
@@ -2694,7 +2703,7 @@ const toggleGeneralPageTransition = (event) => {
 
             setTimeout(() => {
                 addContactPageTransitionButtons();
-            }, DOM_VISIBILITY_LONG_DELAY)
+            }, PAGE_TRANSITION_LONG_DELAY)
     
         // This is the menu page
         } else if (id === 'menuElementFive') {
@@ -2702,7 +2711,7 @@ const toggleGeneralPageTransition = (event) => {
             // Adds the Legal Terms text
             setTimeout(() => {
                 addLegalTermsText();
-            }, DOM_VISIBILITY_LONG_DELAY);
+            }, PAGE_TRANSITION_LONG_DELAY);
 
             // Remove the Click & Hold Button if we're moving away from the Home Page
             removeAboutPageNavButtonAtBottom();
@@ -3181,7 +3190,7 @@ const toggleMenuAnimation = () => {
             // Shows the Legal Terms text at the bottom of the page
             setTimeout(() => {
                 addLegalTermsText();
-            }, DOM_VISIBILITY_LONG_DELAY);
+            }, PAGE_TRANSITION_LONG_DELAY);
 
             // Makes the menu page visible
             // setTextAnimationTimers('menuPage');
@@ -3237,7 +3246,7 @@ const toggleMenuAnimation = () => {
 
             setTimeout(() => {
                 addAboutPageNavButtonAtBottom();
-            }, DOM_VISIBILITY_SHORT_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
+            }, PAGE_TRANSITION_SHORT_DELAY); // 200 MS delay in order for the transitiont to be more smooth. Or else it appears too quickly.
 
 
         } 
@@ -3385,7 +3394,7 @@ const toggleHomePage = (pageShown) => {
             document.getElementById('homePage').style.opacity = 1;
             document.getElementById('homePage').style.visibility = 'visible';
             document.getElementById('titleText').classList.add('showing');
-        }, 1700);
+        }, PAGE_TRANSITION_LONG_DELAY);
 
 
     // If it's not the homePage we toggle the homePage elements off
@@ -3428,7 +3437,7 @@ const toggleAboutPage = (pageShown) => {
                 document.getElementById('expertise--button--small--screen--container').classList.add('animated');
             }
 
-        }, 1700);
+        }, PAGE_TRANSITION_LONG_DELAY);
 
     // If we are moving away from the About page and staying away from it
     } else if (pageShown !== 'aboutPage') {
@@ -3469,7 +3478,7 @@ const toggleFAQPage = (pageShown) => {
             document.getElementById('pageMainTextCharacter7').classList.add('animated');
             document.getElementById('faqPageTempText1').classList.add('shown');
             // document.getElementById('faqPageTempText2').classList.add('shown');
-        }, 1700);
+        }, PAGE_TRANSITION_LONG_DELAY);
 
     } else if (pageShown !== 'faqPage') {
 
@@ -3526,7 +3535,7 @@ const toggleContactPage = (pageShown) => {
             document.getElementById('contactPageMainTextCharacter5').classList.add('animated');
             document.getElementById('contactPageMainTextCharacter6').classList.add('animated');
             document.getElementById('contactPageMainTextCharacter7').classList.add('animated');
-        }, 1700)
+        }, PAGE_TRANSITION_LONG_DELAY)
 
         setTimeout(() => {
             initiateContactPageHovers();
@@ -3827,7 +3836,7 @@ const toggleTextColor = (event) => {
         document.getElementById('companyName').style.color = 'black';
         document.getElementById('homePage').style.opacity = 1;
         document.getElementById('homePage').style.visibility = 'visible';
-    }, 450)
+    }, CHANGE_TRANSITION_TEXT_BEFORE_SPEED) 
 
     setTimeout(() => {
         document.getElementById('companyName').style.color = 'white';
@@ -3837,7 +3846,7 @@ const toggleTextColor = (event) => {
             document.getElementById('homePage').style.visibility = 'hidden';
         }
 
-    }, 1600)
+    }, CHANGE_TRANSITION_TEXT_AFTER_SPEED);
 }
 
 const makeTitleTextWhite = () => {
@@ -4916,8 +4925,8 @@ let previousDeltaY = 0; // Constants tracking the previous value of deltaY in or
 const detectUserScroll = (event) => {
 
     if (enableLogging === true) {
-        // console.log('User scrolling');
-        // console.log('Event is', event);
+        console.log('User scrolling');
+        console.log('Event is', event);
     }
 
     // Catches the Y direction of the wheel event.
@@ -4929,6 +4938,11 @@ const detectUserScroll = (event) => {
     // The first variables ensures that the scroll event does not get triggered if the animation started
     // The second and third variables ensure that it's not triggered when the first loading page is still showing
     if (MENU_BASED_ANIMATION_STARTED === false && loadingGraphicalSceneFinished === true && loadingPageAnimationFinished === true) {
+
+        // We have to change the value of this boolean to prevent the function from being called again and moving the use rtoo fast 
+        // through the website
+        // MENU_BASED_ANIMATION_STARTED = true;
+
         if (deltaY < previousDeltaY ) {
         
             // Then user is trying to scroll up
@@ -5429,7 +5443,6 @@ let animate = function () {
     
     if (dynamicWindowWidth <= 501 || dynamicWindowHeight <= 700) {
 
-        // initiateTransitionAnimation();
 
         if (blackMarbleBeetleObject !== undefined) {
             blackMarbleBeetleObject.visible = false;
@@ -5460,7 +5473,6 @@ let animate = function () {
 
         if (currentBeetleObject !== undefined && pageShown !== 'aboutPage' && pageShown !== 'legalPage' && pageShown !== 'menuPage') {
 
-            // initiateTransitionAnimation();
             if (beetleColor === 'black' || beetleColor === 'white' || beetleColor === 'grey') {
                 currentBeetleObject.visible = true;
             }
