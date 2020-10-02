@@ -14,6 +14,9 @@ let clock = new THREE.Clock(); // Used in the shader that moves the different pa
 // Real Mouse position
 let realMouseX, realMouseY;
 
+// Element created in order to track whether the Venere Mais Courtois image is hovered by the user
+let hoveringVenereMaisCourtoisElement = false;
+
 // Other Beetle Objects
 let iceBeetleObject;
 let greyBeetleObject;
@@ -1417,20 +1420,17 @@ const changeVelocityParticles = (event) => {
 
 }
 
+/**
+ * @onDocumentMouseMove: tracks mouse position & normalizes it 
+ * 
+ */
+
 const onDocumentMouseMove = (event) => {
 
     mouseX = ( event.clientX - windowHalfX ) / 100;
     mouseY = ( event.clientY - windowHalfY ) / 100;
 
-    // console.log('Mouse X', mouseX);
-    // console.log('Mouse Y', mouseY);
-
 }
-
-
-// Tracks Normalized Mouse Move
-
-let hoveringElement = false;
 
 const onActualMouseMove = (event) => {
 
@@ -1439,17 +1439,17 @@ const onActualMouseMove = (event) => {
     // console.log('Actual Mouse Move X', realMouseX, ' and Y: ', realMouseY);
 
     let imageElement = document.getElementById('venereMaisCourtoisContainer')
-    // let hoveringElement = imageElement.classList.contains('shown');
+    // let hoveringVenereMaisCourtoisElement = imageElement.classList.contains('shown');
     
-    if (hoveringElement) {
-        // console.log('Hovering element', hoveringElement);
+    if (hoveringVenereMaisCourtoisElement) {
+        // console.log('Hovering element', hoveringVenereMaisCourtoisElement);
         imageElement.style.top = realMouseY + 'px';
         imageElement.style.left = realMouseX + 20 + 'px';
         imageElement.style.opacity = 1;
         // imageElement.classList.add('shown');
         imageElement.style.visibility = 'visible';
     } else { 
-        // console.log('Hovering element', hoveringElement);
+        // console.log('Hovering element', hoveringVenereMaisCourtoisElement);
         imageElement.style.opacity = 0;
         imageElement.style.visibility = 'hidden';
     }
@@ -4982,11 +4982,11 @@ const loadingPageEndTransitions = () => {
 // Function that will modify the aspect of the noisy circle
 
 const showVenereMaisCourtois = (event) => {
-    hoveringElement = true;
+    hoveringVenereMaisCourtoisElement = true;
 }
 
 const hideVenereMaisCourtois = () => {
-    hoveringElement = false;
+    hoveringVenereMaisCourtoisElement = false;
 }
 
 // Function that hides the 'About' text and shows the expertise Text
