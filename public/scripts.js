@@ -63,7 +63,7 @@ let initialPageLoadingBarFullyLoaded = false;
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'dev';
+let environment = 'prod';
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
 let enableLogging = environment === 'dev' ? true : false;
 let imageFormat = 'webp';
@@ -3264,12 +3264,8 @@ const initiateTransitionAnimation = () => {
     let revealLayerOne = document.getElementById('reveal--layer');
     revealLayerOne.classList.toggle('showing');
 
-    // When the animation, the class will be toggled back again
-
 }
 
-// Similar as the other two 
-// Main Menu Related
 
 // Function that shows the 'Legal Terms' text at the bottom of the Main Menu Page
 // Called in @toggleMenuAnimation & @toggleGeneralTransition functions
