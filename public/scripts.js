@@ -72,6 +72,7 @@ let enableLogging = environment === 'dev' ? true : false;
 let imageFormat = 'webp';
 let enableProgressiveLoading = true;
 let firstBatchOfModelsLoaded = false;
+let LOADING_PAGE_REMOVED = false;
 
 // Web Audio API-related Variables
 
@@ -189,8 +190,8 @@ loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
     if (enableLogging === true) {
         console.log('Started loading file ', url, '.\n Loaded ', itemsLoaded, ' of ', itemsTotal, ' files');
         console.log('User desktop', isUserDesktop);
+        console.log(`Loading Page Removed ${LOADING_PAGE_REMOVED}`);
     };
-
 
     // The variable firstBatchOfModelsLoaded is initially set to false. This allows the first text to show on the loading screen 'Please turn on your volume'
     // When the user then triggers the @removeInitialLoadingPage function after the loading bar finished loading, all the other models are loaded, which triggers
@@ -216,6 +217,7 @@ loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
         // at the bottom of the loading page 
 
         loadingPageFirstText.classList.add('shown');
+
     }
     
 
@@ -374,6 +376,7 @@ const removeInitialLoadingPage = () => {
     };
 
 };
+
 
 // --------------------------------------------------------------------------------
 
@@ -4139,6 +4142,9 @@ const toggleClassOnAnimation = (event) => {
 
     // Set the two to false in order to enable animations in the future
     ANIMATION_STARTED = false;
+
+    // Reset the variable that indicates whether the transition animation between pages has ended or not
+    // This means that the animation ended
     MENU_BASED_ANIMATION_STARTED = false;
 
     // Set it to false again to allow the user to click on the menu button again
@@ -4898,6 +4904,68 @@ const hideExpertiseText = () => {
 
 }
 
+
+/**
+ * 
+ * detectUserScroll: As the name suggests
+ * 
+ */
+
+let previousDeltaY = 0; // Constants tracking the previous value of deltaY in order to determine in which direction the user is trying to scroll
+
+const detectUserScroll = (event) => {
+
+    if (enableLogging === true) {
+        // console.log('User scrolling');
+        // console.log('Event is', event);
+    }
+
+    // Catches the Y direction of the wheel event.
+    // If deltaY is negative the user is trying to scroll up
+    // If deltaY is positive the user is trying to scroll down
+
+    let { deltaY } = event;
+
+    // The first variables ensures that the scroll event does not get triggered if the animation started
+    // The second and third variables ensure that it's not triggered when the first loading page is still showing
+    if (MENU_BASED_ANIMATION_STARTED === false && loadingGraphicalSceneFinished === true && loadingPageAnimationFinished === true) {
+        if (deltaY < previousDeltaY ) {
+        
+            // Then user is trying to scroll up
+            if (enableLogging === true) {
+                console.log(`User is attempting to scroll up on ${pageShown}`)
+            }
+
+
+            if (pageShown === 'aboutPage') {
+                toggleGeneralPageTransition('homePage')
+            } else if (pageShown === 'faqPage') {
+                toggleGeneralPageTransition('aboutPage') // Client Page
+            } else if (pageShown === 'contactPage') {
+                toggleGeneralPageTransition('faqPage')
+            }
+
+        } else {
+
+            // Then user is trying to scroll down
+            if (enableLogging === true) {
+                console.log(`User is attempting to scroll down on ${pageShown}`)
+            }
+
+            if (pageShown === 'homePage') {
+                toggleGeneralPageTransition('aboutPage')
+            } else if (pageShown === 'aboutPage') {
+                toggleGeneralPageTransition('faqPage') // Client Page
+            } else if (pageShown === 'faqPage') {
+                toggleGeneralPageTransition('contactPage')
+            }
+
+
+        }
+    }
+
+}
+
 // Same as the function above
 // The purpose is to hide the 'Expertise' text when a user either clicks on the menu @toggleMenuAnimation
 // OR clicks on the top / bottom navigation buttons 'Home' or 'Client' which triggers @toggleGeneralPageTransition
@@ -5117,10 +5185,11 @@ const initializeEventListeners = () => {
     document.getElementById('expertise--button--small--screen--text').addEventListener('touchstart', showExpertiseText, {passive: true});
 
     // Language Related
-
     document.getElementById('languageOne').addEventListener('mouseenter', userHoverOverFrench);
     document.getElementById('languageOne').addEventListener('mouseleave', userNotHoverOverFrench);
 
+    // Scroll related
+    window.addEventListener('wheel', detectUserScroll);
 
 }
 
