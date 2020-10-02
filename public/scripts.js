@@ -1366,59 +1366,6 @@ const changeLightIntensity = (marbleColor) => {
 }
 
 
-// Re-connect pivot to the newly created beetle - to be added every time a new beetle is created and rendered with a different texture
-
-const connectPivotToBeetle = () => {
-    pivotPoint2 = new THREE.Object3D();
-    beetleObject.add(pivotPoint2);
-    pivotPoint2.add(spotLight);
-}
-
-// De-activate this so that it doesn't switch it to black directly
-// setTimeout(createWhiteMarbleBeetle, 10000);
-
-// Detect different actions
-
-// const onDocumentMouseMove = (event) => {
-//     console.log('Mouse moved');
-//     console.log(event);
-//     changeVelocityParticles(event);
-// }
-
-const changeVelocityParticles = (event) => {
-    let lengthOfPositions = arrayOfCursorPositions.length;
-    if (lengthOfPositions < 4) {
-        arrayOfCursorPositions.push(event.clientX, event.clientY);
-    } else {
-        // Make it empty again so that we can keep filling it up
-        arrayOfCursorPositions = []
-    }
-
-    // Now we compare positions to move particles
-    previousClientX = arrayOfCursorPositions[0];
-    previousClientY = arrayOfCursorPositions[1];
-    currentClientX = arrayOfCursorPositions[2];
-    currentClientY = arrayOfCursorPositions[3];
-
-    if (previousClientX < currentClientX) {
-
-        if (enableLogging === true) {
-            console.log('ClientX is decreasing');
-            console.log(previousClientY, ' is smaller than ', currentClientY);
-        }
-
-        mesh.rotation.z -= 0.05;
-    } else if (previousClientX > currentClientX) {
-        mesh.rotation.z += 0.05;
-    } else if (previousClientY < currentClientY) {
-        mesh.rotation.z -= 0.05;
-    } else if (previousClientY < currentClientY) {
-        mesh.rotation.z += 0.05;
-    } 
-
-    mesh.geometry.verticesNeedUpdate = true
-
-}
 
 /**
  * @onDocumentMouseMove: tracks mouse position & normalizes it 
@@ -1431,6 +1378,13 @@ const onDocumentMouseMove = (event) => {
     mouseY = ( event.clientY - windowHalfY ) / 100;
 
 }
+
+
+/**
+ * @onActualMouseMove: tracks mouse position, whether VenereMaisCourtois is hovered & 
+ * later on, if french language is hovered
+ */
+
 
 const onActualMouseMove = (event) => {
 
@@ -1994,180 +1948,6 @@ const initiateContactPageHovers = () => {
             item.addEventListener("mouseenter", handleMouseEnter);
             item.addEventListener("mouseleave", handleMouseLeave);
         })
-}
-
-// ------------------------------------------------------
-
-/*
- * Connecting Lines Animation: This part of the script includes functions that will be used to calculate the distance between
- * the different vertices that make up the ParticleMesh, create lines that connect them dynamically if the distance between those
- * points is under a certain maximum, and finally, functions that will take care of deleting and removing those lines if the distance
- * between the different vertices is too high
- */
-
-
-// #lines
-
-let line;
-let linesObject = {};
-let lineGroup = new THREE.Group();
-let lineArray = [];
-// console.log('Line group', lineGroup)
-// lineGroup.verticesNeedUpdate = true;
-let lineMaterial = new THREE.LineBasicMaterial({
-    color: 0xffffff,
-    lineWidth: 1,
-});
-
-// Max distance there should be between the different points
-let maxDistance = 30;
-
-// Add lineGroup to the scene
-scene.add(lineGroup);
-
-const animateParticles = () => {
-
-    let particleCount = numParticles; 
-
-    // console.log('Particle count before', particleCount)
-    while (particleCount--) {
-
-        let timestamp = new Date() * 0.0005;
-
-        let particle = particleGeometry.vertices[particleCount];
-        // particle.z -= 0.1;
-        // particle.y = Math.cos(timestamp) * 7;
-        // particle.z = Math.sin(timestamp) * 7;
-
-        let move = Math.sin(clock.getElapsedTime() * Math.random()) / 2;
-        let particleVelocityObject = particles[particleCount];
-
-        // console.log('Particle passed', particle)
-        // console.log('Move', move);
-        // let offset = (move * particleVelocityObject.y);
-        // particle.z += move;
-        detectCloseByPoints(particle);
-
-    };
-
-    particleGeometry.verticesNeedUpdate = true;
-
-}
-
-const detectCloseByPoints = (particle) => {
-
-    let particleCount = numParticles;
-    while (particleCount--) {
-
-        let comparedParticle = particleGeometry.vertices[particleCount];
-        // console.log('Compared particle', comparedParticle);
-        // Make sure that the particle we're comparing it to is not the same on. They're objects so the references would be compared here
-        if (particle !== comparedParticle) { 
-
-            let distanceBetweenParticles = particle.distanceTo(comparedParticle); // Calculate the distance between the two particles moving around the space
-            // let connection = checkConnection(particle, comparedParticle);
-            
-            if (distanceBetweenParticles < maxDistance) {
-
-                // console.log('Found particles that are close');
-                // console.log('Particles are close to each other');
-                // console.log(particle);
-                // console.log(comparedParticle);
-                // createLine(particle, comparedParticle);
-                createLineTwo(particle, comparedParticle);
-
-            }
-        }
-
-    };
-
-}
-
-
-const createLineTwo = (particleOne, particleTwo) => {
-    
-    let particleOneNCount = particleOne.neighborCount;
-    let particleTwoNCount = particleTwo.neighborCount;
-
-    if (particleOneNCount < 2 && particleTwoNCount < 2) {
-        // console.log('Particle one', particleOne);
-        // console.log('Particle two', particleTwo);
-        let lineGeometry = new THREE.Geometry();
-        // console.log('Particle one default', particleOne.default);
-        lineGeometry.vertices.push(particleOne);
-        lineGeometry.vertices.push(particleTwo);
-
-        if (enableLogging === true) {
-            console.log('Particle one position is', particleOne.position);
-        }
-
-        lineGeometry.dynamic = true;
-
-        particleOne.neighborCount += 1;
-        particleTwo.neighborCount += 1;
-        let line = new THREE.Line(lineGeometry, lineMaterial);
-        // line.geometry.verticesNeedUpdate = true;
-        lineArray.push(line);
-        lineGroup.add(line);
-        scene.add(line);
-        // lineGroup.verticesNeedUpdate = true;
-        // console.log('Line group updated with new vertex', line);
-    }
-
-}
-
-
-// Checks whether there is already a line connection between the two vertices that we pass into it: particle & comparedParticle
-
-const checkConnection = (particle, comparedParticle) => {
-    
-    let particleOneIndex = particleGeometry.vertices.indexOf(particle);
-    let particleTwoIndex = particleGeometry.vertices.indexOf(comparedParticle);
-    let connectionIndex = particleOneIndex + '-' + particleTwoIndex;
-    let connectionExists = linesObject[connectionIndex];
-
-    if (connectionExists === true) {
-        return true;
-    } else {
-        return false;
-    };
-
-}
-
-// Creates a line object between the two particles that we pass in
-
-const createLine = (particleOne, particleTwo) => {
-
-    // Add particle two to the list of neighbors / nodes of particleOne
-    particleOne.nodes.push(particleTwo);
-    // Add line
-    addEventListener(particleOne, particleTwo);
-
-}
-
-// Adds line between the two particles. Used in the function above
-
-const addLine = (particleOne, particleTwo) => {
-
-    let lineID = particleGeometry.vertices.indexOf(particleOne) + '-' + particleGeometry.vertices.indexOf(particleTwo);
-    let lineGeometry = new THREE.Geometry();
-
-    // If there is no line with this ID within the line object that we created, then we add it
-    if (!linesObject[lineID]) {
-
-        lineGeometry.dynamic = true;
-        lineGeometry.vertices.push(particleOne);
-        lineGeometry.vertices.push(particleTwo);
-        let currentLine = new THREE.Line(lineGeometry, lineMaterial);
-        currentLine.touched = false;
-        lines[lineID] = currentLine;
-        lineGroup.add(currentLine);
-        return currentLine;
-
-    } else {
-        return false;
-    };
-
 }
 
 // ------------------------------------------------------
@@ -5454,8 +5234,6 @@ let animate = function () {
     if (ANIMATION_STARTED === false) {
         particlesMesh.position.z -= 0.1;
     }
-
-    // animateParticles();
 
     // console.log('Particles Mesh Z', particlesMesh.position.z);
 
