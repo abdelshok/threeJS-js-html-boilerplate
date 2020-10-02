@@ -2790,11 +2790,7 @@ const toggleGeneralPageTransition = (event) => {
 
         if (typeof event !== 'string') {
             id = event.target.id;
-            // console.log(`ID of event is ${id}`);
         }
-
-        // console.log(`Argument passed in to @toggleGeneralPageTransition is ${event}`);
-        // console.log('Initiating page transition')
 
         // First we initiate the page transition
         initiateTransitionAnimation();
@@ -2802,7 +2798,9 @@ const toggleGeneralPageTransition = (event) => {
     
         let oldPageShown = pageShown;
     
-        // console.log('Old page shown is', oldPageShown);
+        if (enableLogging === true) {
+            console.log('Old page shown is', oldPageShown);
+        }
     
         // Toggle DOM elements off accordingly
     
@@ -2833,11 +2831,6 @@ const toggleGeneralPageTransition = (event) => {
             revertBackToAboutText();
 
         } else if (oldPageShown === 'contactPage') {
-
-            // Make sure that the vertical lines next to the contact information disappear from the contact page with a delay
-            // setTimeout(() => {
-            //     removeContactInfoLinesContactPage();
-            // }, 500)
     
             // Insert removing the different contact page elements here when you get to it
             // By passing this function and all the similar ones above an empty string, we ensure that the DOM elements
@@ -2954,15 +2947,9 @@ const toggleGeneralPageTransition = (event) => {
             changePageShown('aboutPage');
             toggleAboutPage('aboutPage');
 
-            // App V.1 - Start
-            // toggleAboutPageMesh();
-            // App V.1 - End
-
-            // App V.2 - Start
             setTimeout(() => {
                 changeMeshVisibility('aboutPage');
             }, MESH_VISIBILITY_DELAY);
-            // App V.2 - End
     
         // This is the FAQ / Client Page
         } else if (id === 'menuElementThree') {
@@ -3026,15 +3013,9 @@ const toggleGeneralPageTransition = (event) => {
                 changePageShown('contactPage');
             }, 500);
 
-            // App V.1 - Start - We call functions that create the geometries & the Mesh
-            // toggleContactPageMesh();
-            // App V.1 - End
-
-            // App V.2 - Start
             setTimeout(() => {
                 changeMeshVisibility('contactPage');
             }, MESH_VISIBILITY_DELAY);
-            // App V.2 - End
 
             setTimeout(() => {
                 addContactPageTransitionButtons();
@@ -3619,40 +3600,6 @@ const removeContactLines = () => {
     document.getElementById('address-line-right-two-one').classList.remove('animated');
 
 }
-
-
-
-const toggleAboutPageMesh = () => {
-
-    if (enableLogging === true) {
-        console.log('Toggling the about page mesh');
-    }
-
-    setTimeout(() => {
-        const beetleColor = 'white';
-        createBlackPlaneGeometry();
-        createWhiteMarbleBeetle();
-        changeLightIntensity(beetleColor)
-    }, 1000)
-
-}
-
-const toggleContactPageMesh = () => {
-
-    if (enableLogging === true) {
-        console.log('Toggling the contact page mesh');
-    }
-
-    setTimeout(() => {
-        const beetleColor = 'lightBlue'
-        createBlackRockGeometry();
-        changeBeetleToBlueMarble();
-        changeLightIntensity(beetleColor)
-    }, 1000)
-
-
-}
-
 
 
 // Changes the page to the correct one
