@@ -43,6 +43,8 @@ let currentBeetleObject; // The beetle object displayed on the page will be assi
                          // this will ensure that we can always turn off the visibility and turn it back on on the right page
 
 
+let deltaY;
+
 
 let numParticles; // Number of particles that will be set in the Mesh of particles animating the ThreeJS project
 let mouseX, mouseY;
@@ -96,6 +98,12 @@ let MESH_VISIBILITY_DELAY = pageTransitionSpeed === 'fast' ? 500 : 1100;
 let CHANGE_TRANSITION_TEXT_BEFORE_SPEED = pageTransitionSpeed === 'fast' ? 200 : 450;
 let CHANGE_TRANSITION_TEXT_AFTER_SPEED = pageTransitionSpeed === 'fast' ? 950 : 1600;
 
+// Mobile & Tablet related environment variables
+let isMobile; // Initialized in @initializeMobileDetector func. & used in order to prevent loading the beetle model if the device detected is a mobile device
+let ignoreUserDevice = true; // Set in order to allow testing for mobile & tablet devices without necessarily having to refactor the code. When set to true, Samarra & Co. will allow users on mobile
+// devices or tablets to enter the website & will set all the respective necessary messages. When set to false, that will be prevented and a message asking the user to use a different device
+// is displayed upon the screen
+
 // Delay used when we set the @slidePage keyframes animation associated with the .second--page element
 // used in the page transitions
 
@@ -116,6 +124,7 @@ let frenchLanguageHovered;
 
 let formShowing = false;
 
+// let lightIntensityDivider = 120; // Octavian
 // let lightIntensityDivider = 33; // Nina Simone
 // let lightIntensityDivider = 29; // Nina Simone
 // let lightIntensityDivider = 25; // Trap Beldi
@@ -133,7 +142,7 @@ let dynamicWindowHeight = window.innerHeight;
 let ACTIVATE_VOICE_SHOWN = false;
 let DIRECTIONS_VOICE_SHOWN = false;
 
-// Variables related to the different pages that will be shown are going to be declared here
+// Variables related to the different pages that will be shown are going to be eclared here
 
 let pageShown = 'homePage';
 
@@ -151,6 +160,18 @@ let MENU_BASED_ANIMATION_STARTED = false;
 
 let loadingPageAnimationFinished = false;
 let loadingGraphicalSceneFinished = false;
+
+const URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/No+Church+In+The+Wild.mp3'
+const SIMONE_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Nina+Simone+-+Sinnerman+(320++kbps).mp3';
+const KANYE_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Flashing+Lights.mp3';
+const ERIK_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Erik+Satie+-+Gymnop%C3%A9die+No.1.mp3'
+const RYU_URL = "https://music-samarra-group.s3.us-east-2.amazonaws.com/Ryuichi+Sakamoto-+'Merry+Christmas+Mr+Lawrence'.mp3";
+const LUDO_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Ludovico+Einaudi+-+Una+Mattina+(Extended+Remix).mp3';
+const BELDI_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/ISSAM+-+Trap+Beldi+(Prod+Adam+K).mp3';
+const RUNAWAY_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Kanye+West+-+Runaway+(Video+Version)+ft.+Pusha+T.mp3';
+const TEST_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/trapBeldiShort.mp3';
+const ENFANCE_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/VIDEOCLUB+-+Enfance+80+(Clip+Officiel).mp3';
+const FAMOUS_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Octavian-Famous.mp3'
 
 // --------------------------------------------------------------------------------
 
@@ -175,14 +196,14 @@ let isUserDesktop;
 const initializeMobileDetector = () => {
     detector = new MobileDetect(window.navigator.userAgent)
 
-    let isMobile = detector.mobile();
+    isMobile = detector.mobile();
     let isTablet = detector.tablet();
     let phone = detector.tablet();
     let userAgent = detector.userAgent();
 
     if (enableLogging === true) {
         console.log(`Mobile & OS Detector initialized ${detector}`);
-        console.log(`Mobile: ${isMobile}`);
+        console.log(`Mobile Device: ${isMobile}`);
         console.log(`User Agent is ${userAgent}`);
     }
 
@@ -197,7 +218,7 @@ const initializeMobileDetector = () => {
     }
 }
 
-
+// Initialize that shit motherfucker.
 initializeMobileDetector();
 
 // --------------------------------------------------------------------------------
@@ -225,7 +246,7 @@ loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
     if (firstBatchOfModelsLoaded === false) {
         // Makes sure to start the loading bar animation as soon as the actual loading manager starts
         // & only trigger the loading bar animation if the user is not using a mobile device
-        if (isUserDesktop === true ) {
+        if (isUserDesktop === true || ignoreUserDevice === true) {
             document.getElementById('loadingPage--whiteLoadingBar').classList.add('loading');
         };
 
@@ -234,7 +255,7 @@ loadingManager.onStart = (url, itemsLoaded, itemsTotal) => {
 
         // If it is detected while all the items are loading that the user is using a mobile or tablet device then we quickly change the text of the element
         // in order to notify the user that they should be using a desktop device.
-        if (isUserDesktop === false) {
+        if (isUserDesktop === false && ignoreUserDevice === false) {
             loadingPageFirstText.innerHTML = 'Please use your desktop for the full experience.';
         };
 
@@ -297,7 +318,7 @@ loadingManager.onError = (url) => {
 const showClickMessageToRemoveLoadingPage = () => {
 
     // Only remove 'Please turn on your volume' & show the second command 'Click anywhere to enter' if the user is using a desktop browser
-    if (isUserDesktop === true) {
+    if (isUserDesktop === true || ignoreUserDevice === true) {
 
         if (enableLogging === true) {
             console.log('Removing the loading page first text element & adding the second one');
@@ -1099,6 +1120,27 @@ const createWhiteMarbleBeetle = () => {
     
 }
 
+
+/**
+ * 
+ * @resetWhiteBeetleRotation: Does as the name sugggests. Ensures that the Z rotation of the beetle
+ * is reset to 0 when the user moves away from the about page
+ * No params, no returns.
+ * Called in the @toggleGeneralPageTransition and the @toggleMenuAnimation function
+ * 
+ */
+
+
+const resetWhiteBeetleRotation = () => {
+
+    // Ensure that the whiteMarbleBeetleObject is only accessed when it is declared, which only happens if the user is **NOT** using a mobile device or tablet.
+    if (isMobile === null) {
+        whiteMarbleBeetleObject.rotation.z = 0;
+
+    }
+
+}
+
 // X Marble Texture Change
 // Used in FAQ page
 
@@ -1352,15 +1394,28 @@ createInitialBeetleObjects();
 
 const loadRemainingBeetleModels = async () => {
 
-    // The Home Page Beetle Model is called at the very beginning of the page load so isn't included in this function
+    // Important to note: There are 4 beetle loaded within the scene. The Black Beetle displayed on the Home Page is always displayed whether the user
+    // is using a mobile device or not.
 
-    // Main Menu Page Beetle
-    createWhiteMarbleBeetle();
-    // Contact Page Beetle
-    changeBeetleToBlueMarble();
-    // Client Page Beetle
-    changeBeetleToDarkGreyMarble(); // One of these two needs to go 
-    changeBeetleToGreyMarble(); 
+    // It is of utmost importance to remember that the remaining beetle models should only be uploaded if the device detected is not a mobile device.
+    // This is done because mobile devices have generally a more limited bandwith than desktop devices. More importantly, it's also important to note
+    // that the performance of the CPU & GPU of these mobile devices can be more limited than desktops. We therefore avoid overloading the user's
+    // device with unnecessary ThreeJS rendering in those scenarios.
+
+    if (isMobile === null) {
+
+        if (enableLogging === true) {
+            console.log(`Mobile device or tablet detected: ${isMobile}. We are therefore not loading the remaining assets.`);
+        }
+
+        // Main Menu Page Beetle
+        createWhiteMarbleBeetle();
+        // Contact Page Beetle
+        changeBeetleToBlueMarble();
+        // Client Page Beetle
+        changeBeetleToDarkGreyMarble(); // One of these two needs to go 
+        changeBeetleToGreyMarble(); 
+    }
 
 }
 
@@ -1380,7 +1435,7 @@ const changeLightIntensity = (marbleColor) => {
     // console.log(`lightIntensityDivider modified to color ${marbleColor}`);
 
     if (marbleColor === 'white') {
-        lightIntensityDivider = 14;
+        lightIntensityDivider = 25;
     } else if (marbleColor === 'black') {
         lightIntensityDivider = 6;
     } else if (marbleColor === 'veryLight') {
@@ -1506,17 +1561,6 @@ const onEnded = () => {
 }
 
 
-const URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/No+Church+In+The+Wild.mp3'
-const SIMONE_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Nina+Simone+-+Sinnerman+(320++kbps).mp3';
-const KANYE_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Flashing+Lights.mp3';
-const ERIK_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Erik+Satie+-+Gymnop%C3%A9die+No.1.mp3'
-const RYU_URL = "https://music-samarra-group.s3.us-east-2.amazonaws.com/Ryuichi+Sakamoto-+'Merry+Christmas+Mr+Lawrence'.mp3";
-const LUDO_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Ludovico+Einaudi+-+Una+Mattina+(Extended+Remix).mp3';
-const BELDI_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/ISSAM+-+Trap+Beldi+(Prod+Adam+K).mp3';
-const RUNAWAY_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Kanye+West+-+Runaway+(Video+Version)+ft.+Pusha+T.mp3';
-const TEST_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/trapBeldiShort.mp3';
-const ENFANCE_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/VIDEOCLUB+-+Enfance+80+(Clip+Officiel).mp3';
-const FAMOUS_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Octavian-Famous.mp3'
 
 let songBuffer, analyser;
 
@@ -2158,19 +2202,43 @@ const hideLanguagesText = () => {
 
 // There are 5 pages total: 1. Home 2. About 3. Client 4. Contact 5. Main Menu
 
-const changeMeshVisibility = (currentPage) => {
+const changeVisibilityOfBeetleModels = (currentPage) => {
 
-    // console.log(`changeMeshVisibility function called with  ${currentPage}`);
+    // console.log(`changeVisibilityOfBeetleModels function called with  ${currentPage}`);
 
     // 1. Home Page - First page that gets displayed to the user
 
     if (currentPage === 'homePage') {
 
         // Ensure that the incorrect beetle meshes are invisible
-        blueMarbleBeetleObject.visible = false;
-        whiteMarbleBeetleObject.visible = false;
-        greyMarbleBeetleObject.visible = false;
-        redPinkMarbleBeetleObject.visible = false;
+
+        // Two ways of doing this, either we check for the existence of each object before we try accessing it's property. Or second option, 
+        // we basically only allow this kind of action when the device is not a mobile device
+
+        // if (typeof blueMarbleBeetleObject !== undefined) {
+        //     blueMarbleBeetleObject.visible = false;
+        // }
+        // if (typeof whiteMarbleBeetleObject !== undefined) {
+        //     whiteMarbleBeetleObject.visible = false;
+        // }
+        // if (typeof greyMarbleBeetleObject !== undefined) {
+        //     greyMarbleBeetleObject.visible = false;
+        // }
+        // if (typeof redPinkMarbleBeetleObject !== undefined) {
+        //     redPinkMarbleBeetleObject.visible = false;
+        // }
+
+        // The second option
+
+        // If the isMobile variable is initialized to null then we know for a fact that the device isn't a mobile device & therefore we can try accessing those object
+        // properties because we know the objects are all declared & initialized
+        if (isMobile === null) {
+            blueMarbleBeetleObject.visible = false;
+            whiteMarbleBeetleObject.visible = false;
+            greyMarbleBeetleObject.visible = false;
+            redPinkMarbleBeetleObject.visible = false;
+        }
+ 
 
         // Ensure that the incorrect planes are invisible too
         blackRockPlaneMesh.visible = false;
@@ -2205,44 +2273,18 @@ const changeMeshVisibility = (currentPage) => {
     // 5. Menu Page -- Page that gets displayed 
     } else if (currentPage === 'menuPage') {
 
-        // Old Meshes
-        
-        // console.log('Entering if loop of MESH Visibility of menuPage')
+        // Ensure that the incorrect beetle models are invisible
+        // PS: We only put those models (and not the BlackMarbleBeetleObject) in this if statement because they will not be defined if the user is using a mobile device.
+        // On the contrary, the blackMarbleBeetleObject will always be defined whether the device is a mobile, tablet, or desktop.
+        if (isMobile === null) {
+            blueMarbleBeetleObject.visible = false;
+            greyMarbleBeetleObject.visible = false;
+            redPinkMarbleBeetleObject.visible = false;
+        }
 
-        // // Ensure that the incorrect beetle meshes are invisible
-        // // greyMarbleBeetleObject.visible = false;
-        // blueMarbleBeetleObject.visible = false;
-        // whiteMarbleBeetleObject.visible = false;
-        // blackMarbleBeetleObject.visible = false;
-        // redPinkMarbleBeetleObject.visible = false;
-
-        // // console.log('BLUE MARBLE BEETLE', blueMarbleBeetleObject);
-        // // console.log('WHITE MARBLE BEETLE', whiteMarbleBeetleObject);
-        // // console.log('BLACK MARBLE BEETLE', blackMarbleBeetleObject);
-
-        // // Ensure that the incorrect planes are invisible too
-        // blackRockPlaneMesh.visible = false;
-        // blackRockPlaneMeshTwo.visible = false;
-        // blueRockPlaneMesh.visible = false;
-        // whiteBlackPlaneMesh.visible = false;
-
-        // // console.log('BLACK PLANE MESH', blackRockPlaneMesh);
-        // // console.log('BLACK PLANE MESH 2', blackRockPlaneMeshTwo);
-        // // console.log('PLANE MESH', blueRockPlaneMesh);
-
-        // // Make correct beetle meshe visible
-        // // blueMarbleBeetleObject.visible = true;
-        // greyMarbleBeetleObject.visible = true;
-        // // Make correct plane visible
-        // darkGreenPlaneMesh.visible = true;
-
-        // New Meshes
-
-        // Ensure that the incorrect beetle meshes are invisible
-        blueMarbleBeetleObject.visible = false;
-        greyMarbleBeetleObject.visible = false;
+        // We make the blackMarbleBeetleObject's visibility false. We don't put it in the if loop above as we know that this variable will always be declared & will be an object
+        // whether the user is using a mobile or desktop device.
         blackMarbleBeetleObject.visible = false;
-        redPinkMarbleBeetleObject.visible = false;
 
         // Ensure that the incorrect planes are invisible too
         blackRockPlaneMeshTwo.visible = false;
@@ -2250,56 +2292,37 @@ const changeMeshVisibility = (currentPage) => {
         blackRockPlaneMesh.visible = false;
         whiteBlackPlaneMesh.visible = false;
 
-        // console.log('LOGGING IN MESH VISIBILITY SECOND LAYER FOR TESTING');
-        // console.log('BLACK PLANE MESH TWO', blackRockPlaneMeshTwo);
-        // console.log('BLACK PLANE MESH', blackRockPlaneMesh);
-        // console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
 
-        // Make correct beetle meshe visible
-        whiteMarbleBeetleObject.visible = true;
+        // Make correct beetle meshe visible & only do so if we are not using a mobile device. Because if we are then, the whiteMarbleBeetleObject below will not be declared & it will return an 
+        // Exception eror
+        if (isMobile === null) {
+            whiteMarbleBeetleObject.visible = true;
 
-        // We re-assign the variable currentBeetleObject to the correct one (for the purpose) of turning on the visibility back 
-        // on if it is necessary later on
-        currentBeetleObject = whiteMarbleBeetleObject;
+            // We re-assign the variable currentBeetleObject to the correct one (for the purpose) of turning on the visibility back 
+            // on if it is necessary later on
+            currentBeetleObject = whiteMarbleBeetleObject;
+        }
 
         // Make correct plane visible
         blackWavePlaneMesh.visible = true;
 
         // Don't forget to change the light intensity
         // Same logic as in the above if loop, we use a set time out in order to ensure that the beetle object desn't appear too quickly
-        setTimeout(() => {
-            beetleColor = 'white';
-            changeLightIntensity(beetleColor);
-        }, 600);
+        // Also, beetleColor being set to white triggers some events to be triggered when the user switches between pages on a mobile or tablet device.
+        // Creating this if statement here allows us to ensure that beetleColor is set to none & doesn't cause this unnecessary renderings.
+        if (isMobile === null) {
+            setTimeout(() => {
+                beetleColor = 'white';
+                changeLightIntensity(beetleColor);
+            }, 600);
+        } else {
+            beetleColor = 'none';
+        }
 
     // 2. About Page 
-
     } else if (currentPage === 'aboutPage') {
 
-        // Old Meshes
-
-        // // console.log('ENTERING IF STATEMENT IN MESH VISIBILITY FUNCTION')
-
-        // // Ensure that the incorrect beetle meshes are invisible
-        // blueMarbleBeetleObject.visible = false;
-        // greyMarbleBeetleObject.visible = false;
-        // blackMarbleBeetleObject.visible = false;
-        // redPinkMarbleBeetleObject.visible = false;
-
-        // // Ensure that the incorrect planes are invisible too
-        // blackRockPlaneMeshTwo.visible = false;
-        // blueRockPlaneMesh.visible = false;
-        // darkGreenPlaneMesh.visible = false;
-        // whiteBlackPlaneMesh.visible = false;
-
-        // // Make correct beetle meshe visible
-        // whiteMarbleBeetleObject.visible = true;
-        // // Make correct plane visible
-        // blackRockPlaneMesh.visible = true;
-
-        // // Don't forget to change the light intensity
-        // beetleColor = 'white';
-        // changeLightIntensity(beetleColor);
+    
 
         // Set the beetle color to 'none' in order to ensure that the beetle object isn't shown when we click away from the 'About' page
         beetleColor = 'none';
@@ -2307,12 +2330,18 @@ const changeMeshVisibility = (currentPage) => {
         // New Meshes
 
         // Ensure that the incorrect beetle meshes are invisible
-        // greyMarbleBeetleObject.visible = false;
-        blueMarbleBeetleObject.visible = false;
-        whiteMarbleBeetleObject.visible = false;
+        // Same logic applies as in the if loop right above
+        if (isMobile === null) {
+            blueMarbleBeetleObject.visible = false;
+            whiteMarbleBeetleObject.visible = false;
+            redPinkMarbleBeetleObject.visible = false;
+            greyMarbleBeetleObject.visible = false;
+    
+        }
+
+        // Same logic applies as in the if loop right above
         blackMarbleBeetleObject.visible = false;
-        redPinkMarbleBeetleObject.visible = false;
-        greyMarbleBeetleObject.visible = false;
+
 
         // Ensure that the incorrect planes are invisible too
         blackRockPlaneMeshTwo.visible = false;
@@ -2338,49 +2367,62 @@ const changeMeshVisibility = (currentPage) => {
     } else if (currentPage === 'contactPage') {
 
         // Ensure that the incorrect beetle meshes are invisible
-        greyMarbleBeetleObject.visible = false;
-        blackMarbleBeetleObject.visible = false;
-        whiteMarbleBeetleObject.visible = false;
-        redPinkMarbleBeetleObject.visible = false;
-        // blueMarbleBeetleObject.visible = false;
+        // Same logic applies as in 5. Menu Page & 1. Home Page
+        if (isMobile === null) {
+            greyMarbleBeetleObject.visible = false;
+            whiteMarbleBeetleObject.visible = false;
+            redPinkMarbleBeetleObject.visible = false;
+        }
 
-        // console.log('GREY MARBLE BEETLE', greyMarbleBeetleObject);
-        // console.log('WHITE MARBLE BEETLE', whiteMarbleBeetleObject);
-        // console.log('BLACK MARBLE BEETLE', blackMarbleBeetleObject);
+        blackMarbleBeetleObject.visible = false;
+
 
         // Ensure that the incorrect planes are invisible too
         blackRockPlaneMesh.visible = false;
         blueRockPlaneMesh.visible = false;
         blackWavePlaneMesh.visible = false;
         whiteBlackPlaneMesh.visible = false;
-        // blackRockPlaneMeshTwo.visible = false;
 
-        // console.log('PLANE MESH', blueRockPlaneMesh);
-        // console.log('BLACK PLANE', blackRockPlaneMesh);
-        // console.log('Dark GREEN PLANE MESH', darkGreenPlaneMesh);
 
-        // Make correct beetle meshe visible
-        blueMarbleBeetleObject.visible = true;
+        // Make correct beetle object visible
+        // If loop is there because we make sure to only attempt changing the property of this variable when the blueMarbleBeetleObject is declared, which only happens if the
+        // user is not using a mobile device.
 
-        // We re-assign the variable currentBeetleObject to the correct one (for the purpose) of turning on the visibility back 
-        // on if it is necessary later on
-        currentBeetleObject = blueMarbleBeetleObject;
+        if (isMobile === null) {
+            blueMarbleBeetleObject.visible = true;
+
+            // We re-assign the variable currentBeetleObject to the correct one (for the purpose) of turning on the visibility back 
+            // on if it is necessary later on
+            currentBeetleObject = blueMarbleBeetleObject;
+
+        }
+
 
         // Make correct plane visible
         blackRockPlaneMeshTwo.visible = true;
         // blueRockPlaneMesh.visible = true;
 
         // Don't forget to change the light intensity
-        beetleColor = 'lightBlue';
-        changeLightIntensity(beetleColor);
+        if (isMobile === null) {
+            beetleColor = 'lightBlue';
+            changeLightIntensity(beetleColor);
+        } else {
+            // Because then we are using a mobile device & there shouldn't be any beetleColor for this page.
+            beetleColor = null;
+        }
+
  
     // 4. Client Page - Currently called faqPage
     } else if (currentPage === 'faqPage') {
 
         // Ensure that the incorrect beetle meshes are invisible
-        blueMarbleBeetleObject.visible = false;
-        whiteMarbleBeetleObject.visible = false;
-        greyMarbleBeetleObject.visible = false;
+
+        if (isMobile === null) {
+            blueMarbleBeetleObject.visible = false;
+            whiteMarbleBeetleObject.visible = false;
+            greyMarbleBeetleObject.visible = false;
+        }
+
         blackMarbleBeetleObject.visible = false;
 
         // Ensure that the incorrect planes are invisible too
@@ -2389,20 +2431,30 @@ const changeMeshVisibility = (currentPage) => {
         blackRockPlaneMeshTwo.visible = false;
         blueRockPlaneMesh.visible = false;
 
-        // Make correct beetle meshe visible
-        redPinkMarbleBeetleObject.visible = true;
+        if (isMobile === null) {
 
-        // We re-assign the variable currentBeetleObject to the correct one (for the purpose) of turning on the visibility back 
-        // on if it is necessary later on
-        currentBeetleObject = redPinkMarbleBeetleObject;
+            // Make correct beetle meshe visible
+            redPinkMarbleBeetleObject.visible = true; // #rename
+
+            // We re-assign the variable currentBeetleObject to the correct one (for the purpose) of turning on the visibility back 
+            // on if it is necessary later on
+            currentBeetleObject = redPinkMarbleBeetleObject;
+
+        }
+
 
         // Make correct plane visible
         whiteBlackPlaneMesh.visible = true;
 
 
         // Don't forget to change the light intensity
-        beetleColor = 'grey';
-        changeLightIntensity(beetleColor);
+        if (isMobile === null) {
+            beetleColor = 'grey';
+            changeLightIntensity(beetleColor);
+        } else {
+            beetleColor = 'none'
+        }
+
 
     // 6. Counts as a 6th page - Shows all the legal & privacy notices
     } else if (currentPage === 'legalPage') {
@@ -2410,11 +2462,16 @@ const changeMeshVisibility = (currentPage) => {
         // In the case that we are facing the legal page, then we hide all of the different beetles
 
         // Ensure that all of the beetle meshes are invisible
-        blueMarbleBeetleObject.visible = false;
-        whiteMarbleBeetleObject.visible = false;
-        greyMarbleBeetleObject.visible = false;
+
+        if (isMobile === null) {
+            blueMarbleBeetleObject.visible = false;
+            whiteMarbleBeetleObject.visible = false;
+            greyMarbleBeetleObject.visible = false;
+            redPinkMarbleBeetleObject.visible = false;
+        }
+
         blackMarbleBeetleObject.visible = false;
-        redPinkMarbleBeetleObject.visible = false;
+
 
         // We don't actually change the Plane Geometry or Texture of the plane, so unlike the above conditions,
         // in this case, we do nothing. 
@@ -2521,8 +2578,11 @@ const toggleGeneralPageTransition = (event) => {
             }, 300)
 
             // If we pass an empty string, it removes the elements for the menuPage
-            toggleMenuPage('')
+            toggleMenuPage('');
 
+            setTimeout(() => {
+                resetWhiteBeetleRotation();
+            }, 300);
     
         } else if (oldPageShown === 'aboutPage') {
 
@@ -2613,7 +2673,7 @@ const toggleGeneralPageTransition = (event) => {
 
             // App V.2 - Start
             setTimeout(() => {
-                changeMeshVisibility('homePage');
+                changeVisibilityOfBeetleModels('homePage');
             }, MESH_VISIBILITY_DELAY);
             // App V.2 - End
     
@@ -2649,10 +2709,10 @@ const toggleGeneralPageTransition = (event) => {
             toggleAboutPage('aboutPage');
 
             setTimeout(() => {
-                changeMeshVisibility('aboutPage');
+                changeVisibilityOfBeetleModels('aboutPage');
             }, MESH_VISIBILITY_DELAY);
 
-            // changeMeshVisibility('aboutPage');
+            // changeVisibilityOfBeetleModels('aboutPage');
 
     
         // This is the FAQ / Client Page
@@ -2688,7 +2748,7 @@ const toggleGeneralPageTransition = (event) => {
 
             // App V.2 - Start
             setTimeout(() => {
-                changeMeshVisibility('faqPage');
+                changeVisibilityOfBeetleModels('faqPage');
             }, MESH_VISIBILITY_DELAY);
             // App V.2 - End
     
@@ -2718,7 +2778,7 @@ const toggleGeneralPageTransition = (event) => {
             }, 500);
 
             setTimeout(() => {
-                changeMeshVisibility('contactPage');
+                changeVisibilityOfBeetleModels('contactPage');
             }, MESH_VISIBILITY_DELAY);
 
             setTimeout(() => {
@@ -2755,7 +2815,7 @@ const toggleGeneralPageTransition = (event) => {
 
             // App V.2 - Start
             setTimeout(() => {
-                changeMeshVisibility('menuPage');
+                changeVisibilityOfBeetleModels('menuPage');
             }, MESH_VISIBILITY_DELAY);
             // App V.2 - End
     
@@ -2782,7 +2842,7 @@ const toggleGeneralPageTransition = (event) => {
 
             // Will ensure that the White Beetle isn't displayed
             setTimeout(() => {
-                changeMeshVisibility('legalPage');
+                changeVisibilityOfBeetleModels('legalPage');
             }, MESH_VISIBILITY_DELAY);
 
         }
@@ -3217,7 +3277,7 @@ const toggleMenuAnimation = () => {
 
             // App V.2
             setTimeout(() => {
-                changeMeshVisibility('menuPage');
+                changeVisibilityOfBeetleModels('menuPage');
             }, MESH_VISIBILITY_DELAY);
 
             toggleMenuPage('menuPage');
@@ -3254,7 +3314,7 @@ const toggleMenuAnimation = () => {
 
             // App V.2
             setTimeout(() => {
-                changeMeshVisibility('homePage');
+                changeVisibilityOfBeetleModels('homePage');
             }, MESH_VISIBILITY_DELAY);
 
             toggleHomePage('homePage')
@@ -3841,7 +3901,7 @@ const toggleTextColor = (event) => {
 
     // console.log('Page transition text & cursor changes initiated')
 
-    // ANIMATION_STARTED = true;
+    ANIMATION_STARTED = true;
     pageTransitionPlaying = true;
     
 
@@ -4953,50 +5013,50 @@ const detectUserScroll = (event) => {
     // If deltaY is negative the user is trying to scroll up
     // If deltaY is positive the user is trying to scroll down
 
-    let { deltaY } = event;
+    deltaY = event.deltaY;
 
     // The first variables ensures that the scroll event does not get triggered if the animation started
     // The second and third variables ensure that it's not triggered when the first loading page is still showing
-    if (MENU_BASED_ANIMATION_STARTED === false && loadingGraphicalSceneFinished === true && loadingPageAnimationFinished === true) {
+    // if (MENU_BASED_ANIMATION_STARTED === false && loadingGraphicalSceneFinished === true && loadingPageAnimationFinished === true) {
 
-        // We have to change the value of this boolean to prevent the function from being called again and moving the use rtoo fast 
-        // through the website
-        // MENU_BASED_ANIMATION_STARTED = true;
+    //     // We have to change the value of this boolean to prevent the function from being called again and moving the use rtoo fast 
+    //     // through the website
+    //     // MENU_BASED_ANIMATION_STARTED = true;
 
-        if (deltaY < previousDeltaY ) {
+    //     if (deltaY < previousDeltaY ) {
         
-            // Then user is trying to scroll up
-            if (enableLogging === true) {
-                console.log(`User is attempting to scroll up on ${pageShown}`)
-            }
+    //         // Then user is trying to scroll up
+    //         if (enableLogging === true) {
+    //             console.log(`User is attempting to scroll up on ${pageShown}`)
+    //         }
 
 
-            if (pageShown === 'aboutPage') {
-                toggleGeneralPageTransition('homePage')
-            } else if (pageShown === 'faqPage') {
-                toggleGeneralPageTransition('aboutPage') // Client Page
-            } else if (pageShown === 'contactPage') {
-                toggleGeneralPageTransition('faqPage')
-            }
+    //         if (pageShown === 'aboutPage') {
+    //             toggleGeneralPageTransition('homePage')
+    //         } else if (pageShown === 'faqPage') {
+    //             toggleGeneralPageTransition('aboutPage') // Client Page
+    //         } else if (pageShown === 'contactPage') {
+    //             toggleGeneralPageTransition('faqPage')
+    //         }
 
-        } else {
+    //     } else {
 
-            // Then user is trying to scroll down
-            if (enableLogging === true) {
-                console.log(`User is attempting to scroll down on ${pageShown}`)
-            }
+    //         // Then user is trying to scroll down
+    //         if (enableLogging === true) {
+    //             console.log(`User is attempting to scroll down on ${pageShown}`)
+    //         }
 
-            if (pageShown === 'homePage') {
-                toggleGeneralPageTransition('aboutPage')
-            } else if (pageShown === 'aboutPage') {
-                toggleGeneralPageTransition('faqPage') // Client Page
-            } else if (pageShown === 'faqPage') {
-                toggleGeneralPageTransition('contactPage')
-            }
+    //         if (pageShown === 'homePage') {
+    //             toggleGeneralPageTransition('aboutPage')
+    //         } else if (pageShown === 'aboutPage') {
+    //             toggleGeneralPageTransition('faqPage') // Client Page
+    //         } else if (pageShown === 'faqPage') {
+    //             toggleGeneralPageTransition('contactPage')
+    //         }
 
 
-        }
-    }
+    //     }
+    // }
 
 }
 
@@ -5226,7 +5286,7 @@ const initializeEventListeners = () => {
     document.getElementById('languageOne').addEventListener('mouseleave', userNotHoverOverFrench);
 
     // Scroll related
-    // window.addEventListener('wheel', detectUserScroll);
+    window.addEventListener('wheel', detectUserScroll);
 
 }
 
@@ -5407,6 +5467,10 @@ let animate = function () {
         spotLight.intensity = beetleColor === 'white' ? 2 : 3;
     }
 
+    if (enableLogging === true) {
+        console.log(`Current beetle color is ${beetleColor}`)
+    }
+
     // console.log('Spotlight Intensity', spotLight.intensity);
     // console.log('Music Playing', musicPlaying)
     // console.log('Beetle Color', beetleColor);
@@ -5494,10 +5558,15 @@ let animate = function () {
         // The second condition here, which ensures that the pageShown is not the 'aboutPage', makes it that the beetle is never shown if the user is on the aboutPage
         // console.log('Current Beetle Color is', beetleColor);
 
+
         if (currentBeetleObject !== undefined && pageShown !== 'aboutPage' && pageShown !== 'legalPage' && pageShown !== 'menuPage') {
 
-            if (beetleColor === 'black' || beetleColor === 'white' || beetleColor === 'grey') {
-                currentBeetleObject.visible = true;
+            if (beetleColor === 'black' ) {
+                blackMarbleBeetleObject.visible = true;
+            } else if (beetleColor === 'white') {
+                whiteMarbleBeetleObject.visible = true;
+            } else if (beetleColor === 'grey') {
+                greyMarbleBeetleObject.visible = true;
             }
         }
     } 
@@ -5560,6 +5629,29 @@ let animate = function () {
         // This part will animate the particles
 
     }
+
+
+    // This if-loop ensures that scrolling events when the user is on the main menu cause the White Marble Beetle model to rotate along the Z-axis,
+    // DeltaY ends up being set to the last event tracked by the wheel event, which ends up usually being -1 or 1 depending on the direction of the 
+    // wheel event. This leads the Beetle to rotate infinitely in whichever direction it started in. 
+    // In order to avoid that, we reset deltaY to be equal to 0 so that the model stops rotating. 
+    if (pageShown === 'menuPage' && deltaY !== undefined) {
+
+        if (enableLogging === true ) {
+            // console.log(`Current rotation Z of Beetle is ${currentBeetleObject.rotation.z}`);
+        }
+    
+        // We specifically change the whiteMarbleBeetleObject's rotation, not the currentBeetleObject's rotation. When we changed the currentBeetleObject's rotation
+        // here, it would lead to this bug on mobile devices / tablets where the Home Page beetle (Black & White marble one)'s rotation would shift, because
+        // the currentBeetleObject was passed the blackMarbleBeetleObject by reference. 
+        
+        if (isMobile === null) {
+            whiteMarbleBeetleObject.rotation.z += deltaY / 150;
+        }
+
+        // We always ensure that the deltaY is reset t 0 whether we are using a mobile device or not. 
+        deltaY = 0;
+    } 
 
     if (ANIMATION_STARTED === true) {
         particlesMesh.position.z += (mouseY + particlesMesh.position.y) * 0.1;

@@ -38,6 +38,7 @@
 			:root {
 				--legal-text-delay: 0.1s;
 				--transition--speed: 2s;
+				--cta--navigation--button--animation: 3s;
 			}
 
 			/* #toThink #toDo: user selection on the contents within the body is actually prevented. Should you keep it? */
@@ -888,11 +889,11 @@
 					background-color: rgb(255, 255, 255, 0.6);
 				}
 				3% {
-					width: 45px;
+					width: 50px;
 					background-color: rgb(255, 255, 255, 0.6);
 				}
 				100% {
-					width: 45px;
+					width: 50px;
 				}
 			}
 
@@ -2885,7 +2886,7 @@
 				left: -60px;
 				content: '';
 				/* transform: rotate(180deg); */
-				animation: cta-bottom-animation 4s linear 3s infinite alternate ;
+				animation: cta-bottom-animation var(--cta--navigation--button--animation) linear 3s infinite alternate ;
 			}
 
 			.cta--click--container::after {
@@ -2897,7 +2898,7 @@
 				display: block;
 				right: -60px;
 				content: '';
-				animation: cta-bottom-animation 4s linear 3s infinite alternate;
+				animation: cta-bottom-animation var(--cta--navigation--button--animation) linear 3s infinite alternate;
 			}
 
 			.cta--click--container:hover > #cta--click--text--about {
@@ -2964,7 +2965,7 @@
 				left: -60px;
 				content: '';
 				/* transform: rotate(180deg); */
-				animation: cta-bottom-animation 4s linear 3s infinite alternate ;
+				animation: cta-bottom-animation var(--cta--navigation--button--animation) linear 3s infinite alternate ;
 			}
 
 			.cta--click--container--two::after {
@@ -2976,7 +2977,7 @@
 				display: block;
 				right: -60px;
 				content: '';
-				animation: cta-bottom-animation 4s linear 3s infinite alternate;
+				animation: cta-bottom-animation var(--cta--navigation--button--animation) linear 3s infinite alternate;
 			}
 
 			.cta--click--container--two:hover::after {
@@ -3019,7 +3020,7 @@
 				left: -60px;
 				content: '';
 				/* transform: rotate(180deg); */
-				animation: cta-bottom-animation 4s linear 3s infinite alternate ;
+				animation: cta-bottom-animation var(--cta--navigation--button--animation) linear 3s infinite alternate ;
 			}
 
 			.cta--click--container--two--about::after {
@@ -3031,7 +3032,7 @@
 				display: block;
 				right: -60px;
 				content: '';
-				animation: cta-bottom-animation 4s linear 3s infinite alternate;
+				animation: cta-bottom-animation var(--cta--navigation--button--animation) linear 3s infinite alternate;
 			}
 
 			.cta--click--container--two--about:hover::after {
@@ -3073,7 +3074,7 @@
 				left: -60px;
 				content: '';
 				/* transform: rotate(180deg); */
-				animation: cta-bottom-animation 4s linear 3s infinite alternate ;
+				animation: cta-bottom-animation var(--cta--navigation--button--animation) linear 3s infinite alternate ;
 			}
 
 			.cta--click--container--two--client::after {
@@ -3085,7 +3086,7 @@
 				display: block;
 				right: -60px;
 				content: '';
-				animation: cta-bottom-animation 4s linear 3s infinite alternate;
+				animation: cta-bottom-animation var(--cta--navigation--button--animation) linear 3s infinite alternate;
 			}
 
 			.cta--click--container--two--client:hover::after {
@@ -3127,7 +3128,7 @@
 				left: -60px;
 				content: '';
 				/* transform: rotate(180deg); */
-				animation: cta-bottom-animation 4s linear 3s infinite alternate ;
+				animation: cta-bottom-animation var(--cta--navigation--button--animation) linear 3s infinite alternate ;
 			}
 
 			.cta--click--container--three::after {
@@ -3139,7 +3140,7 @@
 				display: block;
 				right: -60px;
 				content: '';
-				animation: cta-bottom-animation 4s linear 3s infinite alternate;
+				animation: cta-bottom-animation var(--cta--navigation--button--animation) linear 3s infinite alternate;
 			}
 
 			.cta--click--container--three:hover::after {
@@ -3181,7 +3182,7 @@
 				left: -60px;
 				content: '';
 				/* transform: rotate(180deg); */
-				animation: cta-bottom-animation 4s linear 3s infinite alternate ;
+				animation: cta-bottom-animation var(--cta--navigation--button--animation) linear 3s infinite alternate ;
 			}
 
 			.cta--click--container--two--contact::after {
@@ -3193,7 +3194,7 @@
 				display: block;
 				right: -60px;
 				content: '';
-				animation: cta-bottom-animation 4s linear 3s infinite alternate;
+				animation: cta-bottom-animation var(--cta--navigation--button--animation) linear 3s infinite alternate;
 			}
 
 			.cta--click--container--two--contact:hover::after {
