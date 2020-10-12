@@ -5262,8 +5262,10 @@ const initializeEventListeners = () => {
     document.getElementById('cta--click--container--three').addEventListener('touchstart', goToContactPageFromClient, {passive: true});
     document.getElementById('privacy--click--container').addEventListener('touchstart', showLegalTermsPage, {passive: true});
 
-    document.getElementById('venereMaisCourtois').addEventListener('mouseenter', showVenereMaisCourtois);
-    document.getElementById('venereMaisCourtois').addEventListener('mouseleave', hideVenereMaisCourtois);
+    if (environment === 'dev') {
+        document.getElementById('venereMaisCourtois').addEventListener('mouseenter', showVenereMaisCourtois);
+        document.getElementById('venereMaisCourtois').addEventListener('mouseleave', hideVenereMaisCourtois);
+    }
 
 
     document.getElementById('expertiseButtonContainer').addEventListener('click', showExpertiseText);
