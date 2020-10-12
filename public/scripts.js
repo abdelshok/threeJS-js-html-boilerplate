@@ -2233,7 +2233,10 @@ const changeVisibilityOfBeetleModels = (currentPage) => {
         // If the isMobile variable is initialized to null then we know for a fact that the device isn't a mobile device & therefore we can try accessing those object
         // properties because we know the objects are all declared & initialized
         if (isMobile === null) {
-            console.log('Changing Mesh Visibility of Models because we are moving towards the Home Page. Removing blueMarble Beetle, White Marble Beetle, Grey Marble Beetle, and RedPinkMarble Beetle');
+
+            if (enableLogging === true) {
+                console.log('Changing Mesh Visibility of Models because we are moving towards the Home Page. Removing blueMarble Beetle, White Marble Beetle, Grey Marble Beetle, and RedPinkMarble Beetle');
+            }
 
             blueMarbleBeetleObject.visible = false;
             whiteMarbleBeetleObject.visible = false;
