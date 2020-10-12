@@ -65,7 +65,7 @@ let initialPageLoadingBarFullyLoaded = false;
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'prod';
+let environment = 'dev';
 let enableLogging = environment === 'dev' ? true : false;
 
 // Function retrieves the CSS-defined variable --transition--speed which represents the speed of the transition triggered
@@ -2233,6 +2233,8 @@ const changeVisibilityOfBeetleModels = (currentPage) => {
         // If the isMobile variable is initialized to null then we know for a fact that the device isn't a mobile device & therefore we can try accessing those object
         // properties because we know the objects are all declared & initialized
         if (isMobile === null) {
+            console.log('Changing Mesh Visibility of Models because we are moving towards the Home Page. Removing blueMarble Beetle, White Marble Beetle, Grey Marble Beetle, and RedPinkMarble Beetle');
+
             blueMarbleBeetleObject.visible = false;
             whiteMarbleBeetleObject.visible = false;
             greyMarbleBeetleObject.visible = false;
@@ -5006,13 +5008,20 @@ const detectUserScroll = (event) => {
 
     if (enableLogging === true) {
         console.log('User scrolling event is', event);
+        console.log('Delta Y is now', deltaY);
     }
 
     // Catches the Y direction of the wheel event.
     // If deltaY is negative the user is trying to scroll up
     // If deltaY is positive the user is trying to scroll down
 
-    deltaY = event.deltaY;
+    // This if statement ensures that the deltaY variable is only re-assigned and changed when the user is on the Main Menu page
+    // Without this statement, then the deltaY would get updated at all times and every time the user would move away from the 
+    // menu page and back to menu page, they'd find the White Marble Beetle Objec in a different position.
+
+    if (pageShown === 'menuPage') {
+        deltaY = event.deltaY;
+    }
 
     // The first variables ensures that the scroll event does not get triggered if the animation started
     // The second and third variables ensure that it's not triggered when the first loading page is still showing
@@ -5564,8 +5573,6 @@ let animate = function () {
 
             if (beetleColor === 'black' ) {
                 blackMarbleBeetleObject.visible = true;
-            } else if (beetleColor === 'white') {
-                whiteMarbleBeetleObject.visible = true;
             } else if (beetleColor === 'grey') {
                 greyMarbleBeetleObject.visible = true;
             }
@@ -5593,7 +5600,7 @@ let animate = function () {
         if (currentBeetleObject !== undefined && pageShown !== 'aboutPage' && pageShown !== 'legalPage') {
 
             // initiateTransitionAnimation();
-            if (beetleColor === 'lightBlue' ) {
+            if (beetleColor === 'lightBlue') {
                 currentBeetleObject.visible = true;
             }
         }
@@ -5639,13 +5646,16 @@ let animate = function () {
     if (pageShown === 'menuPage' && deltaY !== undefined) {
 
         if (enableLogging === true ) {
-            // console.log(`Current rotation Z of Beetle is ${currentBeetleObject.rotation.z}`);
+            console.log(`Current rotation Z of Beetle is ${currentBeetleObject.rotation.z}`);
+            console.log('Current deltaY set to ', deltaY);
         }
     
         // We specifically change the whiteMarbleBeetleObject's rotation, not the currentBeetleObject's rotation. When we changed the currentBeetleObject's rotation
         // here, it would lead to this bug on mobile devices / tablets where the Home Page beetle (Black & White marble one)'s rotation would shift, because
         // the currentBeetleObject was passed the blackMarbleBeetleObject by reference. 
         
+
+
         if (isMobile === null) {
             whiteMarbleBeetleObject.rotation.z += deltaY / 150;
         }
