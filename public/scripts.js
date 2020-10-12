@@ -3324,10 +3324,13 @@ const toggleMenuAnimation = () => {
 
             toggleHomePage('homePage')
 
-            // Remove Veritical Lines next to Contact Information
             setTimeout(() => {
+                // Remove Veritical Lines next to Contact Information
                 removeContactInfoLinesMainMenu();
+                // Resets the rotation of the White Marble Beetle so that it reappears aligned to the screen when the user moves away and comes back to the menu page
+                resetWhiteBeetleRotation();
             }, 300);
+
 
             setTimeout(() => {
                 addAboutPageNavButtonAtBottom();
