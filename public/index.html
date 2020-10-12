@@ -27,11 +27,13 @@
 
 			html {
 				font-size: 62.5%;
+				/* height: 100%;
+				width: 100%; */
 			}
 
 			html, body {
-				height: 100vh;
-				width: 100vw;
+				/* height: 100vh;
+				width: 100vw; */
 				font-size: 62.5%;
 			}
 
@@ -47,6 +49,7 @@
 				overflow: hidden;
 				overflow-x: hidden;
 				height: 100%;
+				width: 100%;
 				cursor: none;
 				-youbkit-touch-callout: none; 
 				-youbkit-user-select: none;   
@@ -105,8 +108,8 @@
 
 			.container {
 				/* overflow: hidden; */
-				width: 100vw;
-				height: 100vh;
+				width: 100%;
+				height: 100%;
 				background: transparent;
 				position: absolute;
 			}
@@ -118,7 +121,7 @@
 
 			.pages {
 				position: absolute;
-				width: 100vw;
+				width: 100%;
 				height: 100%;
 				background-color: transparent;
 				/* z-index: 10000; */
@@ -134,10 +137,10 @@
 
 			.second--page {
 				position: absolute;
-				height: 100vh;
-				width: 100vw;
+				height: 100%;
+				width: 100%;
 				bottom: 0;
-				transform: translateY(102vh);
+				transform: translateY(100%);
 				background-color: white;
 				z-index: 0;
 			}
@@ -1711,7 +1714,7 @@
 
 			.aboutPageTitleContainer {
 				width: 100vw;
-				height: 100%;;
+				height: 100vh;
 				background-color: transparent;
 				position: absolute;
 				display: flex;
@@ -1755,8 +1758,8 @@
 
 			/* Need to move first the element and then remove it to give a smooth transition */
 			.loading-page {
-				width: 100vw;
-				height: 100vh;
+				width: 100%;
+				height: 100%;
 				background-color: black;
 				visibility: visible;
 				opacity: 1;
@@ -5642,7 +5645,8 @@
 											Samarra & Co. is a creative and digital agency that shapes bespoke experiences.
 										</p>
 										<p class='aboutPageSubText' id='aboutPageSubText1' >
-											Based in New York City, Paris, and Jeddah, Samarra & Co. started as an art collective and satirical newspaper entitled <span id='venereMaisCourtois'> 'Vénère mais Courtois' </span> disseminated through the narrow streets of Paris in 2019.
+											Based in New York City, Paris, and Jeddah, Samarra & Co. started as an art collective and satirical newspaper disseminated through the narrow streets of Paris in 2019.
+											<!-- entitled <span id='venereMaisCourtois'> 'Vénère mais Courtois' </span> -->
 										</p>
 										<p class='aboutPageSubTextII' id='aboutPageSubText2' >
 											Although we've decided to cease the printing and publication of our beloved newspaper, it's creation led us to collaborate with various French actors, musicians, and 

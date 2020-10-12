@@ -5005,8 +5005,7 @@ let previousDeltaY = 0; // Constants tracking the previous value of deltaY in or
 const detectUserScroll = (event) => {
 
     if (enableLogging === true) {
-        console.log('User scrolling');
-        console.log('Event is', event);
+        console.log('User scrolling event is', event);
     }
 
     // Catches the Y direction of the wheel event.
@@ -5468,7 +5467,7 @@ let animate = function () {
     }
 
     if (enableLogging === true) {
-        console.log(`Current beetle color is ${beetleColor}`)
+        // console.log(`Current beetle color is ${beetleColor}`) // Needs to be commented out even when logging enabled as it causes too many logs to the chrome debugger
     }
 
     // console.log('Spotlight Intensity', spotLight.intensity);
