@@ -65,7 +65,7 @@ let initialPageLoadingBarFullyLoaded = false;
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'dev';
+let environment = 'prod';
 let enableLogging = environment === 'dev' ? true : false;
 
 // Function retrieves the CSS-defined variable --transition--speed which represents the speed of the transition triggered
