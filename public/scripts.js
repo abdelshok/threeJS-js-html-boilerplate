@@ -65,7 +65,7 @@ let initialPageLoadingBarFullyLoaded = false;
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'dev';
+let environment = 'prod';
 let enableLogging = environment === 'dev' ? true : false;
 
 // Function retrieves the CSS-defined variable --transition--speed which represents the speed of the transition triggered
@@ -100,7 +100,7 @@ let CHANGE_TRANSITION_TEXT_AFTER_SPEED = pageTransitionSpeed === 'fast' ? 950 : 
 
 // Mobile & Tablet related environment variables
 let isMobile; // Initialized in @initializeMobileDetector func. & used in order to prevent loading the beetle model if the device detected is a mobile device
-let ignoreUserDevice = false; // Set in order to allow testing for mobile & tablet devices without necessarily having to refactor the code. When set to true, Samarra & Co. will allow users on mobile
+let ignoreUserDevice = true; // Set in order to allow testing for mobile & tablet devices without necessarily having to refactor the code. When set to true, Samarra & Co. will allow users on mobile
 // devices or tablets to enter the website & will set all the respective necessary messages. When set to false, that will be prevented and a message asking the user to use a different device
 // is displayed upon the screen
 
