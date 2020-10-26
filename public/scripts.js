@@ -65,7 +65,7 @@ let initialPageLoadingBarFullyLoaded = false;
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'prod';
+let environment = 'dev';
 let enableLogging = environment === 'dev' ? true : false;
 
 // Function retrieves the CSS-defined variable --transition--speed which represents the speed of the transition triggered
@@ -2235,7 +2235,7 @@ const toggleSoundWave = (e) => {
 
         // Here we will trigger the actual text to be shown at the top of the page that lets users know that the page
         // is actually for people with disabilities
-        toggleVoiceControl();
+        // toggleVoiceControl();
 
         if (enableLogging === true) {
             console.log('Is Music Playing now?', musicPlaying);
@@ -2253,7 +2253,7 @@ const toggleSoundWave = (e) => {
         musicPlaying = true;
 
         // Ensures thatvoice control is deactivated and doesn't keep track of what the user is saying
-        deactivateVoiceControl();
+        // deactivateVoiceControl();
 
         if (enableLogging === true) {
             console.log(`Is Music Playing now? ${musicPlaying}`);
@@ -2261,14 +2261,14 @@ const toggleSoundWave = (e) => {
 
         // This ensures that the voice control elements are shown and hidden correctly
         
-        if (DIRECTIONS_VOICE_SHOWN === false) {
-            toggleVoiceControl();
-        } else if (DIRECTIONS_VOICE_SHOWN === true) {
-            // Removes the text of directions
-            toggleVoiceControlDirections();
-            // Also removes the activate voice cotnrol text
-            toggleVoiceControl();
-        }
+        // if (DIRECTIONS_VOICE_SHOWN === false) {
+        //     toggleVoiceControl();
+        // } else if (DIRECTIONS_VOICE_SHOWN === true) {
+        //     // Removes the text of directions
+        //     toggleVoiceControlDirections();
+        //     // Also removes the activate voice cotnrol text
+        //     toggleVoiceControl();
+        // }
 
     }
 
