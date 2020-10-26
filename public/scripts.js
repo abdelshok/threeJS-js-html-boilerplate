@@ -87,7 +87,13 @@ const getSpeedOfTransitionAnimation = () => {
 
 let speedInMilliseconds = getSpeedOfTransitionAnimation();
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
-let imageFormat = 'webp';
+let isSafari = window.safari !== undefined;
+let imageFormat = isSafari === true ? 'notWebp' : 'webp';
+
+if (enableLogging === true) {
+    console.log(`Safari detected : ${isSafari}, therefore imageFormat will be ${imageFormat}`);
+}
+
 let enableProgressiveLoading = true;
 let firstBatchOfModelsLoaded = false;
 let LOADING_PAGE_REMOVED = false;
@@ -1713,48 +1719,92 @@ const playSong = () => {
         // Creates a short audio asset stored in memory, created from an audio file
         // Once put into an AudioBuffer, the audio can be played by being passed
         // into AudioBufferSourceNode
-        audioContext.decodeAudioData(arrayBuffer)
-    )
-    .then(audioBuffer => {
+        audioContext.decodeAudioData(arrayBuffer, 
+            audioBuffer => {
 
-        if (enableLogging === true) {
-            console.log(audioBuffer)
-        }
-
-        source = audioContext.createBufferSource();
-        source.buffer = audioBuffer;
-
-        // Make sure that the onEnded function is called when the song ends 
-        source.onended = onEnded;
-
-        // Create the analyzer node and connect it between the input
-        // and the output so that it can provide us with data
-        // abou the actual sound we have
-        analyser = audioContext.createAnalyser();
-
-        source.connect(analyser);
-
-        if (enableLogging === true) {
-            console.log('Source given is', source);
-        }
-
-        analyser.connect(audioContext.destination);
-
-        // Change the analyser data available so that we can access it later on.
-        // By default, the analyser will give us frequency data with 1024 data points.
-        // We can change this by setting the fftSize property.
-        analyser.fftSize = 64;
-        frequencyData = new Uint8Array(analyser.frequencyBinCount);
-        domainData = new Uint8Array(analyser.fftSize); // Uint8Array should be the same length as the fftSize
+                if (enableLogging === true) {
+                    console.log(audioBuffer)
+                }
         
-        // analyser.getByteFrequencyData(frequencyData);
+                source = audioContext.createBufferSource();
+                source.buffer = audioBuffer;
+        
+                // Make sure that the onEnded function is called when the song ends 
+                source.onended = onEnded;
+        
+                // Create the analyzer node and connect it between the input
+                // and the output so that it can provide us with data
+                // abou the actual sound we have
+                analyser = audioContext.createAnalyser();
+        
+                source.connect(analyser);
+        
+                if (enableLogging === true) {
+                    console.log('Source given is', source);
+                }
+        
+                analyser.connect(audioContext.destination);
+        
+                // Change the analyser data available so that we can access it later on.
+                // By default, the analyser will give us frequency data with 1024 data points.
+                // We can change this by setting the fftSize property.
+                analyser.fftSize = 64;
+                frequencyData = new Uint8Array(analyser.frequencyBinCount);
+                domainData = new Uint8Array(analyser.fftSize); // Uint8Array should be the same length as the fftSize
+                
+                // analyser.getByteFrequencyData(frequencyData);
+        
+                if (enableLogging === true) {
+                    console.log('Analyser is', analyser);
+                }
+        
+                source.start() ? source.start() : source.noteOn();
 
-        if (enableLogging === true) {
-            console.log('Analyser is', analyser);
-        }
+            },
+            error => console.log('Error decoding audio data', error)
+        )
 
-        source.start();
-    })
+    )
+    // .then(audioBuffer => {
+
+    //     if (enableLogging === true) {
+    //         console.log(audioBuffer)
+    //     }
+
+    //     source = audioContext.createBufferSource();
+    //     source.buffer = audioBuffer;
+
+    //     // Make sure that the onEnded function is called when the song ends 
+    //     source.onended = onEnded;
+
+    //     // Create the analyzer node and connect it between the input
+    //     // and the output so that it can provide us with data
+    //     // abou the actual sound we have
+    //     analyser = audioContext.createAnalyser();
+
+    //     source.connect(analyser);
+
+    //     if (enableLogging === true) {
+    //         console.log('Source given is', source);
+    //     }
+
+    //     analyser.connect(audioContext.destination);
+
+    //     // Change the analyser data available so that we can access it later on.
+    //     // By default, the analyser will give us frequency data with 1024 data points.
+    //     // We can change this by setting the fftSize property.
+    //     analyser.fftSize = 64;
+    //     frequencyData = new Uint8Array(analyser.frequencyBinCount);
+    //     domainData = new Uint8Array(analyser.fftSize); // Uint8Array should be the same length as the fftSize
+        
+    //     // analyser.getByteFrequencyData(frequencyData);
+
+    //     if (enableLogging === true) {
+    //         console.log('Analyser is', analyser);
+    //     }
+
+    //     source.start();
+    // })
 }
 
 const toggleMusicOnOff = () => {
