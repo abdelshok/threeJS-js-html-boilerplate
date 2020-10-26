@@ -65,7 +65,7 @@ let initialPageLoadingBarFullyLoaded = false;
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
 
-let environment = 'prod';
+let environment = 'dev';
 let enableLogging = environment === 'dev' ? true : false;
 
 // Function retrieves the CSS-defined variable --transition--speed which represents the speed of the transition triggered
@@ -124,14 +124,6 @@ let frenchLanguageHovered;
 
 let formShowing = false;
 
-// let lightIntensityDivider = 120; // Octavian
-// let lightIntensityDivider = 33; // Nina Simone
-// let lightIntensityDivider = 29; // Nina Simone
-// let lightIntensityDivider = 25; // Trap Beldi
-// let lightIntensityDivider = 20;
-// let lightIntensityDivider = 8; // Not enough anymore for Erik Satie
-let lightIntensityDivider = 7; // Better for Erik Satie
-
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
 let dynamicWindowWidth = window.innerWidth;
@@ -171,7 +163,96 @@ const BELDI_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/ISSAM+
 const RUNAWAY_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Kanye+West+-+Runaway+(Video+Version)+ft.+Pusha+T.mp3';
 const TEST_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/trapBeldiShort.mp3';
 const ENFANCE_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/VIDEOCLUB+-+Enfance+80+(Clip+Officiel).mp3';
-const FAMOUS_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Octavian-Famous.mp3'
+const FAMOUS_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Octavian-Famous.mp3';
+const SAKAMOTO_OPUS_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/SakamotoOpus.mp3';
+
+const songLinksArray = [ FAMOUS_URL, SAKAMOTO_OPUS_URL, BELDI_URL, ERIK_URL, KANYE_URL, SIMONE_URL ];
+const lightIntensities = ['highIntensity', 'lowIntensity', 'highIntensity', 'lowIntensity', 'highIntensity', 'highIntensity'];
+const songNamesArray = ['OctavianFamous', 'SakomotoOpus', 'IssamTrapBeldi', 'ErikSatieGymnopedies', 'KanyeWestFlashingLights', 'NinaSimoneSinnerman']
+
+const getRandomArbitrary = (min, max) => {
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+let randomNumber = getRandomArbitrary(0, 6);
+// let randomNumber = 5;
+
+let chosenSongLink = songLinksArray[randomNumber];
+let songType = lightIntensities[randomNumber];
+let chosenSongName = songNamesArray[randomNumber];
+
+if (enableLogging === true) {
+
+    console.log('Random Number', randomNumber);
+    console.log('Chosen song: ', chosenSongLink);
+    console.log('Song type selected: ', songType);
+
+}
+
+
+let lightIntensityDivider; 
+
+const selectLightIntensity = () => {
+
+    // let lightIntensityDivider = 120; // Octavian
+    // let lightIntensityDivider = 33; // Nina Simone
+    // let lightIntensityDivider = 29; // Nina Simone
+    // let lightIntensityDivider = 25; // Trap Beldi
+    // let lightIntensityDivider = 20;
+    // let lightIntensityDivider = 8; // Not enough anymore for Erik Satie
+
+    if (randomNumber === 0) {
+        
+        if (enableLogging === true) {
+            console.log('Setting light intensity for Octavian, Famous');
+        }
+
+        lightIntensityDivider = 25;
+
+    } else if (randomNumber === 1)  {
+
+        if (enableLogging === true) {
+            console.log('Setting light intensity for Sakamoto, Opus');
+        }
+
+        lightIntensityDivider = 7;
+
+    } else if (randomNumber === 2)  {
+
+        if (enableLogging === true) {
+            console.log('Setting light intensity for Issam, Beldi');
+        }
+
+        lightIntensityDivider = 20;
+
+    } else if (randomNumber === 3)  {
+
+        if (enableLogging === true) {
+            console.log('Setting light intensity for Satie, Gymnopedie 1');
+        }
+
+        lightIntensityDivider = 5;
+    } else if (randomNumber === 4)  {
+
+        if (enableLogging === true) {
+            console.log('Setting light intensity for West, Flashing Lights');
+        }
+
+        lightIntensityDivider = 20;
+
+    } else if (randomNumber === 5)  {
+
+        if (enableLogging === true) {
+            console.log('Setting light intensity for Simone, Sinnerman');
+        }
+        lightIntensityDivider = 27;
+
+    }
+
+    console.log('Light intensity divider set to ', lightIntensityDivider);
+}
+
+selectLightIntensity();
 
 // --------------------------------------------------------------------------------
 
@@ -1432,18 +1513,75 @@ const loadRemainingBeetleModels = async () => {
 
 const changeLightIntensity = (marbleColor) => {
 
-    // console.log(`lightIntensityDivider modified to color ${marbleColor}`);
+    if (enableLogging === true) {
+        console.log(`lightIntensityDivider modified to color ${marbleColor}`);
+        console.log('Song associated with color is ', chosenSongName);
+    }
 
     if (marbleColor === 'white') {
-        lightIntensityDivider = 25;
+
+        if (chosenSongName === 'OctavianFamous') {
+            lightIntensityDivider = 50;
+        } else if (chosenSongName === 'SakomotoOpus') {
+            lightIntensityDivider = 8;
+        } else if (chosenSongName === 'IssamTrapBeldi') {
+            lightIntensityDivider = 48;
+        } else if (chosenSongName === 'ErikSatieGymnopedies') {
+            lightIntensityDivider = 10;
+        } else if (chosenSongName === 'KanyeWestFlashingLights'){
+            lightIntensityDivider = 60;
+        } else if (chosenSongName === 'NinaSimoneSinnerman') {
+            lightIntensityDivider = 53;
+        }
+
     } else if (marbleColor === 'black') {
-        lightIntensityDivider = 6;
-    } else if (marbleColor === 'veryLight') {
-        lightIntensityDivider = 110;
+
+        if (chosenSongName === 'OctavianFamous') {
+            lightIntensityDivider = 25;
+        } else if (chosenSongName === 'SakamotoOpus') {
+            lightIntensityDivider = 7;
+        } else if (chosenSongName === 'IssamTrapBeldi') {
+            lightIntensityDivider = 20;
+        } else if (chosenSongName === 'ErikSatieGymnopedies') {
+            lightIntensityDivider = 5;
+        } else if (chosenSongName === 'KanyeWestFlashingLights'){
+            lightIntensityDivider = 20;
+        } else if (chosenSongName === 'NinaSimoneSinnerman') {
+            lightIntensityDivider = 27;
+        }
+
     } else if (marbleColor === 'grey') {    
-        lightIntensityDivider = 7;
+
+        if (chosenSongName === 'OctavianFamous') {
+            lightIntensityDivider = 38;
+        } else if (chosenSongName === 'SakamotoOpus') {
+            lightIntensityDivider = 7;
+        } else if (chosenSongName === 'IssamTrapBeldi') {
+            lightIntensityDivider = 33;
+        } else if (chosenSongName === 'ErikSatieGymnopedies') {
+            lightIntensityDivider = 7;
+        } else if (chosenSongName === 'KanyeWestFlashingLights'){
+            lightIntensityDivider = 28;
+        } else if (chosenSongName === 'NinaSimoneSinnerman') {
+            lightIntensityDivider = 33;
+        }
+        
     } else if (marbleColor === 'lightBlue') {
-        lightIntensityDivider = 7;
+
+        if (chosenSongName === 'OctavianFamous') {
+            lightIntensityDivider = 40;
+        } else if (chosenSongName === 'SakamotoOpus') {
+            lightIntensityDivider = 8.5;
+        } else if (chosenSongName === 'IssamTrapBeldi') {
+            lightIntensityDivider = 41;
+        } else if (chosenSongName === 'ErikSatieGymnopedies') {
+            lightIntensityDivider = 9;
+        } else if (chosenSongName === 'KanyeWestFlashingLights'){
+            lightIntensityDivider = 45;
+        } else if (chosenSongName === 'NinaSimoneSinnerman') {
+            lightIntensityDivider = 43;
+        }
+
     }
 
 }
@@ -1566,7 +1704,7 @@ let songBuffer, analyser;
 
 // Function called when the user clicks on the SoundWave button on the bottom right when the song has finished
 const playSong = () => {
-    window.fetch(ERIK_URL)
+    window.fetch(chosenSongLink)
     .then(response => response.arrayBuffer())
     .then(arrayBuffer => 
         // Creates a short audio asset stored in memory, created from an audio file
