@@ -1,66 +1,5 @@
-// ThreeJS related variables
-let scene,
-    camera,
-    beetleObject, 
-    particles, 
-    particlesMesh,
-    particleGeometry,  
-    pivotPoint, 
-    pivotPoint2, 
-    light1;
 
-let clock = new THREE.Clock(); // Used in the shader that moves the different particles around
-
-// Real Mouse position
-let realMouseX, realMouseY;
-
-// Element created in order to track whether the Venere Mais Courtois image is hovered by the user
-let hoveringVenereMaisCourtoisElement = false;
-
-// Other Beetle Objects
-let iceBeetleObject;
-let greyBeetleObject;
-let whiteBeetleObject;
-
-// Plane Geometries - We're declaring them as global variables so that they can be accessible across different functions - may constitute a memory leak in the JS heap 
-// Will look into that later #optimization
-
-let blueRockPlaneMesh;
-let blackRockPlaneMesh;
-let darkGreenPlaneMesh;
-let blackRockPlaneMeshTwo;
-let whiteBlackPlaneMesh;
-let reversedPlaneMesh;
-let blackWavePlaneMesh;
-
-let blackMarbleBeetleObject;
-let blueMarbleBeetleObject;
-let whiteMarbleBeetleObject;
-let greyMarbleBeetleObject;
-let redPinkMarbleBeetleObject;
-
-let currentBeetleObject; // The beetle object displayed on the page will be assigned (by reference obviously) to this variable
-                         // this will ensure that we can always turn off the visibility and turn it back on on the right page
-
-
-let deltaY;
-
-
-let numParticles; // Number of particles that will be set in the Mesh of particles animating the ThreeJS project
-let mouseX, mouseY;
-let previousClientX, previousClientY, currentClientX, currentClientY;
-let arrayOfCursorPositions = [];
-let isBeetleWireframe = false;
-let stats;
-
-let currentMenuIcon = 'menuIcon';
-let beetleColor = 'black';
-
-// Loading Page Related Variables
-
-let initialPageLoadingBarFullyLoaded = false;
-
-// GLOBAL ENVIRONMENT VARIABLES
+/** GLOBAL ENVIRONMENT VARIABLES **/ 
 
 // IMPORTANT: Sets whether we're going to be in a local development environment or on a deployed server 
 // Depending on which one we're in, the relative path to the different files will differ
@@ -68,22 +7,31 @@ let initialPageLoadingBarFullyLoaded = false;
 let environment = 'prod';
 let enableLogging = environment === 'dev' ? true : false;
 
-// Function retrieves the CSS-defined variable --transition--speed which represents the speed of the transition triggered
-// in order to navigate between the different pages of the website.
-// Not pure
-const getSpeedOfTransitionAnimation = () => {
+let time = Date.now() * 0.0005;
 
-    let speed = getComputedStyle(document.documentElement).getPropertyValue('--transition--speed');
-    let speedInMilliseconds = parseFloat(speed.split('s')[0].trim()) * 1000;
+/** Cursor & Mouse Related Variables */
 
-    if (enableLogging === true) {
-        // console.log(`Speed detected in the CSS :root is ${speed}`);
-        console.log('Speed detected in the CSS :root is', speedInMilliseconds);
-    }
+let realMouseX, realMouseY;
+let deltaY;
 
-    return speedInMilliseconds
+let previousClientX, previousClientY, currentClientX, currentClientY;
 
-}
+/* Loading Page & Navigational Status Related Variables */
+
+let initialPageLoadingBarFullyLoaded = false;
+let pageShown = 'homePage';
+
+let PAGE_FIRST_LOADED = false;
+let MUSIC_PLAYING = false;
+let musicPlaying = true; // That's the one actually used
+
+let ANIMATION_STARTED = false;
+let MENU_BASED_ANIMATION_STARTED = false;
+
+// Loading Page Based Variables
+
+let loadingPageAnimationFinished = false;
+let loadingGraphicalSceneFinished = false;
 
 let speedInMilliseconds = getSpeedOfTransitionAnimation();
 let RELATIVE_URL = environment === 'dev' ? '/assets/' : '/public/assets/';
@@ -104,16 +52,52 @@ let MESH_VISIBILITY_DELAY = pageTransitionSpeed === 'fast' ? 500 : 1100;
 let CHANGE_TRANSITION_TEXT_BEFORE_SPEED = pageTransitionSpeed === 'fast' ? 200 : 450;
 let CHANGE_TRANSITION_TEXT_AFTER_SPEED = pageTransitionSpeed === 'fast' ? 950 : 1600;
 
-// Mobile & Tablet related environment variables
-let isMobile; // Initialized in @initializeMobileDetector func. & used in order to prevent loading the beetle model if the device detected is a mobile device
-let ignoreUserDevice = false; // Set in order to allow testing for mobile & tablet devices without necessarily having to refactor the code. When set to true, Samarra & Co. will allow users on mobile
+/* Mobile & Tablet related environment variables */
+
+// Initialized in @initializeMobileDetector func. & used in order to prevent loading the beetle model if the device detected is a mobile device
+let isMobile; 
+
+let detector;
+let isUserDesktop;
+
+// Set in order to allow testing for mobile & tablet devices without necessarily having to refactor the code. When set to true, Samarra & Co. will allow users on mobile
 // devices or tablets to enter the website & will set all the respective necessary messages. When set to false, that will be prevented and a message asking the user to use a different device
 // is displayed upon the screen
+let ignoreUserDevice = false;
 
-// Delay used when we set the @slidePage keyframes animation associated with the .second--page element
-// used in the page transitions
+/* Beginning of Three JS variables */
 
-// Web Audio API-related Variables
+let scene,
+    camera,
+    beetleObject, 
+    particles, 
+    particlesMesh,
+    particleGeometry,  
+    pivotPoint, 
+    pivotPoint2, 
+    light1;
+
+
+// Plane Geometries - We're declaring them as global variables so that they can be accessible across different functions - may constitute a memory leak in the JS heap 
+// Will look into that later #optimization
+let blackRockPlaneMesh;
+let blueMarbleBeetleObject;
+
+// The object displayed on the page will be assigned (by reference obviously) to this variable --> this will ensure that we can 
+// always turn off the visibility and turn it back on on the right page
+let currentObject;
+
+let numParticles; // Number of particles that will be set in the Mesh of particles animating the ThreeJS project
+let mouseX, mouseY;
+let arrayOfCursorPositions = [];
+let isBeetleWireframe = false;
+let stats;
+
+let clock = new THREE.Clock(); // Used in the shader that moves the different particles around
+
+/** End of Three JS Variables **/
+
+/* Web Audio API-related Variables */
 
 let source;
 let isSongFinished = false;
@@ -124,40 +108,20 @@ let audioContext;
 
 // Language Related
 
-let frenchLanguageHovered;
+let otherLanguageHovered;
 
-// Contact Page Related Variables
-
-let formShowing = false;
+/* Window & Mouse Variables */
 
 let windowHalfX = window.innerWidth / 2;
 let windowHalfY = window.innerHeight / 2;
 let dynamicWindowWidth = window.innerWidth;
 let dynamicWindowHeight = window.innerHeight;
 
-// Voice Control related constants
+/* Voice Control related constants */
 
 let ACTIVATE_VOICE_SHOWN = false;
-let DIRECTIONS_VOICE_SHOWN = false;
 
-// Variables related to the different pages that will be shown are going to be eclared here
-
-let pageShown = 'homePage';
-
-// The alternative is 'expertiseText' --> We use this variable in order to decide whether we show the expertiseButtonContainer DOM element or not
-let typeOfAboutPage = 'descriptionText'
-
-let PAGE_FIRST_LOADED = false;
-let MUSIC_PLAYING = false;
-let musicPlaying = true; // That's the one actually used
-
-let ANIMATION_STARTED = false;
-let MENU_BASED_ANIMATION_STARTED = false;
-
-// Loading Page Based Variables
-
-let loadingPageAnimationFinished = false;
-let loadingGraphicalSceneFinished = false;
+/* Music URL */
 
 const URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/No+Church+In+The+Wild.mp3'
 const SIMONE_URL = 'https://music-samarra-group.s3.us-east-2.amazonaws.com/Nina+Simone+-+Sinnerman+(320++kbps).mp3';
@@ -176,9 +140,6 @@ const songLinksArray = [ FAMOUS_URL, SAKAMOTO_OPUS_URL, BELDI_URL, ERIK_URL, KAN
 const lightIntensities = ['highIntensity', 'lowIntensity', 'highIntensity', 'lowIntensity', 'highIntensity', 'highIntensity'];
 const songNamesArray = ['OctavianFamous', 'SakomotoOpus', 'IssamTrapBeldi', 'ErikSatieGymnopedies', 'KanyeWestFlashingLights', 'NinaSimoneSinnerman']
 
-const getRandomArbitrary = (min, max) => {
-    return Math.floor(Math.random() * (max - min) + min);
-}
 
 let randomNumber = getRandomArbitrary(0, 6);
 // let randomNumber = 5;
@@ -196,20 +157,6 @@ if (enableLogging === true) {
 };
 
 
-// ------------------------------------------------------ //
-
-// Inialize Pivot Point 2 Position so that the light is rendered the first time that the website
-// is actually displayed
-
-let time = Date.now() * 0.0005;
-// pivotPoint2.position.x = Math.sin(time * 0.7) * mouseX;
-// pivotPoint2.position.y = Math.sin(time * 0.1) * mouseY;
-// pivotPoint2.position.z = Math.sin(time * 0.2) * mouseX;
-
-// ------------------------------------------------------ //
-
-// Ensures that the scale of the different objects doesn't change when the window is resized
-
 // --------------------------------------------------------------------------------
 
 /*
@@ -223,14 +170,84 @@ let time = Date.now() * 0.0005;
 
 // --------------------------------------------------------------------------------
 
+
+/* Javascript Functions to control the page */ 
+
+// Function that removes the initial loading page after the user clicks on the 'Click to Enter' message displayed the first time a user
+// lands on the website
+// #loadingPage #removeLoadingPage
+
+function removeInitialLoadingPage () {
+
+
+    if (initialPageLoadingBarFullyLoaded === true) {
+
+        // You can add if statements that take in account progressive loading
+        // or whether the 3D scene and the objects have been completely loaded (thanks to the Loading Manager)
+
+    };
+
+};
+
+
+// --------------------------------------------------------------------------------
+
+/*
+ * Helper Functions
+ * Used throughout the application
+ */
+
+
+// Function that creates a random number between the min and max that are passed in
+// Used in @createParticleSystme function
+function rand (min,max) {
+    return min + Math.random()*(max-min);
+}; 
+
+// Function which calculates the average number of an array 
+function average (array) {
+    let average = 0;
+    let count = 0;
+
+    for (let i=0; i<array.length; i++) {
+        count++;
+        let currentNum = array[i];
+        average += currentNum;
+    }
+
+    average = average/count;
+    return average;
+}
+
+// Function retrieves the CSS-defined variable --transition--speed which represents the speed of the transition triggered
+// in order to navigate between the different pages of the website.
+// Not pure
+function getSpeedOfTransitionAnimation ()  {
+
+    let speed = getComputedStyle(document.documentElement).getPropertyValue('--transition--speed');
+    let speedInMilliseconds = parseFloat(speed.split('s')[0].trim()) * 1000;
+
+    if (enableLogging === true) {
+        // console.log(`Speed detected in the CSS :root is ${speed}`);
+        console.log('Speed detected in the CSS :root is', speedInMilliseconds);
+    }
+
+    return speedInMilliseconds
+
+}
+
+function getRandomArbitrary (min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+
 /*
  * Mobile Detect Script that will split the characters of the DOM elements
  */
 
-let detector;
-let isUserDesktop;
 
-const initializeMobileDetector = () => {
+
+function initializeMobileDetector () {
     detector = new MobileDetect(window.navigator.userAgent)
 
     isMobile = detector.mobile();
@@ -255,55 +272,6 @@ const initializeMobileDetector = () => {
     }
 }
 
-// Initialize that shit motherfucker.
-initializeMobileDetector();
-
-// --------------------------------------------------------------------------------
-
-// Function that removes the initial loading page after the user clicks on the 'Click to Enter' message displayed the first time a user
-// lands on the website
-// #loadingPage #removeLoadingPage
-
-const removeInitialLoadingPage = () => {
-
-
-    if (initialPageLoadingBarFullyLoaded === true) {
-
-        // You can add if statements that take in account progressive loading
-        // or whether the 3D scene and the objects have been completely loaded (thanks to the Loading Manager)
-
-    };
-
-};
-
-
-// --------------------------------------------------------------------------------
-
-/*
- * Helper Functions
- * Used throughout the application
- */
-
-
-// Function that creates a random number between the min and max that are passed in
-// Used in @createParticleSystme function
-const rand = (min,max) => min + Math.random()*(max-min)
-
-
-// Function which calculates the average number of an array 
-const average = (array) => {
-    let average = 0;
-    let count = 0;
-
-    for (let i=0; i<array.length; i++) {
-        count++;
-        let currentNum = array[i];
-        average += currentNum;
-    }
-
-    average = average/count;
-    return average;
-}
 
 
 // --------------------------------------------------------------------------------
@@ -349,11 +317,11 @@ controls.enableZoom = true;
  */
 
 // setCameraTestPosition();
-setCameraFinalPosition();
+// setCameraFinalPosition();
 
 // Append Renderer to the scene
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
+// renderer.setSize( window.innerWidth, window.innerHeight );
+// document.body.appendChild( renderer.domElement );
 
 
 /*
@@ -449,9 +417,9 @@ const createParticleSystem = () => {
                   Math.random() * (- 500),
             ),
             velocity: new THREE.Vector3(
-                  rand(-0.01, 0.01),
-                  0.06,
-                  rand(-0.01, 0.01)),
+                rand(-0.01, 0.01),
+                0.06,
+                rand(-0.01, 0.01)),
             acceleration: new THREE.Vector3(0, -0.001, 0),
         }
 
@@ -496,7 +464,7 @@ const createParticleSystem = () => {
         ),
         blending: THREE.AdditiveBlending,
         transparent: true
-      });
+        });
 
     const particleMaterial = new THREE.ShaderMaterial({
         uniforms: { 
@@ -509,7 +477,7 @@ const createParticleSystem = () => {
         vertexShader: document.getElementById( 'vertex-shader' ).textContent,
         fragmentShader: document.getElementById( 'fragment-shader' ).textContent
     })
-      
+
     // ParticleMesh is the equivalent of ParticleSystem in all the tutorials
     particlesMesh = new THREE.Points(particleGeometry, pMaterial)
     // particlesMesh.position.z = 100;
@@ -696,7 +664,7 @@ let clientX = -100;
 let clientY = -100;
 const innerCursor = document.querySelector(".cursor--small");
 
-const initCursor = () => {
+function initCursor () {
 
     // console.log('@initCursor called in order to move the cursor position to the right place');
 
@@ -716,11 +684,10 @@ const initCursor = () => {
 
 }
 
-const updateCursor = () => {
+function updateCursor () {
     innerCursor.style.transform = `translate(${clientX}px, ${clientY}px)`;
 }
 
-initCursor();
 
 /*
  * Cursor Animations II : Setting up the Circle on Canvas
@@ -733,7 +700,7 @@ let showCursor = false;
 let group, stuckX, stuckY, fillOuterCursor;
 let polygon;
 
-const initCanvas = () => {
+function initCanvas () {
 
     const canvas = document.querySelector(".cursor--canvas");
     const shapeBounds = {
@@ -788,45 +755,52 @@ const initCanvas = () => {
         // coordinates per Frame
         if (!isStuck) {
           // move circle around normally
-          lastX = lerp(lastX, clientX, 0.2);
-          lastY = lerp(lastY, clientY, 0.2);
-          group.position = new paper.Point(lastX, lastY);
+            lastX = lerp(lastX, clientX, 0.2);
+            lastY = lerp(lastY, clientY, 0.2);
+            group.position = new paper.Point(lastX, lastY);
         } else if (isStuck) {
           // fixed position on a nav item
-          lastX = lerp(lastX, stuckX, 0.2);
-          lastY = lerp(lastY, stuckY, 0.2);
-          group.position = new paper.Point(lastX, lastY);
+            lastX = lerp(lastX, stuckX, 0.2);
+            lastY = lerp(lastY, stuckY, 0.2);
+            group.position = new paper.Point(lastX, lastY);
         }
         
         if (isStuck && polygon.bounds.width < shapeBounds.width) { 
-          // scale up the shape 
-          polygon.scale(1.08);
+
+            // scale up the shape 
+            polygon.scale(1.08);
+            
         } else if (!isStuck && polygon.bounds.width > 30) {
+
           // remove noise
-          if (isNoisy) {
+        if (isNoisy) {
+
             polygon.segments.forEach((segment, i) => {
-              segment.point.set(bigCoordinates[i][0], bigCoordinates[i][1]);
+                segment.point.set(bigCoordinates[i][0], bigCoordinates[i][1]);
             });
+
             isNoisy = false;
             bigCoordinates = [];
-          }
+
+        }
           // scale down the shape
-          const scaleDown = 0.92;
-          polygon.scale(scaleDown);
+        const scaleDown = 0.92;
+        polygon.scale(scaleDown);
+
         }
         
         // while stuck and big, apply simplex noise
         if (isStuck && polygon.bounds.width >= shapeBounds.width) {
-          isNoisy = true;
+            isNoisy = true;
           // first get coordinates of large circle
-          if (bigCoordinates.length === 0) {
-            polygon.segments.forEach((segment, i) => {
-              bigCoordinates[i] = [segment.point.x, segment.point.y];
+            if (bigCoordinates.length === 0) {
+                polygon.segments.forEach((segment, i) => {
+                bigCoordinates[i] = [segment.point.x, segment.point.y];
             });
-          }
-          
+        }
+
           // loop over all points of the polygon
-          polygon.segments.forEach((segment, i) => {
+        polygon.segments.forEach((segment, i) => {
             
             // get new noise value
             // we divide event.count by noiseScale to get a very smooth value
@@ -843,20 +817,20 @@ const initCanvas = () => {
             
             // set new (noisy) coodrindate of point
             segment.point.set(newX, newY);
-          });
-          
+        });
+
         }
+
         polygon.smooth();
+
     };
 }
-
-initCanvas();
 
 /*
  * Changes the Cursor color to black - Used when the menu transition is triggered
  */
 
-const changeCursorColorToBlack = () => {
+function changeCursorColorToBlack () {
     
     setTimeout(() => {
 
@@ -877,7 +851,7 @@ const changeCursorColorToBlack = () => {
  * Changes the Cursor color to White - Used when the menu transition is triggered
  */
 
-const changeCursorColorToWhite = () => {
+function changeCursorColorToWhite () {
     
     const cursorElement = document.getElementById('cursor--small');
     cursorElement.style.background = 'white';
@@ -890,7 +864,7 @@ const changeCursorColorToWhite = () => {
  * Cursor Animations III : Handling the Hover State
  */
 
- const initHovers = () => {
+function initHovers () {
 
     // Find the center of the link element and set stuckX and stuckY to these, so that we can set the position of the noisy circle more easily
     const handleMouseEnter = (e) => {
@@ -914,24 +888,24 @@ const changeCursorColorToWhite = () => {
     }
 
     // Add Event Listeners to all .Link class items
-    const linkItems = document.querySelectorAll('.browser-window__link');
-    const soundWaveItem = document.querySelectorAll('.soundwave-container');
-    const plusSignItem = document.querySelectorAll('.plus-sign-container');
+    // const linkItems = document.querySelectorAll('.browser-window__link');
+    // const soundWaveItem = document.querySelectorAll('.soundwave-container');
+    // const plusSignItem = document.querySelectorAll('.plus-sign-container');
 
-    linkItems.forEach(item => {
-        item.addEventListener("mouseenter", handleMouseEnter);
-        item.addEventListener("mouseleave", handleMouseLeave);
-    })
+    // linkItems.forEach(item => {
+    //     item.addEventListener("mouseenter", handleMouseEnter);
+    //     item.addEventListener("mouseleave", handleMouseLeave);
+    // })
 
-    soundWaveItem.forEach(item => {
-        item.addEventListener("mouseenter", handleMouseEnter);
-        item.addEventListener("mouseleave", handleMouseLeave);
-    })
+    // soundWaveItem.forEach(item => {
+    //     item.addEventListener("mouseenter", handleMouseEnter);
+    //     item.addEventListener("mouseleave", handleMouseLeave);
+    // })
 
-    plusSignItem.forEach(item => {
-        item.addEventListener("mouseenter", handleMouseEnter);
-        item.addEventListener("mouseleave", handleMouseLeave);
-    })
+    // plusSignItem.forEach(item => {
+    //     item.addEventListener("mouseenter", handleMouseEnter);
+    //     item.addEventListener("mouseleave", handleMouseLeave);
+    // })
 
 
 
@@ -944,10 +918,9 @@ const changeCursorColorToWhite = () => {
     // })
 }
 
-initHovers();
 
 
-const initiateContactPageHovers = () => {
+function initiateContactPageHovers () {
 
         // Find the center of the link element and set stuckX and stuckY to these, so that we can set the position of the noisy circle more easily
         const handleMouseEnter = (e) => {
@@ -990,7 +963,7 @@ const initiateContactPageHovers = () => {
 
 let previousDeltaY = 0; // Constants tracking the previous value of deltaY in order to determine in which direction the user is trying to scroll
 
-const detectUserScroll = (event) => {
+function detectUserScroll (event) {
 
     if (enableLogging === true) {
         console.log('User scrolling event is', event);
@@ -1009,7 +982,7 @@ const detectUserScroll = (event) => {
 
 
 
-const initializeEventListeners = () => {
+function initializeEventListeners () {
 
 
     // Document Events
@@ -1028,8 +1001,6 @@ const initializeEventListeners = () => {
 
 }
 
- 
-initializeEventListeners();
 
 
 // ------------------------------------------------------
@@ -1044,6 +1015,25 @@ const changeMenuIcon = (nextPage) => {
 
 
 }
+
+// --------------------------------------------------------------------------------
+
+function init() {
+
+    // Initialize that shit motherfucker.
+    initializeMobileDetector();
+
+    initCursor();
+    initCanvas();
+
+    initHovers();
+
+    initializeEventListeners();
+
+}
+
+init();
+
 
 // ------------------------------------------------------
 
