@@ -170,28 +170,6 @@ if (enableLogging === true) {
 
 // --------------------------------------------------------------------------------
 
-
-/* Javascript Functions to control the page */ 
-
-// Function that removes the initial loading page after the user clicks on the 'Click to Enter' message displayed the first time a user
-// lands on the website
-// #loadingPage #removeLoadingPage
-
-function removeInitialLoadingPage () {
-
-
-    if (initialPageLoadingBarFullyLoaded === true) {
-
-        // You can add if statements that take in account progressive loading
-        // or whether the 3D scene and the objects have been completely loaded (thanks to the Loading Manager)
-
-    };
-
-};
-
-
-// --------------------------------------------------------------------------------
-
 /*
  * Helper Functions
  * Used throughout the application
@@ -241,10 +219,15 @@ function getRandomArbitrary (min, max) {
 }
 
 
+/**** META Functions  *******/
+
+// These are functions that track the general meta properties of the device, device speed, user agent, location, etc. 
+// Essentially, the different nuanced properties that allow us to decide how to display the elements of our websites,
+// in which order, or even at all.
+
 /*
  * Mobile Detect Script that will split the characters of the DOM elements
  */
-
 
 
 function initializeMobileDetector () {
@@ -348,9 +331,6 @@ if (environment === 'dev') {
 }
 
 
-
-// -------------------------------------------------------
-
 /*
  * @ ThreeJS - Plane Geometries Section 
  * This section declares the functions that call the different plane geometries that will be displayed across the different pages of the website
@@ -387,9 +367,6 @@ const createBlackPlaneGeometry = () => {
     scene.add(blackRockPlaneMesh);
 }
 
-
-
-// -----------------------------------------------------
 
 /**
  * 
@@ -501,35 +478,7 @@ const loadRemainingModels = async () => {
 }
 
 
-/**
- * @onDocumentMouseMove: tracks mouse position & normalizes it 
- * 
- */
-
-const onDocumentMouseMove = (event) => {
-
-    mouseX = ( event.clientX - windowHalfX ) / 100;
-    mouseY = ( event.clientY - windowHalfY ) / 100;
-
-}
-
-
-/**
- * @onActualMouseMove: tracks mouse position.
- * 
- * If we detect that the mouse is hovering a certain element, we can decide to show certain images. e.g. if the cursor hovers a
- * certain menu item
- * 
- */
-
-
-const onActualMouseMove = (event) => {
-
-	realMouseX = event.clientX;
-    realMouseY = event.clientY;
-    
-}
-
+/** End of ThreeJS section **/
 
 
 // ------------------------------------------------------
@@ -545,30 +494,11 @@ const onActualMouseMove = (event) => {
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 audioContext = new AudioContext();
 
-// Function that is called when the song ends playing
-// #music
-
-const onEnded = () => {
-
-    isSongFinished = true;
-
-    // Ensures that the sound wave shows 'Play' when the song ends & also that the variable musicPlaying is changed to the boolean false
-    // at the end of the song
-    toggleSoundWave();
-
-    if (enableLogging === true) {
-        console.log(`Song finished playing ${isSongFinished}`);
-        console.log('Now we have the choice between playing another song or replaying this one');
-    }
-
-
-
-}
-
 let songBuffer, analyser;
 
 // Function called when the user clicks on the SoundWave button on the bottom right when the song has finished
-const playSong = () => {
+function playSong () {
+
     window.fetch(chosenSongLink)
     .then(response => response.arrayBuffer())
     .then(arrayBuffer => 
@@ -623,36 +553,65 @@ const playSong = () => {
     )
 }
 
+/**
+ * 
+ * Function that is called when the song ends playing
+ * Not a pure function. The concept here is twofold:
+ * 1. trigger / stop the animations related to the sound playing 
+ * 2. hide / show the text related to the sound playing
+ * 3. automatically re-play the sound (that can obviously be commented in or out)
+ *
+ * 
+ **/
 
-/***  Event Listeners  ****/
+function onEnded () {
 
+    isSongFinished = true;
 
-function windowResizeEventHandler () {
+    // Ensures that the sound wave shows 'Play' when the song ends & also that the variable musicPlaying is changed to the boolean false
+    // at the end of the song
+    // stopAnimations();
 
-    // Update the global variables that we are going to use in order to track whether we need to remove
-    // the beetle from the page when the beetle is too small
-    dynamicWindowWidth = window.innerWidth;
-    dynamicWindowHeight = window.innerHeight;
-
-    // This keeps track of the window width & displays the 'Expertise' Button at the bottom of the company description when the browser window goes below a certain width
-    // Chose JS over CSS Media Queries because more control over when the button is displayed 
-
-    if (dynamicWindowWidth < 1000 && pageShown === 'aboutPage' && typeOfAboutPage === 'descriptionText') {
-
-        if (enableLogging === true) {
-            console.log('Firing showExpertiseButton function');
-        }
-
-    } else if (dynamicWindowWidth >= 1000 && pageShown === 'aboutPage') {
-
+    if (enableLogging === true) {
+        console.log(`Song finished playing ${isSongFinished}`);
+        console.log('Now we have the choice between playing another song or replaying this one');
     }
-
 
 }
 
 
 
-// ------------------------------------------------------
+
+// --------------------------------------------------------------------------------
+
+
+/* Javascript Functions to control the page layout, structure, navigation */
+
+/*
+ * 
+ * Includes functions that allow us to navigate between pages, to change the elements
+ * displayed on the pages, to change the coloring / size / etc. of elements, and also
+ * to trigger certain animations
+ * 
+ */
+
+
+// Function that removes the initial loading page after the user clicks on the 'Click to Enter' message displayed the first time a user
+// lands on the website
+
+function removeInitialLoadingPage () {
+
+
+    if (initialPageLoadingBarFullyLoaded === true) {
+
+        // You can add if statements that take in account progressive loading
+        // or whether the 3D scene and the objects have been completely loaded (thanks to the Loading Manager)
+
+    };
+
+};
+
+
 
 /*
  * Cursor Animations & shit
@@ -876,6 +835,7 @@ function initHovers () {
         stuckX = Math.round(navItemBox.left + navItemBox.width / 2);
         stuckY = Math.round(navItemBox.top + navItemBox.height / 2);
         isStuck = true;
+
     }
 
     // Reset isStuck on MouseLeave
@@ -954,6 +914,39 @@ function initiateContactPageHovers () {
 }
 
 
+/** Event Handler Functions */ 
+
+
+/**
+ * @onDocumentMouseMove: tracks mouse position & normalizes it 
+ * 
+ */
+
+function onDocumentMouseMove (event) {
+
+    mouseX = ( event.clientX - windowHalfX ) / 100;
+    mouseY = ( event.clientY - windowHalfY ) / 100;
+
+}
+
+
+/**
+ * @onActualMouseMove: tracks mouse position.
+ * 
+ * If we detect that the mouse is hovering a certain element, we can decide to show certain images. e.g. if the cursor hovers a
+ * certain menu item
+ * 
+ */
+
+
+function onActualMouseMove (event) {
+
+	realMouseX = event.clientX;
+    realMouseY = event.clientY;
+    
+}
+
+
 
 /**
  * 
@@ -961,7 +954,8 @@ function initiateContactPageHovers () {
  * 
  */
 
-let previousDeltaY = 0; // Constants tracking the previous value of deltaY in order to determine in which direction the user is trying to scroll
+// Constants tracking the previous value of deltaY in order to determine in which direction the user is trying to scroll
+let previousDeltaY = 0; 
 
 function detectUserScroll (event) {
 
@@ -980,6 +974,29 @@ function detectUserScroll (event) {
 
 }
 
+
+function windowResizeEventHandler () {
+
+    // Update the global variables that we are going to use in order to track whether we need to remove
+    // the beetle from the page when the beetle is too small
+    dynamicWindowWidth = window.innerWidth;
+    dynamicWindowHeight = window.innerHeight;
+
+    // This keeps track of the window width & displays the 'Expertise' Button at the bottom of the company description when the browser window goes below a certain width
+    // Chose JS over CSS Media Queries because more control over when the button is displayed 
+
+    if (dynamicWindowWidth < 1000 && pageShown === 'aboutPage' && typeOfAboutPage === 'descriptionText') {
+
+        if (enableLogging === true) {
+            console.log('Firing showExpertiseButton function');
+        }
+
+    } else if (dynamicWindowWidth >= 1000 && pageShown === 'aboutPage') {
+
+    }
+
+
+}
 
 
 function initializeEventListeners () {
@@ -1018,16 +1035,20 @@ const changeMenuIcon = (nextPage) => {
 
 // --------------------------------------------------------------------------------
 
+/** 
+ * 
+ * Higher Order Functions (HOF) that initializes all the functions, variables, etc. that we need in order for the platform
+ * and website to function properly
+ * 
+ */
+
 function init() {
 
     // Initialize that shit motherfucker.
     initializeMobileDetector();
-
     initCursor();
     initCanvas();
-
     initHovers();
-
     initializeEventListeners();
 
 }

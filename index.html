@@ -182,12 +182,19 @@
 				border-radius: 50%;
 				z-index: 11000;
 				background: #ffffff;
+				mix-blend-mode: difference;
 			}
 
 			.cursor--canvas {
 				width: 100vw;
 				height: 100vh;
 				z-index: 12000;
+			}
+
+			#loading--page {
+				background-color: white;
+				height: 100vh;
+				width: 100vw;
 			}
 
 			/* Keyframes */
@@ -636,21 +643,20 @@
 
 		 <!-- For Local Development -->
 
-	<!-- 
+		<!-- 
 		<script src='assets/OrbitControls.js'></script>
 		<script src='assets/OBJLoader.js'></script>
 		<script src='assets/MTLLoader.js'></script>
 		<script src='assets/postprocessing.min.js' ></script>
 		<script src='assets/stats.js'></script>
-		<script src='scripts.js' type='module' ></script> -->
+		<script src='scripts.js' type='module' ></script> 
+		-->
 
 		<!-- <script src='assets/Water.js'></script> -->
 		<!-- <script src='assets/liquidDistortMaterial.js'></script> -->
 		<!-- <script src='assets/DigitalGlitch.js' type='module'></script>
 		<script src='assets/GlitchPass.js' type='module'></script> -->
 		<!-- <script src='assets/liquidDistortMaterial.js'></script>   -->
-
-
 
 		<script id='vertex-shader' type='x-shader/x-vertex'>
 			uniform float radiusX;
