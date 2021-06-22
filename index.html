@@ -7,7 +7,7 @@
 		
 		<meta name='description' content='Insert description here' />
 		<meta name='keywords' content='Insert keywords here'/>
-		<meta name='author' content='Author name :)' />
+		<meta name='author' content='Author name :-0' />
 		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 		<meta charset='utf-8'>
 
@@ -54,6 +54,7 @@
 				--transition--speed: 2s;
 				--cta--navigation--button--animation: 3s;
 				--error--text--color: #ff8282;
+				--cursor--size: 5px;
 			}
 
 			/* #toThink #toDo: user selection on the contents within the body is actually prevented. Should you keep it? */
@@ -175,8 +176,8 @@
 			}
 
 			.cursor--small {
-				width: 5px;
-				height: 5px;
+				width: var(--cursor--size);
+				height: var(--cursor--size);
 				left: -2.5px;
 				top: -2.5px;
 				border-radius: 50%;
@@ -191,10 +192,29 @@
 				z-index: 12000;
 			}
 
+			#main {
+				position: relative;
+			}
+
 			#loading--page {
 				background-color: black;
 				height: 100vh;
 				width: 100vw;
+			}
+
+			/* #landing--page {
+				z-index: 10;
+				height: var(--cursor--size);
+				width: var(--cursor--size);
+				border-radius: 50%;
+				position: absolute;
+				top: 150px;
+				left: 200px;
+				background-color: white;
+			} */
+
+			#landing--page.expanded {
+				animation: expandLandingPage 1.5s ease-out forwards;
 			}
 
 			/* Keyframes */
@@ -322,7 +342,14 @@
 				}
 			}
 
-			
+			@keyframes expandLandingPage {
+				0% {
+					transform: scale(1);
+				}
+				100% {
+					transform: scale(500);
+				}
+			}
 
 			/* Tablets */ 
 
@@ -703,13 +730,15 @@
 
 		</script>
 
-		<main>
+		<main id='main'>
 
 			<div class='cursor cursor--small' id='cursor--small'></div>
 			<canvas class='cursor cursor--canvas' resize></canvas>
 
-			<div id='loading--page'></div>
+			<div id='loading--page'>
+			</div>
 
+			<!-- <div id='landing--page'></div> -->
 		</main>
 
 	</body>

@@ -619,6 +619,10 @@ function removeInitialLoadingPage () {
 
 // Set starting position of the cursor outside of the screen
 
+// These two variables will track * at all times * the position of the cursor within the application. 
+// They should be used if one therefore wants to create effects related to the cursor or if one wants to display text
+// close to the cursor
+
 let clientX = -100;
 let clientY = -100;
 const innerCursor = document.querySelector(".cursor--small");
@@ -646,7 +650,6 @@ function initCursor () {
 function updateCursor () {
     innerCursor.style.transform = `translate(${clientX}px, ${clientY}px)`;
 }
-
 
 /*
  * Cursor Animations II : Setting up the Circle on Canvas
@@ -1015,7 +1018,67 @@ function initializeEventListeners () {
     // Resize
     window.addEventListener('resize', windowResizeEventHandler);
 
+    document.addEventListener('click', addCircleToPage);
 
+
+}
+
+/**
+ * Page Related Functions
+ * 
+ * The functions below will be triggerered at different point in the application lifecycle 
+ * 
+ */
+
+
+/** LOADING PAGE EVENTS **/
+
+/**
+ * 
+ * Adds a circle that will expand into being a full blown page after the loading 
+ * 
+ */
+
+// Global Var that tracks whether the main page of the website has been displayed.
+// This allows us to prevent triggering the animation that displays the website for the first time
+// again and again, based on user clicks.
+// Whether the user initially loads the home page or the about page, the loading page will always be 
+// the same, and the animation used to display the intended page will always be the same.
+
+var mainPageHasAppeared = false;
+
+function addCircleToPage () {
+
+    if (mainPageHasAppeared == false) {
+
+        // let landingPageElement = document.getElementById('landing--page');
+
+        let landingPageElement = document.createElement('div');
+        let mainElement = document.getElementById('main');
+
+        // Set the styling and attributes
+        landingPageElement.id = 'landing--page';
+        landingPageElement.style.height = '5px';
+        landingPageElement.style.minHeight = '5px';
+        landingPageElement.style.width = '5px';
+        landingPageElement.style.minWidth = '5px';
+        landingPageElement.style.borderRadius = '50%';
+        landingPageElement.style.position = 'absolute';
+        landingPageElement.style.top = `${clientY}px`;
+        landingPageElement.style.left = `${clientX}px`;
+        landingPageElement.style.backgroundColor = `white`;
+        landingPageElement.style.zIndex = `10`;
+
+        document.body.appendChild(landingPageElement);
+
+        // Expands it
+        landingPageElement.classList.add('expanded');
+
+        // Ensure to switch the value of the above boolean, to pr event the @addCircleToPage
+        // function from running.
+        mainPageHasAppeared = true;
+
+    }
 }
 
 
