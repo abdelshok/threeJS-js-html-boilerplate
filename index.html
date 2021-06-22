@@ -192,6 +192,8 @@
 				z-index: 12000;
 			}
 
+			/* We are going to order the CSS selectors from high level and meta to specific */
+
 			#main {
 				position: relative;
 			}
@@ -215,6 +217,44 @@
 
 			#landing--page.expanded {
 				animation: expandLandingPage 1.5s ease-out forwards;
+			}
+
+			#home--page {
+				position: relative;
+				height: 100%;
+				width: 100%;
+				z-index: var(8);
+				background-color: red;
+				opacity: 0;
+				top: 0px;
+				left: 0px;
+				pointer-events: none;
+				transition: opacity 0s ease-in;
+			}
+
+			#home--page.displayed {
+				opacity: 1;
+				pointer-events: auto;
+				transition: opacity 0s ease-in;
+			}
+
+			#about--page {
+				position: relative;
+				height: 100%;
+				width: 100%;
+				z-index: var(8);
+				background-color: green;
+				opacity: 0;
+				top: 0px;
+				left: 0px;
+				pointer-events: none;
+				transition: opacity 0s ease-in;
+			}
+
+			#about--page.displayed {
+				opacity: 1;
+				pointer-events: auto;
+				transition: opacity 0s ease-in;
 			}
 
 			/* Keyframes */
@@ -737,8 +777,9 @@
 
 			<div id='loading--page'>
 			</div>
+			<div id='home--page'></div>
+			<div id='about--page'></div>
 
-			<!-- <div id='landing--page'></div> -->
 		</main>
 
 	</body>

@@ -1001,6 +1001,31 @@ function windowResizeEventHandler () {
 
 }
 
+/**
+ * 
+ * trackURLChangesHandler
+ * @description: Tracks the pathname / URL in reaction to a browser popstate evetn (which happens when we
+ * use history.pushState()) and calls the correct handlers in order to display the correct UI
+ * 
+ * 
+ */
+
+function trackURLChangesHandler () {
+
+    let currentURL = window.location.href;
+    let pathName = window.location.pathname;
+
+    console.log('@trackURLChangesHandler var(currentURL) ', currentURL);
+    console.log('@trackURLChangesHandler var(pathName)', pathName);
+
+    // Note: Before this function is called, it is important to also create a meta function
+    // that changes the path URL (this could potentially be done with history.pushState() or a similar
+    // function)
+
+    // Depending on the current path, we display different pages
+
+}
+
 
 function initializeEventListeners () {
 
@@ -1008,18 +1033,20 @@ function initializeEventListeners () {
     // Document Events
 
     // Mouse move used here in order to track the mouse position within the page
+
+    // General
     document.addEventListener('mousemove', onDocumentMouseMove,  {passive: true} );
     document.addEventListener('mousemove', onActualMouseMove,  {passive: true} );
+    // Loading Page
+    document.addEventListener('click', addCircleToPage);
 
     // Window Events
-
     // Scroll related
     window.addEventListener('wheel', detectUserScroll);
     // Resize
     window.addEventListener('resize', windowResizeEventHandler);
-
-    document.addEventListener('click', addCircleToPage);
-
+    // URL
+    window.addEventListener('popstate', trackURLChangesHandler);
 
 }
 
@@ -1078,7 +1105,21 @@ function addCircleToPage () {
         // function from running.
         mainPageHasAppeared = true;
 
+        trackURLChangesHandler();
+
     }
+}
+
+
+function displayHomePage () {
+
+    let homePageContainer = document.getElementById('home--page');
+}
+
+function displayAboutPage () {
+
+    let aboutPageContainer = document.getElementById('about--page');
+
 }
 
 
